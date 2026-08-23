@@ -51,3 +51,7 @@ class ComponentOperationError(LabError):
 
 class TaskExecutionError(LabError):
     code = "task_execution_error"
+
+
+class InferenceCancelledError(LabError):
+    code = "inference_cancelled"

@@ -1,17 +1,19 @@
 """Replaceable component contracts for the local runtime.
 
-The protocols intentionally contain only behavior exercised by Stage 1.
-Later stages may extend them when a demonstrated capability requires it.
+The protocols contain only behavior exercised through Stage 2. Later stages
+may extend them when a demonstrated capability requires it.
 """
 
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterator, Sequence
 from typing import Protocol, runtime_checkable
 
+from .cancellation import CancellationToken
 from .models import (
     Agent,
     Checkpoint,
+    InferenceChunk,
     InferenceRequest,
     InferenceResult,
     MetricEvent,
@@ -29,6 +31,12 @@ class InferenceBackend(Protocol):
     def start(self) -> None: ...
 
     def generate(self, request: InferenceRequest) -> InferenceResult: ...
+
+    def stream(
+        self,
+        request: InferenceRequest,
+        cancellation: CancellationToken | None = None,
+    ) -> Iterator[InferenceChunk]: ...
 
     def shutdown(self) -> None: ...
 

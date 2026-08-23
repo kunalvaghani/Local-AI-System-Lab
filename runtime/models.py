@@ -1,4 +1,4 @@
-"""Typed data exchanged across Stage 1 component interfaces."""
+"""Typed data exchanged across the Stage 1 and Stage 2 component interfaces."""
 
 from __future__ import annotations
 
@@ -77,6 +77,45 @@ class InferenceRequest:
     prompt: str
     model_id: str
     max_generated_tokens: int
+    system_prompt: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class InferenceMetrics:
+    """Measured facts for one backend invocation.
+
+    Optional fields remain ``None`` when the backend or host cannot observe a
+    value. No field is estimated silently.
+    """
+
+    model_load_ms: float | None = None
+    startup_to_ready_ms: float | None = None
+    ttft_ms: float | None = None
+    prompt_eval_ms: float | None = None
+    prompt_tokens: int | None = None
+    prompt_tokens_per_second: float | None = None
+    generation_ms: float | None = None
+    generated_token_runs: int | None = None
+    tokens_per_second: float | None = None
+    internal_load_ms: float | None = None
+    total_ms: float | None = None
+    peak_process_ram_mib: float | None = None
+    baseline_vram_used_mib: float | None = None
+    peak_vram_used_mib: float | None = None
+    vram_delta_mib: float | None = None
+
+    def as_dict(self) -> dict[str, float | int | None]:
+        return {
+            field: getattr(self, field)
+            for field in self.__dataclass_fields__
+        }
+
+
+@dataclass(frozen=True, slots=True)
+class InferenceChunk:
+    text: str = ""
+    is_final: bool = False
+    metrics: InferenceMetrics | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -85,6 +124,7 @@ class InferenceResult:
     model_id: str
     backend_name: str
     metadata: dict[str, Any] = field(default_factory=dict)
+    metrics: InferenceMetrics | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -122,3 +162,4 @@ class TaskResult:
     model_id: str
     backend_name: str
     metadata: dict[str, Any] = field(default_factory=dict)
+    inference_metrics: InferenceMetrics | None = None

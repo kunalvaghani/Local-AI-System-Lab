@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "description": "Small cross-category performance workload for the first local inference baseline.",
+  "prompts": [
+    {
+      "id": "explanation",
+      "category": "technical-explanation",
+      "max_generated_tokens": 64,
+      "prompt": "Explain in three concise sentences how quantization reduces the memory required by a language model."
+    },
+    {
+      "id": "structured-output",
+      "category": "structured-output",
+      "max_generated_tokens": 64,
+      "prompt": "Return only a JSON object with keys risk, cause, and mitigation for the risk of GPU out-of-memory during local inference."
+    },
+    {
+      "id": "code",
+      "category": "code-generation",
+      "max_generated_tokens": 64,
+      "prompt": "Write a compact Python function named clamp that constrains a numeric value between lower and upper bounds. Include a type hint and no explanation."
+    },
+    {
+      "id": "reasoning",
+      "category": "arithmetic-reasoning",
+      "max_generated_tokens": 64,
+      "prompt": "A queue receives 18 requests per minute and completes 15 per minute. Starting empty, how many requests are waiting after 12 minutes? Show the short calculation."
+    },
+    {
+      "id": "summarization",
+      "category": "summarization",
+      "max_generated_tokens": 64,
+      "prompt": "Summarize this in one sentence: A local AI runtime validates policy, checks available memory, schedules accepted work, invokes a local model, and records measurements so failures and performance can be inspected."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "backend": {
+    "kind": "llama.cpp-completion",
+    "release": "b10566",
+    "commit": "bb4caa7540188872173c44d161602d9271386413",
+    "executable": "tools/llama.cpp/b10566/bin/llama-completion.exe",
+    "executable_sha256": "de3a1b707adb9d0b9241d93e1fe6547e108e978b64d350ae4c465ad5c6e5775f"
+  },
+  "model": {
+    "id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+    "file": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "path": "models/qwen2.5-1.5b-instruct-q4_k_m/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+    "quantization": "Q4_K_M",
+    "parameter_count_billions": 1.54
+  },
+  "inference": {
+    "context_size": 2048,
+    "batch_size": 256,
+    "threads": 8,
+    "gpu_layers": "all",
+    "flash_attention": "on",
+    "temperature": 0.0,
+    "seed": 42,
+    "max_generated_tokens": 64,
+    "prompt_format": "qwen-chatml",
+    "system_prompt": "You are a concise local assistant. Follow the user's instructions directly.",
+    "resource_sample_interval_ms": 200
+  }
+}

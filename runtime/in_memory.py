@@ -6,12 +6,15 @@ inference, scheduling, routing, persistence, security, or observability systems.
 
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterator, Sequence
 
-from .errors import ComponentOperationError
+from .cancellation import CancellationToken
+from .errors import ComponentOperationError, InferenceCancelledError
 from .models import (
     Agent,
     Checkpoint,
+    InferenceChunk,
+    InferenceMetrics,
     InferenceRequest,
     InferenceResult,
     MetricEvent,
@@ -51,12 +54,36 @@ class StubInferenceBackend:
                 "stub inference backend is not started",
                 details={"component": self.name, "operation": "generate"},
             )
-        self._call_count += 1
+        chunks = list(self.stream(request))
         return InferenceResult(
-            text=f"{self._response_prefix} {request.prompt}",
+            text="".join(chunk.text for chunk in chunks),
             model_id=request.model_id,
             backend_name=self.name,
             metadata={"mode": "stub", "real_llm_calls": 0},
+            metrics=chunks[-1].metrics,
+        )
+
+    def stream(
+        self,
+        request: InferenceRequest,
+        cancellation: CancellationToken | None = None,
+    ) -> Iterator[InferenceChunk]:
+        if not self._started:
+            raise ComponentOperationError(
+                "stub inference backend is not started",
+                details={"component": self.name, "operation": "stream"},
+            )
+        if cancellation is not None and cancellation.is_cancelled:
+            raise InferenceCancelledError(
+                "stub inference was cancelled",
+                details={"task_id": request.task_id},
+            )
+        self._call_count += 1
+        text = f"{self._response_prefix} {request.prompt}"
+        yield InferenceChunk(text=text)
+        yield InferenceChunk(
+            is_final=True,
+            metrics=InferenceMetrics(total_ms=0.0),
         )
 
     def shutdown(self) -> None:

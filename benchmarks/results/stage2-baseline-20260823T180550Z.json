@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-08-23T18:05:50.185185+00:00",
+  "git_commit": "e1078fbabfe548fdb3daf10ea03d934facabc10a",
+  "git_worktree_clean": false,
+  "environment": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.10.6 (tags/v3.10.6:9c7b4bd, Aug  1 2022, 21:53:49) [MSC v.1932 64 bit (AMD64)]",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU, 610.74, 4096 MiB"
+  },
+  "backend": {
+    "name": "llama.cpp-completion",
+    "version": "version: 0.2.0-dev (build 10566, commit bb4caa754)\nbuilt with Clang 20.1.8 for Windows x86_64",
+    "release": "b10566",
+    "commit": "bb4caa7540188872173c44d161602d9271386413"
+  },
+  "model": {
+    "id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+    "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+    "file_bytes": 1117320736
+  },
+  "configuration": {
+    "context_size": 2048,
+    "batch_size": 256,
+    "threads": 8,
+    "gpu_layers": "all",
+    "flash_attention": "on",
+    "temperature": 0.0,
+    "seed": 42,
+    "resource_sample_interval_ms": 200
+  },
+  "measurement_notes": [
+    "Each request launches a new llama-completion process and reloads the model.",
+    "TTFT is process launch to first stdout byte and includes model load plus prompt evaluation.",
+    "model_load_ms is parsed from llama.cpp log-clock markers around model loading.",
+    "VRAM is a coarse 200 ms nvidia-smi total-device sample; unrelated GPU activity can affect it.",
+    "peak_process_ram_mib is the llama-completion process peak working set, not total system RAM delta.",
+    "generated_token_runs is llama.cpp eval runs and may differ from user-visible token count.",
+    "Five samples are a baseline, not a statistically strong performance claim.",
+    "git_commit identifies HEAD; Stage 2 source/config changes were uncommitted during this capture."
+  ],
+  "records": [
+    {
+      "prompt_id": "explanation",
+      "category": "technical-explanation",
+      "iteration": 1,
+      "prompt": "Explain in three concise sentences how quantization reduces the memory required by a language model.",
+      "output": "Quantization reduces the memory required by a language model by compressing the model's parameters to a smaller set of values, which can be stored more efficiently in memory. This process involves reducing the precision of the model's weights and activations, allowing for a significant reduction in the amount of data needed to represent the model's state",
+      "metrics": {
+        "model_load_ms": 1191.069,
+        "startup_to_ready_ms": 1694.4533000005322,
+        "ttft_ms": 1752.2038999995857,
+        "prompt_eval_ms": 56.99,
+        "prompt_tokens": 45,
+        "prompt_tokens_per_second": 789.58,
+        "generation_ms": 541.88,
+        "generated_token_runs": 63,
+        "tokens_per_second": 116.26,
+        "internal_load_ms": 57.26,
+        "total_ms": 2636.95159999952,
+        "peak_process_ram_mib": 1338.97265625,
+        "baseline_vram_used_mib": 0.0,
+        "peak_vram_used_mib": 1219.0,
+        "vram_delta_mib": 1219.0
+      }
+    },
+    {
+      "prompt_id": "structured-output",
+      "category": "structured-output",
+      "iteration": 1,
+      "prompt": "Return only a JSON object with keys risk, cause, and mitigation for the risk of GPU out-of-memory during local inference.",
+      "output": "```json\r\n{\r\n  \"risk\": \"GPU out-of-memory\",\r\n  \"cause\": \"Insufficient GPU memory allocated for inference\",\r\n  \"mitigation\": \"Increase GPU memory allocation or use a smaller model\"\r\n}\r\n```",
+      "metrics": {
+        "model_load_ms": 1168.6709999999998,
+        "startup_to_ready_ms": 1664.1306999990775,
+        "ttft_ms": 1717.1056999995926,
+        "prompt_eval_ms": 52.46,
+        "prompt_tokens": 52,
+        "prompt_tokens_per_second": 991.23,
+        "generation_ms": 388.58,
+        "generated_token_runs": 45,
+        "tokens_per_second": 115.81,
+        "internal_load_ms": 52.76,
+        "total_ms": 2581.8485999989207,
+        "peak_process_ram_mib": 1338.9921875,
+        "baseline_vram_used_mib": 0.0,
+        "peak_vram_used_mib": 1219.0,
+        "vram_delta_mib": 1219.0
+      }
+    },
+    {
+      "prompt_id": "code",
+      "category": "code-generation",
+      "iteration": 1,
+      "prompt": "Write a compact Python function named clamp that constrains a numeric value between lower and upper bounds. Include a type hint and no explanation.",
+      "output": "```python\r\nfrom typing import Callable, Tuple\r\n\r\ndef clamp(value: float, lower: float, upper: float) -> float:\r\n    \"\"\"\r\n    Clamps a value to be between two bounds.\r\n    \r\n    Parameters:\r\n    - value: The value to clamp.\r\n    - lower: The lower bound.\r\n    - upper",
+      "metrics": {
+        "model_load_ms": 1128.279,
+        "startup_to_ready_ms": 1630.8363000007375,
+        "ttft_ms": 1686.8504000012763,
+        "prompt_eval_ms": 55.27,
+        "prompt_tokens": 54,
+        "prompt_tokens_per_second": 977.02,
+        "generation_ms": 546.67,
+        "generated_token_runs": 63,
+        "tokens_per_second": 115.24,
+        "internal_load_ms": 55.59,
+        "total_ms": 2572.25710000057,
+        "peak_process_ram_mib": 1339.2734375,
+        "baseline_vram_used_mib": 0.0,
+        "peak_vram_used_mib": 1219.0,
+        "vram_delta_mib": 1219.0
+      }
+    },
+    {
+      "prompt_id": "reasoning",
+      "category": "arithmetic-reasoning",
+      "iteration": 1,
+      "prompt": "A queue receives 18 requests per minute and completes 15 per minute. Starting empty, how many requests are waiting after 12 minutes? Show the short calculation.",
+      "output": "To determine how many requests are waiting in the queue after 12 minutes, we need to calculate the net change in the number of requests over that time period.\r\n\r\n1. **Requests per minute entering the queue:** 18\r\n2. **Requests per minute leaving the queue:** 15\r\n\r\nThe net change",
+      "metrics": {
+        "model_load_ms": 1119.9229999999998,
+        "startup_to_ready_ms": 1610.1503999998386,
+        "ttft_ms": 1662.5672000009217,
+        "prompt_eval_ms": 51.82,
+        "prompt_tokens": 63,
+        "prompt_tokens_per_second": 1215.77,
+        "generation_ms": 537.83,
+        "generated_token_runs": 63,
+        "tokens_per_second": 117.14,
+        "internal_load_ms": 52.12,
+        "total_ms": 2546.716099999685,
+        "peak_process_ram_mib": 1339.171875,
+        "baseline_vram_used_mib": 0.0,
+        "peak_vram_used_mib": 1219.0,
+        "vram_delta_mib": 1219.0
+      }
+    },
+    {
+      "prompt_id": "summarization",
+      "category": "summarization",
+      "iteration": 1,
+      "prompt": "Summarize this in one sentence: A local AI runtime validates policy, checks available memory, schedules accepted work, invokes a local model, and records measurements so failures and performance can be inspected.",
+      "output": "The local AI runtime validates policies, manages memory, schedules tasks, invokes models, and records measurements for inspection.",
+      "metrics": {
+        "model_load_ms": 1127.605,
+        "startup_to_ready_ms": 1626.3269999999466,
+        "ttft_ms": 1680.9094000000186,
+        "prompt_eval_ms": 54.07,
+        "prompt_tokens": 66,
+        "prompt_tokens_per_second": 1220.66,
+        "generation_ms": 192.24,
+        "generated_token_runs": 22,
+        "tokens_per_second": 114.44,
+        "internal_load_ms": 54.43,
+        "total_ms": 2219.626199999766,
+        "peak_process_ram_mib": 1339.0234375,
+        "baseline_vram_used_mib": 0.0,
+        "peak_vram_used_mib": 1219.0,
+        "vram_delta_mib": 1219.0
+      }
+    }
+  ],
+  "summary": {
+    "model_load_ms": {
+      "count": 5,
+      "min": 1119.9229999999998,
+      "mean": 1147.1093999999998,
+      "p50": 1128.279,
+      "p95_nearest_rank": 1191.069,
+      "max": 1191.069
+    },
+    "startup_to_ready_ms": {
+      "count": 5,
+      "min": 1610.1503999998386,
+      "mean": 1645.1795400000265,
+      "p50": 1630.8363000007375,
+      "p95_nearest_rank": 1694.4533000005322,
+      "max": 1694.4533000005322
+    },
+    "ttft_ms": {
+      "count": 5,
+      "min": 1662.5672000009217,
+      "mean": 1699.927320000279,
+      "p50": 1686.8504000012763,
+      "p95_nearest_rank": 1752.2038999995857,
+      "max": 1752.2038999995857
+    },
+    "prompt_eval_ms": {
+      "count": 5,
+      "min": 51.82,
+      "mean": 54.122,
+      "p50": 54.07,
+      "p95_nearest_rank": 56.99,
+      "max": 56.99
+    },
+    "prompt_tokens_per_second": {
+      "count": 5,
+      "min": 789.58,
+      "mean": 1038.852,
+      "p50": 991.23,
+      "p95_nearest_rank": 1220.66,
+      "max": 1220.66
+    },
+    "generation_ms": {
+      "count": 5,
+      "min": 192.24,
+      "mean": 441.43999999999994,
+      "p50": 537.83,
+      "p95_nearest_rank": 546.67,
+      "max": 546.67
+    },
+    "tokens_per_second": {
+      "count": 5,
+      "min": 114.44,
+      "mean": 115.77799999999999,
+      "p50": 115.81,
+      "p95_nearest_rank": 117.14,
+      "max": 117.14
+    },
+    "total_ms": {
+      "count": 5,
+      "min": 2219.626199999766,
+      "mean": 2511.4799199996924,
+      "p50": 2572.25710000057,
+      "p95_nearest_rank": 2636.95159999952,
+      "max": 2636.95159999952
+    },
+    "peak_process_ram_mib": {
+      "count": 5,
+      "min": 1338.97265625,
+      "mean": 1339.08671875,
+      "p50": 1339.0234375,
+      "p95_nearest_rank": 1339.2734375,
+      "max": 1339.2734375
+    },
+    "vram_delta_mib": {
+      "count": 5,
+      "min": 1219.0,
+      "mean": 1219.0,
+      "p50": 1219.0,
+      "p95_nearest_rank": 1219.0,
+      "max": 1219.0
+    }
+  }
+}

@@ -179,6 +179,7 @@ class AgentRuntime:
                 **inference_result.metadata,
                 "route_reason": route.reason,
             },
+            inference_metrics=inference_result.metrics,
         )
         self._components.checkpoints.save(
             Checkpoint(

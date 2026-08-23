@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "local-ai-systems-lab"
-version = "0.1.0"
+version = "0.2.0"
 description = "Inspectable, stage-gated local AI runtime"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -13,6 +13,7 @@ dependencies = []
 
 [project.scripts]
 local-ai-lab = "runtime.cli:main"
+local-ai-infer = "runtime.inference_cli:main"
 
 [tool.setuptools.packages.find]
 include = ["runtime*"]
