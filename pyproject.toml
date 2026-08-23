@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "local-ai-systems-lab"
+version = "0.1.0"
+description = "Inspectable, stage-gated local AI runtime"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Kunal Vaghani" }]
+dependencies = []
+
+[project.scripts]
+local-ai-lab = "runtime.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["runtime*"]
