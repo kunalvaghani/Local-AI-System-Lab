@@ -879,6 +879,189 @@ class SQLiteRuntimeStore:
                 ),
             )
 
+    def observability_data(
+        self,
+        *,
+        since: datetime,
+        recent_task_limit: int,
+        recent_event_limit: int,
+    ) -> dict[str, Any]:
+        """Return one consistent SQLite snapshot for Stage 12 aggregation."""
+
+        since_utc = since.isoformat()
+        with self._connection() as connection:
+            connection.execute("BEGIN")
+            task_total = int(
+                connection.execute(
+                    "SELECT COUNT(*) FROM tasks WHERE updated_at_utc>=?",
+                    (since_utc,),
+                ).fetchone()[0]
+            )
+            state_rows = connection.execute(
+                "SELECT COALESCE(current_state, 'unknown') AS state, COUNT(*) AS count "
+                "FROM tasks WHERE updated_at_utc>=? GROUP BY current_state",
+                (since_utc,),
+            ).fetchall()
+            event_rows = connection.execute(
+                "SELECT name, COUNT(*) AS count FROM metric_events "
+                "WHERE recorded_at_utc>=? GROUP BY name",
+                (since_utc,),
+            ).fetchall()
+            tool_count = int(
+                connection.execute(
+                    "SELECT COUNT(*) FROM tool_calls WHERE started_at_utc>=?",
+                    (since_utc,),
+                ).fetchone()[0]
+            )
+            recovery_rows = connection.execute(
+                "SELECT * FROM recovery_attempts WHERE started_at_utc>=? ORDER BY attempt_id",
+                (since_utc,),
+            ).fetchall()
+            trace_run_count = int(
+                connection.execute(
+                    "SELECT COUNT(*) FROM trace_runs tr JOIN tasks t ON t.task_id=tr.task_id WHERE t.updated_at_utc>=?",
+                    (since_utc,),
+                ).fetchone()[0]
+            )
+            trace_step_count = int(
+                connection.execute(
+                    "SELECT COUNT(*) FROM trace_steps ts JOIN trace_runs tr ON tr.run_id=ts.run_id "
+                    "JOIN tasks t ON t.task_id=tr.task_id WHERE t.updated_at_utc>=?",
+                    (since_utc,),
+                ).fetchone()[0]
+            )
+            replay_count = int(
+                connection.execute(
+                    "SELECT COUNT(*) FROM trace_replays WHERE started_at_utc>=?",
+                    (since_utc,),
+                ).fetchone()[0]
+            )
+            aggregate_outputs = connection.execute(
+                "SELECT o.task_id, o.output_type, o.output_json, o.recorded_at_utc "
+                "FROM outputs o JOIN tasks t ON t.task_id=o.task_id "
+                "WHERE t.updated_at_utc>=? ORDER BY o.recorded_at_utc",
+                (since_utc,),
+            ).fetchall()
+            task_durations = connection.execute(
+                "SELECT task_id, created_at_utc, updated_at_utc FROM tasks "
+                "WHERE updated_at_utc>=? ORDER BY updated_at_utc",
+                (since_utc,),
+            ).fetchall()
+            tool_samples = connection.execute(
+                "SELECT task_id, started_at_utc, finished_at_utc, status FROM tool_calls "
+                "WHERE started_at_utc>=? ORDER BY started_at_utc",
+                (since_utc,),
+            ).fetchall()
+            scheduler_samples = connection.execute(
+                "SELECT task_id, recorded_at_utc, attributes_json FROM metric_events "
+                "WHERE recorded_at_utc>=? AND name='scheduler.request.completed' "
+                "ORDER BY metric_id",
+                (since_utc,),
+            ).fetchall()
+            recent_events = connection.execute(
+                "SELECT name, recorded_at_utc, task_id, attributes_json FROM metric_events "
+                "WHERE recorded_at_utc>=? ORDER BY metric_id DESC LIMIT ?",
+                (since_utc, recent_event_limit),
+            ).fetchall()
+            task_rows = connection.execute(
+                """
+                SELECT t.*, tr.run_id, tr.model_id AS trace_model_id,
+                       (SELECT COUNT(*) FROM trace_steps ts WHERE ts.run_id=tr.run_id) AS trace_step_count,
+                       o.output_type, o.output_json, o.recorded_at_utc AS output_recorded_at_utc
+                FROM tasks t
+                LEFT JOIN trace_runs tr ON tr.task_id=t.task_id
+                LEFT JOIN outputs o ON o.task_id=t.task_id
+                WHERE t.updated_at_utc>=?
+                ORDER BY t.updated_at_utc DESC, t.task_id
+                LIMIT ?
+                """,
+                (since_utc, recent_task_limit),
+            ).fetchall()
+            recent_tasks: list[dict[str, Any]] = []
+            for task_row in task_rows:
+                task_id = task_row["task_id"]
+                task_events = connection.execute(
+                    "SELECT name, recorded_at_utc, attributes_json FROM metric_events "
+                    "WHERE task_id=? ORDER BY metric_id",
+                    (task_id,),
+                ).fetchall()
+                task_tools = connection.execute(
+                    "SELECT request_id, tool_name, status, started_at_utc, finished_at_utc "
+                    "FROM tool_calls WHERE task_id=? ORDER BY started_at_utc",
+                    (task_id,),
+                ).fetchall()
+                task_recoveries = connection.execute(
+                    "SELECT attempt_id, checkpoint_phase, status, started_at_utc, finished_at_utc, details_json "
+                    "FROM recovery_attempts WHERE task_id=? ORDER BY attempt_id",
+                    (task_id,),
+                ).fetchall()
+                recent_tasks.append(
+                    {
+                        "task": dict(task_row),
+                        "events": [
+                            {
+                                "name": row["name"],
+                                "recorded_at_utc": row["recorded_at_utc"],
+                                "attributes": _mapping(row["attributes_json"]),
+                            }
+                            for row in task_events
+                        ],
+                        "tools": [dict(row) for row in task_tools],
+                        "recoveries": [
+                            {
+                                **dict(row),
+                                "details": _mapping(row["details_json"]),
+                            }
+                            for row in task_recoveries
+                        ],
+                    }
+                )
+        return {
+            "task_total": task_total,
+            "task_states": {row["state"]: int(row["count"]) for row in state_rows},
+            "event_counts": {row["name"]: int(row["count"]) for row in event_rows},
+            "tool_count": tool_count,
+            "recoveries": [
+                {
+                    **dict(row),
+                    "details": _mapping(row["details_json"]),
+                }
+                for row in recovery_rows
+            ],
+            "trace_run_count": trace_run_count,
+            "trace_step_count": trace_step_count,
+            "replay_count": replay_count,
+            "aggregate_outputs": [
+                {
+                    "task_id": row["task_id"],
+                    "output_type": row["output_type"],
+                    "payload": _mapping(row["output_json"]),
+                    "recorded_at_utc": row["recorded_at_utc"],
+                }
+                for row in aggregate_outputs
+            ],
+            "task_durations": [dict(row) for row in task_durations],
+            "tool_samples": [dict(row) for row in tool_samples],
+            "scheduler_samples": [
+                {
+                    "task_id": row["task_id"],
+                    "recorded_at_utc": row["recorded_at_utc"],
+                    "attributes": _mapping(row["attributes_json"]),
+                }
+                for row in scheduler_samples
+            ],
+            "recent_events": [
+                {
+                    "name": row["name"],
+                    "recorded_at_utc": row["recorded_at_utc"],
+                    "task_id": row["task_id"],
+                    "attributes": _mapping(row["attributes_json"]),
+                }
+                for row in recent_events
+            ],
+            "recent_tasks": recent_tasks,
+        }
+
     def recovery_candidate(self, task_id: str) -> RecoveryCandidate:
         task = self.load_task(task_id)
         state = self.current(task_id)

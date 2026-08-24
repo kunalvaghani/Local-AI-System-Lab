@@ -7,7 +7,7 @@ At the start of Stage 0, commit `67ef780` contained one tracked file:
 matched `origin/main`. There were no source directories, tests, configuration
 files, dependency manifests, architecture documents, or TODO/FIXME markers.
 
-## Structure after Stage 11
+## Structure after Stage 12
 
 ```text
 Local-AI-System-Lab/
@@ -20,7 +20,8 @@ Local-AI-System-Lab/
 │   ├── admission-baseline.json        # Model metadata, estimator, reserves, calibration
 │   ├── inference-profiles.json        # Typed adaptive resource-profile catalog
 │   ├── model-registry.json            # Model availability and workload budgets
-│   └── persistence.json               # SQLite path, timeout, journal, durability mode
+│   ├── persistence.json               # SQLite path, timeout, journal, durability mode
+│   └── observability.json             # Report window, drill-down limits, live-probe policy
 ├── benchmarks/
 │   ├── __init__.py
 │   ├── run_stage2_baseline.py         # Reproducible benchmark runner
@@ -28,13 +29,15 @@ Local-AI-System-Lab/
 │   ├── run_stage9_routing.py          # Controlled explained route comparison
 │   ├── run_stage10_recovery.py        # Killed-process recovery evidence runner
 │   ├── run_stage11_trace_replay.py    # Trace/replay/comparison evidence runner
+│   ├── run_stage12_observability.py   # Unified telemetry evidence runner
 │   ├── prompts/stage2-baseline.json   # Five-prompt tracked workload
 │   ├── results/stage2-baseline-20260823T180550Z.json
 │   ├── results/stage8-profile-comparison-20260824T121616Z.json # Exploratory zero-layer run
 │   ├── results/stage8-profile-comparison-20260824T122355Z.json # Final explicit-device run
 │   ├── results/stage9-routing-20260824T124057Z.json # Controlled route result
 │   ├── results/stage10-recovery-20260824T131728Z.json # Retained restart result
-│   └── results/stage11-trace-replay-20260824T143744Z.json # Retained replay result
+│   ├── results/stage11-trace-replay-20260824T143744Z.json # Retained replay result
+│   └── results/stage12-observability-20260824T163054Z.json # Retained telemetry result
 ├── docs/
 │   ├── architecture.md                # Implemented/deferred component boundaries
 │   ├── development.md                 # Reproducible run/test/check commands
@@ -52,7 +55,8 @@ Local-AI-System-Lab/
 │   │   ├── stage8-adaptive-inference-controller.md
 │   │   ├── stage9-model-registry-router-budgets.md
 │   │   ├── stage10-persistence-checkpoints-recovery.md
-│   │   └── stage11-execution-trace-deterministic-replay.md
+│   │   ├── stage11-execution-trace-deterministic-replay.md
+│   │   └── stage12-observability-metrics-backend.md
 │   └── adr/
 │       ├── README.md                  # ADR process and index
 │       ├── 0001-stage-gated-modular-backend-first.md
@@ -67,9 +71,10 @@ Local-AI-System-Lab/
 │       ├── 0010-explainable-availability-gated-model-routing.md
 │       ├── 0011-sqlite-checkpoints-and-pre-invocation-recovery.md
 │       ├── 0012-hash-chained-traces-and-bounded-replay.md
+│       ├── 0013-sqlite-windowed-observability-snapshots.md
 │       └── template.md
 ├── runtime/
-│   ├── __init__.py                    # Public runtime API through Stage 11
+│   ├── __init__.py                    # Public runtime API through Stage 12
 │   ├── __main__.py                    # `python -m runtime` entry point
 │   ├── agent_cli.py                   # Real specialized-agent demonstration
 │   ├── agents.py                      # Two registered Stage 3 role definitions
@@ -87,6 +92,7 @@ Local-AI-System-Lab/
 │   ├── routing_cli.py                 # Registry, routes, and budget controls
 │   ├── recovery_cli.py                # Killed-worker restart/recovery demo
 │   ├── trace_cli.py                   # Trace inspect/replay/compare/demo CLI
+│   ├── observability_cli.py           # Live/recent JSON telemetry CLI
 │   ├── models.py                      # Typed domain/component data
 │   ├── state_machine.py               # Legal graph and ordered histories
 │   ├── scheduler_cli.py               # FIFO/priority ordering comparison
@@ -117,6 +123,11 @@ Local-AI-System-Lab/
 │   │   ├── hashing.py                 # Canonical/semantic hashes and classification
 │   │   ├── replay.py                  # Integrity replay and cross-run comparison
 │   │   └── store.py                   # Narrow SQLite trace adapter
+│   ├── observability/
+│   │   ├── config.py                  # Validated report-window/limit settings
+│   │   ├── models.py                  # Unified report and distribution records
+│   │   ├── store.py                   # Narrow SQLite telemetry source
+│   │   └── backend.py                 # Aggregation and optional live snapshots
 │   ├── tool_cli.py                    # Permitted/denied tool demonstration
 │   ├── tools/
 │   │   ├── models.py                  # Typed schemas, permissions, requests/results
@@ -146,6 +157,7 @@ Local-AI-System-Lab/
     ├── test_model_routing.py          # Registry, route, budget, CLI, and factory tests
     ├── test_persistence_recovery.py   # Schema, durability, restart, kill/recovery tests
     ├── test_tracing_replay.py         # Migration, chain, tamper, replay, compare, CLI
+    ├── test_observability.py          # Windows, aggregates, live evidence, CLI, factory
     ├── test_runtime.py
     ├── test_scheduler.py               # Ordering, bounds, timeout, cancellation, aging
     ├── test_scheduler_cli.py           # Visible FIFO/priority comparison
@@ -160,18 +172,17 @@ directories are added merely to imply implementation.
 
 ## Component inventory
 
-| Area | State after Stage 10 | State after Stage 11 | Evidence |
+| Area | State after Stage 11 | State after Stage 12 | Evidence |
 | --- | --- | --- | --- |
-| Repository | Persistence/recovery report and 0.10.0 identity | Adds trace result/report, ADR-0012, and 0.11.0 identity | README, trace result, ADR index |
-| Runtime | Durable routed execution plus bounded recovery | Adds task-scoped trace protocol and replay access | Trace/replay tests and CLI |
-| Inference | Outputs/configuration durable | Adds hashed prompt/configuration/output boundaries; generation remains nondeterministic | Real Stage 11 trace/replay |
-| Scheduler/router/policy | Durable lifecycle evidence | Adds classified actor/component trace steps and semantic comparison | Retained two-run result |
-| Tools | Durable request/result/error/output ledger | Adds side-effect classification and replay skip behavior | Tool replay test |
-| Persistence/tracing/metrics | SQLite schema v1, no trace semantics | Schema v2 hash-chains run steps and stores replay reports | Migration, tamper, restart, replay tests |
-| API/frontend | Missing | Intentionally deferred | `PROJECT_STATE.md` |
-| Tests/benchmarks | 99 tests and recovery result | 108 tests, retained trace comparison, and real traced inference | `tests/`, Stage 11 result/report |
-| Environment evidence | SQLite integrity/restart evidence | Adds real 18-step Qwen trace and replay evidence | Stage 11 report |
-| Decisions/risks | ADR-0011 recovery limits | ADR-0012 plus replay-authenticity/payload-retention caveats | `docs/adr/`, `docs/risks.md` |
+| Repository | Trace result/report, ADR-0012, and 0.11.0 identity | Adds telemetry result/report, ADR-0013, and 0.12.0 identity | README, observability result, ADR index |
+| Runtime | Task-scoped trace protocol and replay access | Adds a replaceable unified observability protocol/factory composition | Factory and observability tests |
+| Inference | Hashed boundaries and durable metrics | Aggregates measured total time, TTFT, throughput, RAM, and VRAM distributions | Exact-sample aggregation test |
+| Scheduler/router/policy | Classified durable trace steps | Adds durable queue/route distributions and current scheduler snapshot | Controlled report and live test |
+| Tools/recovery/failures | Durable request/result/recovery ledgers | Adds correlated totals, latency, failure detail, and retry disclosure | Four-task demo |
+| Persistence/tracing/metrics | SQLite schema v2 traces/replay, no unified query | Adds consistent windowed read aggregation without a schema bump | Window/limit/restart tests |
+| API/frontend | Missing | Intentionally deferred; CLI JSON is the machine surface | `PROJECT_STATE.md` |
+| Tests/benchmarks | 108 tests and trace result | Adds focused observability tests and retained unified report | `tests/`, Stage 12 result/report |
+| Decisions/risks | ADR-0012 and trace caveats | ADR-0013 plus query-scale/live-snapshot caveats | `docs/adr/`, `docs/risks.md` |
 
 ## Current and planned folder convention
 

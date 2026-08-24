@@ -19,6 +19,7 @@ performance, reproducibility, or stage boundaries.
 | [0010](0010-explainable-availability-gated-model-routing.md) | Accepted | Availability-gated model routing with explainable candidates and task compute budgets |
 | [0011](0011-sqlite-checkpoints-and-pre-invocation-recovery.md) | Accepted | Versioned SQLite durability and explicit pre-invocation recovery |
 | [0012](0012-hash-chained-traces-and-bounded-replay.md) | Accepted | Hash-chained task traces with classified, side-effect-free replay |
+| [0013](0013-sqlite-windowed-observability-snapshots.md) | Accepted | Windowed SQLite aggregation plus optional live scheduler/hardware snapshots |
 
 ## Process
 

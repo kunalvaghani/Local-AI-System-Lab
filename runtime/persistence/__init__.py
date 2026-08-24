@@ -1,4 +1,4 @@
-"""SQLite persistence, recovery, and Stage 11 trace schema."""
+"""SQLite persistence, recovery, traces, and Stage 12 telemetry queries."""
 
 from .config import PersistenceConfig, load_persistence_config
 from .models import RecoveryAttempt, RecoveryCandidate, RecoveryDisposition

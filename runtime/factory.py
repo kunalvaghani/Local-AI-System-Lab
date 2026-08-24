@@ -39,6 +39,11 @@ from .persistence import (
     load_persistence_config,
 )
 from .tracing import SQLiteTraceStore
+from .observability import (
+    SQLiteObservabilitySource,
+    UnifiedObservabilityBackend,
+    load_observability_config,
+)
 
 
 def build_stage1_runtime(config: RuntimeConfig | None = None) -> AgentRuntime:
@@ -421,4 +426,76 @@ def build_stage11_stub_runtime(
     return _with_stage11_tracing(
         runtime,
         runtime_name="local-ai-systems-lab-stage-11-stub",
+    )
+
+
+def _with_stage12_observability(
+    runtime: AgentRuntime,
+    observability_config_path: str | Path,
+    *,
+    runtime_name: str,
+) -> AgentRuntime:
+    store = runtime.components.persistence
+    if not isinstance(store, SQLiteRuntimeStore):
+        raise ConfigurationError("Stage 12 observability requires SQLite runtime persistence")
+    profiler = runtime.components.hardware_profiler or LocalHardwareProfiler()
+    backend = UnifiedObservabilityBackend(
+        SQLiteObservabilitySource(store),
+        runtime.components.scheduler,
+        profiler,
+        load_observability_config(observability_config_path),
+    )
+    return AgentRuntime(
+        config=RuntimeConfig(
+            runtime_name=runtime_name,
+            default_model=runtime.config.default_model,
+            max_generated_tokens=runtime.config.max_generated_tokens,
+            stub_response_prefix=runtime.config.stub_response_prefix,
+        ),
+        components=replace(
+            runtime.components,
+            hardware_profiler=profiler,
+            observability=backend,
+        ),
+    )
+
+
+def build_stage12_runtime(
+    inference_config_path: str | Path = "configs/inference-baseline.json",
+    admission_config_path: str | Path = "configs/admission-baseline.json",
+    profile_config_path: str | Path = "configs/inference-profiles.json",
+    registry_config_path: str | Path = "configs/model-registry.json",
+    persistence_config_path: str | Path = "configs/persistence.json",
+    observability_config_path: str | Path = "configs/observability.json",
+    database_path: str | Path | None = None,
+) -> AgentRuntime:
+    """Compose the real runtime with unified recent and live telemetry."""
+
+    runtime = build_stage11_runtime(
+        inference_config_path,
+        admission_config_path,
+        profile_config_path,
+        registry_config_path,
+        persistence_config_path,
+        database_path,
+    )
+    return _with_stage12_observability(
+        runtime,
+        observability_config_path,
+        runtime_name="local-ai-systems-lab-stage-12",
+    )
+
+
+def build_stage12_stub_runtime(
+    database_path: str | Path,
+    persistence_config_path: str | Path = "configs/persistence.json",
+    observability_config_path: str | Path = "configs/observability.json",
+) -> AgentRuntime:
+    """Deterministic execution plus live local telemetry for Stage 12 demos/tests."""
+
+    runtime = build_stage11_stub_runtime(database_path, persistence_config_path)
+    return _with_stage12_observability(
+        runtime,
+        observability_config_path,
+        runtime_name="local-ai-systems-lab-stage-12-stub",
     )

@@ -119,10 +119,24 @@ python -m runtime.trace_cli replay --database data/runtime-stage11.db --run-id R
 python -m runtime.trace_cli compare --database data/runtime-stage11.db --left-run-id LEFT --right-run-id RIGHT
 ```
 
+Generate and retain the controlled Stage 12 observability report:
+
+```powershell
+python -m runtime.observability_cli demo
+python -m benchmarks.run_stage12_observability
+```
+
+Query durable recent telemetry, optionally excluding live probes:
+
+```powershell
+python -m runtime.observability_cli report --database data/runtime-stage12.db
+python -m runtime.observability_cli report --database data/runtime-stage12.db --window-minutes 15 --limit 20 --event-limit 50 --no-live
+```
+
 Run real inference against an explicit ignored SQLite database:
 
 ```powershell
-python -m runtime.agent_cli --agent technical-explainer --database data/stage11-local.db
+python -m runtime.agent_cli --agent technical-explainer --database data/stage12-local.db
 ```
 
 The result includes `route`, `compute_budget`, `compute_usage`,

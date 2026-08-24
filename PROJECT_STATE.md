@@ -6,20 +6,31 @@ Local AI Systems Lab — a fully local, inspectable AI runtime/platform for cons
 
 ## Current Milestone
 
-Durable task executions now produce hash-chained structured traces that survive
-restart, detect payload mutation, replay deterministic state reducers without
-repeating model/tool effects, and compare independent runs; waiting at the Stage 11 approval gate.
+Durable and live runtime evidence now converges in one windowed, machine-readable
+observability report with task/activity totals, sample-aware distributions,
+recent task drill-down, and source-labelled scheduler/hardware snapshots; waiting
+at the Stage 12 approval gate.
 
 ## Current Stage
 
-Stage 11 — Execution Trace & Deterministic Replay — COMPLETE, AWAITING APPROVAL.
+Stage 12 — Observability & Metrics Backend — COMPLETE, AWAITING APPROVAL.
 
 ## Current Subsystem
 
-SQLite schema v2 trace runs/steps, canonical and semantic hashing, hash-chain
-integrity, determinism classification, side-effect-free replay, and cross-run comparison.
+Windowed SQLite telemetry queries, unified aggregation/distributions, live
+scheduler/hardware snapshots, recent task/event drill-down, and JSON reporting.
 
 ## Last Completed Work
+
+- Added a typed `ObservabilityBackend` and Stage 12 real/stub factory composition without changing SQLite schema v2.
+- Added one consistent windowed SQLite read transaction across task state, metric events, outputs, tool calls, recovery attempts, traces, and replay reports.
+- Added task/activity totals and count/min/P50/P95/max/mean distributions for task, queue, scheduler, tool, recovery, inference, TTFT, throughput, RAM, and VRAM evidence.
+- Added bounded recent-task/event drill-down connecting run, agent, model, route, scheduler, hardware, failure, recovery, and trace evidence.
+- Added optional live scheduler and source/confidence-labelled hardware snapshots; unavailable samples remain `null` with count zero.
+- Defined reported retries truthfully as recovery attempts because no independent generic retry subsystem exists.
+- Retained `stage12-observability-20260824T163054Z.json`: four tasks, three completions, one expected failure, two model calls, one tool call, one recovery/retry, four trace runs, and 55 trace steps.
+- Ran real Stage 12 Qwen inference and queried it after restart: one completed task/model call/route, 18 trace steps, 2,927.102 ms total, 2,238.325 ms TTFT, 96.16 tok/s, 1,343.703 MiB RAM, and 1,189 MiB VRAM.
+- Added `local-ai-observe`, Stage 12 runner, ADR-0013, Stage 12 report, and 9 focused observability tests.
 
 - Migrated SQLite forward from schema v1 to v2 with trace runs, ordered trace steps, and persisted replay reports.
 - Added stable per-run UUID step identities, UTC timestamps, actor/component ownership, canonical input/output hashes, normalized semantic hashes, state/model/configuration/failure metadata, and previous/envelope hashes.
@@ -97,17 +108,21 @@ integrity, determinism classification, side-effect-free replay, and cross-run co
 
 ## Currently Working On
 
-None. Stage 11 is complete and work is stopped at the mandatory approval gate.
+None. Stage 12 is complete and work is stopped at the mandatory approval gate.
 
 ## Current Blockers
 
-- User approval is required before Stage 12.
-- No technical blocker remains for the demonstrated Stage 11 trace/replay path.
+- User approval is required before Stage 13.
+- No technical blocker remains for the demonstrated Stage 12 observability path.
 - A second real model artifact/backend is not installed; controlled route differences are therefore policy evidence, not a claim of compact-model inference.
 
 ## Important Decisions
 
 - Follow one stage at a time and stop for explicit approval after each stage.
+- Keep Stage 12 pull-based and local: query authoritative SQLite evidence, then attach separately labelled live scheduler/hardware snapshots.
+- Preserve missing observations as null statistics with zero sample count; never turn an absent measurement into a zero.
+- Define retries as recovery attempts until a distinct retry subsystem exists, and disclose that source in every report.
+- Keep SQLite schema v2; aggregation does not justify duplicating authoritative records on the write path.
 - Treat one task as one durable trace run; recovery continues that run rather than fabricating a new task history.
 - Derive stable step identity from run ID, ordinal, and event name; use canonical hashes plus a previous-hash chain to detect mutation/reordering.
 - Replay only deterministic reducers. Observe model/environment evidence and skip tool side effects instead of claiming full behavioral re-execution.
@@ -167,9 +182,18 @@ None. Stage 11 is complete and work is stopped at the mandatory approval gate.
 - Treat current profile values and workload order as measured policy baselines, never universal optima.
 - Keep adaptive profiles model-specific; Stage 9 routes models first and requires a real backend/profile/admission bundle before a second model becomes executable.
 
-See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](docs/adr/0002-typed-protocols-and-stdlib-skeleton.md), [ADR-0003](docs/adr/0003-pinned-llama-cpp-qwen-baseline.md), [ADR-0004](docs/adr/0004-registered-agent-runtime-and-lifecycle-events.md), [ADR-0005](docs/adr/0005-validated-execution-state-machine.md), [ADR-0006](docs/adr/0006-default-deny-bounded-tool-runtime.md), [ADR-0007](docs/adr/0007-bounded-aged-priority-scheduler.md), [ADR-0008](docs/adr/0008-conservative-pre-scheduler-memory-admission.md), [ADR-0009](docs/adr/0009-discrete-re-admitted-inference-profiles.md), [ADR-0010](docs/adr/0010-explainable-availability-gated-model-routing.md), [ADR-0011](docs/adr/0011-sqlite-checkpoints-and-pre-invocation-recovery.md), and [ADR-0012](docs/adr/0012-hash-chained-traces-and-bounded-replay.md).
+See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](docs/adr/0002-typed-protocols-and-stdlib-skeleton.md), [ADR-0003](docs/adr/0003-pinned-llama-cpp-qwen-baseline.md), [ADR-0004](docs/adr/0004-registered-agent-runtime-and-lifecycle-events.md), [ADR-0005](docs/adr/0005-validated-execution-state-machine.md), [ADR-0006](docs/adr/0006-default-deny-bounded-tool-runtime.md), [ADR-0007](docs/adr/0007-bounded-aged-priority-scheduler.md), [ADR-0008](docs/adr/0008-conservative-pre-scheduler-memory-admission.md), [ADR-0009](docs/adr/0009-discrete-re-admitted-inference-profiles.md), [ADR-0010](docs/adr/0010-explainable-availability-gated-model-routing.md), [ADR-0011](docs/adr/0011-sqlite-checkpoints-and-pre-invocation-recovery.md), [ADR-0012](docs/adr/0012-hash-chained-traces-and-bounded-replay.md), and [ADR-0013](docs/adr/0013-sqlite-windowed-observability-snapshots.md).
 
 ## Tests Passing
+
+- `python -m unittest discover -s tests -v` — 117 tests passed in 19.649 seconds in the final Stage 12 gate run.
+- Stage 12 focused suite — 9 tests passed for config/limit validation, exact P50/P95 aggregation, absent-value truthfulness, unified activity/failure/recovery/trace reporting, time windows, bounded drill-down, live evidence, real factory composition, and read-only machine-readable reporting.
+- `python -m benchmarks.run_stage12_observability` — retained `stage12-observability-20260824T163054Z.json`; expected four-task mix and all totals matched, live hardware present, exit 0.
+- Stage 12 retained live report — 1,504.908 ms collection, of which 1,498.907 ms was the live hardware profile; the same durable-only database report collected in 6.543 ms.
+- Real Stage 12 agent/report — Qwen2.5 1.5B/`performance`; one task/model call/route and 18 trace steps; 2,927.102 ms inference, 2,238.325 ms TTFT, 96.16 tok/s, 1,343.703 MiB RAM, 1,189 MiB VRAM; query after restart matched every value.
+- `python -m compileall -q runtime tests benchmarks` — exit 0.
+- `python -m pip install --dry-run --no-deps --no-build-isolation .` — would install `local-ai-systems-lab-0.12.0`, exit 0.
+- `python -m runtime --objective "Stage 12 regression smoke task"` — deterministic stub lifecycle remained intact with zero real model calls, exit 0.
 
 - `python -m unittest discover -s tests` — 108 tests passed in 13.895 seconds in the final Stage 11 gate run.
 - Persistence plus Stage 11 focused suites — 20 tests passed; 9 specifically cover v1-to-v2 migration, structured chains, model hashes, bounded replay/no new inference, tamper detection, same/different-run comparison, tool-side-effect skipping, restart loading/factory composition, and CLI demonstration.
@@ -264,7 +288,7 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 - Capability labels and quality ranks are static policy metadata; output validation still cannot prove semantic correctness.
 - Budget memory enforcement uses preflight estimates; observed peak measurements are reported afterward and estimator misses remain possible.
 - The router and adaptive controller take separate live hardware snapshots, so pressure can change between model selection and exact profile admission; the later admission decision remains authoritative.
-- Routing decisions, budgets, and usage records now have Stage 11 run/step identities and hashes; aggregated query/reporting remains Stage 12 work.
+- Routing decisions, budgets, and usage records now appear in the Stage 12 unified task/report view; semantic output evaluation remains future work.
 
 - Queue state and request handles remain process-local; durable lifecycle/metric events survive, but the scheduler queue itself is not reconstructed.
 - The public `AgentRuntime.run()` call waits synchronously even though scheduler requests are internally queued.
@@ -285,7 +309,9 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 - The five-prompt, single-iteration sample is acceptance evidence, not a statistically strong performance claim.
 - A 64-token cap truncated some longer answers; one JSON-only prompt included Markdown fences, so no broad quality claim is made.
 - Routing is static and the identity policy is not a security sandbox.
-- An observability backend, API, and frontend do not exist; Stage 11 traces are accessed through the local CLI/store.
+- Observability is pull-based and local; there is no remote collector, alerting pipeline, public API, or frontend.
+- Live scheduler state belongs to the reporting runtime process; historical scheduler behavior is represented separately by durable event distributions.
+- Recent task drill-down uses bounded follow-up queries and is not yet optimized for large databases.
 - Physical core count is not accessible through the narrow live profiler and remains explicitly unavailable; the declared eight-core constraint is not relabeled as observed.
 - The memory estimator is calibrated against one model/configuration/run. It does not establish accuracy for larger models, quantizations, contexts, or concurrency.
 - `nvidia-smi` reports device-wide pressure and can include unrelated GPU allocations.
@@ -303,7 +329,7 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 ## Performance Baseline
 
-The Stage 2 five-run cold baseline remains: median model load 1,128.28 ms; TTFT 1,686.85 ms; generation 115.81 tokens/second; total 2,572.26 ms; peak child-process RAM 1,339.02 MiB; VRAM delta 1,219 MiB. The final Stage 8 comparison observed performance/balanced/constrained/CPU-safe VRAM deltas of 1,189/909/527/0 MiB. Stage 11 real traced inference measured 2,865.074 ms total, 1,989.471 ms TTFT, 94.53 tokens/second, 1,345.855 MiB RAM, and 1,189 MiB VRAM; its 18-step trace replayed 11 deterministic steps and observed seven nondeterministic/environmental steps without regeneration. See [the Stage 2 report](docs/benchmarks/stage2-local-inference-baseline.md), [Stage 8 final comparison](benchmarks/results/stage8-profile-comparison-20260824T122355Z.json), [Stage 11 result](benchmarks/results/stage11-trace-replay-20260824T143744Z.json), and [Stage 11 report](docs/stages/stage11-execution-trace-deterministic-replay.md).
+The Stage 2 five-run cold baseline remains: median model load 1,128.28 ms; TTFT 1,686.85 ms; generation 115.81 tokens/second; total 2,572.26 ms; peak child-process RAM 1,339.02 MiB; VRAM delta 1,219 MiB. The final Stage 8 comparison observed performance/balanced/constrained/CPU-safe VRAM deltas of 1,189/909/527/0 MiB. Stage 12 real inference measured 2,927.102 ms total, 2,238.325 ms TTFT, 96.16 tokens/second, 1,343.703 MiB RAM, and 1,189 MiB VRAM; the post-restart report recovered all measurements and the 18-step trace identity. The retained controlled report collected durable plus live telemetry in 1,504.908 ms, dominated by its 1,498.907 ms hardware profile; durable-only collection was 6.543 ms. See [the Stage 2 report](docs/benchmarks/stage2-local-inference-baseline.md), [Stage 8 final comparison](benchmarks/results/stage8-profile-comparison-20260824T122355Z.json), [Stage 12 result](benchmarks/results/stage12-observability-20260824T163054Z.json), and [Stage 12 report](docs/stages/stage12-observability-metrics-backend.md).
 
 ## Backend Acceptance Status
 
@@ -315,8 +341,8 @@ NOT STARTED. Production frontend work remains prohibited until backend acceptanc
 
 ## Next Step
 
-Stage 12 — Observability & Metrics Backend
+Stage 13 — Fault Injection / Chaos Framework
 
 ## Later Backlog
 
-Stages 12–27 remain intentionally deferred and must be entered one at a time after explicit approval.
+Stages 13–27 remain intentionally deferred and must be entered one at a time after explicit approval.

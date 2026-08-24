@@ -4,16 +4,38 @@ A stage-gated portfolio project for building an inspectable local AI runtime on
 constrained consumer hardware. Specialized agents now have an inspectable,
 transition-validated runtime, bounded scheduling, memory admission, adaptive profiles,
 explainable model routing, task-scoped compute budgets, durable recovery, and
-hash-chained execution traces with bounded replay.
+hash-chained execution traces with bounded replay. Stage 12 adds unified live
+and recent runtime telemetry without introducing a GUI or external service.
 
 ## Current status
 
-- Last completed stage: Stage 11 — Execution Trace & Deterministic Replay
-- Next approval-gated stage: Stage 12 — Observability & Metrics Backend
-- Backend acceptance: NOT STARTED
+- Last completed stage: Stage 12 — Observability & Metrics Backend
+- Next approval-gated stage: Stage 13 — Fault Injection / Chaos Framework
+- Backend acceptance: IN PROGRESS through the stage gates
 - Frontend work: PROHIBITED until the backend acceptance gate passes
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
+
+## Inspect Stage 12 observability
+
+Create controlled inference, tool, denied-operation, and recovery activity, then
+emit one JSON report with task states, activity totals, latency/resource
+distributions, live scheduler state, source-labelled hardware, and per-task drill-down:
+
+```powershell
+python -m runtime.observability_cli demo
+python -m benchmarks.run_stage12_observability
+```
+
+Query an existing local database without invoking a real model:
+
+```powershell
+python -m runtime.observability_cli report --database data/runtime-stage12.db
+```
+
+Missing measurements remain `null` with a zero sample count. Recovery attempts
+are reported as retries because no separate generic retry subsystem exists. See
+the [Stage 12 report](docs/stages/stage12-observability-metrics-backend.md).
 
 ## Inspect Stage 11 traces and replay
 
@@ -52,7 +74,7 @@ Retain a compact recovery result:
 python -m benchmarks.run_stage10_recovery
 ```
 
-Real agent execution now uses the ignored `data/runtime-stage11.db` database by
+Real agent execution now uses the ignored `data/runtime-stage12.db` database by
 default. Use `--database` to select another local database. See the
 [Stage 10 purpose, component map, recovery contract, and evidence](docs/stages/stage10-persistence-checkpoints-recovery.md).
 

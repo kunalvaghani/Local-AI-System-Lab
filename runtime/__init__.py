@@ -47,6 +47,8 @@ from .factory import (
     build_stage10_stub_runtime,
     build_stage11_runtime,
     build_stage11_stub_runtime,
+    build_stage12_runtime,
+    build_stage12_stub_runtime,
 )
 from .models import (
     Agent,
@@ -80,6 +82,15 @@ from .tracing import (
     TraceRun,
     TraceStep,
     compare_traces,
+)
+from .observability import (
+    MetricDistribution,
+    ObservabilityConfig,
+    ObservabilityReport,
+    SQLiteObservabilitySource,
+    TaskTelemetry,
+    UnifiedObservabilityBackend,
+    load_observability_config,
 )
 from .tools import (
     DefaultDenyToolPolicy,
@@ -128,6 +139,9 @@ __all__ = [
     "LabError",
     "ModelOutOfMemoryError",
     "ModelRoutingError",
+    "MetricDistribution",
+    "ObservabilityConfig",
+    "ObservabilityReport",
     "PolicyDeniedError",
     "RecoveryNotSupportedError",
     "RecoveryCandidate",
@@ -137,6 +151,7 @@ __all__ = [
     "PersistenceConfig",
     "SQLiteRuntimeStore",
     "SQLiteTraceStore",
+    "SQLiteObservabilitySource",
     "RuntimeComponents",
     "RuntimeConfig",
     "RuntimeLifecycleError",
@@ -163,6 +178,8 @@ __all__ = [
     "TraceReplayEngine",
     "TraceRun",
     "TraceStep",
+    "TaskTelemetry",
+    "UnifiedObservabilityBackend",
     "ToolCapabilityMetadata",
     "ToolArgumentSpec",
     "ToolArgumentType",
@@ -194,7 +211,10 @@ __all__ = [
     "build_stage10_stub_runtime",
     "build_stage11_runtime",
     "build_stage11_stub_runtime",
+    "build_stage12_runtime",
+    "build_stage12_stub_runtime",
     "compare_traces",
     "load_persistence_config",
+    "load_observability_config",
     "ExecutionStateMachine",
 ]

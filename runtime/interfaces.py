@@ -1,4 +1,4 @@
-"""Replaceable component contracts for the local runtime through Stage 11."""
+"""Replaceable component contracts for the local runtime through Stage 12."""
 
 from __future__ import annotations
 
@@ -33,6 +33,7 @@ from .hardware.models import HardwareSnapshot
 from .adaptive.models import ProfileSelection
 from .routing.models import ComputeBudget, RoutingContext
 from .tracing.models import ReplayReport, TraceRun, TraceStep
+from .observability.models import ObservabilityReport
 
 
 @runtime_checkable
@@ -214,6 +215,18 @@ class TraceStore(Protocol):
     def list_runs(self) -> Sequence[TraceRun]: ...
 
     def save_replay(self, report: ReplayReport) -> None: ...
+
+
+@runtime_checkable
+class ObservabilityBackend(Protocol):
+    def report(
+        self,
+        *,
+        window_minutes: int | None = None,
+        recent_task_limit: int | None = None,
+        recent_event_limit: int | None = None,
+        include_live: bool = True,
+    ) -> ObservabilityReport: ...
 
 
 @runtime_checkable

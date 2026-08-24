@@ -1,11 +1,11 @@
-# Architecture Baseline through Stage 11
+# Architecture Baseline through Stage 12
 
 ## Status and scope
 
-Stage 11 upgrades durable lifecycle evidence into hash-chained, task-scoped run
-traces and adds side-effect-free deterministic replay/comparison. Stage 10
-recovery and all earlier routing, admission, scheduling, and inference boundaries
-remain authoritative.
+Stage 12 adds a unified, windowed observability backend over the Stage 10–11
+durable evidence and optional live scheduler/hardware snapshots. Hash-chained
+trace/replay and all earlier recovery, routing, admission, scheduling, and
+inference boundaries remain authoritative.
 
 ## Context and planned flow
 
@@ -46,7 +46,11 @@ flowchart LR
     D --> RP[Deterministic replay reducers]
     D --> CP[Cross-run semantic comparison]
     L --> G[Qwen GGUF on CUDA]
-    E -. Stage 12 .-> O[Metrics Backend]
+    D --> OS[SQLite Observability Source]
+    OS --> O[Unified Metrics Backend]
+    S -. live snapshot .-> O
+    HP -. live snapshot .-> O
+    O --> OC[JSON Observability CLI]
 ```
 
 The Stage 1 control flow remains unchanged when the stub is composed. The
@@ -184,8 +188,19 @@ explicit boundary:
 5. Comparison aligns event occurrences and uses normalized semantic hashes for
    deterministic matches/divergences while reporting nondeterministic evidence separately.
 
-There is still no real second-model backend, aggregated metrics backend, or API.
-SQLite state and traces remain local to one host/runtime database.
+Stage 12 aggregates recent and live evidence:
+
+1. A bounded time window and recent-task/event limits define the query.
+2. One SQLite read transaction correlates task state, metric events, outputs,
+   tool calls, recovery attempts, and trace/replay records.
+3. The backend computes sample-aware totals and distributions for durations,
+   queue/execution time, inference/TTFT/throughput, RAM, and VRAM.
+4. Optional live providers append the current scheduler and source-labelled
+   hardware snapshots without rewriting durable history.
+5. A JSON CLI supports controlled demonstration and existing-database reports.
+
+There is still no real second-model backend or public API. SQLite state, traces,
+and observability reports remain local to one host/runtime database.
 
 ## Current component responsibilities
 
@@ -195,7 +210,7 @@ SQLite state and traces remain local to one host/runtime database.
 | Agent Registry | SQLite-backed typed snapshots | Stable durable lookup plus conflicting-definition detection | Dynamic discovery and policy versioning |
 | Agent Runtime | Synchronous caller API over durable/routed/budgeted/admitted work | Registered tasks, safe recovery, model route, budget, profile, scheduler, and result evidence | External asynchronous task API |
 | Task State Machine | SQLite-backed legal graph/history | Transactional transitions, `RECOVERING`, restart reconstruction, terminal enforcement | Distributed coordination |
-| Lifecycle events | SQLite append-only records, execution-step mirror, and trace source | Durable timestamped runtime/agent/task/profile/model/scheduler/recovery evidence | Retention/aggregation policy (12) |
+| Lifecycle events | SQLite append-only records, execution-step mirror, trace source, and observability input | Durable timestamped runtime/agent/task/profile/model/scheduler/recovery evidence | Redaction and retention policy |
 | Trace Store | SQLite schema v2 adapter | Run/step identity, canonical hashes, hash chain, determinism and replay reports | Retention, export, redaction, distributed trace context |
 | Replay Engine | Side-effect-free verifier and state reducer | Chain/tamper verification, deterministic state reconstruction, explicit nondeterministic/side-effect skips | Native token/tool re-execution is intentionally unsupported |
 | Trace Comparator | Event-occurrence semantic comparison | Deterministic match/divergence plus nondeterministic/missing classification | Statistical output-quality comparison/evaluation |
@@ -209,7 +224,9 @@ SQLite state and traces remain local to one host/runtime database.
 | Tool Executor | Bounded daemon-thread adapter | Strict validation, structured results/errors, deadline and cooperative cancellation | Process isolation and forced termination |
 | Safe Tools | Project context + fixed risk-register readers | UTF-8 allowlist, character cap, resolved-root containment, read-only access | Writes, subprocesses, and network tools |
 | Checkpoint Store | SQLite adapter | Durable transition and `recovery_ready` checkpoints | Broader resumable boundaries after idempotency evidence |
-| Metrics Collector | SQLite adapter | Durable named metric events | Aggregated metrics backend and telemetry (12) |
+| Metrics Collector | SQLite adapter | Durable named metric events | Background sampling and remote export |
+| Observability Source | Windowed SQLite read adapter | Coherent bounded query across tasks, events, outputs, tools, recovery, and traces | Pagination/batched analytics for large databases |
+| Observability Backend | Unified pull-based aggregator | Totals, sample distributions, recent drill-down, source map, warnings, and optional live snapshots | Alerts, remote collector, public API, and GUI |
 | Runtime Persistence | Shared SQLite schema v2 | Stage 10 records plus trace runs, steps, chain hashes, and replay reports | Backup/restore and multi-process service guarantees |
 | Hardware Profiler | Windows/POSIX stdlib plus NVIDIA query | CPU/logical count, RAM availability, GPU/VRAM pressure, source/confidence/warnings | Process-aware GPU attribution and broader platform evidence |
 | Memory Estimator | File-backed model plus calibrated coefficients | Profile-specific host/VRAM predictions, assumptions, reserves, measured error | Per-model repeated calibration (9) |
@@ -217,7 +234,7 @@ SQLite state and traces remain local to one host/runtime database.
 | Inference Profile Catalog | Four tracked typed profiles | Explicit context, batch/ubatch, threads, GPU layers, flash attention, purpose, and workload order | Learned/expanded profiles only after evidence |
 | Adaptive Controller | Workload order plus fresh profile admission after route | Selects the first safe profile and refuses all unsafe candidates | Per-model profile catalogs when a second backend exists |
 
-These interfaces contain only methods exercised by the Stage 11 demonstration.
+These interfaces contain only methods exercised by the Stage 12 demonstration.
 Later stages should extend them based on executable requirements rather than
 anticipating every future feature now.
 
@@ -228,6 +245,8 @@ anticipating every future feature now.
 - Policy decisions and denials cross typed boundaries rather than scattered conditional checks.
 - Lifecycle effects emit inspectable SQLite events and hash-chained trace steps;
   replay never repeats model generation or tool side effects.
+- Observability reads authoritative durable records and labels live evidence;
+  unavailable samples remain null rather than becoming invented measurements.
 - Configuration is typed and secrets are never embedded in source-controlled files.
 - Agents never obtain unrestricted filesystem, subprocess, or network access by default.
 
@@ -274,5 +293,6 @@ Detailed mechanisms belong to later stages. Current behavior and constraints are
 - Stage 9 implements model registry, explainable routing, and compute budgets — COMPLETE.
 - Stage 10 implements SQLite persistence, checkpoints, and bounded recovery — COMPLETE.
 - Stage 11 implements structured execution traces and bounded deterministic replay — COMPLETE.
-- Stage 12 may implement an observability and metrics backend after approval.
+- Stage 12 implements the observability and metrics backend — COMPLETE.
+- Stage 13 may implement fault injection and a chaos framework after approval.
 - Production frontend implementation remains prohibited until Stage 16 is accepted.

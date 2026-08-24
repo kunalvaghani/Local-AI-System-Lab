@@ -1,0 +1,977 @@
+{
+  "component_roles": {
+    "aggregator": "computes counts plus latency/resource distributions without fabricating missing samples",
+    "cli": "emits one JSON report for controlled demonstration or an existing database",
+    "hardware_snapshot": "reports source-labelled current CPU, RAM, GPU, and VRAM evidence",
+    "scheduler_snapshot": "reports current queue, running work, outcomes, and wait percentiles",
+    "sqlite_source": "queries durable tasks, events, outputs, tools, recoveries, and trace identities"
+  },
+  "database": "D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\data\\stage12-observability-75793161e10a4f3eaf6f6796d07cfe4e.db",
+  "demonstration": {
+    "failed_operation": {
+      "code": "tool_permission_denied",
+      "details": {
+        "agent_id": "risk-analyst",
+        "decision": "deny",
+        "reason": "missing_tool_grant",
+        "tool_name": "project_context_read"
+      },
+      "message": "agent has no grant for the requested tool"
+    },
+    "inference_task_id": "dbc75924-493c-42e9-af42-040f1489848b",
+    "real_llm_calls": 0,
+    "recovered_task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87",
+    "tool_task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+  },
+  "purpose": "unify recent task, model, tool, scheduler, failure, recovery, inference, and hardware telemetry",
+  "report": {
+    "collection_ms": 1504.9076999994213,
+    "distributions": {
+      "generation_tokens_per_second": {
+        "count": 0,
+        "max": null,
+        "mean": null,
+        "min": null,
+        "p50": null,
+        "p95": null,
+        "unit": "tokens/s"
+      },
+      "inference_total_ms": {
+        "count": 2,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "unit": "ms"
+      },
+      "peak_process_ram_mib": {
+        "count": 0,
+        "max": null,
+        "mean": null,
+        "min": null,
+        "p50": null,
+        "p95": null,
+        "unit": "MiB"
+      },
+      "queue_wait_ms": {
+        "count": 2,
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "p50": 0.0,
+        "p95": 0.0,
+        "unit": "ms"
+      },
+      "recovery_latency_ms": {
+        "count": 1,
+        "max": 560.4209999999999,
+        "mean": 560.4209999999999,
+        "min": 560.4209999999999,
+        "p50": 560.4209999999999,
+        "p95": 560.4209999999999,
+        "unit": "ms"
+      },
+      "scheduler_execution_ms": {
+        "count": 2,
+        "max": 56.61899999995512,
+        "mean": 55.71544999975231,
+        "min": 54.811899999549496,
+        "p50": 55.71544999975231,
+        "p95": 56.52864499993484,
+        "unit": "ms"
+      },
+      "task_duration_ms": {
+        "count": 4,
+        "max": 669.5550000000001,
+        "mean": 430.709,
+        "min": 175.914,
+        "p50": 438.6835,
+        "p95": 639.1424999999999,
+        "unit": "ms"
+      },
+      "tool_latency_ms": {
+        "count": 1,
+        "max": 209.686,
+        "mean": 209.686,
+        "min": 209.686,
+        "p50": 209.686,
+        "p95": 209.686,
+        "unit": "ms"
+      },
+      "ttft_ms": {
+        "count": 0,
+        "max": null,
+        "mean": null,
+        "min": null,
+        "p50": null,
+        "p95": null,
+        "unit": "ms"
+      },
+      "vram_delta_mib": {
+        "count": 0,
+        "max": null,
+        "mean": null,
+        "min": null,
+        "p50": null,
+        "p95": null,
+        "unit": "MiB"
+      }
+    },
+    "generated_at_utc": "2026-08-24T16:30:54.957033+00:00",
+    "live": {
+      "hardware": {
+        "captured_at_utc": "2026-08-24T16:30:54.954738+00:00",
+        "cpu": {
+          "confidence": "high",
+          "logical_processors": 16,
+          "model": "AMD Ryzen 7 5800H with Radeon Graphics",
+          "physical_cores": null,
+          "source": "Windows registry + os.cpu_count"
+        },
+        "gpu": {
+          "compute_capability": "8.6",
+          "confidence": "high",
+          "driver_version": "610.74",
+          "free_vram_mib": 3962.0,
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "source": "nvidia-smi live query",
+          "temperature_c": 53.0,
+          "total_vram_mib": 4096.0,
+          "used_vram_mib": 0.0,
+          "utilization_percent": 0.0
+        },
+        "profile_ms": 1498.907,
+        "ram": {
+          "available_mib": 18194.277,
+          "confidence": "high",
+          "source": "GlobalMemoryStatusEx",
+          "total_mib": 32097.656,
+          "used_mib": 13903.379
+        },
+        "warnings": [
+          "physical core count unavailable; logical count is not relabeled"
+        ]
+      },
+      "scheduler": {
+        "cancelled": 0,
+        "completed": 2,
+        "execution_order": [
+          "dbc75924-493c-42e9-af42-040f1489848b",
+          "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+        ],
+        "failed": 0,
+        "max_workers": 1,
+        "peak_queue_depth": 0,
+        "policy": "fifo",
+        "queue_depth": 0,
+        "queue_wait_max_ms": 0.0,
+        "queue_wait_p50_ms": 0.0,
+        "queue_wait_p95_ms": 0.0,
+        "requests": [],
+        "running": 0,
+        "started": 2,
+        "starvation_promotions": 0,
+        "submitted": 2,
+        "timed_out": 0
+      }
+    },
+    "recent_events": [
+      {
+        "attributes": {
+          "backend_name": "stage-1-stub-backend",
+          "model_id": "stage-1-stub-model",
+          "state": "completed"
+        },
+        "name": "task.completed",
+        "recorded_at_utc": "2026-08-24T16:30:53.424851+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "from_state": "validating",
+          "reason": "validated model output accepted",
+          "recorded_at_utc": "2026-08-24T16:30:53.340258+00:00",
+          "sequence": 6,
+          "state": "completed",
+          "to_state": "completed"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:53.377713+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "state": "validating",
+          "valid": true
+        },
+        "name": "output.validation.completed",
+        "recorded_at_utc": "2026-08-24T16:30:53.315058+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "from_state": "executing",
+          "reason": "model invocation returned a result",
+          "recorded_at_utc": "2026-08-24T16:30:53.256956+00:00",
+          "sequence": 5,
+          "state": "validating",
+          "to_state": "validating"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:53.294671+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "effective_priority": 50,
+          "execution_ms": 54.811899999549496,
+          "priority": 50,
+          "queue_wait_ms": 0.0,
+          "request_id": "643ff920-709b-47de-a7a3-9e3ab5988de9",
+          "state": "executing",
+          "workload": "standard"
+        },
+        "name": "scheduler.request.completed",
+        "recorded_at_utc": "2026-08-24T16:30:53.234948+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "backend_name": "stage-1-stub-backend",
+          "model_id": "stage-1-stub-model",
+          "output_hash": "2c7e2f28515358e49a1ab12d6d66e1f080824e3c2f708eef8e892bed2657bcca",
+          "state": "executing"
+        },
+        "name": "model.invocation.completed",
+        "recorded_at_utc": "2026-08-24T16:30:53.204703+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "configuration_hash": "3468c3340074511a62fcea889a886937defa8c7d7d12cffc2a31441b12f5aff5",
+          "input_hash": "ed79b1dbcdf004ef7f05224cf15f518560bf23c3c72db0d3127ac5d85a53fda2",
+          "model_id": "stage-1-stub-model",
+          "state": "executing"
+        },
+        "name": "model.invocation.started",
+        "recorded_at_utc": "2026-08-24T16:30:53.184832+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "priority": 50,
+          "state": "executing",
+          "timeout_ms": 30000,
+          "workload": "standard"
+        },
+        "name": "scheduler.request.requested",
+        "recorded_at_utc": "2026-08-24T16:30:53.154897+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "from_state": "planning",
+          "reason": "model route selected: stage-1-stub-model",
+          "recorded_at_utc": "2026-08-24T16:30:53.090906+00:00",
+          "sequence": 4,
+          "state": "executing",
+          "to_state": "executing"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:53.124815+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "evidence": {},
+          "model_id": "stage-1-stub-model",
+          "reason": "Static configured route; dynamic model routing is not implemented",
+          "state": "planning"
+        },
+        "name": "route.selected",
+        "recorded_at_utc": "2026-08-24T16:30:53.074789+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "allowed": true,
+          "reason": "task identity matches; declared tool metadata grants no execution",
+          "state": "planning"
+        },
+        "name": "policy.evaluated",
+        "recorded_at_utc": "2026-08-24T16:30:53.044879+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "from_state": "recovering",
+          "reason": "runtime began planning execution",
+          "recorded_at_utc": "2026-08-24T16:30:52.981113+00:00",
+          "sequence": 3,
+          "state": "planning",
+          "to_state": "planning"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:53.014898+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "attempt_id": 1,
+          "checkpoint": "recovery_ready",
+          "state": "recovering"
+        },
+        "name": "recovery.started",
+        "recorded_at_utc": "2026-08-24T16:30:52.957791+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "from_state": "planning",
+          "reason": "runtime restart accepted the durable recovery checkpoint",
+          "recorded_at_utc": "2026-08-24T16:30:52.894835+00:00",
+          "sequence": 2,
+          "state": "recovering",
+          "to_state": "recovering"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:52.924875+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "model_invocation_started": false,
+          "phase": "recovery_ready",
+          "safe_to_retry": true,
+          "state": "planning",
+          "tool_invocation_started": false
+        },
+        "name": "recovery.checkpoint.ready",
+        "recorded_at_utc": "2026-08-24T16:30:52.844624+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "from_state": "created",
+          "reason": "runtime prepared a recoverable execution",
+          "recorded_at_utc": "2026-08-24T16:30:52.772810+00:00",
+          "sequence": 1,
+          "state": "planning",
+          "to_state": "planning"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:52.807138+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "from_state": null,
+          "reason": "runtime created the task",
+          "recorded_at_utc": "2026-08-24T16:30:52.684823+00:00",
+          "sequence": 0,
+          "state": "created",
+          "to_state": "created"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:52.756738+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "objective": "Recover this observability demonstration task.",
+          "state": "created"
+        },
+        "name": "task.created",
+        "recorded_at_utc": "2026-08-24T16:30:52.714740+00:00",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87"
+      },
+      {
+        "attributes": {
+          "error_code": "tool_permission_denied",
+          "error_details": {
+            "agent_id": "risk-analyst",
+            "decision": "deny",
+            "reason": "missing_tool_grant",
+            "tool_name": "project_context_read"
+          },
+          "state": "security_blocked"
+        },
+        "name": "task.failed",
+        "recorded_at_utc": "2026-08-24T16:30:52.650040+00:00",
+        "task_id": "47cd9c0d-abb8-4cb0-aab0-7e0fb661afa0"
+      },
+      {
+        "attributes": {
+          "from_state": "planning",
+          "reason": "execution failed with tool_permission_denied",
+          "recorded_at_utc": "2026-08-24T16:30:52.584744+00:00",
+          "sequence": 2,
+          "state": "security_blocked",
+          "to_state": "security_blocked"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:52.622087+00:00",
+        "task_id": "47cd9c0d-abb8-4cb0-aab0-7e0fb661afa0"
+      },
+      {
+        "attributes": {
+          "allowed": true,
+          "reason": "task identity matches; declared tool metadata grants no execution",
+          "state": "planning"
+        },
+        "name": "policy.evaluated",
+        "recorded_at_utc": "2026-08-24T16:30:52.569709+00:00",
+        "task_id": "47cd9c0d-abb8-4cb0-aab0-7e0fb661afa0"
+      },
+      {
+        "attributes": {
+          "from_state": "created",
+          "reason": "runtime began planning tool execution",
+          "recorded_at_utc": "2026-08-24T16:30:52.504972+00:00",
+          "sequence": 1,
+          "state": "planning",
+          "to_state": "planning"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:52.539112+00:00",
+        "task_id": "47cd9c0d-abb8-4cb0-aab0-7e0fb661afa0"
+      },
+      {
+        "attributes": {
+          "from_state": null,
+          "reason": "runtime created the task",
+          "recorded_at_utc": "2026-08-24T16:30:52.422737+00:00",
+          "sequence": 0,
+          "state": "created",
+          "to_state": "created"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:52.488210+00:00",
+        "task_id": "47cd9c0d-abb8-4cb0-aab0-7e0fb661afa0"
+      },
+      {
+        "attributes": {
+          "objective": "Request tool project_context_read",
+          "state": "created"
+        },
+        "name": "task.created",
+        "recorded_at_utc": "2026-08-24T16:30:52.444941+00:00",
+        "task_id": "47cd9c0d-abb8-4cb0-aab0-7e0fb661afa0"
+      },
+      {
+        "attributes": {
+          "request_id": "137ecac3-1a0f-4c91-a8ab-09d8567ff7a2",
+          "state": "completed",
+          "tool_name": "project_context_read"
+        },
+        "name": "task.completed",
+        "recorded_at_utc": "2026-08-24T16:30:52.386834+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "from_state": "validating",
+          "reason": "validated tool result accepted",
+          "recorded_at_utc": "2026-08-24T16:30:52.289074+00:00",
+          "sequence": 4,
+          "state": "completed",
+          "to_state": "completed"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:52.328675+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "request_id": "137ecac3-1a0f-4c91-a8ab-09d8567ff7a2",
+          "state": "validating",
+          "valid": true
+        },
+        "name": "tool.result.validated",
+        "recorded_at_utc": "2026-08-24T16:30:52.267465+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "from_state": "waiting_for_tool",
+          "reason": "tool runtime returned a structured result",
+          "recorded_at_utc": "2026-08-24T16:30:52.208475+00:00",
+          "sequence": 3,
+          "state": "validating",
+          "to_state": "validating"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:52.244728+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "duration_ms": 2.640199999405013,
+          "request_id": "137ecac3-1a0f-4c91-a8ab-09d8567ff7a2",
+          "state": "waiting_for_tool",
+          "success": true,
+          "tool_name": "project_context_read"
+        },
+        "name": "tool.invocation.completed",
+        "recorded_at_utc": "2026-08-24T16:30:52.193514+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "request_id": "137ecac3-1a0f-4c91-a8ab-09d8567ff7a2",
+          "state": "waiting_for_tool",
+          "timeout_ms": 1000,
+          "tool_name": "project_context_read"
+        },
+        "name": "tool.invocation.started",
+        "recorded_at_utc": "2026-08-24T16:30:52.162539+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "from_state": "planning",
+          "reason": "authorized tool request: project_context_read",
+          "recorded_at_utc": "2026-08-24T16:30:52.084746+00:00",
+          "sequence": 2,
+          "state": "waiting_for_tool",
+          "to_state": "waiting_for_tool"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:52.122204+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "path_restricted": true,
+          "permissions": [
+            "filesystem.read"
+          ],
+          "read_only": true,
+          "state": "planning",
+          "tool_name": "project_context_read"
+        },
+        "name": "tool.permission.granted",
+        "recorded_at_utc": "2026-08-24T16:30:52.067172+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "allowed": true,
+          "reason": "task identity matches; declared tool metadata grants no execution",
+          "state": "planning"
+        },
+        "name": "policy.evaluated",
+        "recorded_at_utc": "2026-08-24T16:30:52.040822+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "from_state": "created",
+          "reason": "runtime began planning tool execution",
+          "recorded_at_utc": "2026-08-24T16:30:51.975037+00:00",
+          "sequence": 1,
+          "state": "planning",
+          "to_state": "planning"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:52.013896+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "from_state": null,
+          "reason": "runtime created the task",
+          "recorded_at_utc": "2026-08-24T16:30:51.886950+00:00",
+          "sequence": 0,
+          "state": "created",
+          "to_state": "created"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:51.956846+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "objective": "Request tool project_context_read",
+          "state": "created"
+        },
+        "name": "task.created",
+        "recorded_at_utc": "2026-08-24T16:30:51.914864+00:00",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b"
+      },
+      {
+        "attributes": {
+          "backend_name": "stage-1-stub-backend",
+          "model_id": "stage-1-stub-model",
+          "state": "completed"
+        },
+        "name": "task.completed",
+        "recorded_at_utc": "2026-08-24T16:30:51.856967+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "from_state": "validating",
+          "reason": "validated model output accepted",
+          "recorded_at_utc": "2026-08-24T16:30:51.773451+00:00",
+          "sequence": 4,
+          "state": "completed",
+          "to_state": "completed"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:51.811806+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "state": "validating",
+          "valid": true
+        },
+        "name": "output.validation.completed",
+        "recorded_at_utc": "2026-08-24T16:30:51.756855+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "from_state": "executing",
+          "reason": "model invocation returned a result",
+          "recorded_at_utc": "2026-08-24T16:30:51.690469+00:00",
+          "sequence": 3,
+          "state": "validating",
+          "to_state": "validating"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:51.729208+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "effective_priority": 50,
+          "execution_ms": 56.61899999995512,
+          "priority": 50,
+          "queue_wait_ms": 0.0,
+          "request_id": "0506b090-bdb1-4c8a-9325-83eda14c527b",
+          "state": "executing",
+          "workload": "standard"
+        },
+        "name": "scheduler.request.completed",
+        "recorded_at_utc": "2026-08-24T16:30:51.670692+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "backend_name": "stage-1-stub-backend",
+          "model_id": "stage-1-stub-model",
+          "output_hash": "b2976e3b954417b5c80539525d28431c71c10c4eeedc5924c750cf79e30ccffb",
+          "state": "executing"
+        },
+        "name": "model.invocation.completed",
+        "recorded_at_utc": "2026-08-24T16:30:51.644939+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "configuration_hash": "3468c3340074511a62fcea889a886937defa8c7d7d12cffc2a31441b12f5aff5",
+          "input_hash": "c71e8478d229ba82c6e7b5934a1038b2d199d8076ee3301f3b179f989f14e54a",
+          "model_id": "stage-1-stub-model",
+          "state": "executing"
+        },
+        "name": "model.invocation.started",
+        "recorded_at_utc": "2026-08-24T16:30:51.614904+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "priority": 50,
+          "state": "executing",
+          "timeout_ms": 30000,
+          "workload": "standard"
+        },
+        "name": "scheduler.request.requested",
+        "recorded_at_utc": "2026-08-24T16:30:51.586332+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "from_state": "planning",
+          "reason": "model route selected: stage-1-stub-model",
+          "recorded_at_utc": "2026-08-24T16:30:51.524965+00:00",
+          "sequence": 2,
+          "state": "executing",
+          "to_state": "executing"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:51.560161+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "evidence": {},
+          "model_id": "stage-1-stub-model",
+          "reason": "Static configured route; dynamic model routing is not implemented",
+          "state": "planning"
+        },
+        "name": "route.selected",
+        "recorded_at_utc": "2026-08-24T16:30:51.504932+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "allowed": true,
+          "reason": "task identity matches; declared tool metadata grants no execution",
+          "state": "planning"
+        },
+        "name": "policy.evaluated",
+        "recorded_at_utc": "2026-08-24T16:30:51.480971+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "from_state": "created",
+          "reason": "runtime began planning execution",
+          "recorded_at_utc": "2026-08-24T16:30:51.417728+00:00",
+          "sequence": 1,
+          "state": "planning",
+          "to_state": "planning"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:51.449259+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "from_state": null,
+          "reason": "runtime created the task",
+          "recorded_at_utc": "2026-08-24T16:30:51.324880+00:00",
+          "sequence": 0,
+          "state": "created",
+          "to_state": "created"
+        },
+        "name": "task.state.changed",
+        "recorded_at_utc": "2026-08-24T16:30:51.395156+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "objective": "Produce deterministic observability evidence without a real model.",
+          "state": "created"
+        },
+        "name": "task.created",
+        "recorded_at_utc": "2026-08-24T16:30:51.344971+00:00",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b"
+      },
+      {
+        "attributes": {
+          "name": "Technical Explainer"
+        },
+        "name": "agent.available",
+        "recorded_at_utc": "2026-08-24T16:30:51.290905+00:00",
+        "task_id": null
+      },
+      {
+        "attributes": {
+          "name": "Runtime Risk Analyst"
+        },
+        "name": "agent.available",
+        "recorded_at_utc": "2026-08-24T16:30:51.264975+00:00",
+        "task_id": null
+      },
+      {
+        "attributes": {
+          "runtime_name": "local-ai-systems-lab-stage-12-stub"
+        },
+        "name": "runtime.started",
+        "recorded_at_utc": "2026-08-24T16:30:51.235056+00:00",
+        "task_id": null
+      }
+    ],
+    "recent_tasks": [
+      {
+        "activity": {
+          "model_calls": 1,
+          "recovery_attempts": 1,
+          "router_decisions": 1,
+          "tool_calls": 0,
+          "trace_steps": 19
+        },
+        "agent_id": "technical-explainer",
+        "created_at_utc": "2026-08-24T16:30:52.670703+00:00",
+        "duration_ms": 669.5550000000001,
+        "failure": null,
+        "hardware": null,
+        "inference_metrics": {
+          "baseline_vram_used_mib": null,
+          "generated_token_runs": null,
+          "generation_ms": null,
+          "internal_load_ms": null,
+          "model_load_ms": null,
+          "peak_process_ram_mib": null,
+          "peak_vram_used_mib": null,
+          "prompt_eval_ms": null,
+          "prompt_tokens": null,
+          "prompt_tokens_per_second": null,
+          "startup_to_ready_ms": null,
+          "tokens_per_second": null,
+          "total_ms": 0.0,
+          "ttft_ms": null,
+          "vram_delta_mib": null
+        },
+        "model_id": "stage-1-stub-model",
+        "output_type": "inference",
+        "route_reason": "Static configured route; dynamic model routing is not implemented",
+        "run_id": "df2d068a-086e-4756-8fb1-aaba48856d7f",
+        "scheduler": {
+          "execution_ms": 54.811899999549496,
+          "queue_wait_ms": 0.0
+        },
+        "state": "completed",
+        "task_id": "bc0be73f-2cb9-4547-8b0d-d9709f064b87",
+        "updated_at_utc": "2026-08-24T16:30:53.340258+00:00"
+      },
+      {
+        "activity": {
+          "model_calls": 0,
+          "recovery_attempts": 0,
+          "router_decisions": 0,
+          "tool_calls": 0,
+          "trace_steps": 6
+        },
+        "agent_id": "risk-analyst",
+        "created_at_utc": "2026-08-24T16:30:52.408830+00:00",
+        "duration_ms": 175.914,
+        "failure": {
+          "error_code": "tool_permission_denied",
+          "error_details": {
+            "agent_id": "risk-analyst",
+            "decision": "deny",
+            "reason": "missing_tool_grant",
+            "tool_name": "project_context_read"
+          }
+        },
+        "hardware": null,
+        "inference_metrics": null,
+        "model_id": "stage-1-stub-model",
+        "output_type": null,
+        "route_reason": null,
+        "run_id": "68efff0f-54ac-4aed-bdb3-6dd5c80455e9",
+        "scheduler": {
+          "execution_ms": null,
+          "queue_wait_ms": null
+        },
+        "state": "security_blocked",
+        "task_id": "47cd9c0d-abb8-4cb0-aab0-7e0fb661afa0",
+        "updated_at_utc": "2026-08-24T16:30:52.584744+00:00"
+      },
+      {
+        "activity": {
+          "model_calls": 0,
+          "recovery_attempts": 0,
+          "router_decisions": 0,
+          "tool_calls": 1,
+          "trace_steps": 15
+        },
+        "agent_id": "technical-explainer",
+        "created_at_utc": "2026-08-24T16:30:51.878512+00:00",
+        "duration_ms": 410.56199999999995,
+        "failure": null,
+        "hardware": null,
+        "inference_metrics": null,
+        "model_id": "stage-1-stub-model",
+        "output_type": "tool",
+        "route_reason": null,
+        "run_id": "4b6df96f-cfbd-4030-963b-9e0fd5630301",
+        "scheduler": {
+          "execution_ms": null,
+          "queue_wait_ms": null
+        },
+        "state": "completed",
+        "task_id": "a5062102-4ac7-4540-9e9e-297731c3412b",
+        "updated_at_utc": "2026-08-24T16:30:52.289074+00:00"
+      },
+      {
+        "activity": {
+          "model_calls": 1,
+          "recovery_attempts": 0,
+          "router_decisions": 1,
+          "tool_calls": 0,
+          "trace_steps": 15
+        },
+        "agent_id": "technical-explainer",
+        "created_at_utc": "2026-08-24T16:30:51.306646+00:00",
+        "duration_ms": 466.805,
+        "failure": null,
+        "hardware": null,
+        "inference_metrics": {
+          "baseline_vram_used_mib": null,
+          "generated_token_runs": null,
+          "generation_ms": null,
+          "internal_load_ms": null,
+          "model_load_ms": null,
+          "peak_process_ram_mib": null,
+          "peak_vram_used_mib": null,
+          "prompt_eval_ms": null,
+          "prompt_tokens": null,
+          "prompt_tokens_per_second": null,
+          "startup_to_ready_ms": null,
+          "tokens_per_second": null,
+          "total_ms": 0.0,
+          "ttft_ms": null,
+          "vram_delta_mib": null
+        },
+        "model_id": "stage-1-stub-model",
+        "output_type": "inference",
+        "route_reason": "Static configured route; dynamic model routing is not implemented",
+        "run_id": "e8bb675b-d5d0-4b8e-82a1-b1355e3716e5",
+        "scheduler": {
+          "execution_ms": 56.61899999995512,
+          "queue_wait_ms": 0.0
+        },
+        "state": "completed",
+        "task_id": "dbc75924-493c-42e9-af42-040f1489848b",
+        "updated_at_utc": "2026-08-24T16:30:51.773451+00:00"
+      }
+    ],
+    "sources": {
+      "activity_counts": "SQLite metric_events/tool_calls/recovery_attempts",
+      "latency_and_inference": "SQLite outputs plus scheduler/tool/recovery timestamps",
+      "live_hardware": "hardware_profiler.snapshot()",
+      "live_scheduler": "scheduler.snapshot()",
+      "retries": "recovery_attempts; no independent generic retry subsystem exists",
+      "task_state": "SQLite tasks/state_transitions",
+      "traces": "SQLite trace_runs/trace_steps/trace_replays"
+    },
+    "task_states": {
+      "completed": 3,
+      "security_blocked": 1
+    },
+    "totals": {
+      "completed_tasks": 3,
+      "completion_rate_percent": 75.0,
+      "failed_tasks": 1,
+      "model_calls_completed": 2,
+      "model_calls_started": 2,
+      "recoveries": 1,
+      "recovery_statuses": {
+        "completed": 1
+      },
+      "replay_reports": 0,
+      "retries": 1,
+      "router_decisions": 2,
+      "tasks": 4,
+      "tool_calls": 1,
+      "trace_runs": 4,
+      "trace_steps": 55
+    },
+    "warnings": [
+      "physical core count unavailable; logical count is not relabeled"
+    ],
+    "window": {
+      "ended_at_utc": "2026-08-24T16:30:53.444890+00:00",
+      "minutes": 60.0,
+      "started_at_utc": "2026-08-24T15:30:53.444890+00:00"
+    }
+  },
+  "retained_at_utc": "2026-08-24T16:30:54.995076+00:00",
+  "stage": 12
+}

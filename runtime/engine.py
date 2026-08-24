@@ -1,4 +1,4 @@
-"""Synchronous, transition-validated orchestration through Stage 11."""
+"""Synchronous, transition-validated orchestration through Stage 12."""
 
 from __future__ import annotations
 
@@ -46,6 +46,7 @@ from .interfaces import (
     ToolPolicy,
     ToolRegistry,
     TraceStore,
+    ObservabilityBackend,
 )
 from .models import (
     Agent,
@@ -86,6 +87,7 @@ class RuntimeComponents:
     hardware_profiler: HardwareProfiler | None = None
     persistence: RuntimePersistence | None = None
     traces: TraceStore | None = None
+    observability: ObservabilityBackend | None = None
 
 
 class AgentRuntime:

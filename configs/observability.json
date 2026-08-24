@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "default_window_minutes": 60,
+  "recent_task_limit": 50,
+  "recent_event_limit": 100,
+  "include_live_hardware": true
+}
