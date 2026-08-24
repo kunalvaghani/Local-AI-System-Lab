@@ -5,9 +5,14 @@ from pathlib import Path
 from threading import Timer
 
 from runtime.cancellation import CancellationToken
-from runtime.errors import ComponentOperationError, InferenceCancelledError
+from runtime.errors import (
+    ComponentOperationError,
+    ContextOverflowError,
+    InferenceCancelledError,
+    ModelOutOfMemoryError,
+)
 from runtime.inference.config import LlamaCppConfig
-from runtime.inference.llama_cpp import LlamaCppCompletionBackend
+from runtime.inference.llama_cpp import LlamaCppCompletionBackend, _native_failure
 from runtime.models import InferenceRequest
 
 
@@ -110,6 +115,20 @@ class LlamaCppBackendTests(unittest.TestCase):
             backend.start()
 
         self.assertIn("SHA-256", caught.exception.message)
+
+    def test_native_failures_are_classified_for_state_mapping(self) -> None:
+        self.assertIsInstance(
+            _native_failure(1, "CUDA_ERROR_OUT_OF_MEMORY"),
+            ModelOutOfMemoryError,
+        )
+        self.assertIsInstance(
+            _native_failure(1, "requested context is too long"),
+            ContextOverflowError,
+        )
+        self.assertIsInstance(
+            _native_failure(1, "unknown native failure"),
+            ComponentOperationError,
+        )
 
 
 if __name__ == "__main__":

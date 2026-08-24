@@ -17,7 +17,9 @@ from typing import BinaryIO
 from ..cancellation import CancellationToken
 from ..errors import (
     ComponentOperationError,
+    ContextOverflowError,
     InferenceCancelledError,
+    ModelOutOfMemoryError,
     RuntimeLifecycleError,
     ValidationError,
 )
@@ -105,6 +107,36 @@ def _terminate(process: "subprocess.Popen[bytes]") -> None:
         process.wait(timeout=2)
 
 
+def _native_failure(exit_code: int, stderr_text: str) -> ComponentOperationError:
+    details = {
+        "exit_code": exit_code,
+        "stderr_tail": "\n".join(stderr_text.splitlines()[-12:]).strip(),
+    }
+    normalized = stderr_text.lower()
+    if any(
+        marker in normalized
+        for marker in (
+            "out of memory",
+            "cuda_error_out_of_memory",
+            "failed to allocate",
+        )
+    ):
+        return ModelOutOfMemoryError(
+            "llama.cpp could not allocate model memory",
+            details=details,
+        )
+    if "context" in normalized and any(
+        marker in normalized
+        for marker in ("overflow", "exceeds", "too long", "too large")
+    ):
+        return ContextOverflowError(
+            "llama.cpp rejected the request context",
+            details=details,
+        )
+    return ComponentOperationError(
+        "llama.cpp inference failed",
+        details=details,
+    )
 class LlamaCppCompletionBackend:
     """Runs one pinned ``llama-completion`` process per inference request."""
 
@@ -164,10 +196,14 @@ class LlamaCppCompletionBackend:
         self._version = (completed.stdout or completed.stderr).strip()
         self._started = True
 
-    def generate(self, request: InferenceRequest) -> InferenceResult:
+    def generate(
+        self,
+        request: InferenceRequest,
+        cancellation: CancellationToken | None = None,
+    ) -> InferenceResult:
         parts: list[str] = []
         final_metrics = None
-        for chunk in self.stream(request):
+        for chunk in self.stream(request, cancellation):
             if chunk.text:
                 parts.append(chunk.text)
             if chunk.is_final:
@@ -182,6 +218,9 @@ class LlamaCppCompletionBackend:
                 "llama_cpp_release": self._config.release,
                 "llama_cpp_commit": self._config.commit,
                 "model_revision": self._config.model_revision,
+                "inference_profile": (
+                    request.profile.as_dict() if request.profile is not None else None
+                ),
             },
             metrics=final_metrics,
         )
@@ -319,13 +358,7 @@ class LlamaCppCompletionBackend:
                     details={"task_id": request.task_id},
                 )
             if exit_code != 0:
-                raise ComponentOperationError(
-                    "llama.cpp inference failed",
-                    details={
-                        "exit_code": exit_code,
-                        "stderr_tail": "".join(stderr_lines[-12:]).strip(),
-                    },
-                )
+                raise _native_failure(exit_code, "".join(stderr_lines))
 
             cleaned_tail = _END_MARKER_RE.sub("", tail).rstrip()
             if cleaned_tail:
@@ -371,7 +404,15 @@ class LlamaCppCompletionBackend:
             request.max_generated_tokens,
             self._config.max_generated_tokens,
         )
-        return [
+        profile = request.profile
+        context_size = profile.context_size if profile else self._config.context_size
+        batch_size = profile.batch_size if profile else self._config.batch_size
+        threads = profile.threads if profile else self._config.threads
+        gpu_layers = profile.gpu_layers if profile else self._config.gpu_layers
+        flash_attention = (
+            profile.flash_attention if profile else self._config.flash_attention
+        )
+        command = [
             str(self._config.executable_path),
             *self._config.launcher_args,
             "--model",
@@ -381,15 +422,15 @@ class LlamaCppCompletionBackend:
             "--predict",
             str(token_limit),
             "--ctx-size",
-            str(self._config.context_size),
+            str(context_size),
             "--batch-size",
-            str(self._config.batch_size),
+            str(batch_size),
             "--threads",
-            str(self._config.threads),
+            str(threads),
             "--gpu-layers",
-            str(self._config.gpu_layers),
+            str(gpu_layers),
             "--flash-attn",
-            self._config.flash_attention,
+            flash_attention,
             "--temperature",
             str(self._config.temperature),
             "--seed",
@@ -407,6 +448,18 @@ class LlamaCppCompletionBackend:
             "--verbosity",
             "3",
         ]
+        if profile is not None:
+            command.extend(
+                [
+                    "--device",
+                    profile.devices,
+                    "--ubatch-size",
+                    str(profile.ubatch_size),
+                    "--threads-batch",
+                    str(profile.threads_batch),
+                ]
+            )
+        return command
 
     @staticmethod
     def _validate_artifact(

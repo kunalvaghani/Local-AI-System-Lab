@@ -44,6 +44,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         started = True
         _emit("runtime.started", status=runtime.status.value)
 
+        runtime.register_agent(agent)
+
         task = runtime.create_task(agent=agent, objective=args.objective)
         _emit("task.created", task_id=task.task_id)
 

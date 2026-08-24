@@ -1,0 +1,268 @@
+{
+  "captured_at_utc": "2026-08-24T12:40:57.752469+00:00",
+  "decisions": {
+    "interactive_explanation": {
+      "evidence": {
+        "budget": {
+          "max_generated_tokens": 64,
+          "max_inference_calls": 1,
+          "max_ram_mib": 2048.0,
+          "max_vram_mib": 1536.0,
+          "total_time_ms": 30000
+        },
+        "candidates": [
+          {
+            "accepted": true,
+            "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+            "reasons": [
+              "quality rank 7 weighted for medium complexity",
+              "interactive latency class contributed 15 points",
+              "measured TTFT fits the requested latency window"
+            ],
+            "score": 110.932
+          },
+          {
+            "accepted": true,
+            "model_id": "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+            "reasons": [
+              "quality rank 5 weighted for medium complexity",
+              "interactive latency class contributed 75 points",
+              "no historical benchmark is claimed"
+            ],
+            "score": 135.04
+          }
+        ],
+        "complexity": "medium",
+        "context_length": 128,
+        "expected_output_tokens": 64,
+        "hardware": {
+          "captured_at_utc": "2026-08-24T12:40:57.751467+00:00",
+          "cpu": {
+            "confidence": "high",
+            "logical_processors": 16,
+            "model": "AMD Ryzen 7 5800H with Radeon Graphics",
+            "physical_cores": null,
+            "source": "Windows registry + os.cpu_count"
+          },
+          "gpu": {
+            "compute_capability": "8.6",
+            "confidence": "high",
+            "driver_version": "610.74",
+            "free_vram_mib": 3962.0,
+            "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+            "source": "nvidia-smi live query",
+            "temperature_c": 55.0,
+            "total_vram_mib": 4096.0,
+            "used_vram_mib": 0.0,
+            "utilization_percent": 0.0
+          },
+          "profile_ms": 89.261,
+          "ram": {
+            "available_mib": 17389.543,
+            "confidence": "high",
+            "source": "GlobalMemoryStatusEx",
+            "total_mib": 32097.656,
+            "used_mib": 14708.113
+          },
+          "warnings": [
+            "physical core count unavailable; logical count is not relabeled"
+          ]
+        },
+        "latency_requirement_ms": 30000,
+        "queue_depth": 0,
+        "selected_model": {
+          "artifact_available": true,
+          "available": true,
+          "backend_configured": true,
+          "benchmark": null,
+          "capabilities": [
+            "explanation",
+            "general",
+            "summarization"
+          ],
+          "display_name": "Qwen2.5 0.5B Instruct Q4_K_M",
+          "latency_class": "fast",
+          "max_context_tokens": 2048,
+          "max_output_tokens": 64,
+          "minimum_ram_mib": 700.0,
+          "minimum_vram_mib": 0.0,
+          "model_id": "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+          "parameter_count_billions": 0.49,
+          "path": "D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\models\\qwen2.5-1.5b-instruct-q4_k_m\\qwen2.5-1.5b-instruct-q4_k_m.gguf",
+          "purpose": "Optional compact candidate for low-complexity and latency-sensitive work; not installed or benchmarked in this repository.",
+          "quality_rank": 5,
+          "quantization": "Q4_K_M"
+        },
+        "task_type": "explanation",
+        "workload": "interactive"
+      },
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+      "reason": "selected Qwen/Qwen2.5-0.5B-Instruct-GGUF for interactive explanation/medium; score 135.04 was highest among safe available candidates"
+    },
+    "standard_risk_analysis": {
+      "evidence": {
+        "budget": {
+          "max_generated_tokens": 64,
+          "max_inference_calls": 1,
+          "max_ram_mib": 2200.0,
+          "max_vram_mib": 1536.0,
+          "total_time_ms": 30000
+        },
+        "candidates": [
+          {
+            "accepted": true,
+            "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+            "reasons": [
+              "quality rank 7 weighted for high complexity",
+              "standard workload retained balanced quality weighting",
+              "measured TTFT fits the requested latency window"
+            ],
+            "score": 181.092
+          },
+          {
+            "accepted": false,
+            "model_id": "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+            "reasons": [
+              "capability risk_analysis is not declared"
+            ],
+            "score": null
+          }
+        ],
+        "complexity": "high",
+        "context_length": 128,
+        "expected_output_tokens": 64,
+        "hardware": {
+          "captured_at_utc": "2026-08-24T12:40:57.751467+00:00",
+          "cpu": {
+            "confidence": "high",
+            "logical_processors": 16,
+            "model": "AMD Ryzen 7 5800H with Radeon Graphics",
+            "physical_cores": null,
+            "source": "Windows registry + os.cpu_count"
+          },
+          "gpu": {
+            "compute_capability": "8.6",
+            "confidence": "high",
+            "driver_version": "610.74",
+            "free_vram_mib": 3962.0,
+            "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+            "source": "nvidia-smi live query",
+            "temperature_c": 55.0,
+            "total_vram_mib": 4096.0,
+            "used_vram_mib": 0.0,
+            "utilization_percent": 0.0
+          },
+          "profile_ms": 89.261,
+          "ram": {
+            "available_mib": 17389.543,
+            "confidence": "high",
+            "source": "GlobalMemoryStatusEx",
+            "total_mib": 32097.656,
+            "used_mib": 14708.113
+          },
+          "warnings": [
+            "physical core count unavailable; logical count is not relabeled"
+          ]
+        },
+        "latency_requirement_ms": 30000,
+        "queue_depth": 0,
+        "selected_model": {
+          "artifact_available": true,
+          "available": true,
+          "backend_configured": true,
+          "benchmark": {
+            "confidence": "one-run measured baseline",
+            "measured_at_utc": "2026-08-24T12:23:55Z",
+            "profile_id": "performance",
+            "source": "benchmarks/results/stage8-profile-comparison-20260824T122355Z.json",
+            "tokens_per_second": 100.92,
+            "ttft_ms": 1655.1855
+          },
+          "capabilities": [
+            "code",
+            "explanation",
+            "general",
+            "risk_analysis",
+            "summarization"
+          ],
+          "display_name": "Qwen2.5 1.5B Instruct Q4_K_M",
+          "latency_class": "balanced",
+          "max_context_tokens": 2048,
+          "max_output_tokens": 64,
+          "minimum_ram_mib": 1420.91,
+          "minimum_vram_mib": 0.0,
+          "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+          "parameter_count_billions": 1.54,
+          "path": "D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\models\\qwen2.5-1.5b-instruct-q4_k_m\\qwen2.5-1.5b-instruct-q4_k_m.gguf",
+          "purpose": "Installed general, explanation, risk-analysis, and code-capable local baseline.",
+          "quality_rank": 7,
+          "quantization": "Q4_K_M"
+        },
+        "task_type": "risk_analysis",
+        "workload": "standard"
+      },
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "reason": "selected Qwen/Qwen2.5-1.5B-Instruct-GGUF for standard risk_analysis/high; score 181.09 was highest among safe available candidates"
+    }
+  },
+  "different_models_selected": true,
+  "live_registry": [
+    {
+      "artifact_available": true,
+      "available": true,
+      "backend_configured": true,
+      "benchmark": {
+        "confidence": "one-run measured baseline",
+        "measured_at_utc": "2026-08-24T12:23:55Z",
+        "profile_id": "performance",
+        "source": "benchmarks/results/stage8-profile-comparison-20260824T122355Z.json",
+        "tokens_per_second": 100.92,
+        "ttft_ms": 1655.1855
+      },
+      "capabilities": [
+        "code",
+        "explanation",
+        "general",
+        "risk_analysis",
+        "summarization"
+      ],
+      "display_name": "Qwen2.5 1.5B Instruct Q4_K_M",
+      "latency_class": "balanced",
+      "max_context_tokens": 2048,
+      "max_output_tokens": 64,
+      "minimum_ram_mib": 1420.91,
+      "minimum_vram_mib": 0.0,
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "parameter_count_billions": 1.54,
+      "path": "D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\models\\qwen2.5-1.5b-instruct-q4_k_m\\qwen2.5-1.5b-instruct-q4_k_m.gguf",
+      "purpose": "Installed general, explanation, risk-analysis, and code-capable local baseline.",
+      "quality_rank": 7,
+      "quantization": "Q4_K_M"
+    },
+    {
+      "artifact_available": false,
+      "available": false,
+      "backend_configured": false,
+      "benchmark": null,
+      "capabilities": [
+        "explanation",
+        "general",
+        "summarization"
+      ],
+      "display_name": "Qwen2.5 0.5B Instruct Q4_K_M",
+      "latency_class": "fast",
+      "max_context_tokens": 2048,
+      "max_output_tokens": 64,
+      "minimum_ram_mib": 700.0,
+      "minimum_vram_mib": 0.0,
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+      "parameter_count_billions": 0.49,
+      "path": "D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\models\\qwen2.5-0.5b-instruct-q4_k_m\\qwen2.5-0.5b-instruct-q4_k_m.gguf",
+      "purpose": "Optional compact candidate for low-complexity and latency-sensitive work; not installed or benchmarked in this repository.",
+      "quality_rank": 5,
+      "quantization": "Q4_K_M"
+    }
+  ],
+  "mode": "controlled router evaluation; compact model availability is simulated and no compact inference is claimed",
+  "stage": 9
+}

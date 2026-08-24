@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "model": {
+    "id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "layer_count": 28
+  },
+  "profiles": [
+    {
+      "id": "performance",
+      "purpose": "Preserve the measured all-GPU Stage 7 baseline when current memory safely fits.",
+      "context_size": 2048,
+      "batch_size": 256,
+      "ubatch_size": 256,
+      "threads": 8,
+      "threads_batch": 8,
+      "gpu_layers": 28,
+      "flash_attention": "on",
+      "devices": "CUDA0"
+    },
+    {
+      "id": "balanced",
+      "purpose": "Reduce context, batch, and GPU residency while retaining most layers on the GPU.",
+      "context_size": 1536,
+      "batch_size": 192,
+      "ubatch_size": 192,
+      "threads": 8,
+      "threads_batch": 8,
+      "gpu_layers": 20,
+      "flash_attention": "on",
+      "devices": "CUDA0"
+    },
+    {
+      "id": "constrained",
+      "purpose": "Trade latency for substantially lower VRAM demand under device pressure.",
+      "context_size": 1024,
+      "batch_size": 128,
+      "ubatch_size": 128,
+      "threads": 6,
+      "threads_batch": 6,
+      "gpu_layers": 8,
+      "flash_attention": "on",
+      "devices": "CUDA0"
+    },
+    {
+      "id": "cpu_safe",
+      "purpose": "Run without GPU offload when GPU telemetry or usable VRAM is unavailable.",
+      "context_size": 1024,
+      "batch_size": 64,
+      "ubatch_size": 64,
+      "threads": 8,
+      "threads_batch": 8,
+      "gpu_layers": 0,
+      "flash_attention": "off",
+      "devices": "none"
+    }
+  ],
+  "workload_order": {
+    "interactive": ["performance", "balanced", "constrained", "cpu_safe"],
+    "standard": ["performance", "balanced", "constrained", "cpu_safe"],
+    "background": ["balanced", "constrained", "cpu_safe", "performance"]
+  },
+  "selection_notes": [
+    "Profile values are experimental hypotheses, not claimed optima.",
+    "Performance preserves the exact measured Stage 7 configuration.",
+    "Balanced uses roughly seventy percent GPU-layer residency and seventy-five percent context.",
+    "Constrained uses fewer than one-third GPU layers and half the baseline context.",
+    "Every selected profile is re-estimated against one fresh hardware snapshot before scheduling.",
+    "CPU-safe explicitly uses --device none because zero GPU layers alone still initialized CUDA memory."
+  ]
+}

@@ -1,4 +1,4 @@
-"""Typed data exchanged across the Stage 1 and Stage 2 component interfaces."""
+"""Typed data exchanged across core component interfaces through Stage 11."""
 
 from __future__ import annotations
 
@@ -20,12 +20,66 @@ class RuntimeStatus(str, Enum):
     RUNNING = "running"
 
 
+class TaskState(str, Enum):
+    """Inspectable Stage 4 execution and terminal failure states."""
+
+    CREATED = "created"
+    PLANNING = "planning"
+    RECOVERING = "recovering"
+    WAITING_FOR_TOOL = "waiting_for_tool"
+    EXECUTING = "executing"
+    VALIDATING = "validating"
+    COMPLETED = "completed"
+    MODEL_FAILED = "model_failed"
+    TOOL_FAILED = "tool_failed"
+    TIMEOUT = "timeout"
+    INVALID_OUTPUT = "invalid_output"
+    OUT_OF_MEMORY = "out_of_memory"
+    SECURITY_BLOCKED = "security_blocked"
+    CONTEXT_OVERFLOW = "context_overflow"
+    RESOURCE_BLOCKED = "resource_blocked"
+    CANCELLED = "cancelled"
+
+
+@dataclass(frozen=True, slots=True)
+class StateTransition:
+    """One validated state change in a task's ordered execution history."""
+
+    sequence: int
+    from_state: TaskState | None
+    to_state: TaskState
+    reason: str
+    recorded_at: datetime = field(default_factory=utc_now)
+
+
+@dataclass(frozen=True, slots=True)
+class ToolCapabilityMetadata:
+    """A narrow agent grant for one registered tool and its permissions."""
+
+    name: str
+    description: str
+    permissions: frozenset[str] = field(default_factory=frozenset)
+
+    def __post_init__(self) -> None:
+        if not self.name.strip():
+            raise ValidationError("tool capability name must not be empty")
+        if not self.description.strip():
+            raise ValidationError("tool capability description must not be empty")
+        if any(
+            not isinstance(permission, str) or not permission.strip()
+            for permission in self.permissions
+        ):
+            raise ValidationError("tool capability permissions must not be empty")
+
+
 @dataclass(frozen=True, slots=True)
 class Agent:
     agent_id: str
     name: str
     objective: str
     capabilities: frozenset[str] = field(default_factory=frozenset)
+    system_prompt: str = "You are a concise local assistant."
+    tool_capabilities: tuple[ToolCapabilityMetadata, ...] = field(default_factory=tuple)
 
     def __post_init__(self) -> None:
         if not self.agent_id.strip():
@@ -34,6 +88,11 @@ class Agent:
             raise ValidationError("agent name must not be empty")
         if not self.objective.strip():
             raise ValidationError("agent objective must not be empty")
+        if not self.system_prompt.strip():
+            raise ValidationError("agent system_prompt must not be empty")
+        names = [capability.name for capability in self.tool_capabilities]
+        if len(names) != len(set(names)):
+            raise ValidationError("agent tool capability names must be unique")
 
 
 @dataclass(frozen=True, slots=True)
@@ -78,6 +137,59 @@ class InferenceRequest:
     model_id: str
     max_generated_tokens: int
     system_prompt: str | None = None
+    profile: "InferenceProfile | None" = None
+
+
+@dataclass(frozen=True, slots=True)
+class InferenceProfile:
+    """One explicit, inspectable llama.cpp resource configuration."""
+
+    profile_id: str
+    purpose: str
+    context_size: int
+    batch_size: int
+    ubatch_size: int
+    threads: int
+    threads_batch: int
+    gpu_layers: int
+    flash_attention: str
+    devices: str = "auto"
+
+    def __post_init__(self) -> None:
+        positive = {
+            "context_size": self.context_size,
+            "batch_size": self.batch_size,
+            "ubatch_size": self.ubatch_size,
+            "threads": self.threads,
+            "threads_batch": self.threads_batch,
+        }
+        if not self.profile_id.strip() or not self.purpose.strip():
+            raise ValidationError("inference profile identity and purpose are required")
+        for name, value in positive.items():
+            if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+                raise ValidationError(
+                    f"inference profile {name} must be a positive integer",
+                    details={"profile_id": self.profile_id, "value": value},
+                )
+        if self.ubatch_size > self.batch_size:
+            raise ValidationError(
+                "inference profile ubatch_size cannot exceed batch_size",
+                details={"profile_id": self.profile_id},
+            )
+        if isinstance(self.gpu_layers, bool) or not isinstance(self.gpu_layers, int) or self.gpu_layers < 0:
+            raise ValidationError("inference profile gpu_layers must be non-negative")
+        if self.flash_attention not in {"on", "off", "auto"}:
+            raise ValidationError(
+                "inference profile flash_attention must be on, off, or auto"
+            )
+        if not self.devices.strip():
+            raise ValidationError("inference profile devices must not be empty")
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            field_name: getattr(self, field_name)
+            for field_name in self.__dataclass_fields__
+        }
 
 
 @dataclass(frozen=True, slots=True)
@@ -131,6 +243,14 @@ class InferenceResult:
 class RouteDecision:
     model_id: str
     reason: str
+    evidence: dict[str, Any] = field(default_factory=dict)
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "model_id": self.model_id,
+            "reason": self.reason,
+            "evidence": dict(self.evidence),
+        }
 
 
 @dataclass(frozen=True, slots=True)
@@ -156,6 +276,18 @@ class MetricEvent:
 
 
 @dataclass(frozen=True, slots=True)
+class LifecycleEvent:
+    """Inspectable runtime event, separate from performance telemetry."""
+
+    name: str
+    recorded_at: datetime = field(default_factory=utc_now)
+    agent_id: str | None = None
+    task_id: str | None = None
+    state: TaskState | None = None
+    data: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass(frozen=True, slots=True)
 class TaskResult:
     task_id: str
     output: str
@@ -163,3 +295,7 @@ class TaskResult:
     backend_name: str
     metadata: dict[str, Any] = field(default_factory=dict)
     inference_metrics: InferenceMetrics | None = None
+    agent_id: str | None = None
+    objective: str | None = None
+    final_state: TaskState | None = None
+    state_history: tuple[StateTransition, ...] = field(default_factory=tuple)

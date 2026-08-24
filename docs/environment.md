@@ -69,6 +69,24 @@ working set.
 - Stage 2 measures short cold-process inference only; it does not claim sustained clocks or thermal behavior.
 - Model caches outside the repository were not inventoried because Stage 0 does not select or download a model.
 
+## Stage 7 live admission snapshot
+
+Captured 2026-08-24 at 17:15 Asia/Calcutta by `runtime.hardware_cli`:
+
+| Item | Observed value |
+| --- | --- |
+| CPU | AMD Ryzen 7 5800H; 16 logical processors; physical cores unavailable to this process |
+| RAM | 32,097.656 MiB total; 16,618.473 MiB available |
+| GPU | NVIDIA GeForce RTX 3050 Laptop GPU; driver 610.74; compute 8.6 |
+| GPU pressure | 4,096 MiB total; 3,962 MiB free; 0% utilization; 57 C |
+| Admission | `ACCEPT`, medium estimator confidence |
+| Profile boundary | 72.267 ms |
+
+The snapshot is transient. The profiler obtains RAM from
+`GlobalMemoryStatusEx`, CPU identity from the Windows registry, logical count
+from Python, and GPU data from a live `nvidia-smi` query. Each source is present
+in machine-readable output.
+
 ## Reproduce
 
 ```powershell

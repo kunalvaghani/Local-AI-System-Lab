@@ -1,6 +1,7 @@
 import unittest
 
 from runtime.engine import AgentRuntime, RuntimeComponents
+from runtime.cancellation import CancellationToken
 from runtime.errors import (
     PolicyDeniedError,
     RuntimeLifecycleError,
@@ -15,6 +16,7 @@ from runtime.models import (
     PolicyDecision,
     RuntimeStatus,
     Task,
+    TaskState,
 )
 
 
@@ -37,7 +39,11 @@ class ExplodingBackend:
     def start(self) -> None:
         return None
 
-    def generate(self, request: InferenceRequest) -> InferenceResult:
+    def generate(
+        self,
+        request: InferenceRequest,
+        cancellation: CancellationToken | None = None,
+    ) -> InferenceResult:
         raise OSError("simulated component failure")
 
     def shutdown(self) -> None:
@@ -54,12 +60,15 @@ def replace_components(
     return AgentRuntime(
         config=runtime.config,
         components=RuntimeComponents(
+            agents=current.agents,
             inference=inference or current.inference,  # type: ignore[arg-type]
             scheduler=current.scheduler,
             router=current.router,
             policy=policy or current.policy,  # type: ignore[arg-type]
             checkpoints=current.checkpoints,
             metrics=current.metrics,
+            events=current.events,
+            state_machine=current.state_machine,
         ),
     )
 
@@ -70,6 +79,7 @@ class AgentRuntimeLifecycleTests(unittest.TestCase):
         agent = demo_agent()
 
         runtime.start()
+        runtime.register_agent(agent)
         task = runtime.create_task(agent=agent, objective="Run one task")
         result = runtime.execute_task(task=task, agent=agent)
         runtime.shutdown()
@@ -86,9 +96,20 @@ class AgentRuntimeLifecycleTests(unittest.TestCase):
             event_names,
             [
                 "runtime.started",
+                "agent.registered",
                 "task.created",
+                "task.state.changed",
+                "task.state.changed",
                 "policy.evaluated",
                 "route.selected",
+                "task.state.changed",
+                "scheduler.request.requested",
+                "model.invocation.started",
+                "model.invocation.completed",
+                "scheduler.request.completed",
+                "task.state.changed",
+                "output.validation.completed",
+                "task.state.changed",
                 "task.completed",
                 "runtime.stopped",
             ],
@@ -99,13 +120,18 @@ class AgentRuntimeLifecycleTests(unittest.TestCase):
             checkpoint.phase
             for checkpoint in checkpoint_store.for_task(task.task_id)  # type: ignore[attr-defined]
         ]
-        self.assertEqual(phases, ["created", "executing", "completed"])
+        self.assertEqual(
+            phases,
+            ["created", "planning", "executing", "validating", "completed"],
+        )
 
     def test_create_task_requires_started_runtime(self) -> None:
         runtime = build_stage1_runtime()
+        agent = demo_agent()
+        runtime.register_agent(agent)
 
         with self.assertRaises(RuntimeLifecycleError):
-            runtime.create_task(agent=demo_agent(), objective="Not yet")
+            runtime.create_task(agent=agent, objective="Not yet")
 
     def test_start_rejects_double_start(self) -> None:
         runtime = build_stage1_runtime()
@@ -135,6 +161,8 @@ class AgentRuntimeLifecycleTests(unittest.TestCase):
         other = demo_agent("other")
         runtime.start()
         self.addCleanup(runtime.shutdown)
+        runtime.register_agent(owner)
+        runtime.register_agent(other)
         task = runtime.create_task(agent=owner, objective="Owned task")
 
         with self.assertRaises(ValidationError):
@@ -145,13 +173,15 @@ class AgentRuntimeLifecycleTests(unittest.TestCase):
         agent = demo_agent()
         runtime.start()
         self.addCleanup(runtime.shutdown)
+        runtime.register_agent(agent)
         task = runtime.create_task(agent=agent, objective="Denied task")
 
         with self.assertRaises(PolicyDeniedError) as caught:
             runtime.execute_task(task=task, agent=agent)
 
         self.assertEqual(caught.exception.as_dict()["code"], "policy_denied")
-        self.assertEqual(runtime.components.checkpoints.latest(task.task_id).phase, "denied")  # type: ignore[union-attr]
+        self.assertEqual(runtime.components.checkpoints.latest(task.task_id).phase, "security_blocked")  # type: ignore[union-attr]
+        self.assertEqual(runtime.task_state(task.task_id), TaskState.SECURITY_BLOCKED)
 
     def test_unexpected_component_failure_is_wrapped_and_recorded(self) -> None:
         runtime = replace_components(
@@ -161,14 +191,16 @@ class AgentRuntimeLifecycleTests(unittest.TestCase):
         agent = demo_agent()
         runtime.start()
         self.addCleanup(runtime.shutdown)
+        runtime.register_agent(agent)
         task = runtime.create_task(agent=agent, objective="Fail predictably")
 
         with self.assertRaises(TaskExecutionError) as caught:
             runtime.execute_task(task=task, agent=agent)
 
         self.assertEqual(caught.exception.details["cause_type"], "OSError")
-        self.assertEqual(runtime.components.checkpoints.latest(task.task_id).phase, "failed")  # type: ignore[union-attr]
+        self.assertEqual(runtime.components.checkpoints.latest(task.task_id).phase, "model_failed")  # type: ignore[union-attr]
         self.assertEqual(runtime.components.metrics.snapshot()[-1].name, "task.failed")
+        self.assertEqual(runtime.task_state(task.task_id), TaskState.MODEL_FAILED)
 
 
 if __name__ == "__main__":

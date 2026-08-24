@@ -1,0 +1,490 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-08-24T12:23:55.630971+00:00",
+  "workload": {
+    "prompt": "In exactly two short sentences, explain one benefit and one limitation of running a language model locally.",
+    "max_generated_tokens": 32,
+    "runs_per_profile": 1
+  },
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+  "backend_release": "b10566",
+  "profiles": [
+    "performance",
+    "balanced",
+    "constrained",
+    "cpu_safe"
+  ],
+  "records": [
+    {
+      "profile_id": "performance",
+      "iteration": 1,
+      "profile": {
+        "profile_id": "performance",
+        "purpose": "Preserve the measured all-GPU Stage 7 baseline when current memory safely fits.",
+        "context_size": 2048,
+        "batch_size": 256,
+        "ubatch_size": 256,
+        "threads": 8,
+        "threads_batch": 8,
+        "gpu_layers": 28,
+        "flash_attention": "on",
+        "devices": "CUDA0"
+      },
+      "admission": {
+        "action": "accept",
+        "permitted": true,
+        "reason": "predicted host and GPU memory fit with configured safety reserves",
+        "estimate": {
+          "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+          "context_tokens": 2048,
+          "gpu_layers": 28,
+          "predicted_host_ram_mib": 1461.87,
+          "predicted_vram_mib": 1236.116,
+          "components": {
+            "host_weight_mib": 1331.95,
+            "host_context_mib": 81.92,
+            "host_fixed_mib": 48.0,
+            "vram_weight_mib": 1172.116,
+            "vram_context_mib": 64.0,
+            "vram_fixed_mib": 0.0
+          },
+          "confidence": "medium",
+          "assumptions": [
+            "coefficients are calibrated to one Qwen Q4_K_M llama.cpp run",
+            "host estimate remains conservative when GPU offload changes",
+            "driver/runtime fragmentation and concurrent allocations are not predictable"
+          ]
+        },
+        "host_reserve_mib": 2048.0,
+        "vram_reserve_mib": 512.0,
+        "available_ram_mib": 16607.281,
+        "free_vram_mib": 3962.0,
+        "recommended_context_tokens": null,
+        "recommended_gpu_layers": null,
+        "fallback_model_id": null,
+        "confidence": "medium",
+        "constraints": [
+          "physical core count unavailable; logical count is not relabeled"
+        ]
+      },
+      "hardware_before": {
+        "captured_at_utc": "2026-08-24T12:23:57.084202+00:00",
+        "profile_ms": 77.17,
+        "cpu": {
+          "model": "AMD Ryzen 7 5800H with Radeon Graphics",
+          "logical_processors": 16,
+          "physical_cores": null,
+          "source": "Windows registry + os.cpu_count",
+          "confidence": "high"
+        },
+        "ram": {
+          "total_mib": 32097.656,
+          "available_mib": 16607.281,
+          "used_mib": 15490.375,
+          "source": "GlobalMemoryStatusEx",
+          "confidence": "high"
+        },
+        "gpu": {
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "driver_version": "610.74",
+          "total_vram_mib": 4096.0,
+          "used_vram_mib": 0.0,
+          "free_vram_mib": 3962.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 56.0,
+          "compute_capability": "8.6",
+          "source": "nvidia-smi live query",
+          "confidence": "high"
+        },
+        "warnings": [
+          "physical core count unavailable; logical count is not relabeled"
+        ]
+      },
+      "prompt": "In exactly two short sentences, explain one benefit and one limitation of running a language model locally.",
+      "output": "Benefit: Running a language model locally allows for fine-tuning and personalized training tailored to specific user needs and data sets. Limitation: Local deployment can be",
+      "metrics": {
+        "model_load_ms": 849.7119999999999,
+        "startup_to_ready_ms": 1585.6822000023385,
+        "ttft_ms": 1655.1854999997886,
+        "prompt_eval_ms": 68.88,
+        "prompt_tokens": 46,
+        "prompt_tokens_per_second": 667.8,
+        "generation_ms": 307.17,
+        "generated_token_runs": 31,
+        "tokens_per_second": 100.92,
+        "internal_load_ms": 69.26,
+        "total_ms": 2467.875100002857,
+        "peak_process_ram_mib": 1343.35546875,
+        "baseline_vram_used_mib": 0.0,
+        "peak_vram_used_mib": 1189.0,
+        "vram_delta_mib": 1189.0
+      }
+    },
+    {
+      "profile_id": "balanced",
+      "iteration": 1,
+      "profile": {
+        "profile_id": "balanced",
+        "purpose": "Reduce context, batch, and GPU residency while retaining most layers on the GPU.",
+        "context_size": 1536,
+        "batch_size": 192,
+        "ubatch_size": 192,
+        "threads": 8,
+        "threads_batch": 8,
+        "gpu_layers": 20,
+        "flash_attention": "on",
+        "devices": "CUDA0"
+      },
+      "admission": {
+        "action": "accept",
+        "permitted": true,
+        "reason": "predicted host and GPU memory fit with configured safety reserves",
+        "estimate": {
+          "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+          "context_tokens": 1536,
+          "gpu_layers": 20,
+          "predicted_host_ram_mib": 1441.39,
+          "predicted_vram_mib": 885.226,
+          "components": {
+            "host_weight_mib": 1331.95,
+            "host_context_mib": 61.44,
+            "host_fixed_mib": 48.0,
+            "vram_weight_mib": 837.226,
+            "vram_context_mib": 48.0,
+            "vram_fixed_mib": 0.0
+          },
+          "confidence": "low",
+          "assumptions": [
+            "coefficients are calibrated to one Qwen Q4_K_M llama.cpp run",
+            "host estimate remains conservative when GPU offload changes",
+            "driver/runtime fragmentation and concurrent allocations are not predictable"
+          ]
+        },
+        "host_reserve_mib": 2048.0,
+        "vram_reserve_mib": 512.0,
+        "available_ram_mib": 16713.184,
+        "free_vram_mib": 3962.0,
+        "recommended_context_tokens": null,
+        "recommended_gpu_layers": null,
+        "fallback_model_id": null,
+        "confidence": "low",
+        "constraints": [
+          "physical core count unavailable; logical count is not relabeled"
+        ]
+      },
+      "hardware_before": {
+        "captured_at_utc": "2026-08-24T12:23:59.728296+00:00",
+        "profile_ms": 68.992,
+        "cpu": {
+          "model": "AMD Ryzen 7 5800H with Radeon Graphics",
+          "logical_processors": 16,
+          "physical_cores": null,
+          "source": "Windows registry + os.cpu_count",
+          "confidence": "high"
+        },
+        "ram": {
+          "total_mib": 32097.656,
+          "available_mib": 16713.184,
+          "used_mib": 15384.473,
+          "source": "GlobalMemoryStatusEx",
+          "confidence": "high"
+        },
+        "gpu": {
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "driver_version": "610.74",
+          "total_vram_mib": 4096.0,
+          "used_vram_mib": 0.0,
+          "free_vram_mib": 3962.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 58.0,
+          "compute_capability": "8.6",
+          "source": "nvidia-smi live query",
+          "confidence": "high"
+        },
+        "warnings": [
+          "physical core count unavailable; logical count is not relabeled"
+        ]
+      },
+      "prompt": "In exactly two short sentences, explain one benefit and one limitation of running a language model locally.",
+      "output": "Benefit: Running a language model locally allows for fine-tuning and customization to specific needs, ensuring the model is tailored to the user's data and requirements.",
+      "metrics": {
+        "model_load_ms": 715.3609999999999,
+        "startup_to_ready_ms": 1316.374400001223,
+        "ttft_ms": 1469.0249000013864,
+        "prompt_eval_ms": 152.02,
+        "prompt_tokens": 46,
+        "prompt_tokens_per_second": 302.58,
+        "generation_ms": 563.94,
+        "generated_token_runs": 31,
+        "tokens_per_second": 54.97,
+        "internal_load_ms": 152.32,
+        "total_ms": 2448.3498000008694,
+        "peak_process_ram_mib": 1351.40625,
+        "baseline_vram_used_mib": 0.0,
+        "peak_vram_used_mib": 909.0,
+        "vram_delta_mib": 909.0
+      }
+    },
+    {
+      "profile_id": "constrained",
+      "iteration": 1,
+      "profile": {
+        "profile_id": "constrained",
+        "purpose": "Trade latency for substantially lower VRAM demand under device pressure.",
+        "context_size": 1024,
+        "batch_size": 128,
+        "ubatch_size": 128,
+        "threads": 6,
+        "threads_batch": 6,
+        "gpu_layers": 8,
+        "flash_attention": "on",
+        "devices": "CUDA0"
+      },
+      "admission": {
+        "action": "accept",
+        "permitted": true,
+        "reason": "predicted host and GPU memory fit with configured safety reserves",
+        "estimate": {
+          "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+          "context_tokens": 1024,
+          "gpu_layers": 8,
+          "predicted_host_ram_mib": 1420.91,
+          "predicted_vram_mib": 366.89,
+          "components": {
+            "host_weight_mib": 1331.95,
+            "host_context_mib": 40.96,
+            "host_fixed_mib": 48.0,
+            "vram_weight_mib": 334.89,
+            "vram_context_mib": 32.0,
+            "vram_fixed_mib": 0.0
+          },
+          "confidence": "low",
+          "assumptions": [
+            "coefficients are calibrated to one Qwen Q4_K_M llama.cpp run",
+            "host estimate remains conservative when GPU offload changes",
+            "driver/runtime fragmentation and concurrent allocations are not predictable"
+          ]
+        },
+        "host_reserve_mib": 2048.0,
+        "vram_reserve_mib": 512.0,
+        "available_ram_mib": 16509.336,
+        "free_vram_mib": 3962.0,
+        "recommended_context_tokens": null,
+        "recommended_gpu_layers": null,
+        "fallback_model_id": null,
+        "confidence": "low",
+        "constraints": [
+          "physical core count unavailable; logical count is not relabeled"
+        ]
+      },
+      "hardware_before": {
+        "captured_at_utc": "2026-08-24T12:24:02.345257+00:00",
+        "profile_ms": 77.782,
+        "cpu": {
+          "model": "AMD Ryzen 7 5800H with Radeon Graphics",
+          "logical_processors": 16,
+          "physical_cores": null,
+          "source": "Windows registry + os.cpu_count",
+          "confidence": "high"
+        },
+        "ram": {
+          "total_mib": 32097.656,
+          "available_mib": 16509.336,
+          "used_mib": 15588.32,
+          "source": "GlobalMemoryStatusEx",
+          "confidence": "high"
+        },
+        "gpu": {
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "driver_version": "610.74",
+          "total_vram_mib": 4096.0,
+          "used_vram_mib": 0.0,
+          "free_vram_mib": 3962.0,
+          "utilization_percent": 0.0,
+          "temperature_c": 59.0,
+          "compute_capability": "8.6",
+          "source": "nvidia-smi live query",
+          "confidence": "high"
+        },
+        "warnings": [
+          "physical core count unavailable; logical count is not relabeled"
+        ]
+      },
+      "prompt": "In exactly two short sentences, explain one benefit and one limitation of running a language model locally.",
+      "output": "Benefit: Running a language model locally allows for fine-tuning and personalized training, ensuring the model adapts to specific user needs and preferences.\r\nLimitation:",
+      "metrics": {
+        "model_load_ms": 576.841,
+        "startup_to_ready_ms": 1139.4794000007096,
+        "ttft_ms": 1432.7684999989287,
+        "prompt_eval_ms": 292.38,
+        "prompt_tokens": 46,
+        "prompt_tokens_per_second": 157.33,
+        "generation_ms": 767.2,
+        "generated_token_runs": 31,
+        "tokens_per_second": 40.41,
+        "internal_load_ms": 292.69,
+        "total_ms": 2594.5117000010214,
+        "peak_process_ram_mib": 1354.91796875,
+        "baseline_vram_used_mib": 0.0,
+        "peak_vram_used_mib": 527.0,
+        "vram_delta_mib": 527.0
+      }
+    },
+    {
+      "profile_id": "cpu_safe",
+      "iteration": 1,
+      "profile": {
+        "profile_id": "cpu_safe",
+        "purpose": "Run without GPU offload when GPU telemetry or usable VRAM is unavailable.",
+        "context_size": 1024,
+        "batch_size": 64,
+        "ubatch_size": 64,
+        "threads": 8,
+        "threads_batch": 8,
+        "gpu_layers": 0,
+        "flash_attention": "off",
+        "devices": "none"
+      },
+      "admission": {
+        "action": "accept",
+        "permitted": true,
+        "reason": "host estimate and reserve fit; this request uses no GPU offload",
+        "estimate": {
+          "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+          "context_tokens": 1024,
+          "gpu_layers": 0,
+          "predicted_host_ram_mib": 1420.91,
+          "predicted_vram_mib": 0.0,
+          "components": {
+            "host_weight_mib": 1331.95,
+            "host_context_mib": 40.96,
+            "host_fixed_mib": 48.0,
+            "vram_weight_mib": 0.0,
+            "vram_context_mib": 0.0,
+            "vram_fixed_mib": 0.0
+          },
+          "confidence": "low",
+          "assumptions": [
+            "coefficients are calibrated to one Qwen Q4_K_M llama.cpp run",
+            "host estimate remains conservative when GPU offload changes",
+            "driver/runtime fragmentation and concurrent allocations are not predictable"
+          ]
+        },
+        "host_reserve_mib": 2048.0,
+        "vram_reserve_mib": 512.0,
+        "available_ram_mib": 16353.559,
+        "free_vram_mib": 3962.0,
+        "recommended_context_tokens": null,
+        "recommended_gpu_layers": null,
+        "fallback_model_id": null,
+        "confidence": "low",
+        "constraints": [
+          "physical core count unavailable; logical count is not relabeled"
+        ]
+      },
+      "hardware_before": {
+        "captured_at_utc": "2026-08-24T12:24:05.101831+00:00",
+        "profile_ms": 69.522,
+        "cpu": {
+          "model": "AMD Ryzen 7 5800H with Radeon Graphics",
+          "logical_processors": 16,
+          "physical_cores": null,
+          "source": "Windows registry + os.cpu_count",
+          "confidence": "high"
+        },
+        "ram": {
+          "total_mib": 32097.656,
+          "available_mib": 16353.559,
+          "used_mib": 15744.098,
+          "source": "GlobalMemoryStatusEx",
+          "confidence": "high"
+        },
+        "gpu": {
+          "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+          "driver_version": "610.74",
+          "total_vram_mib": 4096.0,
+          "used_vram_mib": 0.0,
+          "free_vram_mib": 3962.0,
+          "utilization_percent": 15.0,
+          "temperature_c": 59.0,
+          "compute_capability": "8.6",
+          "source": "nvidia-smi live query",
+          "confidence": "high"
+        },
+        "warnings": [
+          "physical core count unavailable; logical count is not relabeled"
+        ]
+      },
+      "prompt": "In exactly two short sentences, explain one benefit and one limitation of running a language model locally.",
+      "output": "Benefit: Running a language model locally allows for fine-tuning and customization to specific needs, ensuring the model adapts to local data and context.\r\nLimitation",
+      "metrics": {
+        "model_load_ms": 1132.44,
+        "startup_to_ready_ms": 1597.7633999973477,
+        "ttft_ms": 1960.2521999986493,
+        "prompt_eval_ms": 361.71,
+        "prompt_tokens": 46,
+        "prompt_tokens_per_second": 127.17,
+        "generation_ms": 1145.43,
+        "generated_token_runs": 31,
+        "tokens_per_second": 27.06,
+        "internal_load_ms": 362.04,
+        "total_ms": 3581.3822999989497,
+        "peak_process_ram_mib": 1796.08203125,
+        "baseline_vram_used_mib": 0.0,
+        "peak_vram_used_mib": 0.0,
+        "vram_delta_mib": 0.0
+      }
+    }
+  ],
+  "summary_mean": {
+    "balanced": {
+      "model_load_ms": 715.3609999999999,
+      "ttft_ms": 1469.0249000013864,
+      "prompt_eval_ms": 152.02,
+      "tokens_per_second": 54.97,
+      "total_ms": 2448.3498000008694,
+      "peak_process_ram_mib": 1351.40625,
+      "vram_delta_mib": 909.0
+    },
+    "constrained": {
+      "model_load_ms": 576.841,
+      "ttft_ms": 1432.7684999989287,
+      "prompt_eval_ms": 292.38,
+      "tokens_per_second": 40.41,
+      "total_ms": 2594.5117000010214,
+      "peak_process_ram_mib": 1354.91796875,
+      "vram_delta_mib": 527.0
+    },
+    "cpu_safe": {
+      "model_load_ms": 1132.44,
+      "ttft_ms": 1960.2521999986493,
+      "prompt_eval_ms": 361.71,
+      "tokens_per_second": 27.06,
+      "total_ms": 3581.3822999989497,
+      "peak_process_ram_mib": 1796.08203125,
+      "vram_delta_mib": 0.0
+    },
+    "performance": {
+      "model_load_ms": 849.7119999999999,
+      "ttft_ms": 1655.1854999997886,
+      "prompt_eval_ms": 68.88,
+      "tokens_per_second": 100.92,
+      "total_ms": 2467.875100002857,
+      "peak_process_ram_mib": 1343.35546875,
+      "vram_delta_mib": 1189.0
+    }
+  },
+  "observations": {
+    "lowest_observed_ttft": "constrained",
+    "highest_observed_generation_rate": "performance",
+    "lowest_observed_vram_delta": "cpu_safe",
+    "claim_boundary": "These are observations from this declared sample, not universal or optimal settings."
+  },
+  "measurement_notes": [
+    "The same prompt, token cap, seed, model, backend build, and sampling path are used.",
+    "Each sample is a cold one-process model load.",
+    "One run per profile demonstrates behavior but is not statistically strong.",
+    "VRAM is sampled device-wide at 200 ms and may include unrelated allocations.",
+    "Several profile parameters change together, so the comparison does not attribute causality to one flag."
+  ]
+}

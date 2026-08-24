@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "model": {
+    "id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "path": "models/qwen2.5-1.5b-instruct-q4_k_m/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "quantization": "Q4_K_M",
+    "layer_count": 28,
+    "baseline_context_tokens": 2048,
+    "baseline_gpu_layers": 28
+  },
+  "estimator": {
+    "host_weight_multiplier": 1.25,
+    "host_context_mib_per_token": 0.04,
+    "host_fixed_overhead_mib": 48.0,
+    "vram_weight_multiplier": 1.10,
+    "vram_context_mib_per_token": 0.03125,
+    "vram_fixed_overhead_mib": 0.0,
+    "host_reserve_mib": 2048.0,
+    "vram_reserve_mib": 512.0,
+    "minimum_context_tokens": 512
+  },
+  "calibration": {
+    "source": "Stage 6 real scheduled Qwen capability run",
+    "observed_peak_child_ram_mib": 1339.2265625,
+    "observed_vram_delta_mib": 1219.0,
+    "context_tokens": 2048,
+    "gpu_layers": 28
+  }
+}

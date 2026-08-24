@@ -1,0 +1,94 @@
+{
+  "component_roles": {
+    "recovering_state": "records restart ownership before normal planning resumes",
+    "recovery_checkpoint": "marks a committed pre-invocation point safe to retry",
+    "recovery_ledger": "records the attempt and outcome without deleting prior history",
+    "sqlite_store": "persists agents, tasks, states, checkpoints, events, metrics, steps, model configuration, tools, outputs, and recovery attempts"
+  },
+  "database": "D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\data\\stage10-recovery-af2c0c8c747c4756a6badbd5abd60a13.db",
+  "database_evidence": {
+    "integrity_check": "ok",
+    "schema_version": 1,
+    "table_counts": {
+      "agents": 2,
+      "checkpoints": 8,
+      "execution_steps": 18,
+      "lifecycle_events": 24,
+      "metric_events": 24,
+      "model_configurations": 2,
+      "outputs": 1,
+      "recovery_attempts": 1,
+      "state_transitions": 7,
+      "tasks": 1,
+      "tool_calls": 0
+    }
+  },
+  "interruption": {
+    "durable_checkpoint": {
+      "data": {
+        "model_invocation_started": false,
+        "safe_to_retry": true,
+        "tool_invocation_started": false
+      },
+      "phase": "recovery_ready",
+      "recorded_at_utc": "2026-08-24T13:17:27.485700+00:00"
+    },
+    "exit_code": 1,
+    "state_before_kill": "planning",
+    "worker_process_id": 772
+  },
+  "purpose": "persist runtime state and recover safely after process interruption",
+  "recovery_boundary": "Only recovery_ready PLANNING checkpoints before model/tool invocation are retried; terminal or in-flight side-effect boundaries are not.",
+  "restart": {
+    "candidate": {
+      "agent_id": "technical-explainer",
+      "checkpoint": {
+        "data": {
+          "model_invocation_started": false,
+          "safe_to_retry": true,
+          "tool_invocation_started": false
+        },
+        "phase": "recovery_ready",
+        "recorded_at_utc": "2026-08-24T13:17:27.485700+00:00"
+      },
+      "disposition": "recoverable",
+      "reason": "checkpoint precedes all model and tool invocation side effects",
+      "state": "planning",
+      "task_id": "333a1323-fb7f-427b-8e7f-c44e9f04c432"
+    },
+    "events": [
+      "task.created",
+      "task.state.changed",
+      "task.state.changed",
+      "recovery.checkpoint.ready",
+      "task.state.changed",
+      "recovery.started",
+      "task.state.changed",
+      "policy.evaluated",
+      "route.selected",
+      "task.state.changed",
+      "scheduler.request.requested",
+      "model.invocation.started",
+      "model.invocation.completed",
+      "scheduler.request.completed",
+      "task.state.changed",
+      "output.validation.completed",
+      "task.state.changed",
+      "task.completed"
+    ],
+    "final_state": "completed",
+    "output": "STUB (no LLM inference): Recover this local task after the worker process is interrupted.",
+    "real_llm_calls": 0,
+    "state_history": [
+      "created",
+      "planning",
+      "recovering",
+      "planning",
+      "executing",
+      "validating",
+      "completed"
+    ]
+  },
+  "retained_at_utc": "2026-08-24T13:17:28.435291+00:00",
+  "stage": 10
+}

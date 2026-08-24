@@ -13,10 +13,10 @@ dist/
 venv/
 
 # Local runtime artifacts (later stages)
-data/
-models/
-tools/
-checkpoints/
+/data/
+/models/
+/tools/
+/checkpoints/
 *.db
 *.db-journal
 *.gguf

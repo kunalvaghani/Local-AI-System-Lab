@@ -7,10 +7,7 @@ from .errors import ConfigurationError
 
 @dataclass(frozen=True, slots=True)
 class RuntimeConfig:
-    """Configuration used by the Stage 1 runtime skeleton.
-
-    ``default_model`` is a logical identifier only. Stage 1 never loads a model.
-    """
+    """Core runtime configuration independent of a specific backend."""
 
     runtime_name: str = "local-ai-systems-lab"
     default_model: str = "stage-1-stub-model"
