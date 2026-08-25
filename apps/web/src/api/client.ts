@@ -7,8 +7,10 @@ import type {
   HealthData,
   MetricsData,
   ModelsData,
+  ReplayReport,
   SchedulerData,
   TaskRecord,
+  TraceData,
 } from "./types";
 
 class RuntimeApiError extends Error {
@@ -92,6 +94,14 @@ const runtimeApi = {
   cancelTask: (taskId: string) => requestData<TaskRecord>(
     `/v1/tasks/${encodeURIComponent(taskId)}`,
     { method: "DELETE" },
+  ),
+  taskTrace: (taskId: string, signal?: AbortSignal) => requestData<TraceData>(
+    `/v1/tasks/${encodeURIComponent(taskId)}/trace`,
+    { signal },
+  ),
+  replayTrace: (runId: string) => requestData<ReplayReport>(
+    `/v1/traces/${encodeURIComponent(runId)}/replay`,
+    { method: "POST", body: JSON.stringify({}) },
   ),
 };
 

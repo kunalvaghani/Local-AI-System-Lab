@@ -1,0 +1,39 @@
+{
+  "stage": 21,
+  "captured_at_utc": "2026-08-25T13:07:14.547Z",
+  "target": "http://127.0.0.1:4173",
+  "frontend": {
+    "trace_route_http_status": 200,
+    "api_proxy_verified": true
+  },
+  "trace": {
+    "task_id": "380985f1-d871-4e35-aa6d-c15fc65eda34",
+    "run_id": "5c480a05-e3e2-494e-9def-d15c9a199f63",
+    "status": "completed",
+    "steps": 16,
+    "deterministic_steps": 11,
+    "nondeterministic_steps": 3,
+    "observational_steps": 2,
+    "side_effecting_steps": 0,
+    "state_transitions": 5,
+    "model_steps": 2,
+    "tool_steps": 0,
+    "payload_redacted": true,
+    "recorded_duration_ms": 692,
+    "retrieval_ms": 19.362
+  },
+  "replay": {
+    "status": "matched",
+    "integrity_valid": true,
+    "reconstructed_state": "completed",
+    "counts": {
+      "diverged": 0,
+      "integrity_failed": 0,
+      "matched": 11,
+      "observed_only": 5,
+      "skipped_side_effect": 0
+    },
+    "duration_ms": 29.216
+  },
+  "elapsed_ms": 841.405
+}

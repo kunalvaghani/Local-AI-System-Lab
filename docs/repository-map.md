@@ -7,7 +7,7 @@ At the start of Stage 0, commit `67ef780` contained one tracked file:
 matched `origin/main`. There were no source directories, tests, configuration
 files, dependency manifests, architecture documents, or TODO/FIXME markers.
 
-## Structure after Stage 20
+## Structure after Stage 21
 
 ```text
 Local-AI-System-Lab/
@@ -245,7 +245,7 @@ Ignored `tools/` and `models/` directories contain the verified native binaries
 and GGUF file; they are reproducible artifacts, not source. No empty future
 directories are added merely to imply implementation.
 
-## Component inventory after Stage 20
+## Component inventory after Stage 21
 
 | Area | Prior evidence | State after Stage 19 | Evidence |
 | --- | --- | --- | --- |
@@ -267,6 +267,8 @@ directories are added merely to imply implementation.
 | Frontend validation | 5/5 shell tests and 102,802-byte gzip shell | 7/7 runtime tests, axe scan, build/bundle gate, and retained real proxy/API/SSE smoke | `App.test.tsx`, `stage19-smoke.mjs`, retained JSON |
 | Agent/scheduler projection | Stage 19 endpoint placeholders and raw runtime pulse | Real role/tool catalog, selected state/handoff, admission, worker/queue map, request timing/ledger, cancellation, and retained metadata fallback | `components/scheduler/`, Stage 20 report |
 | Stage 20 validation | 7/7 runtime tests | 12/12 component tests with three axe route scans plus real proxy/API/SSE state-and-dispatch smoke | `App.test.tsx`, `stage20-smoke.mjs`, retained JSON |
+| Trace/replay projection | Stage 11 safe trace/replay backend and Stage 18 endpoint placeholder | Selected-task execution timeline, URL-addressable expansion, filters/search, timestamp-gap bars, redacted hashes, and explicit side-effect-free replay outcomes | `components/trace/`, Stage 21 report, ADR-0021 |
+| Stage 21 validation | 12/12 Stage 20 component tests | 18/18 component tests with four axe route scans, a 10,000-step/100-row DOM bound, and real proxy/API trace/replay smoke | `App.test.tsx`, `stage21-smoke.mjs`, retained JSON |
 
 ## Current and planned folder convention
 
@@ -275,7 +277,7 @@ the files listed above; later subdirectories are not implementation claims.
 
 ```text
 apps/             Approved local applications
-  web/            Stage 20 React/Vite Runtime, Agent, and Scheduler workbench; trace/replay remains staged
+  web/            Stage 21 React/Vite Runtime, Agent, Scheduler, Trace, and Replay workbench
 runtime/          Inspectable runtime implementation
   api/            Current loopback backend adapter and application service
   agents/         Agent identity and behavior contracts

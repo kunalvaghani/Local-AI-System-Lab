@@ -1,4 +1,4 @@
-# Architecture Baseline through Stage 20
+# Architecture Baseline through Stage 21
 
 ## Status and scope
 
@@ -14,7 +14,9 @@ twelve URL-addressable domains, accessible primitives, a responsive resizable
 workspace/evidence relationship, and explicit no-data states. Stage 19 connects
 the runtime route to real loopback JSON and SSE. Stage 20 projects that same
 evidence into task-aware Agent and Scheduler views while leaving the backend and
-core runtime execution paths unchanged.
+core runtime execution paths unchanged. Stage 21 projects the existing safe
+trace and bounded replay API into a searchable, step-addressable debugger; it
+also leaves backend behavior unchanged.
 
 ## Stage 19 frontend boundary
 
@@ -56,6 +58,27 @@ The worker/queue map, state path, execution handoff, admission panel, and reques
 ledger are semantic HTML list/table projections with CSS presentation. No graph
 library or browser-side history store was added. The request ledger is capped at
 50 reported rows; it is not a global task-history claim.
+
+## Stage 21 trace and replay boundary
+
+`/traces` consumes `GET /v1/tasks/{task_id}/trace` for the same validated
+URL-selected task. An optional validated `?step=` owns only the expanded row;
+search, kind, determinism, component, and page remain ephemeral viewer state.
+Active tasks poll their trace at one second; terminal traces do not poll.
+
+The timeline presents recorded order, actors, components, state transitions,
+model identifiers, content hashes, chain links, safe failures, and exact gaps
+between recorded timestamps. A gap is labelled `Δ`; it is not claimed as step
+execution latency because the API does not report per-step duration. Raw inputs,
+outputs, run metadata, and failure details remain absent by API policy.
+
+The browser renders at most 100 filtered rows per page and defers search while
+memoizing derived component, gap, index, and replay maps. Replay begins only
+after an explicit user action against `POST /v1/traces/{run_id}/replay`.
+Deterministic reducers may match or diverge, nondeterministic/observational work
+is observed, and side-effecting tools are skipped rather than re-executed. The
+API exposes no cross-run comparison contract, so the interface says comparison
+is unavailable instead of deriving a false result.
 
 ## Context and planned flow
 
@@ -345,11 +368,13 @@ API call yet.
 | Acceptance Manifest | Strict tracked Stage 16 policy | Test/chaos/security coverage plus real inference and API limits | Per-hardware/model release profiles when more targets exist |
 | Acceptance Runner | Reproducible subprocess orchestrator | Build/package, full and focused tests, scheduler, hardware, recovery, trace, observability, chaos, security, stub API, and real API evidence | CI matrix and clean-release automation |
 | Acceptance Classifier | Binary requirement checks plus four maturity states | Release-candidate decision without erasing known partial/deferred boundaries | Independent review and versioned release sign-off |
-| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, responsive workspace/evidence composition, shallow native-history routes, and real `/runtime` command center | Specialist runtime screens begin in Stage 20 |
+| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, responsive workspace/evidence composition, shallow native-history routes, and real Runtime/Agent/Scheduler/Trace workbench | Hardware/performance specialization begins in Stage 22 |
 | Frontend Token System | Project-owned CSS custom properties | Typography, spacing, surfaces, semantic colors, focus, density, motion, and breakpoints | Light-theme expansion after real-view contrast evidence |
 | Frontend Status Language | Reusable glyph + label + tone component | Healthy, active, queued, warning, critical, blocked, partial, deferred, unavailable, stale, and unknown; Stage 19 maps connection/task states to real evidence | Specialist screens must preserve the same contract |
 | Frontend Server State | Typed fetch client plus TanStack Query | Parallel inspection polling, request IDs, aborts, mutations, reconciliation, and honest null handling | Browser never becomes a second runtime database |
-| Frontend Task Stream | Native EventSource adapter | Ordered task lifecycle, explicit cursor reconnect, 200-event bound, terminal close, and cache reconciliation | Rich graph/trace projections remain Stages 20–21 |
+| Frontend Task Stream | Native EventSource adapter | Ordered task lifecycle, explicit cursor reconnect, 200-event bound, terminal close, and cache reconciliation | Multi-task stream ownership remains absent |
+| Frontend Trace Explorer | Typed safe-trace query, URL step selector, semantic ordered list, and CSS timing gaps | Search/filter, state/model/tool classification, hash-chain evidence, 100-row pages, live trace refresh, and honest redaction/latency boundaries | Cross-run comparison requires a backend contract |
+| Frontend Replay Debugger | Explicit replay mutation and per-step outcome projection | Integrity, reconstructed state, matched/diverged/observed/skipped counts, and reason expansion without side effects | Replay breakpoints or state override remain absent |
 | Frontend Evidence Pane | Accessible resizable panel | Selected/source context and endpoint boundary | Live task/trace selection evidence in later stages |
 | Frontend Route Adapter | Native links plus History API store | Twelve top-level URL-addressable domains and back/forward behavior | Router dependency only if nested-route complexity justifies it |
 | Frontend Validation | Vitest/Testing Library/axe and gzip budget script | Navigation, no-fake-data, state, preference, automated accessibility, and 250 KiB shell-budget evidence | Real-browser/assistive-technology and large-fixture testing |
@@ -437,4 +462,5 @@ Detailed mechanisms belong to later stages. Current behavior and constraints are
 - Stage 17 frontend research only — COMPLETE.
 - Stage 18 design system and UI architecture — COMPLETE.
 - Stage 19 Runtime Command Center — COMPLETE.
-- Stage 20 Agent & Scheduler Visualization — COMPLETE; Stage 21 Trace Explorer & Replay Debugger remains approval-gated.
+- Stage 20 Agent & Scheduler Visualization — COMPLETE.
+- Stage 21 Trace Explorer & Replay Debugger — COMPLETE; Stage 22 Hardware & Performance Lab UI remains approval-gated.

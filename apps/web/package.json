@@ -1,7 +1,7 @@
 {
   "name": "@local-ai-systems-lab/web",
   "private": true,
-  "version": "0.20.0",
+  "version": "0.21.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
@@ -11,6 +11,7 @@
     "check:bundle": "node scripts/check-bundle.mjs",
     "smoke:stage19": "node scripts/stage19-smoke.mjs",
     "smoke:stage20": "node scripts/stage20-smoke.mjs",
+    "smoke:stage21": "node scripts/stage21-smoke.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {

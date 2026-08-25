@@ -10,6 +10,7 @@ const queryKeys = {
   models: ["runtime", "models"] as const,
   metrics: ["runtime", "metrics"] as const,
   task: (taskId: string) => ["runtime", "task", taskId] as const,
+  taskTrace: (taskId: string) => ["runtime", "task", taskId, "trace"] as const,
 };
 
 function useHealthQuery() {
@@ -74,6 +75,20 @@ function useTaskQuery(taskId: string | null) {
   });
 }
 
+function useTaskTraceQuery(taskId: string | null, live = false) {
+  return useQuery({
+    queryKey: queryKeys.taskTrace(taskId ?? "none"),
+    queryFn: ({ signal }) => runtimeApi.taskTrace(taskId!, signal),
+    enabled: taskId !== null,
+    retry: false,
+    refetchInterval: live ? 1_000 : false,
+  });
+}
+
+function useReplayTraceMutation() {
+  return useMutation({ mutationFn: runtimeApi.replayTrace });
+}
+
 function useCreateTaskMutation() {
   const client = useQueryClient();
   return useMutation({
@@ -107,6 +122,8 @@ export {
   useHealthQuery,
   useMetricsQuery,
   useModelsQuery,
+  useReplayTraceMutation,
   useSchedulerQuery,
   useTaskQuery,
+  useTaskTraceQuery,
 };

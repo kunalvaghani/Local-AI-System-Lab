@@ -4,6 +4,7 @@ import { RuntimeCommandCenter } from "./runtime/RuntimeCommandCenter";
 import { AgentVisualization } from "./scheduler/AgentVisualization";
 import { SchedulerVisualization } from "./scheduler/SchedulerVisualization";
 import { StatusToken } from "./StatusToken";
+import { TraceExplorer } from "./trace/TraceExplorer";
 
 type RouteWorkspaceProps = {
   route: RouteDefinition;
@@ -27,6 +28,8 @@ function RouteWorkspace({ route }: RouteWorkspaceProps) {
         <AgentVisualization />
       ) : route.path === "/scheduler" ? (
         <SchedulerVisualization />
+      ) : route.path === "/traces" ? (
+        <TraceExplorer />
       ) : route.path === "/design-system" ? (
         <DesignSystemView />
       ) : (

@@ -7,6 +7,7 @@ import "./styles/global.css";
 import "./styles/runtime.css";
 import "./styles/scheduler.css";
 import "./styles/agents.css";
+import "./styles/traces.css";
 
 const root = document.getElementById("root");
 

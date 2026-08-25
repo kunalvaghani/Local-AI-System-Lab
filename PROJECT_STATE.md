@@ -9,22 +9,33 @@ Local AI Systems Lab — a fully local, inspectable AI runtime/platform for cons
 The complete local backend remains a Stage 16 release candidate for single-user
 loopback frontend work. Stage 17 research, the Stage 18 Systems Cartography
 shell, Stage 19 real Runtime Command Center, and Stage 20 Agent & Scheduler
-Visualization are complete. The browser now projects selected-task ownership,
-state, admission, dispatch, queue, timing, and control from accepted loopback
-evidence without changing backend authority.
+Visualization are complete. Stage 21 adds the Trace Explorer & Replay Debugger.
+The browser now projects selected-task ownership, state, admission, dispatch,
+queue, ordered safe trace evidence, and bounded replay from accepted loopback
+contracts without changing backend authority.
 
 ## Current Stage
 
-Stage 20 — Agent & Scheduler Visualization — COMPLETE, AWAITING APPROVAL.
+Stage 21 — Trace Explorer & Replay Debugger — COMPLETE, AWAITING APPROVAL.
 
 ## Current Subsystem
 
-Local React/TypeScript/Vite operational workbench covering real agent catalog,
-durable/live selected-task state, admission evidence, scheduler capacity,
-policy-derived projected queue order, retained dispatch metadata, bounded
-request ledger, cross-route task context, and cooperative cancellation.
+Local React/TypeScript/Vite operational workbench covering real runtime, agent,
+scheduler, selected safe trace, URL-addressable step inspection, bounded
+timeline paging, search/filter controls, timestamp-gap evidence, and explicit
+side-effect-free replay.
 
 ## Last Completed Work
+
+- Activated `/traces` as a real selected-task Trace Explorer using the existing safe trace API, with live polling only while the task is active.
+- Added an ordered semantic execution timeline, model/tool/state/failure classification, determinism and component filters, deferred search, exact timestamp-gap bars, and 100-row pages.
+- Added validated optional `?step=` URL selection and expandable actor/component/state/model/hash/chain/safe-failure evidence while preserving API payload redaction.
+- Added explicit deterministic replay with integrity, reconstructed state, aggregate counts, and per-step matched/diverged/observed/skipped/integrity outcomes; model/tool side effects are never re-executed.
+- Kept unsupported cross-run comparison explicit instead of fabricating a browser-derived divergence result.
+- Added 18 frontend tests with Runtime/Agents/Scheduler/Traces axe scans and a 10,000-step fixture proving the timeline renders 100 rows per page.
+- Retained `stage21-trace-replay-20260825T130714Z.json`: completed 16-step redacted trace, 19.362 ms retrieval, valid 29.216 ms replay, 11 matched, five observed, zero divergence/integrity failure, and 841.405 ms total smoke.
+- Final Stage 21 validation passed 150 backend tests in 36.857 seconds, 18 frontend tests in 6.94 seconds, Python compile, the production build, and the 124,662-byte gzip JavaScript gate (48.7% of budget); CSS measured 6,393 gzip bytes.
+- Added Stage 21 report, ADR-0021, development/architecture/repository/risk updates, and frontend identity 0.21.0; Stage 22 remains unimplemented.
 
 - Activated real `/agents` and `/scheduler` specialist routes without adding graph, chart, router, motion, or persistence dependencies.
 - Added agent role/capability/tool inspection, selected-owner highlighting, durable/live state paths, and an ordered intake/agent/admission/scheduler/outcome flow.
@@ -33,7 +44,7 @@ request ledger, cross-route task context, and cooperative cancellation.
 - Added live-snapshot-to-retained-metadata fallback for completed scheduler requests while leaving absent stub admission explicitly not reported.
 - Added 12 passing frontend tests, including separate Runtime/Agents/Scheduler axe scans, and retained `stage20-agent-scheduler-20260825T124614Z.json` with 15 lifecycle events, five state transitions, 0 ms queue wait, 50.385 ms scheduler execution, and 770.484 ms total.
 - Final Stage 20 validation passed 150 backend tests in 40.317 seconds, 12 frontend tests in 5.43 seconds, Python compile, the production build, and the 121,569-byte gzip JavaScript gate (3.1% above Stage 19, 47.5% of budget); CSS measured 5.54 KiB gzip.
-- Added Stage 20 report, ADR-0020, development/architecture/repository/risk updates, and frontend identity 0.20.0; Stage 21 remains unimplemented.
+- Added Stage 20 report, ADR-0020, development/architecture/repository/risk updates, and frontend identity 0.20.0; Stage 21 was still unimplemented at that boundary.
 
 - Added a typed `/v1` envelope client and TanStack Query 5.102.3 ownership for health, agents, scheduler, hardware, models, metrics, selected-task polling, launch, cancellation, cache seeding, and invalidation.
 - Replaced the prototype connection state and `/runtime` placeholders with real local API evidence using resource-specific 1/3/5/60-second polling and abortable requests.
@@ -200,16 +211,18 @@ request ledger, cross-route task context, and cooperative cancellation.
 
 ## Currently Working On
 
-None. Stage 20 is complete and work is stopped before Stage 21 Trace Explorer & Replay Debugger.
+None. Stage 21 is complete and work is stopped before Stage 22 Hardware & Performance Lab UI.
 
 ## Current Blockers
 
-- User approval is required before Stage 21 Trace Explorer & Replay Debugger.
+- User approval is required before Stage 22 Hardware & Performance Lab UI.
 - No runtime/API blocker prevents the next single-user loopback frontend scope.
 - The API has no list-tasks endpoint; Stage 19 truthfully inspects only the selected known/created task.
-- The API has no list-tasks endpoint; Stage 20 visualizes one selected task and does not claim a global task explorer.
+- Stage 20/21 visualize one selected task and do not claim a global task explorer.
 - Stub tasks report no admission decision, so Stage 20 truthfully displays `Not reported`; real admitted runs expose the retained decision.
-- Real-browser computed contrast, zoom/reflow, forced-colors, NVDA, breakpoint, and large-fixture performance validation remains future work.
+- The API has no safe cross-run trace-comparison endpoint; Stage 21 exposes only source-run replay divergence.
+- The selected trace API returns all steps; the UI bounds its DOM to 100 rows and verifies a 10,000-step fixture, but server-side pagination remains future work.
+- Real-browser computed contrast, zoom/reflow, forced-colors, NVDA, and breakpoint validation remains future work.
 - A second real model artifact/backend is not installed; controlled route differences are therefore policy evidence, not a claim of compact-model inference.
 
 ## Important Decisions
@@ -230,7 +243,11 @@ None. Stage 20 is complete and work is stopped before Stage 21 Trace Explorer & 
 - Require every mandatory category to pass for release-candidate status; never let a high aggregate test count substitute for real recovery, chaos, security, API, or model evidence.
 - Scope acceptance to the measured single-user loopback backend; remote multi-user deployment remains explicitly deferred.
 - Track acceptance thresholds before execution, embed them in the retained result, and require a full rerun when policy changes.
-- Stage 20 specialist visualization was explicitly approved; Stage 21 trace/replay UI requires its own user approval gate.
+- Stage 21 trace/replay visualization was explicitly approved; Stage 22 hardware/performance UI requires its own user approval gate.
+- Preserve the safe trace boundary: display hashes and safe failures, never reconstruct redacted inputs, outputs, run metadata, or failure details.
+- Label bars between trace records as timestamp gaps, not component execution latency.
+- Trigger replay only by explicit user action and preserve the backend rule that nondeterministic work is observed and side-effecting tools are skipped.
+- Keep trace search/filter/page state ephemeral; persist only validated task and expanded-step identifiers in the URL.
 - Use versioned loopback HTTP/1.1 with RFC 8259 JSON and SSE because current commands are request/response and execution updates are server-to-client only.
 - Keep API operations transport-independent; `AgentRuntime` and its protocols do not depend on a web framework.
 - Use the standard-library server only as a local development boundary and reject non-loopback binds; do not describe it as production-ready.
@@ -470,15 +487,15 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 ## Known Problems
 
-- Stage 19 is a real Runtime Command Center, but the remaining specialist routes are still Stage 18 endpoint placeholders until their approved stages.
+- Runtime, Agents, Scheduler, and Traces are real workbench routes; the remaining Hardware/Models/Metrics/Chaos/Security specialist routes stay honest endpoint placeholders until their approved stages.
 - The backend exposes no bounded task-list endpoint; the UI cannot claim or render a complete task history.
-- A refreshed terminal task remains inspectable, but its transient SSE rail is not reconstructed; durable state-history projection is Stage 20 work.
+- A refreshed terminal task remains inspectable through durable state history and its safe trace, but its transient SSE rail is not reconstructed.
 - Aborting concurrent polling during Windows HMR/process teardown can print noisy development-server `ConnectionAbortedError` tracebacks; successful responses and shutdown remain unaffected.
-- The 250 KiB compressed shell budget is measured and passing, but 10,000-step virtualization, INP, long tasks, heap growth, high-volume stream-update cost, and polling contention remain unmeasured.
+- The 250 KiB compressed shell budget and 10,000-step/100-row DOM bound pass, but real-browser INP, long tasks, heap growth, high-volume stream-update cost, and polling contention remain unmeasured.
 - Automated accessibility evidence is not WCAG conformance; jsdom did not compute color contrast and no NVDA/forced-color/400%-zoom/browser matrix was run.
 - The shell is dark-first; no light theme has been designed or validated.
-- Native routing intentionally handles shallow top-level routes plus one validated `?task=` parameter; trace/run navigation still requires a Stage 21 decision and tests.
-- No screenshot asset or browser visual-regression suite exists; Stage 18 validation covers compilation, DOM behavior, accessibility rules, and bundle size.
+- Native routing intentionally handles shallow top-level routes plus validated `?task=` and optional `?step=` parameters; deeper nested resources may justify a maintained router.
+- No screenshot asset or browser visual-regression suite exists; Stage 21 validation covers compilation, DOM behavior, automated accessibility rules, large-fixture paging, real API smoke, and bundle size.
 
 - Backend acceptance is scoped and overall maturity is `PARTIAL`; release-candidate status must not be presented as production or multi-user readiness.
 - The terminal-state/output atomicity gap remains the principal accepted reliability limitation and keeps persistence/recovery plus fault injection `PARTIAL`.
@@ -564,21 +581,31 @@ The Stage 2 five-run cold baseline remains: median model load 1,128.28 ms; TTFT 
 
 Stage 20 adds 121,569 gzip JavaScript bytes (+3.1% from Stage 19), 5.54 KiB gzip CSS, 12 DOM tests in 5.43 seconds, and a 770.484 ms complete task/state/scheduler smoke with five durable transitions and 50.385 ms scheduler execution. See [the Stage 20 smoke result](benchmarks/results/stage20-agent-scheduler-20260825T124614Z.json).
 
+Stage 21 adds a 16-step/692 ms real safe trace, 19.362 ms trace retrieval,
+29.216 ms valid replay, and an 841.405 ms complete local smoke. The replay
+matched 11 deterministic reducers, observed five nondeterministic/observational
+steps, and reported zero divergence, side-effect skips, or integrity failure.
+A 10,000-step component fixture verifies only 100 timeline rows render per page;
+that focused interaction completed in 2.284 seconds during the final suite.
+The Stage 21 build is 124,662 gzip JavaScript bytes (48.7% of the 256,000-byte
+gate) and 6,393 gzip CSS bytes; 18 DOM tests took 6.94 seconds.
+See [the Stage 21 smoke result](benchmarks/results/stage21-trace-replay-20260825T130714Z.json).
+
 ## Backend Acceptance Status
 
-PASS WITH TRACKED LIMITATIONS. All mandatory backend categories passed; release candidate true; overall maturity `PARTIAL`. Stage 20 does not modify backend behavior and consumes only the accepted loopback contract.
+PASS WITH TRACKED LIMITATIONS. All mandatory backend categories passed; release candidate true; overall maturity `PARTIAL`. Stage 21 does not modify backend behavior and consumes only the accepted loopback contract.
 
 ## Frontend Research Status
 
 COMPLETE. The 2026-08-25 research contains 28 references and its Systems
 Cartography recommendation is now encoded in the Stage 18 design system and
 local application shell plus the Stage 19 Runtime Command Center and Stage 20
-Agent & Scheduler Visualization.
+Agent & Scheduler Visualization and Stage 21 Trace Explorer & Replay Debugger.
 
 ## Next Step
 
-Stage 21 — Trace Explorer & Replay Debugger
+Stage 22 — Hardware & Performance Lab UI
 
 ## Later Backlog
 
-Stages 21–27 remain intentionally deferred and must be entered one at a time after explicit approval.
+Stages 22–27 remain intentionally deferred and must be entered one at a time after explicit approval.

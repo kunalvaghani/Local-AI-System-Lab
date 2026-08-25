@@ -17,22 +17,24 @@ the real local Runtime Command Center: live inspection, bounded task launch,
 URL-addressable task evidence, ordered SSE lifecycle updates, and cancellation.
 Stage 20 adds task-aware Agent and Scheduler views for durable/live state,
 cross-component handoffs, admission, queue order, dispatch timing, and control.
+Stage 21 adds a redacted Trace Explorer and explicit, side-effect-free Replay
+Debugger for step-by-step inspection of a selected execution.
 
 ## Current status
 
-- Last completed stage: Stage 20 — Agent & Scheduler Visualization
-- Next approval-gated stage: Stage 21 — Trace Explorer & Replay Debugger
+- Last completed stage: Stage 21 — Trace Explorer & Replay Debugger
+- Next approval-gated stage: Stage 22 — Hardware & Performance Lab UI
 - Backend acceptance: RELEASE CANDIDATE; all required checks PASS, overall maturity PARTIAL
-- Frontend Runtime, Agent, and Scheduler views: COMPLETE; trace/replay remains staged
+- Frontend Runtime, Agent, Scheduler, Trace, and Replay views: COMPLETE
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
 
-## Run the Stage 20 Runtime Workbench
+## Run the Stage 21 Runtime Workbench
 
 Start the local-only deterministic API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage20-dev.db
+python -m runtime.api_cli --stub --database data/stage21-dev.db
 ```
 
 In a second terminal:
@@ -43,7 +45,8 @@ npm install
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173/runtime`, `/agents`, or `/scheduler`. The workbench reads real health,
+Open `http://127.0.0.1:4173/runtime`, `/agents`, `/scheduler`, or
+`/traces?task=<task-id>`. The workbench reads real health,
 scheduler, hardware, model, agent, and metric evidence through the loopback
 proxy. It can launch one bounded task, retain its selected ID in the URL, follow
 ordered SSE lifecycle events, show truthful output/measurements, and request
@@ -55,14 +58,16 @@ Validate the frontend foundation:
 npm test
 npm run build
 npm run check:bundle
-npm run smoke:stage20
+npm run smoke:stage21
 ```
 
-The Stage 20 suite has twelve component tests, including automated axe-core
-scans of Runtime, Agents, and Scheduler. Its reproducible smoke crosses the Vite
-proxy, creates a real stub task, verifies retained state/scheduler evidence, and
-keeps missing admission explicit. Read the [Stage 20 report](docs/stages/stage20-agent-scheduler-visualization.md)
-and [ADR-0020](docs/adr/0020-task-scoped-agent-scheduler-projections.md).
+The Stage 21 suite has eighteen component tests, including automated axe-core
+scans of Runtime, Agents, Scheduler, and Traces plus a 10,000-step/100-rendered-
+row bound. Its reproducible smoke crosses the Vite proxy, creates a real stub
+task, retrieves the redacted hash-chained trace, and verifies deterministic
+replay without repeating model generation or tool side effects. Read the
+[Stage 21 report](docs/stages/stage21-trace-explorer-replay-debugger.md) and
+[ADR-0021](docs/adr/0021-redacted-trace-projection-and-explicit-replay.md).
 
 ## Review the Stage 17 frontend research
 

@@ -271,6 +271,70 @@ type StreamEndData = {
   task_continues?: boolean;
 };
 
+type DeterminismClass = "deterministic" | "nondeterministic" | "side_effecting" | "observational";
+
+type TraceRun = {
+  run_id: string;
+  task_id: string;
+  started_at_utc: string;
+  finished_at_utc: string | null;
+  status: string;
+  model_id: string | null;
+  configuration_hash: string | null;
+  final_chain_hash: string | null;
+  source_run_id: string | null;
+};
+
+type TraceStep = {
+  run_id: string;
+  ordinal: number;
+  step_id: string;
+  recorded_at_utc: string;
+  actor: string;
+  component: string;
+  event_name: string;
+  determinism: DeterminismClass;
+  input_hash: string;
+  output_hash: string;
+  semantic_hash: string;
+  state_from: string | null;
+  state_to: string | null;
+  model_id: string | null;
+  configuration_hash: string | null;
+  failure: { code: string; details_omitted: boolean } | null;
+  previous_hash: string;
+  step_hash: string;
+};
+
+type TraceData = {
+  run: TraceRun;
+  steps: TraceStep[];
+  payload_policy: string;
+};
+
+type ReplayOutcome = "matched" | "diverged" | "observed_only" | "skipped_side_effect" | "integrity_failed";
+
+type ReplayStep = {
+  ordinal: number;
+  step_id: string;
+  event_name: string;
+  determinism: DeterminismClass;
+  outcome: ReplayOutcome;
+  reason: string;
+};
+
+type ReplayReport = {
+  replay_id: string;
+  source_run_id: string;
+  started_at_utc: string;
+  finished_at_utc: string;
+  status: string;
+  integrity_valid: boolean;
+  reconstructed_state: string | null;
+  counts: Record<ReplayOutcome, number>;
+  steps: ReplayStep[];
+};
+
 export type {
   AgentSummary,
   AgentsData,
@@ -278,6 +342,7 @@ export type {
   ApiErrorPayload,
   CreateTaskInput,
   Distribution,
+  DeterminismClass,
   HardwareData,
   HealthData,
   InferenceMetrics,
@@ -286,12 +351,18 @@ export type {
   MetricsData,
   ModelsData,
   ModelSummary,
+  ReplayOutcome,
+  ReplayReport,
+  ReplayStep,
   SchedulerData,
   SchedulerRequest,
   StateHistoryItem,
   TaskRecord,
   TaskResult,
   TaskStatus,
+  TraceData,
+  TraceRun,
+  TraceStep,
   StreamEndData,
   Workload,
 };

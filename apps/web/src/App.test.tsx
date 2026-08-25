@@ -7,7 +7,7 @@ import { App } from "./App";
 import { STORAGE_KEY } from "./hooks/useDensity";
 import { routes } from "./navigation/routes";
 import { queryClient } from "./query/QueryProvider";
-import { EventSourceFixture, runtimeFetch, taskFixture } from "./test/runtimeFixtures";
+import { EventSourceFixture, replayFixture, runtimeFetch, taskFixture, traceFixture } from "./test/runtimeFixtures";
 
 beforeEach(() => {
   window.history.replaceState(null, "", "/runtime");
@@ -25,7 +25,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("Stage 20 agent and scheduler visualization", () => {
+describe("Stage 21 trace explorer and replay debugger", () => {
   it("renders real API evidence and keeps unavailable fields honest", async () => {
     render(<App />);
 
@@ -150,6 +150,90 @@ describe("Stage 20 agent and scheduler visualization", () => {
     await waitFor(() => expect(fetch).toHaveBeenCalledWith(`/v1/tasks/${taskFixture.task_id}`, expect.objectContaining({ method: "DELETE" })));
   });
 
+  it("loads a real redacted trace and filters model, tool, and state steps", async () => {
+    window.history.replaceState(null, "", `/traces?task=${taskFixture.task_id}`);
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "Trace explorer" })).toBeInTheDocument();
+    expect(await screen.findByText(traceFixture.run.run_id)).toBeInTheDocument();
+    expect(screen.getByText("model.invocation.started")).toBeInTheDocument();
+
+    await user.selectOptions(screen.getByRole("combobox", { name: "Kind" }), "tool");
+    expect(screen.getByText("tool.execution.completed")).toBeInTheDocument();
+    expect(screen.queryByText("model.invocation.started")).not.toBeInTheDocument();
+
+    await user.selectOptions(screen.getByRole("combobox", { name: "Kind" }), "state");
+    expect(screen.getByText("task.state.changed")).toBeInTheDocument();
+    expect(screen.getByText(/planning → executing/)).toBeInTheDocument();
+  });
+
+  it("makes expanded trace-step evidence URL-addressable and keeps payloads redacted", async () => {
+    window.history.replaceState(null, "", `/traces?task=${taskFixture.task_id}`);
+    const user = userEvent.setup();
+    render(<App />);
+
+    const step = await screen.findByRole("button", { name: /model.invocation.started/ });
+    await user.click(step);
+
+    expect(window.location.search).toContain(`step=${traceFixture.steps[2].step_id}`);
+    expect(screen.getByText(traceFixture.steps[2].semantic_hash)).toBeInTheDocument();
+    expect(screen.getByText(/Input and output payloads are not returned/)).toBeInTheDocument();
+    expect(screen.getByText("Δ 15 ms")).toBeInTheDocument();
+  });
+
+  it("runs deterministic replay explicitly and explains per-step outcomes", async () => {
+    window.history.replaceState(null, "", `/traces?task=${taskFixture.task_id}`);
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(await screen.findByRole("button", { name: "Replay deterministic reducers" }));
+    await waitFor(() => expect(fetch).toHaveBeenCalledWith(`/v1/traces/${traceFixture.run.run_id}/replay`, expect.objectContaining({ method: "POST", body: "{}" })));
+    expect(await screen.findByText(replayFixture.replay_id)).toBeInTheDocument();
+    expect(screen.getByText("Valid")).toBeInTheDocument();
+    expect(screen.getByText("Side effects skipped")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /tool.execution.completed/ }));
+    expect(await screen.findByText("side-effecting operation was not re-executed")).toBeInTheDocument();
+  });
+
+  it("reports an honest empty result when trace filters match nothing", async () => {
+    window.history.replaceState(null, "", `/traces?task=${taskFixture.task_id}`);
+    render(<App />);
+
+    const searchbox = await screen.findByRole("searchbox", { name: "Search trace" });
+    fireEvent.change(searchbox, { target: { value: "not-a-real-trace-event" } });
+    expect(searchbox).toHaveValue("not-a-real-trace-event");
+    expect(await screen.findByText("No trace steps match the current filters.")).toBeInTheDocument();
+  });
+
+  it("bounds the rendered timeline to 100 rows for a 10,000-step trace", async () => {
+    const originalSteps = traceFixture.steps;
+    traceFixture.steps = Array.from({ length: 10_000 }, (_, index) => ({
+      ...originalSteps[index % originalSteps.length],
+      ordinal: index,
+      step_id: `large-fixture-step-${index}`,
+      recorded_at_utc: new Date(Date.parse("2026-08-25T12:00:00.000Z") + index).toISOString(),
+    }));
+
+    try {
+      window.history.replaceState(null, "", `/traces?task=${taskFixture.task_id}`);
+      const user = userEvent.setup();
+      render(<App />);
+
+      const timelineHeading = await screen.findByRole("heading", { name: "Execution timeline" });
+      const timeline = timelineHeading.closest("article")!;
+      expect(within(timeline).getAllByRole("listitem")).toHaveLength(100);
+      expect(within(timeline).getByText("Page 1 of 100")).toBeInTheDocument();
+
+      await user.click(within(timeline).getByRole("button", { name: "Next" }));
+      expect(within(timeline).getByText("Page 2 of 100")).toBeInTheDocument();
+      expect(within(timeline).getAllByRole("listitem")).toHaveLength(100);
+    } finally {
+      traceFixture.steps = originalSteps;
+    }
+  });
+
   it("exposes the reusable status and visualization contracts", async () => {
     window.history.replaceState(null, "", "/design-system");
     const user = userEvent.setup();
@@ -193,6 +277,7 @@ describe("Stage 20 agent and scheduler visualization", () => {
   it.each([
     ["Agents", "/agents", "Agent state map"],
     ["Scheduler", "/scheduler", "Scheduler map"],
+    ["Traces", "/traces", "Trace explorer"],
   ])("has no automated accessibility violations in the %s workspace", async (_label, path, heading) => {
     window.history.replaceState(null, "", `${path}?task=${taskFixture.task_id}`);
     const { container } = render(<App />);

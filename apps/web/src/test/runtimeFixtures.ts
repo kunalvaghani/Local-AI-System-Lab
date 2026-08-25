@@ -1,4 +1,4 @@
-import type { TaskRecord } from "../api/types";
+import type { ReplayReport, TaskRecord, TraceData } from "../api/types";
 
 const taskFixture: TaskRecord = {
   task_id: "task-stage20-test",
@@ -18,6 +18,40 @@ const taskFixture: TaskRecord = {
     events: "/v1/tasks/task-stage20-test/events",
     trace: "/v1/tasks/task-stage20-test/trace",
   },
+};
+
+const traceFixture: TraceData = {
+  run: {
+    run_id: "run-stage21-test",
+    task_id: taskFixture.task_id,
+    started_at_utc: "2026-08-25T12:00:00.000000+00:00",
+    finished_at_utc: "2026-08-25T12:00:00.125000+00:00",
+    status: "completed",
+    model_id: "qwen-test",
+    configuration_hash: "config-hash-stage21",
+    final_chain_hash: "chain-final-stage21",
+    source_run_id: null,
+  },
+  steps: [
+    { run_id: "run-stage21-test", ordinal: 0, step_id: "step-created", recorded_at_utc: "2026-08-25T12:00:00.000000+00:00", actor: "agent-runtime", component: "state-machine", event_name: "task.created", determinism: "deterministic", input_hash: "input-0", output_hash: "output-0", semantic_hash: "semantic-0", state_from: null, state_to: null, model_id: null, configuration_hash: null, failure: null, previous_hash: "genesis", step_hash: "step-hash-0" },
+    { run_id: "run-stage21-test", ordinal: 1, step_id: "step-state", recorded_at_utc: "2026-08-25T12:00:00.010000+00:00", actor: "agent-runtime", component: "state-machine", event_name: "task.state.changed", determinism: "deterministic", input_hash: "input-1", output_hash: "output-1", semantic_hash: "semantic-1", state_from: "planning", state_to: "executing", model_id: null, configuration_hash: null, failure: null, previous_hash: "step-hash-0", step_hash: "step-hash-1" },
+    { run_id: "run-stage21-test", ordinal: 2, step_id: "step-model-started", recorded_at_utc: "2026-08-25T12:00:00.025000+00:00", actor: "inference-backend", component: "model-inference", event_name: "model.invocation.started", determinism: "nondeterministic", input_hash: "input-2", output_hash: "output-2", semantic_hash: "semantic-2", state_from: null, state_to: null, model_id: "qwen-test", configuration_hash: "config-hash-stage21", failure: null, previous_hash: "step-hash-1", step_hash: "step-hash-2" },
+    { run_id: "run-stage21-test", ordinal: 3, step_id: "step-tool", recorded_at_utc: "2026-08-25T12:00:00.090000+00:00", actor: "tool-executor", component: "tool-runtime", event_name: "tool.execution.completed", determinism: "side_effecting", input_hash: "input-3", output_hash: "output-3", semantic_hash: "semantic-3", state_from: null, state_to: null, model_id: null, configuration_hash: null, failure: null, previous_hash: "step-hash-2", step_hash: "step-hash-3" },
+    { run_id: "run-stage21-test", ordinal: 4, step_id: "step-complete", recorded_at_utc: "2026-08-25T12:00:00.125000+00:00", actor: "agent-runtime", component: "state-machine", event_name: "task.completed", determinism: "deterministic", input_hash: "input-4", output_hash: "output-4", semantic_hash: "semantic-4", state_from: null, state_to: null, model_id: null, configuration_hash: null, failure: null, previous_hash: "step-hash-3", step_hash: "chain-final-stage21" },
+  ],
+  payload_policy: "input/output payloads and failure details are omitted; integrity hashes are exposed",
+};
+
+const replayFixture: ReplayReport = {
+  replay_id: "replay-stage21-test",
+  source_run_id: traceFixture.run.run_id,
+  started_at_utc: "2026-08-25T12:01:00+00:00",
+  finished_at_utc: "2026-08-25T12:01:00.005000+00:00",
+  status: "matched",
+  integrity_valid: true,
+  reconstructed_state: "executing",
+  counts: { matched: 3, diverged: 0, observed_only: 1, skipped_side_effect: 1, integrity_failed: 0 },
+  steps: traceFixture.steps.map((step) => ({ ordinal: step.ordinal, step_id: step.step_id, event_name: step.event_name, determinism: step.determinism, outcome: step.determinism === "deterministic" ? "matched" : step.determinism === "side_effecting" ? "skipped_side_effect" : "observed_only", reason: step.determinism === "deterministic" ? "canonical hashes and deterministic reducer matched" : step.determinism === "side_effecting" ? "side-effecting operation was not re-executed" : "nondeterministic or environmental evidence was integrity-checked only" })),
 };
 
 const fixtures: Record<string, unknown> = {
@@ -108,6 +142,8 @@ function jsonResponse(data: unknown, status = 200) {
 function runtimeFetch(input: RequestInfo | URL, init?: RequestInit) {
   const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url, window.location.origin);
   if (url.pathname === "/v1/tasks" && init?.method === "POST") return Promise.resolve(jsonResponse(taskFixture, 202));
+  if (url.pathname === taskFixture.links.trace) return Promise.resolve(jsonResponse(traceFixture));
+  if (url.pathname === `/v1/traces/${traceFixture.run.run_id}/replay` && init?.method === "POST") return Promise.resolve(jsonResponse(replayFixture));
   if (url.pathname === `/v1/tasks/${taskFixture.task_id}` && init?.method === "DELETE") return Promise.resolve(jsonResponse({ ...taskFixture, cancellation_requested: true }, 202));
   if (url.pathname === `/v1/tasks/${taskFixture.task_id}`) return Promise.resolve(jsonResponse(taskFixture));
   return Promise.resolve(jsonResponse(fixtures[url.pathname]));
@@ -153,4 +189,4 @@ class EventSourceFixture {
   }
 }
 
-export { EventSourceFixture, runtimeFetch, taskFixture };
+export { EventSourceFixture, replayFixture, runtimeFetch, taskFixture, traceFixture };
