@@ -39,11 +39,20 @@ type AgentsData = {
 
 type SchedulerRequest = {
   request_id: string;
-  task_id?: string | null;
-  status: string;
-  workload: string;
-  priority: number;
-  queue_position?: number | null;
+  task_id: string;
+  sequence: number;
+  status: "queued" | "running" | "completed" | "cancelled" | "timed_out" | "failed";
+  workload: Workload;
+  base_priority: number;
+  effective_priority: number;
+  queue_position_at_submit: number;
+  submitted_at_utc: string;
+  started_at_utc: string | null;
+  finished_at_utc: string | null;
+  queue_wait_ms: number | null;
+  execution_ms: number | null;
+  timeout_ms: number | null;
+  error_code: string | null;
 };
 
 type SchedulerData = {
@@ -278,6 +287,7 @@ export type {
   ModelsData,
   ModelSummary,
   SchedulerData,
+  SchedulerRequest,
   StateHistoryItem,
   TaskRecord,
   TaskResult,

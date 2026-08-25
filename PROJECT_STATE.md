@@ -8,23 +8,32 @@ Local AI Systems Lab — a fully local, inspectable AI runtime/platform for cons
 
 The complete local backend remains a Stage 16 release candidate for single-user
 loopback frontend work. Stage 17 research, the Stage 18 Systems Cartography
-shell, and the Stage 19 real Runtime Command Center are complete. The browser
-now observes and controls the accepted loopback API without changing backend
-authority; specialist runtime screens remain approval-gated.
+shell, Stage 19 real Runtime Command Center, and Stage 20 Agent & Scheduler
+Visualization are complete. The browser now projects selected-task ownership,
+state, admission, dispatch, queue, timing, and control from accepted loopback
+evidence without changing backend authority.
 
 ## Current Stage
 
-Stage 19 — Runtime Command Center — COMPLETE, AWAITING APPROVAL.
+Stage 20 — Agent & Scheduler Visualization — COMPLETE, AWAITING APPROVAL.
 
 ## Current Subsystem
 
-Local React/TypeScript/Vite Runtime Command Center covering real loopback query
-ownership, health/scheduler/hardware/model/agent/metric inspection, bounded task
-launch/inspection/cancellation, URL-selected tasks, ordered SSE lifecycle
-evidence, truthful missing measurements, accessibility checks, and retained
-proxy/API smoke evidence.
+Local React/TypeScript/Vite operational workbench covering real agent catalog,
+durable/live selected-task state, admission evidence, scheduler capacity,
+policy-derived projected queue order, retained dispatch metadata, bounded
+request ledger, cross-route task context, and cooperative cancellation.
 
 ## Last Completed Work
+
+- Activated real `/agents` and `/scheduler` specialist routes without adding graph, chart, router, motion, or persistence dependencies.
+- Added agent role/capability/tool inspection, selected-owner highlighting, durable/live state paths, and an ordered intake/agent/admission/scheduler/outcome flow.
+- Added worker occupancy, FIFO/priority queue projection, selected-request placement/timings, bounded 50-row reported request ledger, outcome metrics, and reused cancellation controls.
+- Preserved the validated selected task across native Runtime/Agents/Scheduler navigation and retained modifier-link/browser history behavior.
+- Added live-snapshot-to-retained-metadata fallback for completed scheduler requests while leaving absent stub admission explicitly not reported.
+- Added 12 passing frontend tests, including separate Runtime/Agents/Scheduler axe scans, and retained `stage20-agent-scheduler-20260825T124614Z.json` with 15 lifecycle events, five state transitions, 0 ms queue wait, 50.385 ms scheduler execution, and 770.484 ms total.
+- Final Stage 20 validation passed 150 backend tests in 40.317 seconds, 12 frontend tests in 5.43 seconds, Python compile, the production build, and the 121,569-byte gzip JavaScript gate (3.1% above Stage 19, 47.5% of budget); CSS measured 5.54 KiB gzip.
+- Added Stage 20 report, ADR-0020, development/architecture/repository/risk updates, and frontend identity 0.20.0; Stage 21 remains unimplemented.
 
 - Added a typed `/v1` envelope client and TanStack Query 5.102.3 ownership for health, agents, scheduler, hardware, models, metrics, selected-task polling, launch, cancellation, cache seeding, and invalidation.
 - Replaced the prototype connection state and `/runtime` placeholders with real local API evidence using resource-specific 1/3/5/60-second polling and abortable requests.
@@ -191,14 +200,15 @@ proxy/API smoke evidence.
 
 ## Currently Working On
 
-None. Stage 19 is complete and work is stopped before Stage 20 Scheduler & Task Graph.
+None. Stage 20 is complete and work is stopped before Stage 21 Trace Explorer & Replay Debugger.
 
 ## Current Blockers
 
-- User approval is required before Stage 20 Scheduler & Task Graph.
+- User approval is required before Stage 21 Trace Explorer & Replay Debugger.
 - No runtime/API blocker prevents the next single-user loopback frontend scope.
 - The API has no list-tasks endpoint; Stage 19 truthfully inspects only the selected known/created task.
-- Refreshing a terminal task preserves its authoritative record but not the transient live SSE rail; durable state-history projection belongs to Stage 20.
+- The API has no list-tasks endpoint; Stage 20 visualizes one selected task and does not claim a global task explorer.
+- Stub tasks report no admission decision, so Stage 20 truthfully displays `Not reported`; real admitted runs expose the retained decision.
 - Real-browser computed contrast, zoom/reflow, forced-colors, NVDA, breakpoint, and large-fixture performance validation remains future work.
 - A second real model artifact/backend is not installed; controlled route differences are therefore policy evidence, not a claim of compact-model inference.
 
@@ -220,7 +230,7 @@ None. Stage 19 is complete and work is stopped before Stage 20 Scheduler & Task 
 - Require every mandatory category to pass for release-candidate status; never let a high aggregate test count substitute for real recovery, chaos, security, API, or model evidence.
 - Scope acceptance to the measured single-user loopback backend; remote multi-user deployment remains explicitly deferred.
 - Track acceptance thresholds before execution, embed them in the retained result, and require a full rerun when policy changes.
-- Stage 19 frontend integration was explicitly approved; Stage 20 specialist visualization still requires its own user approval gate.
+- Stage 20 specialist visualization was explicitly approved; Stage 21 trace/replay UI requires its own user approval gate.
 - Use versioned loopback HTTP/1.1 with RFC 8259 JSON and SSE because current commands are request/response and execution updates are server-to-client only.
 - Keep API operations transport-independent; `AgentRuntime` and its protocols do not depend on a web framework.
 - Use the standard-library server only as a local development boundary and reject non-loopback binds; do not describe it as production-ready.
@@ -552,20 +562,23 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 The Stage 2 five-run cold baseline remains: median model load 1,128.28 ms; TTFT 1,686.85 ms; generation 115.81 tokens/second; total 2,572.26 ms; peak child-process RAM 1,339.02 MiB; VRAM delta 1,219 MiB. The final Stage 8 comparison observed performance/balanced/constrained/CPU-safe VRAM deltas of 1,189/909/527/0 MiB. Stage 12 real inference measured 2,927.102 ms total, 2,238.325 ms TTFT, 96.16 tokens/second, 1,343.703 MiB RAM, and 1,189 MiB VRAM. Stage 13 deterministic no-fault baselines were 614.179 ms inference and 562.478 ms tool; injected scenario added latency measured P50 -71.797 ms/P95 611.597 ms, and the actual killed-worker recovery took 1,648.444 ms. Stage 14's deterministic 14-case suite completed in 2,181.687 ms; it is control evidence, not an inference-performance benchmark. The guarded real Stage 14 run measured 3,370.565 ms inference, 2,760.402 ms TTFT, 105.39 tokens/second, 1,343.949 MiB RAM, and 1,189 MiB VRAM. Stage 15's external stub API measured task create 139.048 ms, SSE-to-terminal 583.177 ms, trace replay 47.929 ms, metrics retrieval 88.731 ms, live hardware retrieval 1,298.973 ms, and isolated model-timeout chaos 2,254.988 ms; these are one-run integration timings, not throughput claims. The real external API run measured 2,973.505 ms inference, 2,210.807 ms TTFT, 103.32 tok/s, 1,343.887 MiB RAM, and 1,189 MiB VRAM. Stage 16's retained gate run measured 2,375.729 ms real inference, 1,747.840 ms TTFT, 93.68 tok/s, 1,343.895 MiB RAM, 1,189 MiB VRAM, and 4,589.371 ms end-to-end HTTP/SSE streaming; TTFT was 3.616% above the Stage 2 median and all five configured regression limits passed. Stage 18's shell build is 102,802 gzip JavaScript bytes and 3.48 KiB gzip CSS; the five DOM tests took 3.72 seconds. Stage 19 measures 117,956 gzip JavaScript bytes (+14.7%), 4.66 KiB gzip CSS, seven DOM tests in 4.48 seconds, and a 632.633 ms one-task stub SSE stream/967 ms complete smoke. These are build and one-run local integration measurements; no real-browser interaction timing is claimed. See [the Stage 2 report](docs/benchmarks/stage2-local-inference-baseline.md), [Stage 8 final comparison](benchmarks/results/stage8-profile-comparison-20260824T122355Z.json), [Stage 12 result](benchmarks/results/stage12-observability-20260824T163054Z.json), [Stage 13 result](benchmarks/results/stage13-chaos-20260824T193424Z.json), [Stage 14 result](benchmarks/results/stage14-security-20260824T203349Z.json), [Stage 15 stub result](benchmarks/results/stage15-api-20260824T205654Z.json), [Stage 15 real result](benchmarks/results/stage15-api-real-20260825T010429Z.json), [Stage 16 acceptance result](benchmarks/results/stage16-backend-acceptance-20260825T011603Z.json), and [Stage 19 smoke result](benchmarks/results/stage19-runtime-command-center-20260825T121824Z.json).
 
+Stage 20 adds 121,569 gzip JavaScript bytes (+3.1% from Stage 19), 5.54 KiB gzip CSS, 12 DOM tests in 5.43 seconds, and a 770.484 ms complete task/state/scheduler smoke with five durable transitions and 50.385 ms scheduler execution. See [the Stage 20 smoke result](benchmarks/results/stage20-agent-scheduler-20260825T124614Z.json).
+
 ## Backend Acceptance Status
 
-PASS WITH TRACKED LIMITATIONS. All mandatory backend categories passed; release candidate true; overall maturity `PARTIAL`. Stage 19 does not modify backend behavior and consumes only the accepted loopback contract.
+PASS WITH TRACKED LIMITATIONS. All mandatory backend categories passed; release candidate true; overall maturity `PARTIAL`. Stage 20 does not modify backend behavior and consumes only the accepted loopback contract.
 
 ## Frontend Research Status
 
 COMPLETE. The 2026-08-25 research contains 28 references and its Systems
 Cartography recommendation is now encoded in the Stage 18 design system and
-local application shell plus the Stage 19 Runtime Command Center.
+local application shell plus the Stage 19 Runtime Command Center and Stage 20
+Agent & Scheduler Visualization.
 
 ## Next Step
 
-Stage 20 — Scheduler & Task Graph
+Stage 21 — Trace Explorer & Replay Debugger
 
 ## Later Backlog
 
-Stages 20–27 remain intentionally deferred and must be entered one at a time after explicit approval.
+Stages 21–27 remain intentionally deferred and must be entered one at a time after explicit approval.

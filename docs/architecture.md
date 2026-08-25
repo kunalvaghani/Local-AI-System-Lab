@@ -1,4 +1,4 @@
-# Architecture Baseline through Stage 19
+# Architecture Baseline through Stage 20
 
 ## Status and scope
 
@@ -12,7 +12,8 @@ accepted API and recommends a Systems Cartography direction. Stage 18 implements
 that direction as a local client-rendered React shell with a design token system,
 twelve URL-addressable domains, accessible primitives, a responsive resizable
 workspace/evidence relationship, and explicit no-data states. Stage 19 connects
-the runtime route to real loopback JSON and SSE while leaving the backend and
+the runtime route to real loopback JSON and SSE. Stage 20 projects that same
+evidence into task-aware Agent and Scheduler views while leaving the backend and
 core runtime execution paths unchanged.
 
 ## Stage 19 frontend boundary
@@ -41,6 +42,20 @@ Health, scheduler, hardware, metrics, agents, and models use resource-specific
 polling cadences. Task mutations seed/invalidate query evidence. The selected
 task stream is deduplicated, capped at 200 events, reconnects a continuing timed-
 out stream with `after=<cursor>`, and closes after terminal evidence.
+
+## Stage 20 projection boundary
+
+`/agents` and `/scheduler` share only the validated task ID in URL state. Each
+view independently consumes the deduplicated task, agent, scheduler, and active
+SSE query owners. Agent state comes from durable terminal `state_history`, or
+from the bounded lifecycle stream while active. Scheduler placement comes from
+the live process snapshot when present and the selected terminal task's retained
+result metadata after snapshot eviction. Missing stub admission remains null.
+
+The worker/queue map, state path, execution handoff, admission panel, and request
+ledger are semantic HTML list/table projections with CSS presentation. No graph
+library or browser-side history store was added. The request ledger is capped at
+50 reported rows; it is not a global task-history claim.
 
 ## Context and planned flow
 
@@ -421,4 +436,5 @@ Detailed mechanisms belong to later stages. Current behavior and constraints are
 - Stage 16 performs backend verification and the acceptance gate — COMPLETE; release candidate with tracked limitations.
 - Stage 17 frontend research only — COMPLETE.
 - Stage 18 design system and UI architecture — COMPLETE.
-- Stage 19 Runtime Command Center — COMPLETE; Stage 20 Scheduler & Task Graph remains approval-gated.
+- Stage 19 Runtime Command Center — COMPLETE.
+- Stage 20 Agent & Scheduler Visualization — COMPLETE; Stage 21 Trace Explorer & Replay Debugger remains approval-gated.

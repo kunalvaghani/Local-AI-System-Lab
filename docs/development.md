@@ -239,7 +239,7 @@ both deterministic and real-model API workflows, and fixed real-inference
 regression bounds. The command returns nonzero if a mandatory category fails and
 retains a compact hashed JSON result under `benchmarks/results/`.
 
-## Stage 19 local Runtime Command Center
+## Stage 20 local Runtime Workbench
 
 The browser shell is local-only and requires Node.js compatible with Vite 8.
 Install its locked dependencies once:
@@ -252,7 +252,7 @@ npm install
 Start the deterministic loopback API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage19-dev.db
+python -m runtime.api_cli --stub --database data/stage20-dev.db
 ```
 
 Start the loopback development server from `apps/web` in a second terminal:
@@ -261,10 +261,10 @@ Start the loopback development server from `apps/web` in a second terminal:
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173/runtime`. The development server proxies only `/v1`
-to `http://127.0.0.1:8765`. The Runtime Command Center queries real health,
-agents, scheduler, hardware, models, and metrics; it also creates, inspects,
-streams, and cancels tasks through that proxy.
+Open `http://127.0.0.1:4173/runtime`, `/agents`, or `/scheduler`. The development
+server proxies only `/v1` to `http://127.0.0.1:8765`. A validated `?task=`
+selection is preserved between these routes so agent state, admission,
+scheduler placement, timing, and cancellation describe the same execution.
 
 Run component, navigation, preference, no-fake-data, and automated accessibility
 checks, then compile and measure the shell:
@@ -273,14 +273,15 @@ checks, then compile and measure the shell:
 npm test
 npm run build
 npm run check:bundle
-npm run smoke:stage19
+npm run smoke:stage20
 ```
 
 The bundle script reads built JavaScript, compresses it with gzip, and fails
-above 250 KiB. The Stage 19 smoke assumes both local services are running,
-crosses the frontend proxy, creates one deterministic task, verifies lifecycle/
-terminal SSE evidence, and writes timestamped JSON under `benchmarks/results/`.
-It reports zero real LLM calls by design. `dist/`, `node_modules/`, coverage, and
+above 250 KiB. The Stage 20 smoke assumes both local services are running,
+crosses the frontend proxy, creates one deterministic task, verifies both
+specialist routes plus lifecycle, durable state, and retained scheduler evidence,
+and writes timestamped JSON under `benchmarks/results/`. Stub admission remains
+explicitly null by design. `dist/`, `node_modules/`, coverage, and
 browser-test outputs stay ignored.
 
 Validate Python syntax without executing application code:

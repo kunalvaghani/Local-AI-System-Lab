@@ -3,9 +3,10 @@ import { routeGroups, routes } from "../navigation/routes";
 type DomainRailProps = {
   activePath: string;
   onNavigate: (event: React.MouseEvent<HTMLAnchorElement>, path: string) => void;
+  routeHref: (path: string) => string;
 };
 
-function DomainRail({ activePath, onNavigate }: DomainRailProps) {
+function DomainRail({ activePath, onNavigate, routeHref }: DomainRailProps) {
   return (
     <nav className="domain-rail" aria-label="Application areas">
       {routeGroups.map((group) => (
@@ -14,9 +15,9 @@ function DomainRail({ activePath, onNavigate }: DomainRailProps) {
           {routes.filter((route) => route.group === group).map((route) => (
             <a
               aria-current={route.path === activePath ? "page" : undefined}
-              href={route.path}
+              href={routeHref(route.path)}
               key={route.path}
-              onClick={(event) => onNavigate(event, route.path)}
+              onClick={(event) => onNavigate(event, routeHref(route.path))}
             >
               <span aria-hidden="true">{route.shortLabel}</span>
               {route.label}

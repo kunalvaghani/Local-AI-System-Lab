@@ -9,7 +9,7 @@ import { RouteWorkspace } from "./RouteWorkspace";
 import { SystemBar } from "./SystemBar";
 
 function AppShell() {
-  const { activePath, activeRoute, navigate } = useRoute();
+  const { activePath, activeRoute, navigate, routeHref } = useRoute();
   const { density, setDensity } = useDensity();
   const stackedInspector = useMediaQuery("(max-width: 68.75rem)");
 
@@ -17,7 +17,7 @@ function AppShell() {
     <div className="app-shell">
       <a className="skip-link" href="#main-workspace">Skip to workspace</a>
       <SystemBar density={density} onDensityChange={setDensity} />
-      <DomainRail activePath={activePath} onNavigate={navigate} />
+      <DomainRail activePath={activePath} onNavigate={navigate} routeHref={routeHref} />
 
       <Group
         className="inspector-frame"

@@ -1,6 +1,8 @@
 import type { RouteDefinition } from "../navigation/routes";
 import { DesignSystemView } from "./DesignSystemView";
 import { RuntimeCommandCenter } from "./runtime/RuntimeCommandCenter";
+import { AgentVisualization } from "./scheduler/AgentVisualization";
+import { SchedulerVisualization } from "./scheduler/SchedulerVisualization";
 import { StatusToken } from "./StatusToken";
 
 type RouteWorkspaceProps = {
@@ -21,6 +23,10 @@ function RouteWorkspace({ route }: RouteWorkspaceProps) {
 
       {route.path === "/runtime" ? (
         <RuntimeCommandCenter />
+      ) : route.path === "/agents" ? (
+        <AgentVisualization />
+      ) : route.path === "/scheduler" ? (
+        <SchedulerVisualization />
       ) : route.path === "/design-system" ? (
         <DesignSystemView />
       ) : (
@@ -29,7 +35,7 @@ function RouteWorkspace({ route }: RouteWorkspaceProps) {
           <p className="eyebrow">Stage boundary</p>
           <h2 id="surface-title">Interface contract ready</h2>
           <p>
-            This workspace intentionally contains no simulated runtime values. Stage 19 will
+            This workspace intentionally contains no simulated runtime values. Its stage will
             connect this surface to the documented loopback API.
           </p>
           <dl>

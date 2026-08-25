@@ -5,6 +5,8 @@ import { App } from "./App";
 import "./styles/tokens.css";
 import "./styles/global.css";
 import "./styles/runtime.css";
+import "./styles/scheduler.css";
+import "./styles/agents.css";
 
 const root = document.getElementById("root");
 

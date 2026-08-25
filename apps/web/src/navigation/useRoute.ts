@@ -1,10 +1,10 @@
 import { useSyncExternalStore } from "react";
 
+import { taskAwareHref } from "../hooks/useSelectedTaskId";
 import { routeByPath, routes } from "./routes";
 
-function readPath() {
-  const path = window.location.pathname;
-  return routeByPath.has(path) ? path : "/runtime";
+function readLocation() {
+  return `${window.location.pathname}${window.location.search}`;
 }
 
 function subscribeToPath(onChange: () => void) {
@@ -30,11 +30,14 @@ function navigate(event: React.MouseEvent<HTMLAnchorElement>, path: string) {
 }
 
 function useRoute() {
-  const activePath = useSyncExternalStore(subscribeToPath, readPath, () => "/runtime");
+  const location = useSyncExternalStore(subscribeToPath, readLocation, () => "/runtime");
+  const pathname = location.split("?", 1)[0];
+  const activePath = routeByPath.has(pathname) ? pathname : "/runtime";
   return {
     activePath,
     activeRoute: routeByPath.get(activePath) ?? routes[0],
     navigate,
+    routeHref: taskAwareHref,
   };
 }
 

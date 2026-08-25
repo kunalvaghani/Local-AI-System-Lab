@@ -7,6 +7,11 @@ function currentTaskId() {
   return value && TASK_ID_PATTERN.test(value) ? value : null;
 }
 
+function taskAwareHref(path: string) {
+  const taskId = currentTaskId();
+  return taskId ? `${path}?task=${encodeURIComponent(taskId)}` : path;
+}
+
 function subscribe(callback: () => void) {
   window.addEventListener("popstate", callback);
   return () => window.removeEventListener("popstate", callback);
@@ -28,4 +33,4 @@ function useSelectedTaskId() {
   return { taskId, selectTask };
 }
 
-export { useSelectedTaskId };
+export { taskAwareHref, useSelectedTaskId };

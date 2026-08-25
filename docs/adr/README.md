@@ -26,6 +26,7 @@ performance, reproducibility, or stage boundaries.
 | [0017](0017-scoped-evidence-based-backend-acceptance.md) | Accepted | Binary required checks plus honest scoped subsystem maturity classifications |
 | [0018](0018-systems-cartography-web-shell.md) | Accepted | Systems Cartography local React shell with explicit state boundaries and bundle budget |
 | [0019](0019-real-loopback-query-and-sse-client.md) | Accepted | Real loopback query ownership, URL task selection, and bounded SSE lifecycle client |
+| [0020](0020-task-scoped-agent-scheduler-projections.md) | Accepted | Task-scoped agent state and scheduler evidence projections with retained dispatch fallback |
 
 ## Process
 

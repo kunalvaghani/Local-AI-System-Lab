@@ -1,0 +1,38 @@
+{
+  "stage": 20,
+  "captured_at_utc": "2026-08-25T12:46:14.783Z",
+  "target": "http://127.0.0.1:4173",
+  "frontend": {
+    "agents_route_http_status": 200,
+    "scheduler_route_http_status": 200,
+    "api_proxy_verified": true
+  },
+  "agents": {
+    "count": 2,
+    "selected_agent_id": "technical-explainer",
+    "prompt_policy": "system prompts are not exposed by the API"
+  },
+  "task": {
+    "task_id": "19a88cd5-82e5-40b3-8af1-65fd751cce95",
+    "final_status": "completed",
+    "durable_state": "completed",
+    "state_transitions": 5
+  },
+  "admission": null,
+  "scheduler": {
+    "policy": "fifo",
+    "request_status": "completed",
+    "workload": "interactive",
+    "base_priority": 100,
+    "effective_priority": 100,
+    "queue_wait_ms": 0,
+    "execution_ms": 50.38459999968836
+  },
+  "stream": {
+    "http_status": 200,
+    "lifecycle_events": 15,
+    "task_events": 1,
+    "end_events": 1
+  },
+  "elapsed_ms": 770.484
+}

@@ -15,22 +15,24 @@ Cartography direction into a measured, navigable local React application shell
 and reusable design system without fabricating backend telemetry. Stage 19 adds
 the real local Runtime Command Center: live inspection, bounded task launch,
 URL-addressable task evidence, ordered SSE lifecycle updates, and cancellation.
+Stage 20 adds task-aware Agent and Scheduler views for durable/live state,
+cross-component handoffs, admission, queue order, dispatch timing, and control.
 
 ## Current status
 
-- Last completed stage: Stage 19 — Runtime Command Center
-- Next approval-gated stage: Stage 20 — Scheduler & Task Graph
+- Last completed stage: Stage 20 — Agent & Scheduler Visualization
+- Next approval-gated stage: Stage 21 — Trace Explorer & Replay Debugger
 - Backend acceptance: RELEASE CANDIDATE; all required checks PASS, overall maturity PARTIAL
-- Frontend Runtime Command Center: COMPLETE; specialist screens remain staged
+- Frontend Runtime, Agent, and Scheduler views: COMPLETE; trace/replay remains staged
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
 
-## Run the Stage 19 Runtime Command Center
+## Run the Stage 20 Runtime Workbench
 
 Start the local-only deterministic API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage19-dev.db
+python -m runtime.api_cli --stub --database data/stage20-dev.db
 ```
 
 In a second terminal:
@@ -41,7 +43,7 @@ npm install
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173/runtime`. The command center reads real health,
+Open `http://127.0.0.1:4173/runtime`, `/agents`, or `/scheduler`. The workbench reads real health,
 scheduler, hardware, model, agent, and metric evidence through the loopback
 proxy. It can launch one bounded task, retain its selected ID in the URL, follow
 ordered SSE lifecycle events, show truthful output/measurements, and request
@@ -53,14 +55,14 @@ Validate the frontend foundation:
 npm test
 npm run build
 npm run check:bundle
-npm run smoke:stage19
+npm run smoke:stage20
 ```
 
-The Stage 19 suite has seven component tests including an automated axe-core
-scan. Its reproducible smoke crosses the Vite proxy, creates a real stub task,
-reads 15 ordered lifecycle events, and retains JSON evidence. Read the
-[Stage 19 report](docs/stages/stage19-runtime-command-center.md) and
-[ADR-0019](docs/adr/0019-real-loopback-query-and-sse-client.md).
+The Stage 20 suite has twelve component tests, including automated axe-core
+scans of Runtime, Agents, and Scheduler. Its reproducible smoke crosses the Vite
+proxy, creates a real stub task, verifies retained state/scheduler evidence, and
+keeps missing admission explicit. Read the [Stage 20 report](docs/stages/stage20-agent-scheduler-visualization.md)
+and [ADR-0020](docs/adr/0020-task-scoped-agent-scheduler-projections.md).
 
 ## Review the Stage 17 frontend research
 

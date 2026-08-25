@@ -1,7 +1,7 @@
 import type { TaskRecord } from "../api/types";
 
 const taskFixture: TaskRecord = {
-  task_id: "task-stage19-test",
+  task_id: "task-stage20-test",
   agent_id: "technical-explainer",
   objective: "Explain the bounded local runtime.",
   input_data: {},
@@ -14,9 +14,9 @@ const taskFixture: TaskRecord = {
   result: null,
   error: null,
   links: {
-    self: "/v1/tasks/task-stage19-test",
-    events: "/v1/tasks/task-stage19-test/events",
-    trace: "/v1/tasks/task-stage19-test/trace",
+    self: "/v1/tasks/task-stage20-test",
+    events: "/v1/tasks/task-stage20-test/events",
+    trace: "/v1/tasks/task-stage20-test/trace",
   },
 };
 
@@ -33,19 +33,19 @@ const fixtures: Record<string, unknown> = {
       name: "Technical Explainer",
       objective: "Explain local runtime evidence.",
       capabilities: ["explanation", "local-inference"],
-      tools: [],
+      tools: [{ name: "local-docs", description: "Read bounded local documentation.", permissions: ["read"] }],
     }],
     prompt_policy: "bounded",
   },
   "/v1/scheduler": {
-    policy: "fifo",
+    policy: "priority",
     max_workers: 1,
-    queue_depth: 0,
-    peak_queue_depth: 1,
-    running: 0,
-    submitted: 1,
+    queue_depth: 2,
+    peak_queue_depth: 2,
+    running: 1,
+    submitted: 3,
     started: 1,
-    completed: 1,
+    completed: 0,
     failed: 0,
     cancelled: 0,
     timed_out: 0,
@@ -53,8 +53,12 @@ const fixtures: Record<string, unknown> = {
     queue_wait_p50_ms: 0.2,
     queue_wait_p95_ms: 0.2,
     queue_wait_max_ms: 0.2,
-    execution_order: ["task-stage19-test"],
-    requests: [],
+    execution_order: ["task-stage20-test"],
+    requests: [
+      { request_id: "scheduler-running", task_id: "task-stage20-test", sequence: 1, status: "running", workload: "standard", base_priority: 5, effective_priority: 5, queue_position_at_submit: 0, submitted_at_utc: "2026-08-25T12:00:00+00:00", started_at_utc: "2026-08-25T12:00:00.010000+00:00", finished_at_utc: null, queue_wait_ms: 0.2, execution_ms: null, timeout_ms: 30000, error_code: null },
+      { request_id: "scheduler-background", task_id: "task-background", sequence: 2, status: "queued", workload: "background", base_priority: 2, effective_priority: 2, queue_position_at_submit: 1, submitted_at_utc: "2026-08-25T12:00:00.020000+00:00", started_at_utc: null, finished_at_utc: null, queue_wait_ms: null, execution_ms: null, timeout_ms: 30000, error_code: null },
+      { request_id: "scheduler-interactive", task_id: "task-interactive", sequence: 3, status: "queued", workload: "interactive", base_priority: 8, effective_priority: 8, queue_position_at_submit: 2, submitted_at_utc: "2026-08-25T12:00:00.030000+00:00", started_at_utc: null, finished_at_utc: null, queue_wait_ms: null, execution_ms: null, timeout_ms: 30000, error_code: null },
+    ],
   },
   "/v1/hardware": {
     captured_at_utc: "2026-08-25T12:00:00+00:00",
@@ -95,7 +99,7 @@ const fixtures: Record<string, unknown> = {
 };
 
 function jsonResponse(data: unknown, status = 200) {
-  return new Response(JSON.stringify({ data, request_id: "request-stage19-test" }), {
+  return new Response(JSON.stringify({ data, request_id: "request-stage20-test" }), {
     status,
     headers: { "Content-Type": "application/json" },
   });

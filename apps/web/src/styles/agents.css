@@ -1,0 +1,132 @@
+.agent-visualization {
+  padding: var(--space-6) 0 var(--space-7);
+}
+
+.agent-catalog {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.agent-card,
+.state-path-panel,
+.execution-flow-panel {
+  min-width: 0;
+  padding: var(--space-4);
+  border: var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-1);
+}
+
+.agent-card[data-selected="true"] {
+  border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-line-subtle));
+  box-shadow: inset 0.1875rem 0 var(--color-accent);
+}
+
+.agent-card > p {
+  min-height: 2.4rem;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.agent-card dl {
+  margin: var(--space-3) 0 0;
+}
+
+.agent-card dl > div {
+  padding: var(--space-2) 0;
+  border-top: var(--border-subtle);
+}
+
+.agent-card dt {
+  color: var(--color-text-faint);
+  font-size: 0.625rem;
+}
+
+.agent-card dd {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-muted);
+  font: 0.6875rem/1.5 var(--font-data);
+}
+
+.execution-map-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.state-path,
+.execution-flow {
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.state-path li,
+.execution-flow li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 3.25rem;
+}
+
+.state-path li:not(:last-child)::after {
+  position: absolute;
+  top: 2.15rem;
+  bottom: -0.9rem;
+  left: 0.4375rem;
+  width: 1px;
+  background: var(--color-line-strong);
+  content: "";
+}
+
+.state-path li > span {
+  z-index: 1;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+  background: var(--color-surface-1);
+}
+
+.state-path strong,
+.state-path small,
+.execution-flow strong,
+.execution-flow small {
+  display: block;
+}
+
+.state-path strong,
+.execution-flow strong {
+  color: var(--color-text);
+  font: 0.6875rem var(--font-data);
+}
+
+.state-path small,
+.execution-flow small,
+.state-path time {
+  margin-top: 0.125rem;
+  color: var(--color-text-faint);
+  font-size: 0.625rem;
+}
+
+.execution-flow li {
+  border-top: var(--border-subtle);
+}
+
+.execution-flow li > span {
+  color: var(--color-accent);
+  font: 0.625rem var(--font-data);
+}
+
+@media (max-width: 68.75rem) {
+  .agent-catalog,
+  .execution-map-grid {
+    grid-template-columns: 1fr;
+  }
+}
