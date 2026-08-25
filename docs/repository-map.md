@@ -7,7 +7,7 @@ At the start of Stage 0, commit `67ef780` contained one tracked file:
 matched `origin/main`. There were no source directories, tests, configuration
 files, dependency manifests, architecture documents, or TODO/FIXME markers.
 
-## Structure after Stage 12
+## Structure after Stage 17
 
 ```text
 Local-AI-System-Lab/
@@ -21,7 +21,11 @@ Local-AI-System-Lab/
 │   ├── inference-profiles.json        # Typed adaptive resource-profile catalog
 │   ├── model-registry.json            # Model availability and workload budgets
 │   ├── persistence.json               # SQLite path, timeout, journal, durability mode
-│   └── observability.json             # Report window, drill-down limits, live-probe policy
+│   ├── observability.json             # Report window, drill-down limits, live-probe policy
+│   ├── chaos.json                     # Disabled-by-default bounded fault scenarios
+│   ├── security.json                  # Strict local security ceilings and allowlists
+│   ├── api.json                       # Loopback bind and API/task/stream/chaos bounds
+│   └── acceptance.json                # Stage 16 scope, evidence counts, regression limits
 ├── benchmarks/
 │   ├── __init__.py
 │   ├── run_stage2_baseline.py         # Reproducible benchmark runner
@@ -30,6 +34,10 @@ Local-AI-System-Lab/
 │   ├── run_stage10_recovery.py        # Killed-process recovery evidence runner
 │   ├── run_stage11_trace_replay.py    # Trace/replay/comparison evidence runner
 │   ├── run_stage12_observability.py   # Unified telemetry evidence runner
+│   ├── run_stage13_chaos.py           # Complete controlled chaos runner
+│   ├── run_stage14_security.py        # Complete adversarial evidence runner
+│   ├── run_stage15_api.py             # Separate-process external API evidence runner
+│   ├── run_stage16_acceptance.py      # Complete classified backend gate
 │   ├── prompts/stage2-baseline.json   # Five-prompt tracked workload
 │   ├── results/stage2-baseline-20260823T180550Z.json
 │   ├── results/stage8-profile-comparison-20260824T121616Z.json # Exploratory zero-layer run
@@ -37,13 +45,20 @@ Local-AI-System-Lab/
 │   ├── results/stage9-routing-20260824T124057Z.json # Controlled route result
 │   ├── results/stage10-recovery-20260824T131728Z.json # Retained restart result
 │   ├── results/stage11-trace-replay-20260824T143744Z.json # Retained replay result
-│   └── results/stage12-observability-20260824T163054Z.json # Retained telemetry result
+│   ├── results/stage12-observability-20260824T163054Z.json # Retained telemetry result
+│   ├── results/stage13-chaos-20260824T193424Z.json # Retained fault/recovery result
+│   ├── results/stage14-security-20260824T203349Z.json # Retained PASS/FAIL result
+│   ├── results/stage15-api-20260824T205654Z.json # Retained deterministic HTTP/SSE result
+│   ├── results/stage15-api-real-20260825T010429Z.json # Retained real Qwen API result
+│   └── results/stage16-backend-acceptance-20260825T011603Z.json # Retained gate result
 ├── docs/
 │   ├── architecture.md                # Implemented/deferred component boundaries
 │   ├── development.md                 # Reproducible run/test/check commands
 │   ├── environment.md                 # Measured workstation/tool baseline
+│   ├── frontend-research.md            # Stage 17 evidence and frontend recommendation
 │   ├── repository-map.md              # This inventory
 │   ├── risks.md                       # Evidence-based risk register
+│   ├── backend-acceptance-report.md   # Human release-candidate decision
 │   ├── benchmarks/
 │   │   └── stage2-local-inference-baseline.md
 │   ├── stages/
@@ -56,7 +71,11 @@ Local-AI-System-Lab/
 │   │   ├── stage9-model-registry-router-budgets.md
 │   │   ├── stage10-persistence-checkpoints-recovery.md
 │   │   ├── stage11-execution-trace-deterministic-replay.md
-│   │   └── stage12-observability-metrics-backend.md
+│   │   ├── stage12-observability-metrics-backend.md
+│   │   ├── stage13-fault-injection-chaos-framework.md
+│   │   ├── stage14-security-adversarial-testing.md
+│   │   ├── stage15-backend-api-full-runtime-integration.md
+│   │   └── stage16-backend-verification-acceptance-gate.md
 │   └── adr/
 │       ├── README.md                  # ADR process and index
 │       ├── 0001-stage-gated-modular-backend-first.md
@@ -72,9 +91,13 @@ Local-AI-System-Lab/
 │       ├── 0011-sqlite-checkpoints-and-pre-invocation-recovery.md
 │       ├── 0012-hash-chained-traces-and-bounded-replay.md
 │       ├── 0013-sqlite-windowed-observability-snapshots.md
+│       ├── 0014-bounded-protocol-fault-injection.md
+│       ├── 0015-deterministic-security-boundaries.md
+│       ├── 0016-loopback-stdlib-http-json-sse-api.md
+│       ├── 0017-scoped-evidence-based-backend-acceptance.md
 │       └── template.md
 ├── runtime/
-│   ├── __init__.py                    # Public runtime API through Stage 12
+│   ├── __init__.py                    # Public runtime API through Stage 15
 │   ├── __main__.py                    # `python -m runtime` entry point
 │   ├── agent_cli.py                   # Real specialized-agent demonstration
 │   ├── agents.py                      # Two registered Stage 3 role definitions
@@ -93,6 +116,16 @@ Local-AI-System-Lab/
 │   ├── recovery_cli.py                # Killed-worker restart/recovery demo
 │   ├── trace_cli.py                   # Trace inspect/replay/compare/demo CLI
 │   ├── observability_cli.py           # Live/recent JSON telemetry CLI
+│   ├── chaos_cli.py                   # Explicitly armed fault/recovery suite
+│   ├── security_cli.py                # Adversarial PASS/FAIL suite
+│   ├── api_cli.py                     # Loopback full-runtime HTTP/SSE service
+│   ├── api/
+│   │   ├── config.py                  # Strict loopback and request/task/stream bounds
+│   │   ├── models.py                  # External task record/status/result schemas
+│   │   ├── manager.py                 # Bounded task ownership and cancellation
+│   │   ├── service.py                 # Integrated transport-independent operations
+│   │   ├── openapi.py                 # OpenAPI 3.1 route document
+│   │   └── server.py                  # HTTP/JSON and SSE adapter
 │   ├── models.py                      # Typed domain/component data
 │   ├── state_machine.py               # Legal graph and ordered histories
 │   ├── scheduler_cli.py               # FIFO/priority ordering comparison
@@ -128,6 +161,17 @@ Local-AI-System-Lab/
 │   │   ├── models.py                  # Unified report and distribution records
 │   │   ├── store.py                   # Narrow SQLite telemetry source
 │   │   └── backend.py                 # Aggregation and optional live snapshots
+│   ├── faults/
+│   │   ├── models.py                  # Scenario, plan, record, and report contracts
+│   │   ├── config.py                  # Strict disabled-by-default plan loader
+│   │   ├── controller.py              # Count bounds, delay, and injection metrics
+│   │   ├── adapters.py                # Inference/tool/persistence decorators
+│   │   └── runner.py                  # Expected/actual scenario execution
+│   ├── security/
+│   │   ├── models.py                  # Per-case and suite evidence contracts
+│   │   ├── config.py                  # Strict security configuration loader
+│   │   ├── policy.py                  # Input/output/path/tool/network/process controls
+│   │   └── runner.py                  # Fourteen adversarial cases
 │   ├── tool_cli.py                    # Permitted/denied tool demonstration
 │   ├── tools/
 │   │   ├── models.py                  # Typed schemas, permissions, requests/results
@@ -158,6 +202,10 @@ Local-AI-System-Lab/
     ├── test_persistence_recovery.py   # Schema, durability, restart, kill/recovery tests
     ├── test_tracing_replay.py         # Migration, chain, tamper, replay, compare, CLI
     ├── test_observability.py          # Windows, aggregates, live evidence, CLI, factory
+    ├── test_fault_injection.py        # Arming, faults, gap, reports, killed-process recovery
+    ├── test_security.py               # Policy, runtime, redaction, and full-suite coverage
+    ├── test_api.py                    # Real-socket JSON/SSE/control/integration coverage
+    ├── test_acceptance.py             # Strict policy and classification coverage
     ├── test_runtime.py
     ├── test_scheduler.py               # Ordering, bounds, timeout, cancellation, aging
     ├── test_scheduler_cli.py           # Visible FIFO/priority comparison
@@ -170,19 +218,22 @@ Ignored `tools/` and `models/` directories contain the verified native binaries
 and GGUF file; they are reproducible artifacts, not source. No empty future
 directories are added merely to imply implementation.
 
-## Component inventory
+## Component inventory after Stage 17 research
 
-| Area | State after Stage 11 | State after Stage 12 | Evidence |
+| Area | Prior evidence | State after Stage 17 | Evidence |
 | --- | --- | --- | --- |
-| Repository | Trace result/report, ADR-0012, and 0.11.0 identity | Adds telemetry result/report, ADR-0013, and 0.12.0 identity | README, observability result, ADR index |
-| Runtime | Task-scoped trace protocol and replay access | Adds a replaceable unified observability protocol/factory composition | Factory and observability tests |
-| Inference | Hashed boundaries and durable metrics | Aggregates measured total time, TTFT, throughput, RAM, and VRAM distributions | Exact-sample aggregation test |
-| Scheduler/router/policy | Classified durable trace steps | Adds durable queue/route distributions and current scheduler snapshot | Controlled report and live test |
-| Tools/recovery/failures | Durable request/result/recovery ledgers | Adds correlated totals, latency, failure detail, and retry disclosure | Four-task demo |
-| Persistence/tracing/metrics | SQLite schema v2 traces/replay, no unified query | Adds consistent windowed read aggregation without a schema bump | Window/limit/restart tests |
-| API/frontend | Missing | Intentionally deferred; CLI JSON is the machine surface | `PROJECT_STATE.md` |
-| Tests/benchmarks | 108 tests and trace result | Adds focused observability tests and retained unified report | `tests/`, Stage 12 result/report |
-| Decisions/risks | ADR-0012 and trace caveats | ADR-0013 plus query-scale/live-snapshot caveats | `docs/adr/`, `docs/risks.md` |
+| Repository | Security result/report, ADR-0015, and 0.14.0 identity | Adds API result/report, ADR-0016, and 0.15.0 identity | README, Stage 15 result, ADR index |
+| Runtime | Complete guarded synchronous orchestration | Adds Stage 15 real/stub compositions and bounded asynchronous API ownership without coupling core protocols to HTTP | Factory and API tests |
+| Task control | Caller blocks in `AgentRuntime.run()` | External create/inspect/cancel plus durable completed-task inspection after API restart | Task/SSE/cancellation/restart tests |
+| Inspection | Separate CLIs and Python component calls | Safe HTTP views for agents, scheduler, hardware, models/budgets, metrics, and traces/replay | External API result |
+| Reliability/security | Explicit local CLIs | Confirmed isolated chaos and retained security-result endpoints; serving runtime remains unarmed | Chaos/security API test |
+| Data exposure | Local SQLite and CLI reports | System prompts, absolute model paths, raw trace payloads, run metadata, and failure details omitted at API boundary | Safe-view/trace tests |
+| API/frontend | Missing | Loopback HTTP/JSON + SSE and OpenAPI added; frontend remains prohibited | `runtime/api/`, Stage 15 report |
+| Tests/benchmarks | 138 tests plus security result | 147 tests plus retained 16-operation external API result | `tests/test_api.py`, Stage 15 result/report |
+| Decisions/risks | ADR-0015 and application-security caveats | ADR-0016 plus production-server, connection, restart, and retention limitations | `docs/adr/`, `docs/risks.md` |
+| Acceptance | Separate subsystem evidence only | One 14-command gate, 14/14 required PASS, scoped maturity matrix, and release recommendation | Acceptance JSON/report, ADR-0017 |
+| Release identity | 0.15.0 API-ready backend | 0.16.0 verified backend release candidate | `pyproject.toml`, acceptance result |
+| Frontend research | Backend accepted; no direction selected | 28-source current research, Systems Cartography recommendation, stack/performance/accessibility constraints, no UI implementation | `docs/frontend-research.md` |
 
 ## Current and planned folder convention
 
@@ -190,8 +241,9 @@ The following remains a boundary guide. Existing folders are evidence of only
 the files listed above; later subdirectories are not implementation claims.
 
 ```text
-apps/             External entry points; API later, production web only after gate
+apps/             Reserved for approved production applications; still absent after Stage 17
 runtime/          Inspectable runtime implementation
+  api/            Current loopback backend adapter and application service
   agents/         Agent identity and behavior contracts
   inference/      Local inference backend abstraction and adapters
   scheduler/      Request ordering and cancellation
@@ -201,13 +253,14 @@ runtime/          Inspectable runtime implementation
   tools/          Restricted tool registry/execution
   tracing/        Deterministic event and replay structures
   faults/         Controlled fault injection
+  security/       Deterministic security boundaries and adversarial evidence
   metrics/        Runtime and inference telemetry
 native/           Evidence-justified native optimizations only
 tests/            Unit, integration, failure, security, and acceptance tests
 benchmarks/       Reproducible workloads, configs, and recorded results
 configs/          Typed, versioned, non-secret configuration
 scripts/          Reproducible developer and verification commands
-docs/             Architecture, decisions, experiments, and reports
+docs/             Architecture, decisions, experiments, research, and reports
 ```
 
 ## Ownership rules

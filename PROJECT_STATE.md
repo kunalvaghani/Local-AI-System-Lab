@@ -6,21 +6,80 @@ Local AI Systems Lab — a fully local, inspectable AI runtime/platform for cons
 
 ## Current Milestone
 
-Durable and live runtime evidence now converges in one windowed, machine-readable
-observability report with task/activity totals, sample-aware distributions,
-recent task drill-down, and source-labelled scheduler/hardware snapshots; waiting
-at the Stage 12 approval gate.
+The complete local backend remains a Stage 16 release candidate for single-user
+loopback frontend work. Stage 17 fresh frontend research is complete and recommends
+a Systems Cartography direction with a lean accessible/virtualized stack; no
+production frontend implementation has started. Waiting at the Stage 17 approval gate.
 
 ## Current Stage
 
-Stage 12 — Observability & Metrics Backend — COMPLETE, AWAITING APPROVAL.
+Stage 17 — Frontend Research Only — COMPLETE, AWAITING APPROVAL.
 
 ## Current Subsystem
 
-Windowed SQLite telemetry queries, unified aggregation/distributions, live
-scheduler/hardware snapshots, recent task/event drill-down, and JSON reporting.
+Current frontend research covering Google and web-platform direction, developer
+and observability interaction patterns, maintained React implementation candidates,
+recency, performance, accessibility, dependency cost, rejected ideas, recommended
+stack, and three visual directions. No frontend subsystem exists yet.
 
 ## Last Completed Work
+
+- Completed fresh 2026-08-25 frontend research with 28 official or canonical references across Google/Material, Chrome and web-platform capabilities, developer/observability interfaces, and maintained open-source React candidates.
+- Recommended **Systems Cartography**: a graphite/neutral, data-dense runtime workbench combining an operating-system inspector, profiler, trace debugger, and experiment laboratory without copying Material, a generic dashboard, or a chat interface.
+- Mapped proposed interactions to the real `/v1` health, task/SSE, agent, scheduler, hardware, model, metric, trace/replay, chaos, and security-result surfaces.
+- Recommended React 19.2, TypeScript, Vite 8, native CSS tokens/Modules, React Aria Components, TanStack Query/Table/Virtual, and react-resizable-panels as the lean core direction.
+- Limited React Flow and Recharts to lazy specialized views; preferred native CSS/View Transitions as progressive enhancement; deferred Motion, cmdk, xterm.js, Monaco, WebGL-first rendering, arbitrary docking, SSR/RSC, and generic UI frameworks until evidence justifies them.
+- Defined proposed (not yet measured) shell, virtualization, SSE update, chart-point, fixture, INP/long-task/heap, and lazy-loading performance constraints for Stage 18 validation.
+- Carried WCAG 2.2 AA, keyboard, reduced-motion, live-region, zoom/reflow, high-contrast, graph/table equivalence, and explicit non-happy-state requirements into the design-system stage.
+- Added `docs/frontend-research.md`; updated the README, architecture, repository map, risk register, and project state without adding a frontend directory, dependency, route, component, stylesheet, or production UI.
+
+- Added strict Stage 16 acceptance policy for a 150-test floor, 14 security cases, nine chaos scenarios, 100% expected chaos/recovery rates, minimum 75 tok/s, maximum +50% TTFT regression, 1,600 MiB RAM, 1,500 MiB VRAM delta, and 10-second real API stream.
+- Added a reproducible runner covering compile/package, the complete suite, targeted cancellation/timeout and malformed-output tests, scheduler, hardware/admission, killed-process recovery, trace/replay, observability, chaos, security, deterministic API, and real-model API.
+- Added SHA-256 command-output evidence, embedded acceptance thresholds, retained subsystem summaries, Stage 2 regression arithmetic, and a nonzero exit contract for mandatory failure.
+- Retained `stage16-backend-acceptance-20260825T011603Z.json`: 14/14 commands exit 0, 14/14 required categories PASS, zero FAILED subsystems, release candidate true, recommendation to accept for single-user loopback frontend work with tracked limitations.
+- Ran 150 tests in 39.115 seconds; eight targeted cancellation/timeout tests and six focused malformed-output/fault tests also passed.
+- Recovered an actually terminated worker to `completed` with zero model calls and integrity `ok`; trace replay matched with zero deterministic divergences; observability unified four tasks, one recovery, and 55 steps.
+- Re-ran all nine chaos scenarios: 9/9 expected outcomes and recovery 1/1, while honestly retaining 8/9 containment due to the known terminal-output atomicity gap.
+- Re-ran all fourteen bounded security cases: 14/14 PASS, zero failures/model calls, integrity `ok`; security maturity remains `PARTIAL`, not certified.
+- Re-ran deterministic and real separate-process APIs: 16 operations each, zero/one model calls, integrity `ok`.
+- The real Stage 16 API run used Qwen2.5 1.5B/`performance`: 2,375.728 ms total, 1,747.839 ms TTFT, 93.68 tok/s, 1,343.895 MiB RAM, 1,189 MiB VRAM, and 4,589.371 ms HTTP/SSE stream.
+- Passed all five regression limits: throughput, TTFT (+3.616% from Stage 2 median), RAM, VRAM, and API stream duration.
+- Classified core runtime, scheduler/admission, trace/replay/observability, and backend API `DONE`; persistence/recovery, fault injection, security, and model routing/evaluation `PARTIAL`; remote multi-user deployment `DEFERRED`.
+- Added the Backend Acceptance Report, Stage 16 report, ADR-0017, strict config/classifier tests, and package identity 0.16.0 without adding frontend code.
+
+- Added strict tracked API configuration: literal loopback binding, 64 KiB request cap, eight in-flight tasks, 30/45-second default/maximum task deadlines, 50 ms SSE polling, 45-second stream cap, and three-scenario chaos cap.
+- Added a transport-independent service integrating tasks, agents, scheduler, hardware, model registry/budgets, unified metrics, redacted traces, replay, chaos, and retained security results.
+- Added bounded asynchronous API task ownership with cooperative cancellation, terminal status mapping, clean shutdown, and durable completed-task fallback inspection after restart.
+- Added dependency-free HTTP/1.1 JSON and SSE over `ThreadingHTTPServer`, strict UTF-8/JSON/media-type/query/field validation, duplicate-key/non-finite rejection, typed error mapping, request IDs, no-store/security headers, and no static file serving.
+- Added `/v1` discovery/health/OpenAPI, task create/inspect/cancel/events/trace, component inspection, trace inspect/replay, confirmed isolated chaos, and security-result routes.
+- Omitted system prompts, absolute model paths, trace raw input/output payloads, and trace-run metadata from safe inspection surfaces.
+- Required literal chaos confirmation and ran at most three unique scenarios through a separate stub runtime and unique database, leaving the serving runtime unarmed.
+- Retained `stage15-api-20260824T205654Z.json`: 16 external HTTP/SSE operations, zero post-launch direct runtime calls, zero real LLM calls, completed durable task, 15 lifecycle events, 16 redacted trace steps, valid replay, expected isolated chaos, zero security failures, and integrity `ok`.
+- Retained `stage15-api-real-20260825T010429Z.json`: the same 16-operation workflow through Qwen2.5 1.5B/llama.cpp with one real model call, completed durable task, 18 SSE lifecycle events, 19 redacted trace steps, valid replay, isolated chaos, zero retained security failures, and integrity `ok`.
+- The real external task used the admitted `performance` profile and measured 2,973.505 ms inference, 2,210.807 ms TTFT, 103.32 tok/s, 1,343.887 MiB peak child RAM, and 1,189 MiB VRAM delta.
+- Added `local-ai-api`, Stage 15 external runner, ADR-0016, Stage 15 report, and nine real-socket API tests including strict bind/config validation, active cancellation, and post-restart durable inspection.
+
+- Added strict Stage 14 policy for 4,096-character objectives, depth-six/256-node payloads, 8,000-character model output, 20,000-character tool output, 45-second subprocess timeout, and one process slot.
+- Added pre-persistence validation for JSON-like structure, finite numbers, control characters, size bounds, sensitive field names, and token/bearer/private-key patterns.
+- Added JSON-encoded `UNTRUSTED_USER_OBJECTIVE` prompt separation while keeping tool, network, path, and subprocess authority in deterministic code outside the model.
+- Replaced raw objective lifecycle data with objective hash/length and added recursive secret redaction for event/metric payloads.
+- Strengthened filesystem reads with configured allowed entries, denied components, suffix allowlists, resolved containment, and symlink-escape rejection.
+- Added a global read-only `filesystem.read` permission ceiling above existing exact agent grants; no shell, network, process, write, or escalation tool is registered.
+- Added deny-by-default application network policy, exact no-shell subprocess validation, bounded arguments/timeouts, secret-free argv, and one-slot guarded inference.
+- Retained `stage14-security-20260824T203349Z.json`: 14/14 PASS, zero FAIL, 2,181.687 ms, zero real LLM calls, and SQLite integrity `ok`.
+- Retained five runtime tasks (one completed, three security-blocked, one tool-failed), one stub model call, three tool calls, five trace runs, 55 steps, and a 6.242 ms observability query.
+- Added `local-ai-security`, Stage 14 runner, ADR-0015, Stage 14 report, and 10 focused security tests while explicitly refusing to call the system secure.
+- Ran the guarded Stage 14 runtime against real Qwen2.5 1.5B: one completed task/model call, one prompt-protection event, zero faults, 19 trace steps, 3,370.565 ms inference, 2,760.402 ms TTFT, 105.39 tok/s, 1,343.949 MiB RAM, and 1,189 MiB VRAM.
+
+- Added nine strict fault scenarios covering model/tool timeout, invalid model output, context overflow, simulated OOM, corrupted tool result, malformed tool call, terminal database-result failure, and agent crash/recovery.
+- Added disabled-by-default, explicitly armed plans with scenario selection, maximum 1,000 ms configured delay, positive injection caps, unique IDs, and no probabilistic behavior.
+- Added a thread-safe controller that records one task-correlated `fault.injected` metric per activation.
+- Added protocol decorators around inference, tool execution, and terminal result persistence without adding chaos branches to `AgentRuntime`.
+- Added an actual subprocess termination after `recovery_ready`; a fresh runtime recovered the same task through `RECOVERING` with zero real LLM calls.
+- Retained `stage13-chaos-20260824T193424Z.json`: nine injections, 9/9 expected outcomes, 8/9 contained, one recovery/one success, SQLite integrity `ok`, 11 trace runs/140 steps.
+- Reproduced R-32: a terminal result-save failure returns `database_operation_failed` while state remains `completed` and no output row exists; the report correctly marks it not contained.
+- Added `local-ai-chaos`, Stage 13 runner, ADR-0014, Stage 13 report, and 11 focused fault tests.
+- Ran the normal Stage 13 runtime against the real Qwen2.5 1.5B backend: one completed task/model call, zero injected faults, 2,410.179 ms inference, 1,693.755 ms TTFT, 102.59 tok/s, 1,343.566 MiB RAM, and 1,185 MiB VRAM.
 
 - Added a typed `ObservabilityBackend` and Stage 12 real/stub factory composition without changing SQLite schema v2.
 - Added one consistent windowed SQLite read transaction across task state, metric events, outputs, tool calls, recovery attempts, traces, and replay reports.
@@ -108,17 +167,45 @@ scheduler/hardware snapshots, recent task/event drill-down, and JSON reporting.
 
 ## Currently Working On
 
-None. Stage 12 is complete and work is stopped at the mandatory approval gate.
+None. Stage 17 research is complete and work is stopped before Stage 18 design-system or UI architecture work.
 
 ## Current Blockers
 
-- User approval is required before Stage 13.
-- No technical blocker remains for the demonstrated Stage 12 observability path.
+- User approval is required before Stage 18 Design System & UI Architecture.
+- Systems Cartography and the recommended stack remain research proposals until approved/refined in Stage 18.
+- No frontend implementation exists; no runtime/API blocker prevents the approved single-user loopback design scope.
 - A second real model artifact/backend is not installed; controlled route differences are therefore policy evidence, not a claim of compact-model inference.
 
 ## Important Decisions
 
 - Follow one stage at a time and stop for explicit approval after each stage.
+- Keep Stage 17 research-only: current sources may guide Stage 18, but research does not authorize packages, scaffolding, components, routes, or visual assets.
+- Recommend Systems Cartography as the primary direction: dense evidence-first inspection with restrained color/motion, text-equivalent visualizations, and adaptive list-detail/supporting panes.
+- Prefer a small accessible and virtualized client stack; make graph/chart/motion/editor/terminal dependencies separately measurable and lazy rather than default shell costs.
+- Keep URL state, REST/query cache state, SSE lifecycle state, and transient inspector selection state distinct in the future frontend architecture.
+- Treat every graph, timeline, and chart as a projection of the accepted API, never a second runtime source of truth.
+- Separate binary required-category acceptance from `DONE`/`PARTIAL`/`FAILED`/`DEFERRED` subsystem maturity.
+- Require every mandatory category to pass for release-candidate status; never let a high aggregate test count substitute for real recovery, chaos, security, API, or model evidence.
+- Scope acceptance to the measured single-user loopback backend; remote multi-user deployment remains explicitly deferred.
+- Track acceptance thresholds before execution, embed them in the retained result, and require a full rerun when policy changes.
+- Recommend frontend eligibility without authorizing it automatically; explicit user approval remains the stage gate.
+- Use versioned loopback HTTP/1.1 with RFC 8259 JSON and SSE because current commands are request/response and execution updates are server-to-client only.
+- Keep API operations transport-independent; `AgentRuntime` and its protocols do not depend on a web framework.
+- Use the standard-library server only as a local development boundary and reject non-loopback binds; do not describe it as production-ready.
+- Bound request bytes, in-flight task count, task/stream duration, and chaos selection; keep scheduler and inference limits authoritative underneath.
+- Omit system prompts and raw trace payloads from API views; local SQLite remains sensitive despite boundary redaction.
+- Require explicit chaos confirmation and execute only in an isolated stub runtime/database, never the serving runtime.
+- Keep critical authorization outside model behavior; prompt instructions and delimiters are defense-in-depth, not security boundaries.
+- Treat every objective as untrusted JSON-encoded data and never let it grant tools, network, paths, or process authority.
+- Validate detected secrets before persistence/inference and redact runtime telemetry; retain ignored local databases as sensitive because validated task/output text remains durable.
+- Permit only configured read-only filesystem entries and globally deny network/shell/process/write permissions until a later approved design adds isolation.
+- Validate the pinned subprocess contract with exact executable/cwd, `shell=False`, bounded argv/time, and a one-slot inference ceiling.
+- Report each adversarial case as PASS/FAIL with evidence and state explicitly that a passing suite is not a security certification.
+- Keep fault plans disabled by default and require explicit CLI arming; configuration, delays, and counts remain bounded and validated.
+- Inject at replaceable protocol boundaries instead of scattering chaos conditions through core orchestration.
+- Record every activation as task-correlated telemetry and compare expected/actual state and error rather than treating any failure as success.
+- Retry only the killed worker at its committed pre-invocation checkpoint; model/tool side-effect boundaries remain terminal.
+- Report the reproduced terminal-output transaction gap as uncontained instead of inflating the containment rate.
 - Keep Stage 12 pull-based and local: query authoritative SQLite evidence, then attach separately labelled live scheduler/hardware snapshots.
 - Preserve missing observations as null statistics with zero sample count; never turn an absent measurement into a zero.
 - Define retries as recovery attempts until a distinct retry subsystem exists, and disclose that source in every report.
@@ -182,9 +269,62 @@ None. Stage 12 is complete and work is stopped at the mandatory approval gate.
 - Treat current profile values and workload order as measured policy baselines, never universal optima.
 - Keep adaptive profiles model-specific; Stage 9 routes models first and requires a real backend/profile/admission bundle before a second model becomes executable.
 
-See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](docs/adr/0002-typed-protocols-and-stdlib-skeleton.md), [ADR-0003](docs/adr/0003-pinned-llama-cpp-qwen-baseline.md), [ADR-0004](docs/adr/0004-registered-agent-runtime-and-lifecycle-events.md), [ADR-0005](docs/adr/0005-validated-execution-state-machine.md), [ADR-0006](docs/adr/0006-default-deny-bounded-tool-runtime.md), [ADR-0007](docs/adr/0007-bounded-aged-priority-scheduler.md), [ADR-0008](docs/adr/0008-conservative-pre-scheduler-memory-admission.md), [ADR-0009](docs/adr/0009-discrete-re-admitted-inference-profiles.md), [ADR-0010](docs/adr/0010-explainable-availability-gated-model-routing.md), [ADR-0011](docs/adr/0011-sqlite-checkpoints-and-pre-invocation-recovery.md), [ADR-0012](docs/adr/0012-hash-chained-traces-and-bounded-replay.md), and [ADR-0013](docs/adr/0013-sqlite-windowed-observability-snapshots.md).
+See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](docs/adr/0002-typed-protocols-and-stdlib-skeleton.md), [ADR-0003](docs/adr/0003-pinned-llama-cpp-qwen-baseline.md), [ADR-0004](docs/adr/0004-registered-agent-runtime-and-lifecycle-events.md), [ADR-0005](docs/adr/0005-validated-execution-state-machine.md), [ADR-0006](docs/adr/0006-default-deny-bounded-tool-runtime.md), [ADR-0007](docs/adr/0007-bounded-aged-priority-scheduler.md), [ADR-0008](docs/adr/0008-conservative-pre-scheduler-memory-admission.md), [ADR-0009](docs/adr/0009-discrete-re-admitted-inference-profiles.md), [ADR-0010](docs/adr/0010-explainable-availability-gated-model-routing.md), [ADR-0011](docs/adr/0011-sqlite-checkpoints-and-pre-invocation-recovery.md), [ADR-0012](docs/adr/0012-hash-chained-traces-and-bounded-replay.md), [ADR-0013](docs/adr/0013-sqlite-windowed-observability-snapshots.md), [ADR-0014](docs/adr/0014-bounded-protocol-fault-injection.md), [ADR-0015](docs/adr/0015-deterministic-security-boundaries.md), [ADR-0016](docs/adr/0016-loopback-stdlib-http-json-sse-api.md), and [ADR-0017](docs/adr/0017-scoped-evidence-based-backend-acceptance.md).
 
 ## Tests Passing
+
+- Stage 17 research validation — 28 consecutively numbered references, 38 HTTPS links, required stopping-point text, and all local Markdown links across six changed documents passed static checks.
+- Stage 17 frontend implementation boundary check — repository scan found no `apps/`, `frontend/`, `web/`, or `ui/` source, TSX/JSX, `package.json`, Vite config, or TypeScript config.
+- `python -m unittest tests.test_acceptance -v` — three Stage 16 acceptance-policy/classification regression tests passed in 0.010 seconds.
+- `git diff --check` — exit 0; line-ending notices only.
+- Stage 17 changes are documentation-only; the accepted Stage 16 runtime/test evidence remains unchanged.
+
+- `python -m benchmarks.run_stage16_acceptance --output benchmarks/results/stage16-backend-acceptance-20260825T011603Z.json` — exit 0; release candidate true; 14/14 commands and required categories passed.
+- Stage 16 complete suite — 150 tests passed in 39.115 seconds.
+- Stage 16 targeted controls — eight cancellation/timeout tests passed in 1.060 seconds; six malformed-output/fault tests passed in 4.040 seconds.
+- Scheduler — FIFO and priority execution orders matched exactly; resource policy demonstrated all six controlled actions and live `accept`.
+- Recovery/trace/observability — killed worker recovered to `completed`, integrity `ok`; replay `matched` with zero deterministic divergences; four tasks/one recovery/55 steps unified.
+- Chaos/security — 9/9 expected fault outcomes with recovery 1/1 and 8/9 containment; 14/14 bounded security cases PASS with zero failures and integrity `ok`.
+- Deterministic/real API — 16 operations each, zero/one real model calls, both databases integrity `ok`.
+- Regression gate — 93.68 tok/s ≥75; TTFT +3.616% ≤50%; RAM 1,343.895≤1,600 MiB; VRAM 1,189≤1,500 MiB; stream 4,589.371≤10,000 ms.
+- `python -m unittest tests.test_acceptance -v` — three strict manifest/classification tests passed in 0.017 seconds before the retained full run.
+
+- `python -m unittest tests.test_api -v` — nine Stage 15 real-socket/config tests passed in 10.903 seconds.
+- `python -m unittest discover -s tests -v` — 147 tests passed in 40.366 seconds in the final Stage 15 regression run.
+- `python -m benchmarks.run_stage15_api` — retained `stage15-api-20260824T205654Z.json`; 16 operations passed from a separate API process with zero direct runtime calls after launch and zero real LLM calls.
+- `python -m benchmarks.run_stage15_api --real` — retained `stage15-api-real-20260825T010429Z.json`; 16 operations passed from a separate guarded real-model API process with one Qwen/llama.cpp call.
+- Stage 15 retained stream/trace evidence — 15 lifecycle events, terminal task/end events, 16 trace steps with raw payloads omitted, replay integrity valid, and SQLite integrity `ok`.
+- Stage 15 retained subsystem evidence — two agents, FIFO scheduler, source-labelled hardware, two registered models, one unified-metrics task, expected isolated model-timeout outcome, and zero retained security failures.
+- `python -m compileall -q runtime tests benchmarks` — exit 0.
+- `python -m pip install --dry-run --no-deps --no-build-isolation .` — would install `local-ai-systems-lab-0.15.0`, exit 0.
+- `python -m runtime --objective "Stage 15 regression smoke task"` — deterministic lifecycle completed with zero real LLM calls, exit 0.
+- `python -m runtime.api_cli --help` — documented loopback API options, exit 0.
+- Stage 15 config/result/public-import validation — all tracked JSON parsed, retained result passed with integrity `ok`, and Stage 15 factories/API builder imported, exit 0.
+- `git diff --check` — exit 0; line-ending notices only.
+
+- `python -m unittest discover -s tests -v` — 138 tests passed in 29.058 seconds in the final Stage 14 regression run.
+- Stage 14 focused suite — 10 tests passed for strict config, input/payload/secret/output limits, prompt encoding, path allowlists, global tool ceiling, subprocess/process policy, guarded runtime composition, and the complete redacted report.
+- `python -m benchmarks.run_stage14_security` — retained `stage14-security-20260824T203349Z.json`; 14/14 PASS, zero FAIL, zero real LLM calls, integrity `ok`, exit 0.
+- Stage 14 retained runtime evidence — five tasks, one completion, three `security_blocked`, one `tool_failed`, one stub model call, three tool calls, five trace runs, 55 steps, and 6.242 ms durable collection.
+- Stage 14 adversarial suite duration — 2,181.687 ms across the 14 bounded cases.
+- Real Stage 14 agent/report — Qwen2.5 1.5B/`performance`; one completed task/model call/route, one prompt-protection event, zero faults, and 19 trace steps; 3,370.565 ms inference, 2,760.402 ms TTFT, 105.39 tok/s, 1,343.949 MiB RAM, and 1,189 MiB VRAM.
+- `python -m compileall -q runtime benchmarks tests` — exit 0.
+- `python -m pip install --dry-run --no-deps --no-build-isolation .` — would install `local-ai-systems-lab-0.14.0`, exit 0.
+- `python -m runtime --objective "Stage 14 regression smoke task"` — deterministic stub lifecycle remained intact with zero real model calls, exit 0.
+- Stage 14 retained JSON parsed successfully, contained zero FAIL cases, and did not retain the adversarial fake secret, exit 0.
+- Public API import check exposed `build_stage14_runtime` and `security_policy_denied`, exit 0.
+- `git diff --check` — exit 0; line-ending notices only.
+
+- `python -m unittest discover -s tests -v` — 128 tests passed in 28.987 seconds in the Stage 13 regression run.
+- Stage 13 focused suite — 11 tests passed for strict config, explicit arming refusal, inert factory behavior, exact model/tool failure states, count bounds, injection metrics, database-gap reproduction, real factory composition, machine JSON, and killed-process recovery.
+- `python -m benchmarks.run_stage13_chaos` — retained `stage13-chaos-20260824T193424Z.json`; 9/9 expected outcomes, 8/9 contained, recovery 1/1, zero real LLM calls, integrity `ok`, exit 0.
+- Stage 13 retained baselines — deterministic inference 614.179 ms and read-only tool 562.478 ms; scenario added-latency P50 -71.797 ms/P95 611.597 ms; crash plus recovery 1,648.444 ms.
+- Stage 13 observability — 11 tasks, 9 injections, 7 failures, 1 recovery, 11 trace runs, 140 steps, and 9.457 ms durable collection.
+- Real Stage 13 agent/report — Qwen2.5 1.5B/`performance`; one completed task/model call/route, 18 trace steps, and zero injected faults; 2,410.179 ms inference, 1,693.755 ms TTFT, 102.59 tok/s, 1,343.566 MiB RAM, and 1,185 MiB VRAM.
+- `python -m compileall -q runtime benchmarks tests` — exit 0.
+- `python -m pip install --dry-run --no-deps --no-build-isolation .` — would install `local-ai-systems-lab-0.13.0`, exit 0.
+- `python -m runtime --objective "Stage 13 regression smoke task"` — deterministic stub lifecycle remained intact with zero real model calls, exit 0.
+- `git diff --check` — exit 0; line-ending notices only.
 
 - `python -m unittest discover -s tests -v` — 117 tests passed in 19.649 seconds in the final Stage 12 gate run.
 - Stage 12 focused suite — 9 tests passed for config/limit validation, exact P50/P95 aggregation, absent-value truthfulness, unified activity/failure/recovery/trace reporting, time windows, bounded drill-down, live evidence, real factory composition, and read-only machine-readable reporting.
@@ -271,17 +411,44 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 ## Known Problems
 
+- Systems Cartography is a researched recommendation, not an approved or implemented design system.
+- The proposed frontend stack, 250 KiB compressed shell budget, 10,000-step fixture, and accessibility requirements have not been installed, prototyped, or measured.
+- Browser/library support statements come from current source documentation; the future application still requires a tracked target-browser matrix and tests on this workstation.
+- No frontend source, dependency manifest, route, component, stylesheet, screenshot asset, or production UI exists after Stage 17.
+
+- Backend acceptance is scoped and overall maturity is `PARTIAL`; release-candidate status must not be presented as production or multi-user readiness.
+- The terminal-state/output atomicity gap remains the principal accepted reliability limitation and keeps persistence/recovery plus fault injection `PARTIAL`.
+- Only one real model backend exists and semantic output evaluation remains deferred, so model routing/evaluation is `PARTIAL`.
+
+- The standard-library HTTP server is a loopback development adapter, not an internet-facing production server; TLS, authentication, multi-user authorization, proxy trust, and identity-based rate limits are absent.
+- HTTP handler/SSE connection count is not globally capped; body, task, scheduler, inference, and stream limits bound the demonstrated path but do not isolate hostile clients.
+- API task records and SSE cursors are process-local. Completed durable tasks can be inspected after restart, but arbitrary active-task continuation is not promised beyond the explicit safe checkpoint contract.
+- Completed API task records are retained in process memory until shutdown; a long-lived service needs a measured eviction/pagination policy before unbounded task volume.
+- Task inspection returns validated objectives, inputs, and outputs to the local caller; system prompts and trace payloads are omitted, but data retention/deletion/export policy remains incomplete.
+
+- Prompt separation and system instructions do not eliminate direct or indirect prompt injection; deterministic least privilege limits impact, but model behavior remains nondeterministic.
+- Network denial is enforced at the application capability layer, not by a firewall, container, VM, or network namespace.
+- Secret protection uses finite patterns and sensitive key names, so false positives and false negatives remain possible.
+- Validated objectives and outputs remain in the ignored local SQLite database; encryption at rest, retention automation, and secure deletion are not implemented.
+- The subprocess policy validates the pinned inference contract; the native executable is hash-pinned but not OS-sandboxed.
+- The infinite-loop adversarial case verifies cooperative cancellation only. Python cannot forcibly terminate a hostile handler thread, so untrusted handlers remain prohibited.
+- Structural/secret output validation does not prove semantic correctness, factuality, safety, or specialized-role compliance.
+- The 14/14 result is bounded test evidence, not penetration testing, certification, or a claim that the system is secure.
+
 - Automatic recovery resumes only from a pre-invocation planning checkpoint; native token generation and arbitrary tool/model execution cannot be resumed.
 - Scheduler queue/worker internals are not reconstructed; a safe recovered task is resubmitted through current policy, routing, admission, and scheduling.
 - A second crash after entering `RECOVERING` is classified unsafe rather than automatically retried.
-- Terminal state and output are committed in adjacent transactions; a narrow crash window can leave a terminal task without output, which requires manual repair rather than unsafe duplication.
+- Terminal state and output are committed in adjacent transactions; Stage 13 reproduced the gap with a task left `completed` and no output after `database_operation_failed`. It requires manual repair rather than unsafe duplication.
 - SQLite is local single-host persistence, not distributed coordination or a multi-process cluster database.
 - Database backup/restore, compaction/retention, encryption at rest, and forward migration beyond schema v2 are not implemented.
 - Trace hashes provide tamper evidence but are not signed/authenticated against an attacker able to rewrite both payloads and hashes.
-- Trace payloads can retain local objectives, tool arguments, and outputs; redaction/export/retention policy is not implemented.
+- Trace payloads can retain validated local objectives, tool arguments, and outputs; Stage 14 redacts lifecycle/metric evidence, but database retention/export policy remains incomplete.
 - Replay reconstructs deterministic execution evidence; it does not rerun llama.cpp token generation, reproduce hardware timing, or repeat tool side effects.
 - Pre-Stage-11 data migrates safely but is not backfilled into fabricated historical trace runs.
 - Cross-run comparison is structural/semantic hash comparison, not model-output quality evaluation.
+- Eight retained faults are controlled protocol simulations; only the agent-crash scenario terminates an actual OS process.
+- Fault activation state is process-local; there is no distributed campaign coordinator or persistent chaos schedule.
+- Negative added latency means fail-fast relative to successful baseline completion, not faster useful work.
 
 - Only one real GGUF/backend is installed and configured; real multi-model switching is not claimed.
 - The compact registry entry is unavailable and unbenchmarked; its controlled route uses simulated availability with the stub-compatible boundary only.
@@ -300,7 +467,7 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 - The two safe tools provide application-level path containment, not process or OS sandboxing.
 - Tool definitions and grants remain static in code; tool invocation requests/results/errors are durable.
 - Only read-only project text tools exist; writes, subprocesses, network access, and arbitrary binary reads remain prohibited.
-- Output validation only rejects blank text and does not detect semantic role/factual failures.
+- Output validation rejects blank, oversized, control-character, and detected secret-like text but still does not detect semantic role/factual failures.
 - Transition histories, agent snapshots, lifecycle events, metrics, checkpoints, traces, and replay reports are durable in SQLite schema v2.
 - An intermediate real prompt experiment completed but inverted privacy wording and drifted into training; bounded role prompts corrected the final run, but no output validator exists.
 - The real backend reloads the model for every request, making median cold TTFT about 1.69 seconds.
@@ -308,7 +475,7 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 - VRAM is sampled at 200 ms via total-device `nvidia-smi` data and can include unrelated GPU use.
 - The five-prompt, single-iteration sample is acceptance evidence, not a statistically strong performance claim.
 - A 64-token cap truncated some longer answers; one JSON-only prompt included Markdown fences, so no broad quality claim is made.
-- Routing is static and the identity policy is not a security sandbox.
+- Routing is explainable and dynamic within registered models, while Stage 14 security remains application-level policy rather than an OS sandbox.
 - Observability is pull-based and local; there is no remote collector, alerting pipeline, public API, or frontend.
 - Live scheduler state belongs to the reporting runtime process; historical scheduler behavior is represented separately by durable event distributions.
 - Recent task drill-down uses bounded follow-up queries and is not yet optimized for large databases.
@@ -329,20 +496,23 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 ## Performance Baseline
 
-The Stage 2 five-run cold baseline remains: median model load 1,128.28 ms; TTFT 1,686.85 ms; generation 115.81 tokens/second; total 2,572.26 ms; peak child-process RAM 1,339.02 MiB; VRAM delta 1,219 MiB. The final Stage 8 comparison observed performance/balanced/constrained/CPU-safe VRAM deltas of 1,189/909/527/0 MiB. Stage 12 real inference measured 2,927.102 ms total, 2,238.325 ms TTFT, 96.16 tokens/second, 1,343.703 MiB RAM, and 1,189 MiB VRAM; the post-restart report recovered all measurements and the 18-step trace identity. The retained controlled report collected durable plus live telemetry in 1,504.908 ms, dominated by its 1,498.907 ms hardware profile; durable-only collection was 6.543 ms. See [the Stage 2 report](docs/benchmarks/stage2-local-inference-baseline.md), [Stage 8 final comparison](benchmarks/results/stage8-profile-comparison-20260824T122355Z.json), [Stage 12 result](benchmarks/results/stage12-observability-20260824T163054Z.json), and [Stage 12 report](docs/stages/stage12-observability-metrics-backend.md).
+The Stage 2 five-run cold baseline remains: median model load 1,128.28 ms; TTFT 1,686.85 ms; generation 115.81 tokens/second; total 2,572.26 ms; peak child-process RAM 1,339.02 MiB; VRAM delta 1,219 MiB. The final Stage 8 comparison observed performance/balanced/constrained/CPU-safe VRAM deltas of 1,189/909/527/0 MiB. Stage 12 real inference measured 2,927.102 ms total, 2,238.325 ms TTFT, 96.16 tokens/second, 1,343.703 MiB RAM, and 1,189 MiB VRAM. Stage 13 deterministic no-fault baselines were 614.179 ms inference and 562.478 ms tool; injected scenario added latency measured P50 -71.797 ms/P95 611.597 ms, and the actual killed-worker recovery took 1,648.444 ms. Stage 14's deterministic 14-case suite completed in 2,181.687 ms; it is control evidence, not an inference-performance benchmark. The guarded real Stage 14 run measured 3,370.565 ms inference, 2,760.402 ms TTFT, 105.39 tokens/second, 1,343.949 MiB RAM, and 1,189 MiB VRAM. Stage 15's external stub API measured task create 139.048 ms, SSE-to-terminal 583.177 ms, trace replay 47.929 ms, metrics retrieval 88.731 ms, live hardware retrieval 1,298.973 ms, and isolated model-timeout chaos 2,254.988 ms; these are one-run integration timings, not throughput claims. The real external API run measured 2,973.505 ms inference, 2,210.807 ms TTFT, 103.32 tok/s, 1,343.887 MiB RAM, and 1,189 MiB VRAM. Stage 16's retained gate run measured 2,375.729 ms real inference, 1,747.840 ms TTFT, 93.68 tok/s, 1,343.895 MiB RAM, 1,189 MiB VRAM, and 4,589.371 ms end-to-end HTTP/SSE streaming; TTFT was 3.616% above the Stage 2 median and all five configured regression limits passed. See [the Stage 2 report](docs/benchmarks/stage2-local-inference-baseline.md), [Stage 8 final comparison](benchmarks/results/stage8-profile-comparison-20260824T122355Z.json), [Stage 12 result](benchmarks/results/stage12-observability-20260824T163054Z.json), [Stage 13 result](benchmarks/results/stage13-chaos-20260824T193424Z.json), [Stage 14 result](benchmarks/results/stage14-security-20260824T203349Z.json), [Stage 15 stub result](benchmarks/results/stage15-api-20260824T205654Z.json), [Stage 15 real result](benchmarks/results/stage15-api-real-20260825T010429Z.json), and [Stage 16 acceptance result](benchmarks/results/stage16-backend-acceptance-20260825T011603Z.json).
 
 ## Backend Acceptance Status
 
-NOT STARTED. The Backend Acceptance Gate is Stage 16.
+PASS WITH TRACKED LIMITATIONS. All mandatory categories passed; release candidate true; overall maturity `PARTIAL`; Stage 17 research is complete and Stage 18 design authorization remains pending explicit user approval.
 
 ## Frontend Research Status
 
-NOT STARTED. Production frontend work remains prohibited until backend acceptance. Stage 17 research is also not current-stage work.
+COMPLETE. The 2026-08-25 research contains 28 references, three visual directions,
+a recommended stack, interaction/motion proposals, rejected ideas, and explicit
+performance/accessibility constraints. Systems Cartography is recommended but not
+yet an approved Stage 18 design system. No production UI code exists.
 
 ## Next Step
 
-Stage 13 — Fault Injection / Chaos Framework
+Stage 18 — Design System & UI Architecture
 
 ## Later Backlog
 
-Stages 13–27 remain intentionally deferred and must be entered one at a time after explicit approval.
+Stages 19–27 remain intentionally deferred and must be entered one at a time after explicit approval.

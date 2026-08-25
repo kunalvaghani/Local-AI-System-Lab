@@ -1,11 +1,36 @@
-# Architecture Baseline through Stage 12
+# Architecture Baseline through Stage 17
 
 ## Status and scope
 
-Stage 12 adds a unified, windowed observability backend over the Stage 10–11
-durable evidence and optional live scheduler/hardware snapshots. Hash-chained
-trace/replay and all earlier recovery, routing, admission, scheduling, and
-inference boundaries remain authoritative.
+Stage 16 adds no new runtime execution path. It verifies the complete Stage 15
+loopback API composition and all earlier security, chaos, observability, tracing,
+recovery, routing, admission, scheduling, and inference boundaries through one
+versioned acceptance manifest and retained release-candidate result.
+
+Stage 17 also adds no execution path. It researches the future frontend against
+the accepted API and recommends a Systems Cartography direction: a client-rendered,
+URL-addressable, accessible, virtualized inspection workbench. This is a research
+recommendation, not implemented or approved Stage 18 architecture. No frontend
+package, route, component, stylesheet, or build configuration exists yet.
+
+## Stage 17 researched frontend boundary
+
+The recommended future boundary is deliberately outside the runtime package:
+
+```text
+future local browser client
+  -> typed HTTP query/cache layer
+  -> owned EventSource lifecycle adapter
+  -> versioned loopback /v1 API
+  -> existing Stage 15 transport-independent service
+  -> accepted Stage 1–14 runtime components
+```
+
+Research recommends separate URL state, server/query state, SSE lifecycle state,
+and ephemeral inspector selection state. A graph, chart, timeline, or resizable
+pane must remain a presentation of the real API contract rather than a second
+source of runtime truth. Stage 18 must approve and specify this boundary before
+implementation.
 
 ## Context and planned flow
 
@@ -51,6 +76,23 @@ flowchart LR
     S -. live snapshot .-> O
     HP -. live snapshot .-> O
     O --> OC[JSON Observability CLI]
+    FP[Disabled-by-default Fault Plan] --> FC[Fault Controller]
+    FC -. armed injection .-> I
+    FC -. armed injection .-> TE
+    FC -. armed injection .-> D
+    FC --> E
+    CH[Chaos Process Harness] -->|terminate after recovery_ready| R
+    CH --> CR[Chaos JSON Report]
+    O --> CR
+    RP --> CR
+    SG[Stage 14 Security Guard] --> R
+    SG -->|untrusted JSON envelope| I
+    SG -->|output validation| R
+    SG --> SP[Exact subprocess and one-slot process policy]
+    SG --> NP[Default-deny network capability]
+    SG --> AP[Adversarial PASS FAIL Report]
+    SG --> TP
+    SG --> ST
 ```
 
 The Stage 1 control flow remains unchanged when the stub is composed. The
@@ -199,8 +241,42 @@ Stage 12 aggregates recent and live evidence:
    hardware snapshots without rewriting durable history.
 5. A JSON CLI supports controlled demonstration and existing-database reports.
 
-There is still no real second-model backend or public API. SQLite state, traces,
-and observability reports remain local to one host/runtime database.
+Stage 13 makes failure behavior experimentally reproducible:
+
+1. A strict file-backed plan names each fault, protocol point, delay, and maximum
+   injection count; ordinary runtime composition remains unarmed.
+2. An explicit `--execute` gate creates one controller per scenario runtime.
+3. Inference, tool, and persistence decorators inject typed failures or corrupt
+   results without adding fault branches to core orchestration.
+4. Every activation records one task-correlated `fault.injected` metric.
+5. The crash scenario starts a worker, commits `recovery_ready`, terminates the
+   process, and restarts the same task through the existing recovery ledger.
+6. The chaos report correlates expected/actual state and error, trace length,
+   latency, containment, recovery, observability, and database integrity.
+
+Stage 14 applies deterministic security boundaries before and after execution:
+
+1. A strict file-backed policy limits objective length, JSON-like payload depth,
+   nodes, strings, outputs, subprocess arguments, time, and process slots.
+2. Secret-like or malformed inputs are rejected before task persistence or
+   inference. `task.created` telemetry records only objective hash and length.
+3. Accepted objectives become JSON-encoded untrusted data under fixed system
+   authority; model behavior is never trusted to grant tools or network access.
+4. Exact agent tool grants remain mandatory, and a global policy permits only
+   path-restricted read-only `filesystem.read` capabilities.
+5. Path resolution enforces configured entries, denied components, workspace
+   containment, symlink resolution, and approved text suffixes.
+6. Model/tool outputs are structurally bounded and secret-scanned before task
+   completion; runtime event and metric payloads are redacted.
+7. The local application registers no shell/network tool, denies network
+   capability by default, validates the pinned subprocess contract, and limits
+   inference to one process slot.
+8. Fourteen adversarial cases emit explicit PASS/FAIL evidence without a real
+   model call. Passing them is not a security certification.
+
+There is still no real second-model backend. Stage 15 adds a documented
+loopback-only HTTP/JSON and SSE API over the complete single-host runtime; it is
+not a public internet service.
 
 ## Current component responsibilities
 
@@ -208,7 +284,10 @@ and observability reports remain local to one host/runtime database.
 | --- | --- | --- | --- |
 | Agent | Frozen typed role definition | Identity, objective, system prompt, behavior and narrow tool grants | Dynamic configuration and durable grants |
 | Agent Registry | SQLite-backed typed snapshots | Stable durable lookup plus conflicting-definition detection | Dynamic discovery and policy versioning |
-| Agent Runtime | Synchronous caller API over durable/routed/budgeted/admitted work | Registered tasks, safe recovery, model route, budget, profile, scheduler, and result evidence | External asynchronous task API |
+| Agent Runtime | Synchronous core API over durable/routed/budgeted/admitted work | Registered tasks, safe recovery, model route, budget, profile, scheduler, and result evidence | Distributed execution |
+| API Service | Transport-independent Stage 15 operation layer | Task control plus safe agent/scheduler/hardware/model/metrics/trace/replay/chaos/security inspection | Authentication, multi-user policy, remote deployment |
+| API Task Manager | Bounded worker ownership over `AgentRuntime` | Accepted/running/terminal records, in-flight cap, cooperative cancellation, durable fallback inspection, shutdown | Cross-process active-task reconstruction |
+| HTTP/SSE Adapter | Loopback `ThreadingHTTPServer` with strict JSON and versioned routes | JSON request/error envelopes, real-socket operations, lifecycle stream, OpenAPI contract, security headers | Production ASGI, TLS, internet exposure, WebSocket |
 | Task State Machine | SQLite-backed legal graph/history | Transactional transitions, `RECOVERING`, restart reconstruction, terminal enforcement | Distributed coordination |
 | Lifecycle events | SQLite append-only records, execution-step mirror, trace source, and observability input | Durable timestamped runtime/agent/task/profile/model/scheduler/recovery evidence | Redaction and retention policy |
 | Trace Store | SQLite schema v2 adapter | Run/step identity, canonical hashes, hash chain, determinism and replay reports | Retention, export, redaction, distributed trace context |
@@ -226,15 +305,22 @@ and observability reports remain local to one host/runtime database.
 | Checkpoint Store | SQLite adapter | Durable transition and `recovery_ready` checkpoints | Broader resumable boundaries after idempotency evidence |
 | Metrics Collector | SQLite adapter | Durable named metric events | Background sampling and remote export |
 | Observability Source | Windowed SQLite read adapter | Coherent bounded query across tasks, events, outputs, tools, recovery, and traces | Pagination/batched analytics for large databases |
-| Observability Backend | Unified pull-based aggregator | Totals, sample distributions, recent drill-down, source map, warnings, and optional live snapshots | Alerts, remote collector, public API, and GUI |
+| Observability Backend | Unified pull-based aggregator | Totals, sample distributions, recent drill-down, source map, warnings, optional live snapshots, and bounded API retrieval | Alerts, remote collector, and GUI |
+| Fault Plan | Strict JSON configuration, disabled by default | Named kinds, protocol points, delay caps, injection caps, and explicit selection | Probabilistic production fault policy is intentionally absent |
+| Fault Controller | Thread-safe activation ledger | Count-bounded matching and durable `fault.injected` metric records | Distributed coordination and cross-process plan state |
+| Fault Adapters | Inference/tool/persistence protocol decorators | Typed failures, malformed input, and result corruption without core-runtime branches | Physical OOM/hardware fault emulation |
+| Chaos Harness | CLI plus killed-worker subprocess | No-fault baselines, nine scenarios, restart recovery, expected/actual classification, and report | Remote orchestration and scheduled chaos campaigns |
 | Runtime Persistence | Shared SQLite schema v2 | Stage 10 records plus trace runs, steps, chain hashes, and replay reports | Backup/restore and multi-process service guarantees |
 | Hardware Profiler | Windows/POSIX stdlib plus NVIDIA query | CPU/logical count, RAM availability, GPU/VRAM pressure, source/confidence/warnings | Process-aware GPU attribution and broader platform evidence |
 | Memory Estimator | File-backed model plus calibrated coefficients | Profile-specific host/VRAM predictions, assumptions, reserves, measured error | Per-model repeated calibration (9) |
 | Admission Gate | Six-action conservative policy | Candidate-specific `ACCEPT` or inspectable resource action | Fallback model routing (9), durable retry |
 | Inference Profile Catalog | Four tracked typed profiles | Explicit context, batch/ubatch, threads, GPU layers, flash attention, purpose, and workload order | Learned/expanded profiles only after evidence |
 | Adaptive Controller | Workload order plus fresh profile admission after route | Selects the first safe profile and refuses all unsafe candidates | Per-model profile catalogs when a second backend exists |
+| Acceptance Manifest | Strict tracked Stage 16 policy | Test/chaos/security coverage plus real inference and API limits | Per-hardware/model release profiles when more targets exist |
+| Acceptance Runner | Reproducible subprocess orchestrator | Build/package, full and focused tests, scheduler, hardware, recovery, trace, observability, chaos, security, stub API, and real API evidence | CI matrix and clean-release automation |
+| Acceptance Classifier | Binary requirement checks plus four maturity states | Release-candidate decision without erasing known partial/deferred boundaries | Independent review and versioned release sign-off |
 
-These interfaces contain only methods exercised by the Stage 12 demonstration.
+Runtime interfaces contain only methods exercised by the Stage 16-verified backend.
 Later stages should extend them based on executable requirements rather than
 anticipating every future feature now.
 
@@ -247,8 +333,18 @@ anticipating every future feature now.
   replay never repeats model generation or tool side effects.
 - Observability reads authoritative durable records and labels live evidence;
   unavailable samples remain null rather than becoming invented measurements.
+- Fault injection is inert by default, explicitly armed, bounded, and recorded;
+  it never silently retries an unsafe model/tool boundary.
 - Configuration is typed and secrets are never embedded in source-controlled files.
 - Agents never obtain unrestricted filesystem, subprocess, or network access by default.
+- The API binds only to a literal loopback address, serves no static files, and
+  omits system prompts plus raw trace payloads.
+- Chaos invoked through the API requires exact confirmation and runs in a fresh
+  stub runtime with a unique database; the serving runtime is never armed.
+- Acceptance thresholds are versioned source. A threshold change requires a new
+  complete gate run rather than editing a retained result.
+- Release-candidate status requires every mandatory category to pass; subsystem
+  maturity remains independently `DONE`, `PARTIAL`, `FAILED`, or `DEFERRED`.
 
 ## Failure and concurrency baseline
 
@@ -294,5 +390,8 @@ Detailed mechanisms belong to later stages. Current behavior and constraints are
 - Stage 10 implements SQLite persistence, checkpoints, and bounded recovery — COMPLETE.
 - Stage 11 implements structured execution traces and bounded deterministic replay — COMPLETE.
 - Stage 12 implements the observability and metrics backend — COMPLETE.
-- Stage 13 may implement fault injection and a chaos framework after approval.
-- Production frontend implementation remains prohibited until Stage 16 is accepted.
+- Stage 13 implements fault injection and the chaos framework — COMPLETE.
+- Stage 14 implements deterministic security boundaries and adversarial testing — COMPLETE.
+- Stage 15 implements backend API and full runtime integration — COMPLETE.
+- Stage 16 performs backend verification and the acceptance gate — COMPLETE; release candidate with tracked limitations.
+- Stage 17 frontend research only — COMPLETE; Stage 18 design-system/UI architecture remains approval-gated and production frontend implementation has not started.

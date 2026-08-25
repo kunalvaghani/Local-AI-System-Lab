@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "limits": {
+    "max_objective_characters": 4096,
+    "max_payload_depth": 6,
+    "max_payload_nodes": 256,
+    "max_string_characters": 4096,
+    "max_output_characters": 8000,
+    "max_tool_result_characters": 20000,
+    "max_subprocess_arguments": 64,
+    "max_subprocess_command_characters": 16384,
+    "max_processes": 1,
+    "max_timeout_ms": 45000
+  },
+  "paths": {
+    "allowed_entries": [
+      "README.md",
+      "PROJECT_STATE.md",
+      "configs",
+      "docs",
+      "runtime",
+      "tests"
+    ],
+    "denied_components": [
+      ".git",
+      "__pycache__",
+      "data",
+      "models",
+      "tools"
+    ],
+    "allowed_suffixes": [".json", ".md", ".py", ".toml", ".txt", ".yaml", ".yml"]
+  },
+  "tools": {
+    "allowed_permissions": ["filesystem.read"],
+    "require_read_only": true,
+    "require_path_restriction_for_filesystem": true
+  },
+  "network": {
+    "default": "deny"
+  },
+  "secrets": {
+    "sensitive_key_fragments": [
+      "api_key",
+      "authorization",
+      "credential",
+      "password",
+      "private_key",
+      "secret",
+      "token"
+    ],
+    "patterns": [
+      "(?i)\\b(?:sk|hf)_[A-Za-z0-9_-]{16,}\\b",
+      "(?i)\\bBearer\\s+[A-Za-z0-9._-]{12,}\\b",
+      "-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"
+    ]
+  }
+}

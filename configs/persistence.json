@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "database_path": "data/runtime-stage12.db",
+  "database_path": "data/runtime-stage15.db",
   "busy_timeout_ms": 5000,
   "journal_mode": "WAL",
   "synchronous": "FULL"

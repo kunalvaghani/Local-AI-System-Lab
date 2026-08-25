@@ -10,14 +10,14 @@ from typing import Any
 
 from .agents import stage3_agents
 from .errors import LabError, ValidationError
-from .factory import build_stage12_runtime
+from .factory import build_stage15_runtime
 from .models import LifecycleEvent, TaskResult
 from .scheduler import SchedulingOptions, WorkloadClass
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Execute specialized agents through the Stage 12 observable runtime.",
+        description="Execute specialized agents through the Stage 15 API-ready runtime.",
     )
     parser.add_argument(
         "--config",
@@ -33,7 +33,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--database",
         default=None,
-        help="Override the ignored Stage 12 SQLite database path.",
+        help="Override the ignored Stage 15 SQLite database path.",
     )
     parser.add_argument(
         "--agent",
@@ -102,7 +102,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             raise ValidationError(
                 "--objective requires exactly one selected agent"
             )
-        runtime = build_stage12_runtime(
+        runtime = build_stage15_runtime(
             inference_config_path=args.config,
             database_path=args.database,
         )
@@ -121,8 +121,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             json.dumps(
                 {
-                    "stage": 12,
-                    "purpose": "durable local-agent execution with unified live and recent telemetry",
+                    "stage": 15,
+                    "purpose": "complete local-agent runtime with a stable external backend boundary",
                     "agents": [_result_payload(result) for result in results],
                     "lifecycle_events": [
                         _event_payload(event)

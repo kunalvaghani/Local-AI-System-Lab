@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "enabled": false,
+  "max_delay_ms": 1000,
+  "scenarios": [
+    {
+      "scenario_id": "model-timeout",
+      "kind": "model_timeout",
+      "delay_ms": 40,
+      "max_injections": 1
+    },
+    {
+      "scenario_id": "invalid-model-output",
+      "kind": "invalid_model_output",
+      "delay_ms": 0,
+      "max_injections": 1
+    },
+    {
+      "scenario_id": "context-overflow",
+      "kind": "context_overflow",
+      "delay_ms": 0,
+      "max_injections": 1
+    },
+    {
+      "scenario_id": "simulated-oom",
+      "kind": "simulated_oom",
+      "delay_ms": 0,
+      "max_injections": 1
+    },
+    {
+      "scenario_id": "tool-timeout",
+      "kind": "tool_timeout",
+      "delay_ms": 40,
+      "max_injections": 1
+    },
+    {
+      "scenario_id": "corrupted-tool-result",
+      "kind": "corrupted_tool_result",
+      "delay_ms": 0,
+      "max_injections": 1
+    },
+    {
+      "scenario_id": "malformed-tool-call",
+      "kind": "malformed_tool_call",
+      "delay_ms": 0,
+      "max_injections": 1
+    },
+    {
+      "scenario_id": "database-result-failure",
+      "kind": "database_result_failure",
+      "delay_ms": 0,
+      "max_injections": 1
+    },
+    {
+      "scenario_id": "agent-crash-recovery",
+      "kind": "agent_crash",
+      "delay_ms": 0,
+      "max_injections": 1
+    }
+  ]
+}

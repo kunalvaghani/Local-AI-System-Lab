@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "host": "127.0.0.1",
+  "port": 8765,
+  "max_request_bytes": 65536,
+  "max_inflight_tasks": 8,
+  "default_task_timeout_ms": 30000,
+  "max_task_timeout_ms": 45000,
+  "stream_poll_ms": 50,
+  "stream_timeout_ms": 45000,
+  "max_chaos_scenarios_per_request": 3,
+  "security_results_directory": "benchmarks/results"
+}

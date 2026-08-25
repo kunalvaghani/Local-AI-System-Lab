@@ -133,10 +133,38 @@ python -m runtime.observability_cli report --database data/runtime-stage12.db
 python -m runtime.observability_cli report --database data/runtime-stage12.db --window-minutes 15 --limit 20 --event-limit 50 --no-live
 ```
 
+Run explicitly armed Stage 13 fault experiments. Omitting `--execute` is a
+structured refusal and leaves the runtime inert:
+
+```powershell
+python -m runtime.chaos_cli --execute --scenario model-timeout
+python -m runtime.chaos_cli --execute
+python -m benchmarks.run_stage13_chaos
+```
+
 Run real inference against an explicit ignored SQLite database:
 
 ```powershell
-python -m runtime.agent_cli --agent technical-explainer --database data/stage12-local.db
+python -m runtime.agent_cli --agent technical-explainer --database data/stage13-local.db
+```
+
+Run the complete Stage 14 adversarial suite, selected cases, or retain its
+machine-readable evidence:
+
+```powershell
+python -m runtime.security_cli
+python -m runtime.security_cli --case prompt-injection --case network-exfiltration
+python -m benchmarks.run_stage14_security
+```
+
+The suite performs no real LLM calls or real network/shell exfiltration. It
+tests deterministic policy boundaries and must not be presented as proof that
+the complete system is secure.
+
+Run the guarded real Stage 14 composition:
+
+```powershell
+python -m runtime.agent_cli --agent technical-explainer --database data/stage14-local.db
 ```
 
 The result includes `route`, `compute_budget`, `compute_usage`,
@@ -179,6 +207,38 @@ Run the standard-library test suite:
 python -m unittest discover -s tests -v
 ```
 
+Start the Stage 15 loopback API with deterministic inference:
+
+```powershell
+python -m runtime.api_cli --stub
+```
+
+Use `python -m runtime.api_cli` for the real pinned local model. Both commands
+bind to the tracked literal loopback address and expose the contract at
+`/v1/openapi.json`. Override an ignored database with `--database`; use `--port 0`
+for an ephemeral test port.
+
+Run the external-process API evidence workflow:
+
+```powershell
+python -m benchmarks.run_stage15_api
+```
+
+The runner launches a child API process and performs task, SSE, inspection,
+replay, chaos, security-result, and health operations strictly over HTTP.
+
+Run the complete Stage 16 backend acceptance gate:
+
+```powershell
+python -m benchmarks.run_stage16_acceptance
+```
+
+The versioned policy in `configs/acceptance.json` requires 150 tests, all nine
+chaos outcomes, all fourteen security cases, successful killed-process recovery,
+both deterministic and real-model API workflows, and fixed real-inference
+regression bounds. The command returns nonzero if a mandatory category fails and
+retains a compact hashed JSON result under `benchmarks/results/`.
+
 Validate Python syntax without executing application code:
 
 ```powershell
@@ -213,8 +273,8 @@ git diff
 
 ## Commands intentionally undefined
 
-SQLite schema migration is applied automatically on store open. There is no API
-server or frontend command because those capabilities do not exist yet. Formatting,
+SQLite schema migration is applied automatically on store open. There is no
+frontend command because production frontend work remains prohibited. Formatting,
 linting, type-checking, and coverage tools are not declared until their cost and
 configuration are selected in a later approved stage.
 

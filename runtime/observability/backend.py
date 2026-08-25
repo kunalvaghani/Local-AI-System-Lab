@@ -171,6 +171,7 @@ class UnifiedObservabilityBackend:
             "trace_runs": int(raw["trace_run_count"]),
             "trace_steps": int(raw["trace_step_count"]),
             "replay_reports": int(raw["replay_count"]),
+            "fault_injections": int(event_counts.get("fault.injected", 0)),
         }
 
         outputs = raw["aggregate_outputs"]

@@ -1,0 +1,599 @@
+{
+  "armed": true,
+  "baselines_ms": {
+    "inference": 614.1788999993878,
+    "tool": 562.4782000013511
+  },
+  "component_roles": {
+    "adapters": "inject typed failures or corruption at inference, tool, and persistence protocols",
+    "chaos_report": "compares expected/actual state and error, latency, containment, recovery, traces, and observability",
+    "controller": "arms explicit points, enforces injection counts, delays, and records fault.injected metrics",
+    "fault_plan": "strictly validates bounded deterministic scenarios and remains disabled by default",
+    "process_harness": "terminates a checkpointed worker and restarts recovery against the same SQLite database"
+  },
+  "database": "D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\data\\stage13-chaos-e42089b6d39349e7aade4c789a2c7fb6.db",
+  "database_integrity": "ok",
+  "duration_ms": 8809.647,
+  "finished_at_utc": "2026-08-24T19:34:24.712109+00:00",
+  "observability": {
+    "collection_ms": 9.456600000703475,
+    "task_states": {
+      "completed": 4,
+      "context_overflow": 1,
+      "invalid_output": 2,
+      "out_of_memory": 1,
+      "timeout": 2,
+      "tool_failed": 1
+    },
+    "totals": {
+      "completed_tasks": 4,
+      "completion_rate_percent": 36.36363636363637,
+      "failed_tasks": 7,
+      "fault_injections": 9,
+      "model_calls_completed": 4,
+      "model_calls_started": 7,
+      "recoveries": 1,
+      "recovery_statuses": {
+        "completed": 1
+      },
+      "replay_reports": 0,
+      "retries": 1,
+      "router_decisions": 7,
+      "tasks": 11,
+      "tool_calls": 4,
+      "trace_runs": 11,
+      "trace_steps": 140
+    },
+    "warnings": []
+  },
+  "purpose": "deliberately inject bounded subsystem faults and measure containment and safe recovery",
+  "retained_at_utc": "2026-08-24T19:34:24.726816+00:00",
+  "run_id": "2167b32b-2c3f-402b-a7d2-dd71e550a9a7",
+  "scenarios": [
+    {
+      "actual": {
+        "error_code": "task_timeout",
+        "state": "timeout"
+      },
+      "added_latency_ms": -138.84669999970356,
+      "baseline_ms": 614.1788999993878,
+      "contained": true,
+      "details": {
+        "error": {
+          "code": "task_timeout",
+          "details": {
+            "injected_fault": {
+              "delay_ms": 40,
+              "kind": "model_timeout",
+              "max_injections": 1,
+              "point": "inference.generate",
+              "scenario_id": "model-timeout"
+            },
+            "task_id": "56355c4e-3f7c-4593-8030-103a21ad0098"
+          },
+          "message": "injected model timeout"
+        },
+        "fault_records": [
+          {
+            "delay_ms": 40,
+            "injected_at_utc": "2026-08-24T19:34:17.801422+00:00",
+            "kind": "model_timeout",
+            "occurrence": 1,
+            "point": "inference.generate",
+            "scenario_id": "model-timeout",
+            "task_id": "56355c4e-3f7c-4593-8030-103a21ad0098"
+          }
+        ],
+        "state_history": [
+          "created",
+          "planning",
+          "executing",
+          "timeout"
+        ]
+      },
+      "duration_ms": 475.33219999968424,
+      "expected": {
+        "error_code": "task_timeout",
+        "state": "timeout"
+      },
+      "expected_outcome_met": true,
+      "injected": true,
+      "injection_count": 1,
+      "kind": "model_timeout",
+      "recovery": {
+        "attempted": false,
+        "succeeded": null
+      },
+      "scenario_id": "model-timeout",
+      "target": "inference.generate",
+      "task_id": "56355c4e-3f7c-4593-8030-103a21ad0098",
+      "trace_steps": 10
+    },
+    {
+      "actual": {
+        "error_code": "invalid_output",
+        "state": "invalid_output"
+      },
+      "added_latency_ms": -71.79699999687728,
+      "baseline_ms": 614.1788999993878,
+      "contained": true,
+      "details": {
+        "error": {
+          "code": "invalid_output",
+          "details": {
+            "task_id": "053011f4-a1e6-44b5-a04e-634764b215da"
+          },
+          "message": "model returned empty output"
+        },
+        "fault_records": [
+          {
+            "delay_ms": 0,
+            "injected_at_utc": "2026-08-24T19:34:18.473086+00:00",
+            "kind": "invalid_model_output",
+            "occurrence": 1,
+            "point": "inference.generate",
+            "scenario_id": "invalid-model-output",
+            "task_id": "053011f4-a1e6-44b5-a04e-634764b215da"
+          }
+        ],
+        "state_history": [
+          "created",
+          "planning",
+          "executing",
+          "validating",
+          "invalid_output"
+        ]
+      },
+      "duration_ms": 542.3819000025105,
+      "expected": {
+        "error_code": "invalid_output",
+        "state": "invalid_output"
+      },
+      "expected_outcome_met": true,
+      "injected": true,
+      "injection_count": 1,
+      "kind": "invalid_model_output",
+      "recovery": {
+        "attempted": false,
+        "succeeded": null
+      },
+      "scenario_id": "invalid-model-output",
+      "target": "inference.generate",
+      "task_id": "053011f4-a1e6-44b5-a04e-634764b215da",
+      "trace_steps": 13
+    },
+    {
+      "actual": {
+        "error_code": "context_overflow",
+        "state": "context_overflow"
+      },
+      "added_latency_ms": -160.6742000003578,
+      "baseline_ms": 614.1788999993878,
+      "contained": true,
+      "details": {
+        "error": {
+          "code": "context_overflow",
+          "details": {
+            "injected_fault": {
+              "delay_ms": 0,
+              "kind": "context_overflow",
+              "max_injections": 1,
+              "point": "inference.generate",
+              "scenario_id": "context-overflow"
+            },
+            "task_id": "c91044f3-6a1c-4877-b387-502f4a94fcec"
+          },
+          "message": "injected context overflow"
+        },
+        "fault_records": [
+          {
+            "delay_ms": 0,
+            "injected_at_utc": "2026-08-24T19:34:19.252931+00:00",
+            "kind": "context_overflow",
+            "occurrence": 1,
+            "point": "inference.generate",
+            "scenario_id": "context-overflow",
+            "task_id": "c91044f3-6a1c-4877-b387-502f4a94fcec"
+          }
+        ],
+        "state_history": [
+          "created",
+          "planning",
+          "executing",
+          "context_overflow"
+        ]
+      },
+      "duration_ms": 453.50469999903,
+      "expected": {
+        "error_code": "context_overflow",
+        "state": "context_overflow"
+      },
+      "expected_outcome_met": true,
+      "injected": true,
+      "injection_count": 1,
+      "kind": "context_overflow",
+      "recovery": {
+        "attempted": false,
+        "succeeded": null
+      },
+      "scenario_id": "context-overflow",
+      "target": "inference.generate",
+      "task_id": "c91044f3-6a1c-4877-b387-502f4a94fcec",
+      "trace_steps": 10
+    },
+    {
+      "actual": {
+        "error_code": "model_out_of_memory",
+        "state": "out_of_memory"
+      },
+      "added_latency_ms": -152.54949999871315,
+      "baseline_ms": 614.1788999993878,
+      "contained": true,
+      "details": {
+        "error": {
+          "code": "model_out_of_memory",
+          "details": {
+            "injected_fault": {
+              "delay_ms": 0,
+              "kind": "simulated_oom",
+              "max_injections": 1,
+              "point": "inference.generate",
+              "scenario_id": "simulated-oom"
+            },
+            "task_id": "719a4c5e-523e-405f-897f-438adee20b87"
+          },
+          "message": "injected model out-of-memory"
+        },
+        "fault_records": [
+          {
+            "delay_ms": 0,
+            "injected_at_utc": "2026-08-24T19:34:19.929977+00:00",
+            "kind": "simulated_oom",
+            "occurrence": 1,
+            "point": "inference.generate",
+            "scenario_id": "simulated-oom",
+            "task_id": "719a4c5e-523e-405f-897f-438adee20b87"
+          }
+        ],
+        "state_history": [
+          "created",
+          "planning",
+          "executing",
+          "out_of_memory"
+        ]
+      },
+      "duration_ms": 461.62940000067465,
+      "expected": {
+        "error_code": "model_out_of_memory",
+        "state": "out_of_memory"
+      },
+      "expected_outcome_met": true,
+      "injected": true,
+      "injection_count": 1,
+      "kind": "simulated_oom",
+      "recovery": {
+        "attempted": false,
+        "succeeded": null
+      },
+      "scenario_id": "simulated-oom",
+      "target": "inference.generate",
+      "task_id": "719a4c5e-523e-405f-897f-438adee20b87",
+      "trace_steps": 10
+    },
+    {
+      "actual": {
+        "error_code": "task_timeout",
+        "state": "timeout"
+      },
+      "added_latency_ms": -65.88259999989532,
+      "baseline_ms": 562.4782000013511,
+      "contained": true,
+      "details": {
+        "error": {
+          "code": "task_timeout",
+          "details": {
+            "injected_fault": {
+              "delay_ms": 40,
+              "kind": "tool_timeout",
+              "max_injections": 1,
+              "point": "tool.execute",
+              "scenario_id": "tool-timeout"
+            },
+            "task_id": "62eb337b-d688-4e42-ad45-b9bb03ab1ef1"
+          },
+          "message": "injected tool timeout"
+        },
+        "fault_records": [
+          {
+            "delay_ms": 40,
+            "injected_at_utc": "2026-08-24T19:34:20.575520+00:00",
+            "kind": "tool_timeout",
+            "occurrence": 1,
+            "point": "tool.execute",
+            "scenario_id": "tool-timeout",
+            "task_id": "62eb337b-d688-4e42-ad45-b9bb03ab1ef1"
+          }
+        ],
+        "state_history": [
+          "created",
+          "planning",
+          "waiting_for_tool",
+          "timeout"
+        ]
+      },
+      "duration_ms": 496.59560000145575,
+      "expected": {
+        "error_code": "task_timeout",
+        "state": "timeout"
+      },
+      "expected_outcome_met": true,
+      "injected": true,
+      "injection_count": 1,
+      "kind": "tool_timeout",
+      "recovery": {
+        "attempted": false,
+        "succeeded": null
+      },
+      "scenario_id": "tool-timeout",
+      "target": "tool.execute",
+      "task_id": "62eb337b-d688-4e42-ad45-b9bb03ab1ef1",
+      "trace_steps": 11
+    },
+    {
+      "actual": {
+        "error_code": "invalid_output",
+        "state": "invalid_output"
+      },
+      "added_latency_ms": -22.405499999877065,
+      "baseline_ms": 562.4782000013511,
+      "contained": true,
+      "details": {
+        "error": {
+          "code": "invalid_output",
+          "details": {
+            "task_id": "0424c649-5f22-432e-bac1-081c1d140641",
+            "tool_name": "project_context_read"
+          },
+          "message": "tool result identity or success marker is invalid"
+        },
+        "fault_records": [
+          {
+            "delay_ms": 0,
+            "injected_at_utc": "2026-08-24T19:34:21.294004+00:00",
+            "kind": "corrupted_tool_result",
+            "occurrence": 1,
+            "point": "tool.execute",
+            "scenario_id": "corrupted-tool-result",
+            "task_id": "0424c649-5f22-432e-bac1-081c1d140641"
+          }
+        ],
+        "state_history": [
+          "created",
+          "planning",
+          "waiting_for_tool",
+          "validating",
+          "invalid_output"
+        ]
+      },
+      "duration_ms": 540.072700001474,
+      "expected": {
+        "error_code": "invalid_output",
+        "state": "invalid_output"
+      },
+      "expected_outcome_met": true,
+      "injected": true,
+      "injection_count": 1,
+      "kind": "corrupted_tool_result",
+      "recovery": {
+        "attempted": false,
+        "succeeded": null
+      },
+      "scenario_id": "corrupted-tool-result",
+      "target": "tool.execute",
+      "task_id": "0424c649-5f22-432e-bac1-081c1d140641",
+      "trace_steps": 13
+    },
+    {
+      "actual": {
+        "error_code": "tool_argument_validation_error",
+        "state": "tool_failed"
+      },
+      "added_latency_ms": -118.74119999993127,
+      "baseline_ms": 562.4782000013511,
+      "contained": true,
+      "details": {
+        "error": {
+          "code": "tool_argument_validation_error",
+          "details": {
+            "actual_type": "str",
+            "argument": "max_characters",
+            "expected_type": "integer",
+            "tool_name": "project_context_read"
+          },
+          "message": "tool argument has the wrong type"
+        },
+        "fault_records": [
+          {
+            "delay_ms": 0,
+            "injected_at_utc": "2026-08-24T19:34:22.052595+00:00",
+            "kind": "malformed_tool_call",
+            "occurrence": 1,
+            "point": "tool.execute",
+            "scenario_id": "malformed-tool-call",
+            "task_id": "b132eb9e-7ce6-4045-9608-d36c7cfe75c2"
+          }
+        ],
+        "state_history": [
+          "created",
+          "planning",
+          "waiting_for_tool",
+          "tool_failed"
+        ]
+      },
+      "duration_ms": 443.7370000014198,
+      "expected": {
+        "error_code": "tool_argument_validation_error",
+        "state": "tool_failed"
+      },
+      "expected_outcome_met": true,
+      "injected": true,
+      "injection_count": 1,
+      "kind": "malformed_tool_call",
+      "recovery": {
+        "attempted": false,
+        "succeeded": null
+      },
+      "scenario_id": "malformed-tool-call",
+      "target": "tool.execute",
+      "task_id": "b132eb9e-7ce6-4045-9608-d36c7cfe75c2",
+      "trace_steps": 11
+    },
+    {
+      "actual": {
+        "error_code": "database_operation_failed",
+        "state": "completed"
+      },
+      "added_latency_ms": -35.959500000899425,
+      "baseline_ms": 614.1788999993878,
+      "contained": false,
+      "details": {
+        "error": {
+          "code": "database_operation_failed",
+          "details": {
+            "injected_fault": {
+              "delay_ms": 0,
+              "kind": "database_result_failure",
+              "max_injections": 1,
+              "point": "persistence.save_task_result",
+              "scenario_id": "database-result-failure"
+            },
+            "task_id": "e09d48a3-7863-41bd-a2cc-364628e112f6"
+          },
+          "message": "injected database failure while saving terminal task output"
+        },
+        "fault_records": [
+          {
+            "delay_ms": 0,
+            "injected_at_utc": "2026-08-24T19:34:22.949357+00:00",
+            "kind": "database_result_failure",
+            "occurrence": 1,
+            "point": "persistence.save_task_result",
+            "scenario_id": "database-result-failure",
+            "task_id": "e09d48a3-7863-41bd-a2cc-364628e112f6"
+          }
+        ],
+        "state_history": [
+          "created",
+          "planning",
+          "executing",
+          "validating",
+          "completed"
+        ]
+      },
+      "duration_ms": 578.2193999984884,
+      "expected": {
+        "error_code": "database_operation_failed",
+        "state": "completed"
+      },
+      "expected_outcome_met": true,
+      "injected": true,
+      "injection_count": 1,
+      "kind": "database_result_failure",
+      "recovery": {
+        "attempted": false,
+        "succeeded": null
+      },
+      "scenario_id": "database-result-failure",
+      "target": "persistence.save_task_result",
+      "task_id": "e09d48a3-7863-41bd-a2cc-364628e112f6",
+      "trace_steps": 13
+    },
+    {
+      "actual": {
+        "error_code": null,
+        "state": "completed"
+      },
+      "added_latency_ms": 1034.2648999976518,
+      "baseline_ms": 614.1788999993878,
+      "contained": true,
+      "details": {
+        "checkpoint": {
+          "data": {
+            "model_invocation_started": false,
+            "safe_to_retry": true,
+            "tool_invocation_started": false
+          },
+          "phase": "recovery_ready",
+          "recorded_at_utc": "2026-08-24T19:34:23.710726+00:00"
+        },
+        "fault_records": [
+          {
+            "delay_ms": 0,
+            "injected_at_utc": "2026-08-24T19:34:23.751651+00:00",
+            "kind": "agent_crash",
+            "occurrence": 1,
+            "point": "recovery.checkpoint_ready",
+            "scenario_id": "agent-crash-recovery",
+            "task_id": "5b8ed8bd-13ae-426d-a4d7-c5465bff9043"
+          }
+        ],
+        "real_llm_calls": 0,
+        "state_before_termination": "planning",
+        "state_history": [
+          "created",
+          "planning",
+          "recovering",
+          "planning",
+          "executing",
+          "validating",
+          "completed"
+        ],
+        "worker_exit_code": 1,
+        "worker_process_id": 26456
+      },
+      "duration_ms": 1648.4437999970396,
+      "expected": {
+        "error_code": null,
+        "state": "completed"
+      },
+      "expected_outcome_met": true,
+      "injected": true,
+      "injection_count": 1,
+      "kind": "agent_crash",
+      "recovery": {
+        "attempted": true,
+        "succeeded": true
+      },
+      "scenario_id": "agent-crash-recovery",
+      "target": "recovery.checkpoint_ready",
+      "task_id": "5b8ed8bd-13ae-426d-a4d7-c5465bff9043",
+      "trace_steps": 19
+    }
+  ],
+  "stage": 13,
+  "started_at_utc": "2026-08-24T19:34:15.902462+00:00",
+  "summary": {
+    "added_latency_ms": {
+      "count": 9,
+      "max": 1034.2648999976518,
+      "mean": 29.712077777932993,
+      "min": -160.6742000003578,
+      "p50": -71.79699999687728,
+      "p95": 611.5967399986399
+    },
+    "completed_without_error": 1,
+    "contained": 8,
+    "containment_rate_percent": 88.88888888888889,
+    "expected_outcome_rate_percent": 100.0,
+    "expected_outcomes_met": 9,
+    "injections": 9,
+    "quality_impact": null,
+    "quality_impact_reason": "deterministic fault containment has no meaningful semantic quality score",
+    "real_llm_calls": 0,
+    "recovery_attempts": 1,
+    "recovery_success_rate_percent": 100.0,
+    "recovery_successes": 1,
+    "scenarios": 9,
+    "task_completion_rate_percent": 11.11111111111111
+  }
+}

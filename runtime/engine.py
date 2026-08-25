@@ -1,4 +1,4 @@
-"""Synchronous, transition-validated orchestration through Stage 12."""
+"""Synchronous, transition-validated orchestration through Stage 14."""
 
 from __future__ import annotations
 
@@ -47,6 +47,8 @@ from .interfaces import (
     ToolRegistry,
     TraceStore,
     ObservabilityBackend,
+    FaultInjector,
+    SecurityGuard,
 )
 from .models import (
     Agent,
@@ -88,6 +90,8 @@ class RuntimeComponents:
     persistence: RuntimePersistence | None = None
     traces: TraceStore | None = None
     observability: ObservabilityBackend | None = None
+    faults: FaultInjector | None = None
+    security: SecurityGuard | None = None
 
 
 class AgentRuntime:
@@ -279,6 +283,15 @@ class AgentRuntime:
                 },
             )
             result = executor.execute(registered, request, cancellation)
+            if self._components.security is not None:
+                self._components.security.validate_tool_output(result.data)
+                self._emit(
+                    "security.tool_output.validated",
+                    task=task,
+                    agent=agent,
+                    state=TaskState.WAITING_FOR_TOOL,
+                    data={"request_id": result.request_id, "valid": True},
+                )
             self._emit(
                 "tool.invocation.completed",
                 task=task,
@@ -363,6 +376,8 @@ class AgentRuntime:
         input_data: dict[str, Any] | None = None,
     ) -> Task:
         self._require_running()
+        if self._components.security is not None:
+            self._components.security.validate_task_input(objective, input_data)
         registered = self._components.agents.get(agent.agent_id)
         if registered != agent:
             raise ValidationError(
@@ -385,7 +400,10 @@ class AgentRuntime:
             task=task,
             agent=agent,
             state=TaskState.CREATED,
-            data={"objective": objective},
+            data={
+                "objective_hash": hash_text(objective),
+                "objective_characters": len(objective),
+            },
         )
         self._record_transition(task, agent, initial)
         return task
@@ -692,12 +710,28 @@ class AgentRuntime:
                 TaskState.EXECUTING,
                 reason=f"model route selected: {route.model_id}",
             )
+            request_system_prompt = agent.system_prompt
+            request_prompt = task.objective
+            if self._components.security is not None:
+                request_system_prompt, request_prompt = (
+                    self._components.security.protect_prompt(
+                        request_system_prompt,
+                        request_prompt,
+                    )
+                )
+                self._emit(
+                    "security.prompt.protected",
+                    task=task,
+                    agent=agent,
+                    state=TaskState.EXECUTING,
+                    data={"format": "untrusted-objective-json", "protected": True},
+                )
             request = InferenceRequest(
                 task_id=task.task_id,
-                prompt=task.objective,
+                prompt=request_prompt,
                 model_id=route.model_id,
                 max_generated_tokens=effective_max_tokens,
-                system_prompt=agent.system_prompt,
+                system_prompt=request_system_prompt,
                 profile=selected_profile,
             )
             self._emit(
@@ -786,6 +820,8 @@ class AgentRuntime:
                     "model returned empty output",
                     details={"task_id": task.task_id},
                 )
+            if self._components.security is not None:
+                self._components.security.validate_model_output(inference_result.text)
             self._emit(
                 "output.validation.completed",
                 task=task,
@@ -1024,7 +1060,10 @@ class AgentRuntime:
         state: TaskState | None = None,
         data: dict[str, Any] | None = None,
     ) -> None:
-        attributes = dict(data or {})
+        payload = dict(data or {})
+        if self._components.security is not None:
+            payload = self._components.security.redact_payload(payload)
+        attributes = dict(payload)
         if state is not None:
             attributes["state"] = state.value
         self._components.events.append(
@@ -1033,7 +1072,7 @@ class AgentRuntime:
                 agent_id=agent.agent_id if agent is not None else None,
                 task_id=task.task_id if task is not None else None,
                 state=state,
-                data=dict(data or {}),
+                data=dict(payload),
             )
         )
         self._components.metrics.record(

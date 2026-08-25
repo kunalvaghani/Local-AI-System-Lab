@@ -45,6 +45,30 @@ class PolicyDeniedError(LabError):
     code = "policy_denied"
 
 
+class SecurityPolicyError(PolicyDeniedError):
+    """A deterministic Stage 14 boundary rejected unsafe input or execution."""
+
+    code = "security_policy_denied"
+
+
+class ApiRequestError(ValidationError):
+    """A Stage 15 transport request is malformed or outside API bounds."""
+
+    code = "api_request_invalid"
+
+
+class ApiConflictError(LabError):
+    """A Stage 15 operation conflicts with current task/service state."""
+
+    code = "api_conflict"
+
+
+class ApiCapacityError(LabError):
+    """The bounded API task manager has no available submission slot."""
+
+    code = "api_capacity_exceeded"
+
+
 class ComponentOperationError(LabError):
     code = "component_operation_error"
 
@@ -151,3 +175,9 @@ class RecoveryNotSupportedError(TaskExecutionError):
     """A durable task is not at a checkpoint that can be retried safely."""
 
     code = "recovery_not_supported"
+
+
+class DatabaseOperationError(ComponentOperationError):
+    """A durable database operation failed at an explicit runtime boundary."""
+
+    code = "database_operation_failed"

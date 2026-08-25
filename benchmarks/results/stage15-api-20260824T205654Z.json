@@ -1,0 +1,137 @@
+{
+  "component_roles": {
+    "chaos_endpoint": "requires confirmation and runs only in a separate stub runtime/database",
+    "http_adapter": "validates bounded requests and maps typed runtime errors to versioned JSON",
+    "inspection_service": "exposes safe agent, scheduler, hardware, model, metrics, and trace views",
+    "replay_endpoint": "verifies trace integrity without re-executing side effects or model calls",
+    "security_results": "returns retained adversarial evidence with its explicit scope disclaimer",
+    "sse_stream": "publishes ordered lifecycle evidence and one terminal task snapshot",
+    "task_manager": "owns bounded asynchronous task lifecycle and cooperative cancellation"
+  },
+  "evidence": {
+    "agent_count": 2,
+    "api_stage": 15,
+    "backend_name": "stage-1-stub-backend",
+    "chaos_expected_outcome_met": true,
+    "database_integrity": "ok",
+    "durable_state": "completed",
+    "hardware_cpu_source": "Windows registry + os.cpu_count",
+    "inference_metrics": {
+      "baseline_vram_used_mib": null,
+      "generated_token_runs": null,
+      "generation_ms": null,
+      "internal_load_ms": null,
+      "model_load_ms": null,
+      "peak_process_ram_mib": null,
+      "peak_vram_used_mib": null,
+      "prompt_eval_ms": null,
+      "prompt_tokens": null,
+      "prompt_tokens_per_second": null,
+      "startup_to_ready_ms": null,
+      "tokens_per_second": null,
+      "total_ms": 0.0,
+      "ttft_ms": null,
+      "vram_delta_mib": null
+    },
+    "metrics_task_total": 1,
+    "model_count": 2,
+    "model_id": "stage-1-stub-model",
+    "replay_integrity_valid": true,
+    "scheduler_policy": "fifo",
+    "security_failed": 0,
+    "selected_profile": null,
+    "sse_lifecycle_events": 15,
+    "sse_terminal_event": true,
+    "task_id": "541c7942-fa83-40c6-87c6-691c4d430a4f",
+    "task_status": "completed",
+    "trace_payloads_omitted": true,
+    "trace_steps": 16,
+    "unconfirmed_chaos_code": "api_request_invalid"
+  },
+  "finished_at_utc": "2026-08-25T01:05:05.497621+00:00",
+  "operations": {
+    "agents": {
+      "duration_ms": 28.21859999676235,
+      "status": 200
+    },
+    "chaos_confirmed": {
+      "duration_ms": 2254.9884999971255,
+      "status": 200
+    },
+    "chaos_unconfirmed": {
+      "duration_ms": 19.136700000672136,
+      "status": 400
+    },
+    "discovery": {
+      "duration_ms": 23.36690000083763,
+      "status": 200
+    },
+    "hardware": {
+      "duration_ms": 1298.973200006003,
+      "status": 200
+    },
+    "health": {
+      "duration_ms": 25.347400005557574,
+      "status": 200
+    },
+    "metrics": {
+      "duration_ms": 88.73090000270167,
+      "status": 200
+    },
+    "models": {
+      "duration_ms": 5.139200002304278,
+      "status": 200
+    },
+    "openapi": {
+      "duration_ms": 22.817400000349153,
+      "status": 200
+    },
+    "scheduler": {
+      "duration_ms": 24.520099999790546,
+      "status": 200
+    },
+    "security_results": {
+      "duration_ms": 22.58309999888297,
+      "status": 200
+    },
+    "task_create": {
+      "duration_ms": 139.04769999498967,
+      "status": 202
+    },
+    "task_events": {
+      "duration_ms": 583.1768999996711,
+      "status": 200
+    },
+    "task_inspect": {
+      "duration_ms": 22.53280000149971,
+      "status": 200
+    },
+    "task_trace": {
+      "duration_ms": 32.54000000015367,
+      "status": 200
+    },
+    "trace_replay": {
+      "duration_ms": 47.9293999960646,
+      "status": 200
+    }
+  },
+  "passed": true,
+  "process_boundary": {
+    "client": "Python standard-library HTTP client",
+    "command": "python -m runtime.api_cli --stub --port 0 --database <unique>",
+    "direct_runtime_calls_after_launch": 0,
+    "ready": {
+      "base_url": "http://127.0.0.1:49894/v1",
+      "event": "api.ready",
+      "host": "127.0.0.1",
+      "port": 49894,
+      "runtime": "local-ai-systems-lab-stage-15-stub",
+      "stage": 15,
+      "stub": true
+    },
+    "real_llm_calls": 0
+  },
+  "run_id": "1e63f16d-cc78-4304-adfa-35ae016d7b46",
+  "stage": 15,
+  "started_at_utc": "2026-08-25T01:05:00.219489+00:00"
+}

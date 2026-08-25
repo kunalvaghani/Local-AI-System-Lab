@@ -5,16 +5,119 @@ constrained consumer hardware. Specialized agents now have an inspectable,
 transition-validated runtime, bounded scheduling, memory admission, adaptive profiles,
 explainable model routing, task-scoped compute budgets, durable recovery, and
 hash-chained execution traces with bounded replay. Stage 12 adds unified live
-and recent runtime telemetry without introducing a GUI or external service.
+and recent runtime telemetry, Stage 13 adds explicitly armed fault experiments,
+and Stage 14 adds deterministic security boundaries plus repeatable adversarial
+PASS/FAIL evidence. Stage 15 exposes the complete runtime through a documented,
+loopback-only HTTP/JSON and SSE backend API. Stage 16 verifies the entire backend
+through a reproducible acceptance gate with scoped maturity classifications.
+Stage 17 completes fresh frontend research and recommends a Systems Cartography
+direction without creating production UI code.
 
 ## Current status
 
-- Last completed stage: Stage 12 — Observability & Metrics Backend
-- Next approval-gated stage: Stage 13 — Fault Injection / Chaos Framework
-- Backend acceptance: IN PROGRESS through the stage gates
-- Frontend work: PROHIBITED until the backend acceptance gate passes
+- Last completed stage: Stage 17 — Frontend Research Only
+- Next approval-gated stage: Stage 18 — Design System & UI Architecture
+- Backend acceptance: RELEASE CANDIDATE; all required checks PASS, overall maturity PARTIAL
+- Frontend research: COMPLETE; production frontend implementation has not started
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
+
+## Review the Stage 17 frontend research
+
+Read [the frontend research and recommendation](docs/frontend-research.md) for
+28 current references covering official Google work, recent browser capabilities,
+developer and observability interfaces, and maintained React implementation
+candidates. It recommends a custom Systems Cartography direction, a lean
+accessible/virtualized stack, explicit performance and accessibility constraints,
+and a list of rejected or deferred ideas.
+
+Stage 17 adds no frontend dependencies, routes, components, stylesheets, or
+production UI. Stage 18 remains approval-gated.
+
+## Run the Stage 16 backend acceptance gate
+
+Execute the complete build/package, test, control, scheduler, hardware, recovery,
+trace, observability, chaos, security, deterministic API, and real-model API gate:
+
+```powershell
+python -m benchmarks.run_stage16_acceptance
+```
+
+The retained run executed 14 commands, passed all 14 mandatory categories, ran
+150 tests, completed one real Qwen/llama.cpp API task, and passed five regression
+limits. The backend is a release candidate for single-user loopback frontend
+work, but overall maturity remains `PARTIAL`: the terminal-output atomicity gap,
+one-real-model/semantic-evaluation boundary, and application-level security limit
+remain explicit. See the [Backend Acceptance Report](docs/backend-acceptance-report.md)
+and [Stage 16 report](docs/stages/stage16-backend-verification-acceptance-gate.md).
+
+## Operate the Stage 15 backend API
+
+Start the deterministic full-runtime composition with zero real LLM calls:
+
+```powershell
+python -m runtime.api_cli --stub
+```
+
+Start the real guarded Qwen/llama.cpp composition:
+
+```powershell
+python -m runtime.api_cli
+```
+
+The loopback base URL is `http://127.0.0.1:8765/v1`; its OpenAPI document is at
+`/v1/openapi.json`. The contract creates/inspects/cancels tasks, streams lifecycle
+events over SSE, and inspects agents, scheduler, hardware, models, metrics,
+redacted traces/replay, isolated chaos results, and retained security evidence.
+It serves no static files and is not an internet-facing production server.
+
+Run the separate-process external evidence workflow:
+
+```powershell
+python -m benchmarks.run_stage15_api
+```
+
+The retained deterministic run completed 16 HTTP/SSE operations with zero direct
+runtime calls after launch and zero real LLM calls. A second retained real run
+completed the same 16-operation workflow through Qwen2.5 1.5B/llama.cpp with one
+real model call, valid trace replay, expected isolated chaos, zero retained
+security failures, and SQLite integrity `ok`. See the
+[Stage 15 report](docs/stages/stage15-backend-api-full-runtime-integration.md).
+
+## Run Stage 14 adversarial tests
+
+Run all 14 bounded cases or select individual cases:
+
+```powershell
+python -m runtime.security_cli
+python -m runtime.security_cli --case prompt-injection --case tool-escalation
+python -m benchmarks.run_stage14_security
+```
+
+The suite exercises input/output validation, prompt authority separation, path
+allowlists, tool and network ceilings, secret redaction, subprocess rules,
+timeouts, process limits, malformed structures, and resource abuse. Its retained
+run passed 14/14 cases with zero real LLM calls and SQLite integrity `ok`.
+Passing these tests does not prove the system is secure. See the
+[Stage 14 report](docs/stages/stage14-security-adversarial-testing.md).
+
+## Run Stage 13 chaos experiments
+
+Fault injection is disabled by default. Explicitly arm one deterministic
+scenario or the complete controlled suite:
+
+```powershell
+python -m runtime.chaos_cli --execute --scenario model-timeout
+python -m runtime.chaos_cli --execute
+python -m benchmarks.run_stage13_chaos
+```
+
+The report includes expected/actual state and error, injection evidence, traces,
+latency relative to no-fault baselines, containment, task completion, recovery,
+observability, and SQLite integrity. The retained suite matched 9/9 expected
+outcomes and recovered its killed worker, while truthfully reporting the known
+terminal-output database gap as not contained. See the
+[Stage 13 report](docs/stages/stage13-fault-injection-chaos-framework.md).
 
 ## Inspect Stage 12 observability
 
@@ -74,7 +177,7 @@ Retain a compact recovery result:
 python -m benchmarks.run_stage10_recovery
 ```
 
-Real agent execution now uses the ignored `data/runtime-stage12.db` database by
+Real agent execution now uses the ignored `data/runtime-stage15.db` database by
 default. Use `--database` to select another local database. See the
 [Stage 10 purpose, component map, recovery contract, and evidence](docs/stages/stage10-persistence-checkpoints-recovery.md).
 

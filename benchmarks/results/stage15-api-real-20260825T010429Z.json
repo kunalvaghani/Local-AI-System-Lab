@@ -1,0 +1,148 @@
+{
+  "component_roles": {
+    "chaos_endpoint": "requires confirmation and runs only in a separate stub runtime/database",
+    "http_adapter": "validates bounded requests and maps typed runtime errors to versioned JSON",
+    "inspection_service": "exposes safe agent, scheduler, hardware, model, metrics, and trace views",
+    "replay_endpoint": "verifies trace integrity without re-executing side effects or model calls",
+    "security_results": "returns retained adversarial evidence with its explicit scope disclaimer",
+    "sse_stream": "publishes ordered lifecycle evidence and one terminal task snapshot",
+    "task_manager": "owns bounded asynchronous task lifecycle and cooperative cancellation"
+  },
+  "evidence": {
+    "agent_count": 2,
+    "api_stage": 15,
+    "backend_name": "llama.cpp-completion",
+    "chaos_expected_outcome_met": true,
+    "database_integrity": "ok",
+    "durable_state": "completed",
+    "hardware_cpu_source": "Windows registry + os.cpu_count",
+    "inference_metrics": {
+      "baseline_vram_used_mib": 0.0,
+      "generated_token_runs": 25,
+      "generation_ms": 241.97,
+      "internal_load_ms": 94.37,
+      "model_load_ms": 1354.964,
+      "peak_process_ram_mib": 1343.88671875,
+      "peak_vram_used_mib": 1189.0,
+      "prompt_eval_ms": 93.78,
+      "prompt_tokens": 133,
+      "prompt_tokens_per_second": 1418.18,
+      "startup_to_ready_ms": 2116.327800002182,
+      "tokens_per_second": 103.32,
+      "total_ms": 2973.505000001751,
+      "ttft_ms": 2210.806999995839,
+      "vram_delta_mib": 1189.0
+    },
+    "metrics_task_total": 1,
+    "model_count": 2,
+    "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "replay_integrity_valid": true,
+    "scheduler_policy": "priority",
+    "security_failed": 0,
+    "selected_profile": {
+      "batch_size": 256,
+      "context_size": 2048,
+      "devices": "CUDA0",
+      "flash_attention": "on",
+      "gpu_layers": 28,
+      "profile_id": "performance",
+      "purpose": "Preserve the measured all-GPU Stage 7 baseline when current memory safely fits.",
+      "threads": 8,
+      "threads_batch": 8,
+      "ubatch_size": 256
+    },
+    "sse_lifecycle_events": 18,
+    "sse_terminal_event": true,
+    "task_id": "a21ba09d-3dc9-46fb-951d-4e04f312009d",
+    "task_status": "completed",
+    "trace_payloads_omitted": true,
+    "trace_steps": 19,
+    "unconfirmed_chaos_code": "api_request_invalid"
+  },
+  "finished_at_utc": "2026-08-25T01:05:27.064302+00:00",
+  "operations": {
+    "agents": {
+      "duration_ms": 7.8757000010227785,
+      "status": 200
+    },
+    "chaos_confirmed": {
+      "duration_ms": 2469.8102999973344,
+      "status": 200
+    },
+    "chaos_unconfirmed": {
+      "duration_ms": 24.085099998046644,
+      "status": 400
+    },
+    "discovery": {
+      "duration_ms": 11.621099998592399,
+      "status": 200
+    },
+    "hardware": {
+      "duration_ms": 718.5947999969358,
+      "status": 200
+    },
+    "health": {
+      "duration_ms": 14.389399999345187,
+      "status": 200
+    },
+    "metrics": {
+      "duration_ms": 101.03890000027604,
+      "status": 200
+    },
+    "models": {
+      "duration_ms": 6.693000002996996,
+      "status": 200
+    },
+    "openapi": {
+      "duration_ms": 13.620400000945665,
+      "status": 200
+    },
+    "scheduler": {
+      "duration_ms": 2.195400003984105,
+      "status": 200
+    },
+    "security_results": {
+      "duration_ms": 4.91370000236202,
+      "status": 200
+    },
+    "task_create": {
+      "duration_ms": 121.34320000041043,
+      "status": 202
+    },
+    "task_events": {
+      "duration_ms": 5347.546700002567,
+      "status": 200
+    },
+    "task_inspect": {
+      "duration_ms": 26.43089999764925,
+      "status": 200
+    },
+    "task_trace": {
+      "duration_ms": 21.273400001518894,
+      "status": 200
+    },
+    "trace_replay": {
+      "duration_ms": 36.69079999963287,
+      "status": 200
+    }
+  },
+  "passed": true,
+  "process_boundary": {
+    "client": "Python standard-library HTTP client",
+    "command": "python -m runtime.api_cli --port 0 --database <unique>",
+    "direct_runtime_calls_after_launch": 0,
+    "ready": {
+      "base_url": "http://127.0.0.1:52930/v1",
+      "event": "api.ready",
+      "host": "127.0.0.1",
+      "port": 52930,
+      "runtime": "local-ai-systems-lab-stage-15",
+      "stage": 15,
+      "stub": false
+    },
+    "real_llm_calls": 1
+  },
+  "run_id": "357bd9de-e2c0-4321-b459-85fe007c41e1",
+  "stage": 15,
+  "started_at_utc": "2026-08-25T01:05:12.074083+00:00"
+}

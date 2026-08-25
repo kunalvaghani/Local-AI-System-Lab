@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol
 
 from ..cancellation import CancellationToken
 from ..errors import (
@@ -25,7 +25,17 @@ _TEXT_SUFFIXES = frozenset({".json", ".md", ".py", ".toml", ".txt", ".yaml", ".y
 _MAX_CHARACTERS = 20_000
 
 
-def _safe_path(workspace_root: Path, relative_path: str) -> Path:
+class PathAuthorization(Protocol):
+    def authorize_path(self, workspace_root: Path, relative_path: str) -> Path: ...
+
+
+def _safe_path(
+    workspace_root: Path,
+    relative_path: str,
+    path_authorization: PathAuthorization | None = None,
+) -> Path:
+    if path_authorization is not None:
+        return path_authorization.authorize_path(workspace_root, relative_path)
     candidate = Path(relative_path)
     if candidate.is_absolute():
         raise ToolPathDeniedError(
@@ -54,13 +64,14 @@ def _read_text(
     relative_path: str,
     max_characters: int,
     cancellation: CancellationToken,
+    path_authorization: PathAuthorization | None = None,
 ) -> dict[str, Any]:
     if not 1 <= max_characters <= _MAX_CHARACTERS:
         raise ToolArgumentValidationError(
             "max_characters is outside the permitted range",
             details={"minimum": 1, "maximum": _MAX_CHARACTERS},
         )
-    path = _safe_path(workspace_root, relative_path)
+    path = _safe_path(workspace_root, relative_path, path_authorization)
     if cancellation.is_cancelled:
         raise ToolCancelledError("tool was cancelled before filesystem access")
     if not path.is_file():
@@ -91,7 +102,10 @@ def _read_text(
     }
 
 
-def build_safe_tool_registry(workspace_root: str | Path) -> InMemoryToolRegistry:
+def build_safe_tool_registry(
+    workspace_root: str | Path,
+    path_authorization: PathAuthorization | None = None,
+) -> InMemoryToolRegistry:
     root = Path(workspace_root).resolve()
     registry = InMemoryToolRegistry()
     permission = ToolPermissionMetadata(
@@ -126,6 +140,7 @@ def build_safe_tool_registry(workspace_root: str | Path) -> InMemoryToolRegistry
             arguments["relative_path"],
             arguments["max_characters"],
             cancellation,
+            path_authorization,
         ),
     )
     registry.register(
@@ -149,6 +164,7 @@ def build_safe_tool_registry(workspace_root: str | Path) -> InMemoryToolRegistry
             "docs/risks.md",
             arguments["max_characters"],
             cancellation,
+            path_authorization,
         ),
     )
     return registry

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "release_scope": "single-user loopback local backend on the measured RTX 3050 workstation",
+  "minimum_test_count": 150,
+  "expected_security_cases": 14,
+  "expected_chaos_scenarios": 9,
+  "minimum_expected_chaos_rate_percent": 100.0,
+  "minimum_recovery_success_rate_percent": 100.0,
+  "minimum_real_tokens_per_second": 75.0,
+  "maximum_real_ttft_regression_percent": 50.0,
+  "maximum_real_peak_ram_mib": 1600.0,
+  "maximum_real_vram_delta_mib": 1500.0,
+  "maximum_real_api_stream_ms": 10000.0,
+  "stage2_baseline_result": "benchmarks/results/stage2-baseline-20260823T180550Z.json"
+}

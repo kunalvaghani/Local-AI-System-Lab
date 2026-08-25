@@ -1,0 +1,473 @@
+{
+  "acceptance_policy": {
+    "expected_chaos_scenarios": 9,
+    "expected_security_cases": 14,
+    "maximum_real_api_stream_ms": 10000.0,
+    "maximum_real_peak_ram_mib": 1600.0,
+    "maximum_real_ttft_regression_percent": 50.0,
+    "maximum_real_vram_delta_mib": 1500.0,
+    "minimum_expected_chaos_rate_percent": 100.0,
+    "minimum_real_tokens_per_second": 75.0,
+    "minimum_recovery_success_rate_percent": 100.0,
+    "minimum_test_count": 150,
+    "stage2_baseline_result": "D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\benchmarks\\results\\stage2-baseline-20260823T180550Z.json"
+  },
+  "commands": [
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m compileall -q runtime tests benchmarks",
+      "duration_ms": 239.0603999956511,
+      "exit_code": 0,
+      "name": "compile",
+      "passed": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m pip install --dry-run --no-deps --no-build-isolation .",
+      "duration_ms": 1857.5930000006338,
+      "exit_code": 0,
+      "name": "package",
+      "passed": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "71bf58fb3f4524112373884579dba41ca202f80099703b6a1b2dae3892abefc7",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m unittest discover -s tests -v",
+      "duration_ms": 39639.7960999966,
+      "exit_code": 0,
+      "name": "full_tests",
+      "passed": true,
+      "stderr_sha256": "a23cb06db9e907e67176effd6889d55e2e9d4dde61116a4f1ab43cac84ee6fb6",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m unittest tests.test_api.Stage15CancellationApiTests tests.test_scheduler.SchedulerControlTests -v",
+      "duration_ms": 1524.909799998568,
+      "exit_code": 0,
+      "name": "control_tests",
+      "passed": true,
+      "stderr_sha256": "c328ec9a8a205d84aae6b3ef256d7a2f358ab771fbbfbc9ddef38f8676b15608",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m unittest tests.test_fault_injection.FaultAdapterTests -v",
+      "duration_ms": 4492.003999999724,
+      "exit_code": 0,
+      "name": "fault_tests",
+      "passed": true,
+      "stderr_sha256": "35857bb27a1f5a1b158922d98a73b340efc51e8844c390961c79df72fa255c83",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m runtime.scheduler_cli",
+      "duration_ms": 434.606700000586,
+      "exit_code": 0,
+      "name": "scheduler",
+      "passed": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "4bd10d59e3d020820d49a3fcfd2d4aa15bd180c427257bef799c17d5ffddec38",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m runtime.hardware_cli",
+      "duration_ms": 1726.6246999934083,
+      "exit_code": 0,
+      "name": "hardware",
+      "passed": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "a8a2171f4e65f03b166dd9a5ec57b69adfcaf5b39d624ca84ff10796f97d1864",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m runtime.recovery_cli --db data\\stage16-i29yvgcv\\recovery.db",
+      "duration_ms": 2045.3096000055666,
+      "exit_code": 0,
+      "name": "recovery",
+      "passed": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "6863a30910f6b31c37e3840ae7d4018ec6e9bcf18d7f07fe206a04f3aeb378a4",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m runtime.trace_cli demo --database data\\stage16-i29yvgcv\\trace.db",
+      "duration_ms": 2049.1112000017893,
+      "exit_code": 0,
+      "name": "trace",
+      "passed": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b52432ee59eb3c273b9aceb02285d370415de7131d5c0729e79bd8434eb2c061",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m runtime.observability_cli demo --database data\\stage16-i29yvgcv\\observability.db",
+      "duration_ms": 3535.3131999945617,
+      "exit_code": 0,
+      "name": "observability",
+      "passed": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "83d037c580cb07c5bf1fc4b9c373f7a32b155a5e7c3c49803c91be90d94211a1",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m runtime.chaos_cli --execute --database data\\stage16-i29yvgcv\\chaos.db",
+      "duration_ms": 9471.47610000684,
+      "exit_code": 0,
+      "name": "chaos",
+      "passed": true,
+      "stderr_sha256": "0895bac0adfc036c773037f706b9b177e0200199641bdc48afc249ae94477965",
+      "stdout_sha256": "ab314154e7001bdfa2896840bad21af9d0ee32013703c358e3d3753493fa8631",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m runtime.security_cli --database data\\stage16-i29yvgcv\\security.db",
+      "duration_ms": 2910.924200004956,
+      "exit_code": 0,
+      "name": "security",
+      "passed": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8480528a309e6c12d79a4db1dd3caa0b6137d64f9923036fd286e7630d3a4a23",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m benchmarks.run_stage15_api --output data\\stage16-i29yvgcv\\api-stub.json",
+      "duration_ms": 5447.844800000894,
+      "exit_code": 0,
+      "name": "api_stub",
+      "passed": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "7dbe83e08bcd49b71fec911c5d6cc8bfdacef33e69bb621a3c441e0fe637573a",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    },
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m benchmarks.run_stage15_api --real --output data\\stage16-i29yvgcv\\api-real.json",
+      "duration_ms": 10687.20129999565,
+      "exit_code": 0,
+      "name": "api_real",
+      "passed": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b1cef9a4432874b7cafa5dc19d8090848d6f75c5e2ba505c9042ba48c5a88716",
+      "summary_error": null,
+      "summary_parsed": true,
+      "timed_out": false
+    }
+  ],
+  "environment": {
+    "git_head": "6b019854ecc36ea5eaba117a6165dc8e6fe948ce",
+    "git_status_entries": 47,
+    "python": "3.10.6 (tags/v3.10.6:9c7b4bd, Aug  1 2022, 21:53:49) [MSC v.1932 64 bit (AMD64)]"
+  },
+  "evaluation": {
+    "benchmark_baseline": {
+      "peak_process_ram_mib_median": 1339.0234375,
+      "tokens_per_second_median": 115.81,
+      "ttft_ms_median": 1686.8504000012763,
+      "vram_delta_mib_median": 1219.0
+    },
+    "benchmark_checks": {
+      "api_stream_ms": {
+        "actual": 4589.371399997617,
+        "maximum": 10000.0,
+        "passed": true
+      },
+      "peak_process_ram_mib": {
+        "actual": 1343.89453125,
+        "maximum": 1600.0,
+        "passed": true
+      },
+      "tokens_per_second": {
+        "actual": 93.68,
+        "minimum": 75.0,
+        "passed": true
+      },
+      "ttft_regression_percent": {
+        "actual": 3.615560692193262,
+        "baseline_ttft_ms": 1686.8504000012763,
+        "current_ttft_ms": 1747.8394999998272,
+        "maximum": 50.0,
+        "passed": true
+      },
+      "vram_delta_mib": {
+        "actual": 1189.0,
+        "maximum": 1500.0,
+        "passed": true
+      }
+    },
+    "frontend_authorization": "PENDING_EXPLICIT_USER_APPROVAL",
+    "gate_recommendation": "ACCEPT_FOR_SINGLE_USER_LOOPBACK_FRONTEND_WITH_TRACKED_LIMITATIONS",
+    "overall_classification": "PARTIAL",
+    "release_candidate": true,
+    "required_categories": {
+      "api_deterministic": {
+        "status": "PASS"
+      },
+      "api_real_model": {
+        "status": "PASS"
+      },
+      "benchmark_regression": {
+        "status": "PASS"
+      },
+      "build_and_package": {
+        "status": "PASS"
+      },
+      "edge_cases_cancellation_timeouts": {
+        "status": "PASS"
+      },
+      "fault_injection": {
+        "status": "PASS"
+      },
+      "malformed_model_output": {
+        "status": "PASS"
+      },
+      "observability": {
+        "status": "PASS"
+      },
+      "persistence_restart_recovery": {
+        "status": "PASS"
+      },
+      "resource_pressure": {
+        "status": "PASS"
+      },
+      "scheduler_behavior": {
+        "status": "PASS"
+      },
+      "security": {
+        "status": "PASS"
+      },
+      "trace_and_replay": {
+        "status": "PASS"
+      },
+      "unit_and_integration_tests": {
+        "status": "PASS"
+      }
+    },
+    "subsystems": {
+      "backend_api": {
+        "classification": "DONE",
+        "evidence": [
+          "api_stub",
+          "api_real"
+        ],
+        "rationale": "Separate-process deterministic and real-model HTTP/SSE workflows pass the loopback contract."
+      },
+      "core_runtime": {
+        "classification": "DONE",
+        "evidence": [
+          "compile",
+          "package",
+          "full_tests",
+          "control_tests"
+        ],
+        "rationale": "Complete suite and targeted cancellation/timeout controls meet the tracked minimum."
+      },
+      "fault_injection": {
+        "classification": "PARTIAL",
+        "evidence": [
+          "chaos"
+        ],
+        "rationale": "All expected outcomes and recovery pass; containment remains 8/9 because the atomicity gap is deliberately reproduced."
+      },
+      "model_routing_and_evaluation": {
+        "classification": "PARTIAL",
+        "evidence": [
+          "full_tests",
+          "api_real"
+        ],
+        "rationale": "Routing is explainable, but only one real model backend exists and semantic output evaluation remains deferred."
+      },
+      "persistence_and_recovery": {
+        "classification": "PARTIAL",
+        "evidence": [
+          "recovery",
+          "chaos"
+        ],
+        "rationale": "Killed-process pre-invocation recovery succeeds, but the known terminal-state/output atomicity gap remains."
+      },
+      "remote_multi_user_deployment": {
+        "classification": "DEFERRED",
+        "evidence": [],
+        "rationale": "TLS, authentication, identity authorization, remote serving, and production HTTP infrastructure are outside the approved local scope."
+      },
+      "scheduler_and_resource_admission": {
+        "classification": "DONE",
+        "evidence": [
+          "scheduler",
+          "hardware"
+        ],
+        "rationale": "FIFO/priority order and all six controlled admission outcomes are demonstrated."
+      },
+      "security": {
+        "classification": "PARTIAL",
+        "evidence": [
+          "security"
+        ],
+        "rationale": "All bounded adversarial cases pass, but controls are application-level and are not an OS sandbox or certification."
+      },
+      "tracing_replay_observability": {
+        "classification": "DONE",
+        "evidence": [
+          "trace",
+          "observability"
+        ],
+        "rationale": "Trace integrity/replay and unified durable/live telemetry meet the current local scope."
+      }
+    }
+  },
+  "finished_at_utc": "2026-08-25T01:18:48.507952+00:00",
+  "release_scope": "single-user loopback local backend on the measured RTX 3050 workstation",
+  "run_id": "f38bb9cd-c75a-47a1-975c-31dea62579f4",
+  "schema_version": 1,
+  "stage": 16,
+  "started_at_utc": "2026-08-25T01:17:22.416012+00:00",
+  "summaries": {
+    "api_real": {
+      "database_integrity": "ok",
+      "inference_metrics": {
+        "baseline_vram_used_mib": 0.0,
+        "generated_token_runs": 25,
+        "generation_ms": 266.87,
+        "internal_load_ms": 85.4,
+        "model_load_ms": 984.1550000000001,
+        "peak_process_ram_mib": 1343.89453125,
+        "peak_vram_used_mib": 1189.0,
+        "prompt_eval_ms": 84.86,
+        "prompt_tokens": 133,
+        "prompt_tokens_per_second": 1567.25,
+        "startup_to_ready_ms": 1662.376199994469,
+        "tokens_per_second": 93.68,
+        "total_ms": 2375.7284999956028,
+        "ttft_ms": 1747.8394999998272,
+        "vram_delta_mib": 1189.0
+      },
+      "model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+      "operations": 16,
+      "passed": true,
+      "real_llm_calls": 1,
+      "selected_profile": "performance"
+    },
+    "api_stub": {
+      "database_integrity": "ok",
+      "operations": 16,
+      "passed": true,
+      "real_llm_calls": 0
+    },
+    "chaos": {
+      "added_latency_ms": {
+        "count": 9,
+        "max": 1239.7293999965768,
+        "mean": 100.68662222005918,
+        "min": -96.91230000316864,
+        "p50": -19.723700010217726,
+        "p95": 757.1350799960778
+      },
+      "completed_without_error": 1,
+      "contained": 8,
+      "containment_rate_percent": 88.88888888888889,
+      "expected_outcome_rate_percent": 100.0,
+      "expected_outcomes_met": 9,
+      "injections": 9,
+      "quality_impact": null,
+      "quality_impact_reason": "deterministic fault containment has no meaningful semantic quality score",
+      "real_llm_calls": 0,
+      "recovery_attempts": 1,
+      "recovery_success_rate_percent": 100.0,
+      "recovery_successes": 1,
+      "scenarios": 9,
+      "task_completion_rate_percent": 11.11111111111111
+    },
+    "control_tests": {
+      "reported_duration_seconds": 1.06,
+      "tests": 8
+    },
+    "fault_tests": {
+      "reported_duration_seconds": 4.04,
+      "tests": 6
+    },
+    "full_tests": {
+      "reported_duration_seconds": 39.115,
+      "tests": 150
+    },
+    "hardware": {
+      "controlled_actions": [
+        "ACCEPT",
+        "FALLBACK",
+        "QUEUE",
+        "REDUCE_CONTEXT",
+        "REDUCE_GPU_OFFLOAD",
+        "REJECT_UNSAFE"
+      ],
+      "live_action": "accept",
+      "warnings": [
+        "physical core count unavailable; logical count is not relabeled"
+      ]
+    },
+    "observability": {
+      "recoveries": 1,
+      "tasks": 4,
+      "trace_steps": 55
+    },
+    "recovery": {
+      "final_state": "completed",
+      "integrity": "ok",
+      "real_llm_calls": 0
+    },
+    "scheduler": {
+      "fifo_order": [
+        "background",
+        "standard",
+        "interactive"
+      ],
+      "matches_expected": true,
+      "priority_order": [
+        "interactive",
+        "standard",
+        "background"
+      ]
+    },
+    "security": {
+      "cases": 14,
+      "failed": 0,
+      "integrity_check": "ok",
+      "pass_rate_percent": 100.0,
+      "passed": 14,
+      "real_llm_calls": 0,
+      "total_duration_ms": 2219.3332
+    },
+    "trace": {
+      "deterministic_divergences": 0,
+      "integrity": "ok",
+      "replay_integrity_valid": true,
+      "replay_status": "matched"
+    }
+  }
+}

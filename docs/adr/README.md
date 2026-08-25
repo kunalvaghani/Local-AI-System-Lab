@@ -20,6 +20,10 @@ performance, reproducibility, or stage boundaries.
 | [0011](0011-sqlite-checkpoints-and-pre-invocation-recovery.md) | Accepted | Versioned SQLite durability and explicit pre-invocation recovery |
 | [0012](0012-hash-chained-traces-and-bounded-replay.md) | Accepted | Hash-chained task traces with classified, side-effect-free replay |
 | [0013](0013-sqlite-windowed-observability-snapshots.md) | Accepted | Windowed SQLite aggregation plus optional live scheduler/hardware snapshots |
+| [0014](0014-bounded-protocol-fault-injection.md) | Accepted | Explicitly armed, count-bounded fault adapters and process recovery experiments |
+| [0015](0015-deterministic-security-boundaries.md) | Accepted | Deterministic least-privilege security boundaries and repeatable adversarial evidence |
+| [0016](0016-loopback-stdlib-http-json-sse-api.md) | Accepted | Versioned loopback HTTP/JSON and SSE over a transport-independent runtime service |
+| [0017](0017-scoped-evidence-based-backend-acceptance.md) | Accepted | Binary required checks plus honest scoped subsystem maturity classifications |
 
 ## Process
 

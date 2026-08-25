@@ -405,6 +405,22 @@ class SQLiteRuntimeStore:
             raise TaskNotFoundError("durable task does not exist", details={"task_id": task_id})
         return Task(row["task_id"], row["agent_id"], row["objective"], _datetime(row["created_at_utc"]), _mapping(row["input_json"]))
 
+    def load_task_output(self, task_id: str) -> dict[str, Any] | None:
+        """Load the latest durable output without re-executing the task."""
+
+        with self._connection() as connection:
+            row = connection.execute(
+                "SELECT output_type, output_json, recorded_at_utc FROM outputs WHERE task_id=?",
+                (task_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        return {
+            "output_type": str(row["output_type"]),
+            "output": _mapping(row["output_json"]),
+            "recorded_at_utc": str(row["recorded_at_utc"]),
+        }
+
     def initialize(self, task_id: str, *, reason: str) -> StateTransition:
         transition = StateTransition(0, None, TaskState.CREATED, reason)
         with self._transaction() as connection:

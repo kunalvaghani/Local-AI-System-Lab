@@ -1,4 +1,4 @@
-"""Replaceable component contracts for the local runtime through Stage 12."""
+"""Replaceable component contracts for the local runtime through Stage 14."""
 
 from __future__ import annotations
 
@@ -173,6 +173,8 @@ class RuntimePersistence(Protocol):
 
     def load_task(self, task_id: str) -> Task: ...
 
+    def load_task_output(self, task_id: str) -> dict[str, Any] | None: ...
+
     def save_model_configuration(
         self,
         runtime_name: str,
@@ -227,6 +229,31 @@ class ObservabilityBackend(Protocol):
         recent_event_limit: int | None = None,
         include_live: bool = True,
     ) -> ObservabilityReport: ...
+
+
+@runtime_checkable
+class FaultInjector(Protocol):
+    @property
+    def armed(self) -> bool: ...
+
+    def snapshot(self) -> Sequence[Any]: ...
+
+
+@runtime_checkable
+class SecurityGuard(Protocol):
+    def validate_task_input(
+        self,
+        objective: str,
+        input_data: dict[str, Any] | None,
+    ) -> None: ...
+
+    def protect_prompt(self, system_prompt: str, objective: str) -> tuple[str, str]: ...
+
+    def validate_model_output(self, output: str) -> None: ...
+
+    def validate_tool_output(self, output: dict[str, Any]) -> None: ...
+
+    def redact_payload(self, value: Any) -> Any: ...
 
 
 @runtime_checkable

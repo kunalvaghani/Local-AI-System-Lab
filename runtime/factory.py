@@ -44,6 +44,19 @@ from .observability import (
     UnifiedObservabilityBackend,
     load_observability_config,
 )
+from .faults import (
+    FaultController,
+    FaultInjectingInferenceBackend,
+    FaultInjectingPersistence,
+    FaultInjectingToolExecutor,
+    load_chaos_config,
+)
+from .security import (
+    GuardedInferenceBackend,
+    RuntimeSecurityGuard,
+    SecurityToolPolicy,
+    load_security_config,
+)
 
 
 def build_stage1_runtime(config: RuntimeConfig | None = None) -> AgentRuntime:
@@ -498,4 +511,260 @@ def build_stage12_stub_runtime(
         runtime,
         observability_config_path,
         runtime_name="local-ai-systems-lab-stage-12-stub",
+    )
+
+
+def _with_stage13_faults(
+    runtime: AgentRuntime,
+    chaos_config_path: str | Path,
+    *,
+    runtime_name: str,
+    arm_faults: bool | None,
+    scenario_ids: tuple[str, ...] | None,
+) -> AgentRuntime:
+    config = load_chaos_config(chaos_config_path)
+    controller = FaultController(
+        config.plan(armed=arm_faults, scenario_ids=scenario_ids),
+        runtime.components.metrics,
+    )
+    tool_executor = runtime.components.tool_executor
+    persistence = runtime.components.persistence
+    return AgentRuntime(
+        config=RuntimeConfig(
+            runtime_name=runtime_name,
+            default_model=runtime.config.default_model,
+            max_generated_tokens=runtime.config.max_generated_tokens,
+            stub_response_prefix=runtime.config.stub_response_prefix,
+        ),
+        components=replace(
+            runtime.components,
+            inference=FaultInjectingInferenceBackend(
+                runtime.components.inference,
+                controller,
+            ),
+            tool_executor=(
+                FaultInjectingToolExecutor(tool_executor, controller)
+                if tool_executor is not None
+                else None
+            ),
+            persistence=(
+                FaultInjectingPersistence(persistence, controller)
+                if persistence is not None
+                else None
+            ),
+            faults=controller,
+        ),
+    )
+
+
+def build_stage13_runtime(
+    inference_config_path: str | Path = "configs/inference-baseline.json",
+    admission_config_path: str | Path = "configs/admission-baseline.json",
+    profile_config_path: str | Path = "configs/inference-profiles.json",
+    registry_config_path: str | Path = "configs/model-registry.json",
+    persistence_config_path: str | Path = "configs/persistence.json",
+    observability_config_path: str | Path = "configs/observability.json",
+    chaos_config_path: str | Path = "configs/chaos.json",
+    database_path: str | Path | None = None,
+    *,
+    arm_faults: bool | None = None,
+    scenario_ids: tuple[str, ...] | None = None,
+) -> AgentRuntime:
+    """Compose the real runtime with inert-by-default Stage 13 fault adapters."""
+
+    runtime = build_stage12_runtime(
+        inference_config_path,
+        admission_config_path,
+        profile_config_path,
+        registry_config_path,
+        persistence_config_path,
+        observability_config_path,
+        database_path,
+    )
+    return _with_stage13_faults(
+        runtime,
+        chaos_config_path,
+        runtime_name="local-ai-systems-lab-stage-13",
+        arm_faults=arm_faults,
+        scenario_ids=scenario_ids,
+    )
+
+
+def build_stage13_stub_runtime(
+    database_path: str | Path,
+    persistence_config_path: str | Path = "configs/persistence.json",
+    observability_config_path: str | Path = "configs/observability.json",
+    chaos_config_path: str | Path = "configs/chaos.json",
+    *,
+    arm_faults: bool | None = None,
+    scenario_ids: tuple[str, ...] | None = None,
+) -> AgentRuntime:
+    """Compose deterministic Stage 13 experiments without real model calls."""
+
+    runtime = build_stage12_stub_runtime(
+        database_path,
+        persistence_config_path,
+        observability_config_path,
+    )
+    return _with_stage13_faults(
+        runtime,
+        chaos_config_path,
+        runtime_name="local-ai-systems-lab-stage-13-stub",
+        arm_faults=arm_faults,
+        scenario_ids=scenario_ids,
+    )
+
+
+def _with_stage14_security(
+    runtime: AgentRuntime,
+    security_config_path: str | Path,
+    *,
+    runtime_name: str,
+) -> AgentRuntime:
+    security_config = load_security_config(security_config_path)
+    guard = RuntimeSecurityGuard(security_config, Path.cwd())
+    current_tool_policy = runtime.components.tool_policy
+    if current_tool_policy is None:
+        raise ConfigurationError("Stage 14 security requires the tool policy boundary")
+    return AgentRuntime(
+        config=RuntimeConfig(
+            runtime_name=runtime_name,
+            default_model=runtime.config.default_model,
+            max_generated_tokens=runtime.config.max_generated_tokens,
+            stub_response_prefix=runtime.config.stub_response_prefix,
+        ),
+        components=replace(
+            runtime.components,
+            inference=GuardedInferenceBackend(runtime.components.inference, guard),
+            tool_registry=build_safe_tool_registry(Path.cwd(), guard),
+            tool_policy=SecurityToolPolicy(current_tool_policy, security_config),
+            security=guard,
+        ),
+    )
+
+
+def build_stage14_runtime(
+    inference_config_path: str | Path = "configs/inference-baseline.json",
+    admission_config_path: str | Path = "configs/admission-baseline.json",
+    profile_config_path: str | Path = "configs/inference-profiles.json",
+    registry_config_path: str | Path = "configs/model-registry.json",
+    persistence_config_path: str | Path = "configs/persistence.json",
+    observability_config_path: str | Path = "configs/observability.json",
+    chaos_config_path: str | Path = "configs/chaos.json",
+    security_config_path: str | Path = "configs/security.json",
+    database_path: str | Path | None = None,
+) -> AgentRuntime:
+    """Compose real local inference with deterministic Stage 14 boundaries."""
+
+    runtime = build_stage13_runtime(
+        inference_config_path,
+        admission_config_path,
+        profile_config_path,
+        registry_config_path,
+        persistence_config_path,
+        observability_config_path,
+        chaos_config_path,
+        database_path,
+    )
+    secured = _with_stage14_security(
+        runtime,
+        security_config_path,
+        runtime_name="local-ai-systems-lab-stage-14",
+    )
+    inference_config = load_llama_cpp_config(inference_config_path)
+    guard = secured.components.security
+    assert isinstance(guard, RuntimeSecurityGuard)
+    guard.authorize_subprocess(
+        [str(inference_config.executable_path), "--version"],
+        cwd=inference_config.executable_path.parent,
+        allowed_executable=inference_config.executable_path,
+        shell=False,
+        timeout_ms=15_000,
+    )
+    return secured
+
+
+def build_stage14_stub_runtime(
+    database_path: str | Path,
+    persistence_config_path: str | Path = "configs/persistence.json",
+    observability_config_path: str | Path = "configs/observability.json",
+    chaos_config_path: str | Path = "configs/chaos.json",
+    security_config_path: str | Path = "configs/security.json",
+) -> AgentRuntime:
+    """Compose deterministic Stage 14 adversarial tests without a real LLM."""
+
+    runtime = build_stage13_stub_runtime(
+        database_path,
+        persistence_config_path,
+        observability_config_path,
+        chaos_config_path,
+    )
+    return _with_stage14_security(
+        runtime,
+        security_config_path,
+        runtime_name="local-ai-systems-lab-stage-14-stub",
+    )
+
+
+def _with_stage15_identity(runtime: AgentRuntime, runtime_name: str) -> AgentRuntime:
+    """Preserve all validated components under the externally operable identity."""
+
+    return AgentRuntime(
+        config=RuntimeConfig(
+            runtime_name=runtime_name,
+            default_model=runtime.config.default_model,
+            max_generated_tokens=runtime.config.max_generated_tokens,
+            stub_response_prefix=runtime.config.stub_response_prefix,
+        ),
+        components=runtime.components,
+    )
+
+
+def build_stage15_runtime(
+    inference_config_path: str | Path = "configs/inference-baseline.json",
+    admission_config_path: str | Path = "configs/admission-baseline.json",
+    profile_config_path: str | Path = "configs/inference-profiles.json",
+    registry_config_path: str | Path = "configs/model-registry.json",
+    persistence_config_path: str | Path = "configs/persistence.json",
+    observability_config_path: str | Path = "configs/observability.json",
+    chaos_config_path: str | Path = "configs/chaos.json",
+    security_config_path: str | Path = "configs/security.json",
+    database_path: str | Path | None = None,
+) -> AgentRuntime:
+    """Compose the complete real runtime for the Stage 15 API boundary."""
+
+    return _with_stage15_identity(
+        build_stage14_runtime(
+            inference_config_path,
+            admission_config_path,
+            profile_config_path,
+            registry_config_path,
+            persistence_config_path,
+            observability_config_path,
+            chaos_config_path,
+            security_config_path,
+            database_path,
+        ),
+        "local-ai-systems-lab-stage-15",
+    )
+
+
+def build_stage15_stub_runtime(
+    database_path: str | Path,
+    persistence_config_path: str | Path = "configs/persistence.json",
+    observability_config_path: str | Path = "configs/observability.json",
+    chaos_config_path: str | Path = "configs/chaos.json",
+    security_config_path: str | Path = "configs/security.json",
+) -> AgentRuntime:
+    """Compose the complete deterministic runtime for API tests and demonstrations."""
+
+    return _with_stage15_identity(
+        build_stage14_stub_runtime(
+            database_path,
+            persistence_config_path,
+            observability_config_path,
+            chaos_config_path,
+            security_config_path,
+        ),
+        "local-ai-systems-lab-stage-15-stub",
     )
