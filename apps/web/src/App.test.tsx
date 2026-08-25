@@ -25,7 +25,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("Stage 22 hardware and performance lab", () => {
+describe("Stage 23 chaos and security lab", () => {
   it("renders real API evidence in the runtime overview", async () => {
     render(<App />);
 
@@ -276,6 +276,69 @@ describe("Stage 22 hardware and performance lab", () => {
     expect(screen.getByText(/continuous time series is not inferred|not a background hardware sampler/i)).toBeInTheDocument();
   });
 
+  it("selects only the server-bounded chaos scenarios and launches a confirmed isolated run", async () => {
+    window.history.replaceState(null, "", "/chaos");
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "Chaos lab" })).toBeInTheDocument();
+    const modelTimeout = await screen.findByRole("checkbox", { name: /model-timeout/ });
+    const invalidOutput = screen.getByRole("checkbox", { name: /invalid-model-output/ });
+    const toolTimeout = screen.getByRole("checkbox", { name: /tool-timeout/ });
+    const crashRecovery = screen.getByRole("checkbox", { name: /agent-crash-recovery/ });
+    await user.click(modelTimeout);
+    await user.click(invalidOutput);
+    await user.click(toolTimeout);
+    expect(crashRecovery).toBeDisabled();
+    await user.click(screen.getByRole("checkbox", { name: /I confirm this run uses/ }));
+    await user.click(screen.getByRole("button", { name: "Launch controlled test" }));
+
+    await waitFor(() => expect(fetch).toHaveBeenCalledWith("/v1/chaos", expect.objectContaining({
+      method: "POST",
+      body: JSON.stringify({ confirm: true, scenarios: ["model-timeout", "invalid-model-output", "tool-timeout"] }),
+    })));
+    expect(await screen.findByRole("heading", { name: "Failure propagation & recovery" })).toBeInTheDocument();
+    expect(screen.getByText("chaos-run-stage23-test")).toBeInTheDocument();
+    expect(screen.getByText("Recovered")).toBeInTheDocument();
+    expect(screen.getAllByText("Contained").length).toBeGreaterThan(0);
+  });
+
+  it("shows retained attack results, blocked actions, and the non-certification boundary", async () => {
+    window.history.replaceState(null, "", "/security");
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "Security lab" })).toBeInTheDocument();
+    expect(await screen.findByText("stage14-security-stage23-test")).toBeInTheDocument();
+    expect(screen.getByText(/does not prove the system is secure/)).toBeInTheDocument();
+    expect(screen.getAllByText("Defense held")).toHaveLength(4);
+    expect(screen.getByText("network destination was denied")).toBeInTheDocument();
+    expect(screen.getByText("security_blocked")).toBeInTheDocument();
+
+    await user.selectOptions(screen.getByRole("combobox", { name: "Category" }), "tool escalation");
+    const table = screen.getByRole("table");
+    expect(within(table).getByText("tool-escalation")).toBeInTheDocument();
+    expect(within(table).queryByText("network-exfiltration")).not.toBeInTheDocument();
+  });
+
+  it("executes selected deterministic security cases through the confirmed API boundary", async () => {
+    window.history.replaceState(null, "", "/security");
+    const user = userEvent.setup();
+    render(<App />);
+
+    await screen.findByRole("button", { name: "Select all" });
+    await user.click(screen.getByRole("button", { name: "Select all" }));
+    await user.click(screen.getByRole("checkbox", { name: /I confirm this suite uses/ }));
+    await user.click(screen.getByRole("button", { name: "Execute security suite" }));
+
+    await waitFor(() => expect(fetch).toHaveBeenCalledWith("/v1/security", expect.objectContaining({
+      method: "POST",
+      body: JSON.stringify({ confirm: true, cases: ["prompt-injection", "tool-escalation", "network-exfiltration", "secret-output"] }),
+    })));
+    expect(await screen.findByText("stage23-security-new-test")).toBeInTheDocument();
+    expect(screen.getByText("Newly executed suite")).toBeInTheDocument();
+  });
+
   it("exposes the reusable status and visualization contracts", async () => {
     window.history.replaceState(null, "", "/design-system");
     const user = userEvent.setup();
@@ -322,11 +385,15 @@ describe("Stage 22 hardware and performance lab", () => {
     ["Traces", "/traces", "Trace explorer"],
     ["Hardware", "/hardware", "Hardware & performance lab"],
     ["Metrics", "/metrics", "Hardware & performance lab"],
+    ["Chaos", "/chaos", "Chaos lab"],
+    ["Security", "/security", "Security lab"],
   ])("has no automated accessibility violations in the %s workspace", async (_label, path, heading) => {
     window.history.replaceState(null, "", `${path}?task=${taskFixture.task_id}`);
     const { container } = render(<App />);
     await screen.findByRole("heading", { name: heading });
-    await screen.findAllByText(taskFixture.task_id);
+    if (path === "/chaos") await screen.findByText("model-timeout");
+    else if (path === "/security") await screen.findByText("stage14-security-stage23-test");
+    else await screen.findAllByText(taskFixture.task_id);
     let results: axe.AxeResults | undefined;
 
     await act(async () => {

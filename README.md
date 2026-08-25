@@ -22,22 +22,25 @@ Debugger for step-by-step inspection of a selected execution. Stage 22 adds a
 source-labelled Hardware & Performance Lab for current resource pressure,
 inference/scheduler distributions, model/configuration evidence, and bounded
 recent-workload trends.
+Stage 23 adds interactive Chaos and Security Labs for confirmed isolated fault
+experiments, failure propagation, recovery, deterministic adversarial execution,
+attack outcomes, and blocked-action evidence without claiming certification.
 
 ## Current status
 
-- Last completed stage: Stage 22 — Hardware & Performance Lab UI
-- Next approval-gated stage: Stage 23 — Chaos & Security Lab UI
+- Last completed stage: Stage 23 — Chaos & Security Lab UI
+- Next approval-gated stage: Stage 24 — Advanced Interaction & Motion Polish
 - Backend acceptance: RELEASE CANDIDATE; all required checks PASS, overall maturity PARTIAL
-- Frontend Runtime, Agent, Scheduler, Trace, Replay, Hardware, and Metrics views: COMPLETE
+- Frontend Runtime, Agent, Scheduler, Trace, Replay, Hardware, Metrics, Chaos, and Security views: COMPLETE
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
 
-## Run the Stage 22 Runtime Workbench
+## Run the Stage 23 Runtime Workbench
 
 Start the local-only deterministic API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage22-dev.db
+python -m runtime.api_cli --stub --database data/stage23-dev.db
 ```
 
 In a second terminal:
@@ -49,7 +52,7 @@ npm run dev
 ```
 
 Open `http://127.0.0.1:4173/runtime`, `/agents`, `/scheduler`, or
-`/traces?task=<task-id>`, `/hardware`, or `/metrics`. The workbench reads real health,
+`/traces?task=<task-id>`, `/hardware`, `/metrics`, `/chaos`, or `/security`. The workbench reads real health,
 scheduler, hardware, model, agent, and metric evidence through the loopback
 proxy. It can launch one bounded task, retain its selected ID in the URL, follow
 ordered SSE lifecycle events, show truthful output/measurements, and request
@@ -61,16 +64,16 @@ Validate the frontend foundation:
 npm test
 npm run build
 npm run check:bundle
-npm run smoke:stage22
+npm run smoke:stage23
 ```
 
-The Stage 22 suite has twenty-three component tests, including automated axe-core
-scans of Runtime, Agents, Scheduler, Traces, Hardware, and Metrics. Its
-reproducible smoke crosses the Vite proxy, measures the actual local hardware,
-completes one stub workload, and verifies bounded durable performance evidence
-without inventing missing TTFT or token-throughput samples. Read the
-[Stage 22 report](docs/stages/stage22-hardware-performance-lab-ui.md) and
-[ADR-0022](docs/adr/0022-source-labelled-performance-projection.md).
+The Stage 23 suite has twenty-eight component tests, including automated axe-core
+scans of Runtime, Agents, Scheduler, Traces, Hardware, Metrics, Chaos, and
+Security. Its reproducible smoke crosses the Vite proxy, runs three confirmed
+isolated faults plus all fourteen deterministic security cases, and verifies
+propagation, containment, recovery, retained evidence, serving-runtime integrity,
+and zero real model calls. Read the [Stage 23 report](docs/stages/stage23-chaos-security-lab-ui.md)
+and [ADR-0023](docs/adr/0023-server-catalogued-confirmed-experiment-ui.md).
 
 ## Review the Stage 17 frontend research
 

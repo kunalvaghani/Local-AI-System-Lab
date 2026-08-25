@@ -1,4 +1,4 @@
-# Architecture Baseline through Stage 22
+# Architecture Baseline through Stage 23
 
 ## Status and scope
 
@@ -18,7 +18,9 @@ core runtime execution paths unchanged. Stage 21 projects the existing safe
 trace and bounded replay API into a searchable, step-addressable debugger; it
 also leaves backend behavior unchanged. Stage 22 projects the accepted hardware,
 metrics, model, scheduler, and selected-task contracts into one performance lab,
-again without changing runtime authority.
+again without changing runtime authority. Stage 23 adds server-owned chaos and
+security catalogs, a confirmed deterministic security execution operation, and
+two visual experiment projections while preserving serving-runtime isolation.
 
 ## Stage 19 frontend boundary
 
@@ -104,6 +106,28 @@ bounded durable history, not a continuous hardware time series. Exact profile
 configuration appears only from selected-task result metadata. Registered model
 availability, workload budgets, distribution sample counts, sources, warnings,
 and null statistics remain visible evidence boundaries.
+
+## Stage 23 chaos and security boundary
+
+`GET /v1/chaos` and `GET /v1/security` make the backend the only scenario/case
+catalog owner. The browser keeps selections and confirmation ephemeral and can
+submit only IDs it received. Chaos remains capped at three unique scenarios and
+disabled by default. Both confirmed POST operations run synchronously in a
+separate deterministic stub runtime and unique SQLite database; the serving
+runtime is never armed and remained running with integrity `ok` in real smoke.
+
+Chaos propagation is a direct projection of injection, typed expected/actual
+state and error, containment, trace, latency, and recovery fields. The browser
+does not infer recovery from a completed state. The known terminal-result
+atomicity gap remains an explicit uncontained database-result scenario.
+
+Confirmed security execution accepts only the fourteen catalogued deterministic
+case IDs, atomically retains the redacted report, and returns the same safe shape
+as retained inspection. PASS is labelled “Defense held,” meaning the expected
+bounded policy behavior occurred. It is not penetration testing, OS isolation,
+semantic safety, or certification. Route-specific queries are split so `/chaos`
+does not retrieve security evidence and `/security` starts catalog and latest
+result retrieval concurrently.
 
 ## Context and planned flow
 
@@ -393,7 +417,7 @@ API call yet.
 | Acceptance Manifest | Strict tracked Stage 16 policy | Test/chaos/security coverage plus real inference and API limits | Per-hardware/model release profiles when more targets exist |
 | Acceptance Runner | Reproducible subprocess orchestrator | Build/package, full and focused tests, scheduler, hardware, recovery, trace, observability, chaos, security, stub API, and real API evidence | CI matrix and clean-release automation |
 | Acceptance Classifier | Binary requirement checks plus four maturity states | Release-candidate decision without erasing known partial/deferred boundaries | Independent review and versioned release sign-off |
-| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, responsive workspace/evidence composition, shallow native-history routes, and real Runtime/Agent/Scheduler/Trace/Hardware/Metrics workbench | Chaos/security specialization begins in Stage 23 |
+| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, responsive workspace/evidence composition, shallow native-history routes, and real Runtime/Agent/Scheduler/Trace/Hardware/Metrics/Chaos/Security workbench | Stage 24 may polish interaction/motion only after approval |
 | Frontend Token System | Project-owned CSS custom properties | Typography, spacing, surfaces, semantic colors, focus, density, motion, and breakpoints | Light-theme expansion after real-view contrast evidence |
 | Frontend Status Language | Reusable glyph + label + tone component | Healthy, active, queued, warning, critical, blocked, partial, deferred, unavailable, stale, and unknown; Stage 19 maps connection/task states to real evidence | Specialist screens must preserve the same contract |
 | Frontend Server State | Typed fetch client plus TanStack Query | Parallel inspection polling, request IDs, aborts, mutations, reconciliation, and honest null handling | Browser never becomes a second runtime database |
@@ -490,4 +514,5 @@ Detailed mechanisms belong to later stages. Current behavior and constraints are
 - Stage 19 Runtime Command Center — COMPLETE.
 - Stage 20 Agent & Scheduler Visualization — COMPLETE.
 - Stage 21 Trace Explorer & Replay Debugger — COMPLETE.
-- Stage 22 Hardware & Performance Lab UI — COMPLETE; Stage 23 Chaos & Security Lab UI remains approval-gated.
+- Stage 22 Hardware & Performance Lab UI — COMPLETE.
+- Stage 23 Chaos & Security Lab UI — COMPLETE; Stage 24 Advanced Interaction & Motion Polish remains approval-gated.

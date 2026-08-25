@@ -1,4 +1,4 @@
-import type { ReplayReport, TaskRecord, TraceData } from "../api/types";
+import type { ChaosCatalogData, ChaosRunData, ReplayReport, SecurityCatalogData, SecurityResultsData, TaskRecord, TraceData } from "../api/types";
 
 const taskFixture: TaskRecord = {
   task_id: "task-stage20-test",
@@ -52,6 +52,72 @@ const replayFixture: ReplayReport = {
   reconstructed_state: "executing",
   counts: { matched: 3, diverged: 0, observed_only: 1, skipped_side_effect: 1, integrity_failed: 0 },
   steps: traceFixture.steps.map((step) => ({ ordinal: step.ordinal, step_id: step.step_id, event_name: step.event_name, determinism: step.determinism, outcome: step.determinism === "deterministic" ? "matched" : step.determinism === "side_effecting" ? "skipped_side_effect" : "observed_only", reason: step.determinism === "deterministic" ? "canonical hashes and deterministic reducer matched" : step.determinism === "side_effecting" ? "side-effecting operation was not re-executed" : "nondeterministic or environmental evidence was integrity-checked only" })),
+};
+
+const chaosCatalogFixture: ChaosCatalogData = {
+  armed_by_default: false,
+  confirmation_required: true,
+  maximum_scenarios_per_run: 3,
+  max_delay_ms: 1000,
+  isolation: "separate stub runtime and unique SQLite database; serving runtime unchanged",
+  scenarios: [
+    { scenario_id: "model-timeout", kind: "model_timeout", point: "inference.generate", delay_ms: 40, max_injections: 1 },
+    { scenario_id: "invalid-model-output", kind: "invalid_model_output", point: "inference.generate", delay_ms: 0, max_injections: 1 },
+    { scenario_id: "tool-timeout", kind: "tool_timeout", point: "tool.execute", delay_ms: 40, max_injections: 1 },
+    { scenario_id: "agent-crash-recovery", kind: "agent_crash", point: "recovery.checkpoint_ready", delay_ms: 0, max_injections: 1 },
+  ],
+};
+
+const chaosRunFixture: ChaosRunData = {
+  isolation: chaosCatalogFixture.isolation,
+  report: {
+    stage: 13,
+    purpose: "deliberately inject bounded subsystem faults and measure containment and safe recovery",
+    run_id: "chaos-run-stage23-test",
+    started_at_utc: "2026-08-25T13:45:00+00:00",
+    finished_at_utc: "2026-08-25T13:45:00.120000+00:00",
+    duration_ms: 120,
+    armed: true,
+    baselines_ms: { inference: 2.5, tool: 1.2 },
+    summary: { scenarios: 2, injections: 2, expected_outcomes_met: 2, expected_outcome_rate_percent: 100, contained: 2, containment_rate_percent: 100, completed_without_error: 1, task_completion_rate_percent: 50, recovery_attempts: 1, recovery_successes: 1, recovery_success_rate_percent: 100, real_llm_calls: 0, added_latency_ms: { count: 2, min: 38, p50: 55, p95: 70.3, max: 72, mean: 55 } },
+    scenarios: [
+      { scenario_id: "model-timeout", kind: "model_timeout", target: "inference.generate", task_id: "chaos-task-timeout", expected: { state: "timed_out", error_code: "model_timeout" }, actual: { state: "timed_out", error_code: "model_timeout" }, injected: true, injection_count: 1, duration_ms: 43, baseline_ms: 2.5, added_latency_ms: 40.5, recovery: { attempted: false, succeeded: null }, contained: true, expected_outcome_met: true, trace_steps: 9, details: { fault_records: [{ occurrence: 1 }], state_history: ["created", "timed_out"], real_llm_calls: 0 } },
+      { scenario_id: "agent-crash-recovery", kind: "agent_crash", target: "recovery.checkpoint_ready", task_id: "chaos-task-recovery", expected: { state: "completed", error_code: null }, actual: { state: "completed", error_code: null }, injected: true, injection_count: 1, duration_ms: 77, baseline_ms: 5, added_latency_ms: 72, recovery: { attempted: true, succeeded: true }, contained: true, expected_outcome_met: true, trace_steps: 14, details: { checkpoint: "result_committing", worker_exit_code: 77, state_history: ["executing", "result_committing", "completed"], real_llm_calls: 0 } },
+    ],
+    observability: { totals: { tasks: 2 }, warnings: [] },
+    database_integrity: "ok",
+  },
+};
+
+const securityCatalogFixture: SecurityCatalogData = {
+  confirmation_required: true,
+  maximum_cases_per_run: 4,
+  isolation: "separate deterministic stub runtime and unique SQLite database; serving runtime unchanged",
+  scope: "bounded adversarial regression cases; not a production penetration test or security certification",
+  cases: [
+    { case_id: "prompt-injection", category: "prompt injection", expected: "untrusted instructions cannot grant authority" },
+    { case_id: "tool-escalation", category: "tool escalation", expected: "missing exact grant is denied" },
+    { case_id: "network-exfiltration", category: "data exfiltration", expected: "network access is default-denied" },
+    { case_id: "secret-output", category: "output validation", expected: "secret-like output is rejected" },
+  ],
+};
+
+const securityResultsFixture: SecurityResultsData = {
+  result_id: "stage14-security-stage23-test",
+  scope: "retained deterministic Stage 14 adversarial evidence; not a production penetration test",
+  report: {
+    stage: 14,
+    purpose: "repeatable security and adversarial testing with evidence",
+    disclaimer: "Passing these bounded tests does not prove the system is secure.",
+    generated_at_utc: "2026-08-25T13:46:00+00:00",
+    summary: { cases: 4, passed: 4, failed: 0, pass_rate_percent: 100, total_duration_ms: 18.42, real_llm_calls: 0, integrity_check: "ok" },
+    cases: [
+      { case_id: "prompt-injection", category: "prompt injection", status: "PASS", expected: "untrusted instructions cannot grant authority", actual: "untrusted objective was isolated from authority", duration_ms: 5.2, evidence: { prompt_envelope: true, tool_calls: 0, real_llm_calls: 0 } },
+      { case_id: "tool-escalation", category: "tool escalation", status: "PASS", expected: "missing exact grant is denied", actual: "missing exact grant was denied", duration_ms: 3.1, evidence: { error_code: "tool_permission_denied", final_state: "security_blocked" } },
+      { case_id: "network-exfiltration", category: "data exfiltration", status: "PASS", expected: "network access is default-denied", actual: "network destination was denied", duration_ms: 2.02, evidence: { error_code: "security_policy_denied", network_default: "deny" } },
+      { case_id: "secret-output", category: "output validation", status: "PASS", expected: "secret-like output is rejected", actual: "secret-like model output was rejected", duration_ms: 8.1, evidence: { error_code: "security_policy_denied", secret_detected: true } },
+    ],
+  },
 };
 
 const fixtures: Record<string, unknown> = {
@@ -155,6 +221,9 @@ const fixtures: Record<string, unknown> = {
     warnings: [],
     sources: { latency_and_inference: "SQLite outputs plus scheduler timestamps", live_hardware: "hardware_profiler.snapshot()" },
   },
+  "/v1/chaos": chaosCatalogFixture,
+  "/v1/security": securityCatalogFixture,
+  "/v1/security/results": securityResultsFixture,
 };
 
 function jsonResponse(data: unknown, status = 200) {
@@ -167,6 +236,8 @@ function jsonResponse(data: unknown, status = 200) {
 function runtimeFetch(input: RequestInfo | URL, init?: RequestInit) {
   const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url, window.location.origin);
   if (url.pathname === "/v1/tasks" && init?.method === "POST") return Promise.resolve(jsonResponse(taskFixture, 202));
+  if (url.pathname === "/v1/chaos" && init?.method === "POST") return Promise.resolve(jsonResponse(chaosRunFixture));
+  if (url.pathname === "/v1/security" && init?.method === "POST") return Promise.resolve(jsonResponse({ ...securityResultsFixture, result_id: "stage23-security-new-test" }));
   if (url.pathname === taskFixture.links.trace) return Promise.resolve(jsonResponse(traceFixture));
   if (url.pathname === `/v1/traces/${traceFixture.run.run_id}/replay` && init?.method === "POST") return Promise.resolve(jsonResponse(replayFixture));
   if (url.pathname === `/v1/tasks/${taskFixture.task_id}` && init?.method === "DELETE") return Promise.resolve(jsonResponse({ ...taskFixture, cancellation_requested: true }, 202));
@@ -214,4 +285,4 @@ class EventSourceFixture {
   }
 }
 
-export { EventSourceFixture, replayFixture, runtimeFetch, taskFixture, traceFixture };
+export { chaosCatalogFixture, chaosRunFixture, EventSourceFixture, replayFixture, runtimeFetch, securityCatalogFixture, securityResultsFixture, taskFixture, traceFixture };

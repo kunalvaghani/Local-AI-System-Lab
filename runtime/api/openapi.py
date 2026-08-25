@@ -32,7 +32,14 @@ def openapi_document() -> dict[str, Any]:
             "/v1/metrics": {"get": {"summary": "Retrieve unified metrics", "responses": {"200": json_response}}},
             "/v1/traces/{run_id}": {"get": {"summary": "Inspect a redacted trace", "responses": {"200": json_response}}},
             "/v1/traces/{run_id}/replay": {"post": {"summary": "Replay deterministic trace reducers", "responses": {"200": json_response}}},
-            "/v1/chaos": {"post": {"summary": "Run confirmed isolated chaos scenarios", "responses": {"200": json_response}}},
+            "/v1/chaos": {
+                "get": {"summary": "Inspect the bounded chaos scenario catalog", "responses": {"200": json_response}},
+                "post": {"summary": "Run confirmed isolated chaos scenarios", "responses": {"200": json_response}},
+            },
+            "/v1/security": {
+                "get": {"summary": "Inspect the bounded adversarial case catalog", "responses": {"200": json_response}},
+                "post": {"summary": "Run a confirmed deterministic security suite", "responses": {"200": json_response}},
+            },
             "/v1/security/results": {"get": {"summary": "Inspect retained security evidence", "responses": {"200": json_response}}},
         },
     }

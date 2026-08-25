@@ -9,6 +9,7 @@ import "./styles/scheduler.css";
 import "./styles/agents.css";
 import "./styles/traces.css";
 import "./styles/performance.css";
+import "./styles/chaos-security.css";
 
 const root = document.getElementById("root");
 

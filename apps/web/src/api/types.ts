@@ -354,11 +354,130 @@ type ReplayReport = {
   steps: ReplayStep[];
 };
 
+type ChaosScenario = {
+  scenario_id: string;
+  kind: string;
+  point: string;
+  delay_ms: number;
+  max_injections: number;
+};
+
+type ChaosCatalogData = {
+  armed_by_default: boolean;
+  confirmation_required: boolean;
+  maximum_scenarios_per_run: number;
+  max_delay_ms: number;
+  isolation: string;
+  scenarios: ChaosScenario[];
+};
+
+type ChaosScenarioResult = {
+  scenario_id: string;
+  kind: string;
+  target: string;
+  task_id: string | null;
+  expected: { state: string | null; error_code: string | null };
+  actual: { state: string | null; error_code: string | null };
+  injected: boolean;
+  injection_count: number;
+  duration_ms: number;
+  baseline_ms: number;
+  added_latency_ms: number;
+  recovery: { attempted: boolean; succeeded: boolean | null };
+  contained: boolean;
+  expected_outcome_met: boolean;
+  trace_steps: number;
+  details: Record<string, unknown>;
+};
+
+type ChaosReport = {
+  stage: number;
+  purpose: string;
+  run_id: string;
+  started_at_utc: string;
+  finished_at_utc: string;
+  duration_ms: number;
+  armed: boolean;
+  baselines_ms: Record<string, number>;
+  summary: {
+    scenarios: number;
+    injections: number;
+    expected_outcomes_met: number;
+    expected_outcome_rate_percent: number | null;
+    contained: number;
+    containment_rate_percent: number | null;
+    completed_without_error: number;
+    task_completion_rate_percent: number | null;
+    recovery_attempts: number;
+    recovery_successes: number;
+    recovery_success_rate_percent: number | null;
+    real_llm_calls: number;
+    added_latency_ms: { count: number; min: number | null; p50: number | null; p95: number | null; max: number | null; mean: number | null };
+  };
+  scenarios: ChaosScenarioResult[];
+  observability: Record<string, unknown>;
+  database_integrity: string;
+};
+
+type ChaosRunData = { isolation: string; report: ChaosReport };
+
+type SecurityCaseCatalogItem = {
+  case_id: string;
+  category: string;
+  expected: string;
+};
+
+type SecurityCatalogData = {
+  confirmation_required: boolean;
+  maximum_cases_per_run: number;
+  isolation: string;
+  scope: string;
+  cases: SecurityCaseCatalogItem[];
+};
+
+type SecurityCaseResult = {
+  case_id: string;
+  category: string;
+  status: "PASS" | "FAIL";
+  expected: string;
+  actual: string;
+  duration_ms: number;
+  evidence: Record<string, unknown>;
+};
+
+type SecurityReport = {
+  stage: number;
+  purpose: string;
+  disclaimer: string;
+  generated_at_utc: string;
+  summary: {
+    cases: number;
+    passed: number;
+    failed: number;
+    pass_rate_percent: number | null;
+    total_duration_ms: number;
+    real_llm_calls: number;
+    integrity_check: string;
+  };
+  cases: SecurityCaseResult[];
+};
+
+type SecurityResultsData = {
+  result_id: string;
+  report: SecurityReport;
+  scope: string;
+};
+
 export type {
   AgentSummary,
   AgentsData,
   ApiEnvelope,
   ApiErrorPayload,
+  ChaosCatalogData,
+  ChaosReport,
+  ChaosRunData,
+  ChaosScenario,
+  ChaosScenarioResult,
   CreateTaskInput,
   Distribution,
   DeterminismClass,
@@ -374,6 +493,11 @@ export type {
   ReplayReport,
   ReplayStep,
   RecentTaskTelemetry,
+  SecurityCaseCatalogItem,
+  SecurityCaseResult,
+  SecurityCatalogData,
+  SecurityReport,
+  SecurityResultsData,
   SchedulerData,
   SchedulerRequest,
   StateHistoryItem,

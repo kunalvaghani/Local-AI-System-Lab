@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -10,8 +11,10 @@ from uuid import uuid4
 from ..chaos_cli import _run as run_chaos_suite
 from ..engine import AgentRuntime
 from ..errors import ApiRequestError, ConfigurationError, TaskNotFoundError
+from ..faults import load_chaos_config
 from ..routing import load_model_registry
 from ..scheduler import WorkloadClass
+from ..security.runner import CASE_CATALOG, CASE_IDS, run_security_suite
 from ..tracing import TraceReplayEngine
 from .config import ApiConfig
 from .manager import ApiTaskManager
@@ -66,6 +69,7 @@ class RuntimeApiService:
                 "metrics": "/v1/metrics",
                 "trace": "/v1/traces/{run_id}",
                 "chaos": "/v1/chaos",
+                "security": "/v1/security",
                 "security_results": "/v1/security/results",
             },
         }
@@ -249,6 +253,17 @@ class RuntimeApiService:
             "report": report,
         }
 
+    def chaos_catalog(self) -> dict[str, Any]:
+        config = load_chaos_config(self._chaos_config_path)
+        return {
+            "armed_by_default": config.enabled,
+            "confirmation_required": True,
+            "maximum_scenarios_per_run": self.config.max_chaos_scenarios_per_request,
+            "max_delay_ms": config.max_delay_ms,
+            "isolation": "separate stub runtime and unique SQLite database; serving runtime unchanged",
+            "scenarios": [scenario.as_dict() for scenario in config.scenarios],
+        }
+
     def security_results(self) -> dict[str, Any]:
         directory = self.config.security_results_directory
         matches = sorted(directory.glob("stage14-security-*.json"), reverse=True)
@@ -273,6 +288,55 @@ class RuntimeApiService:
             "result_id": selected.stem,
             "report": report,
             "scope": "retained deterministic Stage 14 adversarial evidence; not a production penetration test",
+        }
+
+    def security_catalog(self) -> dict[str, Any]:
+        return {
+            "confirmation_required": True,
+            "maximum_cases_per_run": len(CASE_IDS),
+            "isolation": "separate deterministic stub runtime and unique SQLite database; serving runtime unchanged",
+            "scope": "bounded adversarial regression cases; not a production penetration test or security certification",
+            "cases": [dict(item) for item in CASE_CATALOG],
+        }
+
+    def run_security(self, payload: dict[str, Any]) -> dict[str, Any]:
+        self._exact_fields(payload, {"confirm", "cases"}, required={"confirm", "cases"})
+        if payload["confirm"] is not True:
+            raise ApiRequestError("security execution requires confirm=true")
+        cases = payload["cases"]
+        if (
+            not isinstance(cases, list)
+            or not cases
+            or any(not isinstance(value, str) or not value.strip() for value in cases)
+            or len(set(cases)) != len(cases)
+            or len(cases) > len(CASE_IDS)
+        ):
+            raise ApiRequestError(
+                "cases must be a bounded non-empty list of unique IDs",
+                details={"maximum": len(CASE_IDS)},
+            )
+        unknown = sorted(set(cases) - set(CASE_IDS))
+        if unknown:
+            raise ApiRequestError("unknown security case requested", details={"case_ids": unknown})
+
+        self._chaos_data_directory.mkdir(parents=True, exist_ok=True)
+        database = self._chaos_data_directory / f"stage23-api-security-{uuid4().hex}.db"
+        report = run_security_suite(database, selected=tuple(cases)).as_dict()
+        directory = self.config.security_results_directory
+        directory.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        result_id = f"stage14-security-{timestamp}-{uuid4().hex}"
+        destination = directory / f"{result_id}.json"
+        temporary = directory / f".{result_id}.tmp"
+        try:
+            temporary.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
+            temporary.replace(destination)
+        finally:
+            temporary.unlink(missing_ok=True)
+        return {
+            "result_id": result_id,
+            "report": report,
+            "scope": "new deterministic Stage 23-triggered adversarial evidence; not a production penetration test",
         }
 
     @staticmethod

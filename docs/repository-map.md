@@ -7,7 +7,7 @@ At the start of Stage 0, commit `67ef780` contained one tracked file:
 matched `origin/main`. There were no source directories, tests, configuration
 files, dependency manifests, architecture documents, or TODO/FIXME markers.
 
-## Structure after Stage 22
+## Structure after Stage 23
 
 ```text
 Local-AI-System-Lab/
@@ -245,7 +245,7 @@ Ignored `tools/` and `models/` directories contain the verified native binaries
 and GGUF file; they are reproducible artifacts, not source. No empty future
 directories are added merely to imply implementation.
 
-## Component inventory after Stage 22
+## Component inventory after Stage 23
 
 | Area | Prior evidence | Current state | Evidence |
 | --- | --- | --- | --- |
@@ -271,6 +271,10 @@ directories are added merely to imply implementation.
 | Stage 21 validation | 12/12 Stage 20 component tests | 18/18 component tests with four axe route scans, a 10,000-step/100-row DOM bound, and real proxy/API trace/replay smoke | `App.test.tsx`, `stage21-smoke.mjs`, retained JSON |
 | Hardware/performance projection | Runtime pulse and Stage 18 endpoint placeholders | Source-labelled capacity board, inference/scheduler signals, eight distributions, selected profile/budget, model candidates, and bounded recent-task trends on `/hardware` and `/metrics` | `components/performance/`, Stage 22 report, ADR-0022 |
 | Stage 22 validation | 18/18 Stage 21 component tests | 23/23 component tests with six axe route scans plus real hardware/model/scheduler/task/history smoke | `App.test.tsx`, `stage22-smoke.mjs`, retained JSON |
+| Experiment API discovery | Confirmed chaos POST and retained security GET | Server-owned chaos/security catalogs plus confirmed selected security execution and atomic retained report | `runtime/api/`, `runtime/security/runner.py`, API tests, ADR-0023 |
+| Chaos projection | Stage 18 endpoint placeholder | Maximum-three selection, isolation confirmation, reliability envelope, expected/actual propagation, containment, trace/latency, and recovery evidence | `components/chaos/`, `/chaos`, Stage 23 report |
+| Security projection | Stage 18 endpoint placeholder | Selected deterministic execution, retained/new report ownership, summary/disclaimer, category-filtered attack/blocked-action evidence | `components/chaos/`, `/security`, Stage 23 report |
+| Stage 23 validation | 23/23 Stage 22 component tests | 28/28 component tests with eight axe route scans plus three-fault/all-fourteen-case real proxy smoke | `App.test.tsx`, `stage23-smoke.mjs`, retained JSON |
 
 ## Current and planned folder convention
 
@@ -279,7 +283,7 @@ the files listed above; later subdirectories are not implementation claims.
 
 ```text
 apps/             Approved local applications
-  web/            Stage 22 React/Vite Runtime, Agent, Scheduler, Trace, Replay, Hardware, and Metrics workbench
+  web/            Stage 23 React/Vite Runtime, Agent, Scheduler, Trace, Replay, Hardware, Metrics, Chaos, and Security workbench
 runtime/          Inspectable runtime implementation
   api/            Current loopback backend adapter and application service
   agents/         Agent identity and behavior contracts

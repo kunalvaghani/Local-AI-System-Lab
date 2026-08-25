@@ -13,19 +13,32 @@ Visualization are complete. Stage 21 adds the Trace Explorer & Replay Debugger.
 Stage 22 adds the Hardware & Performance Lab. The browser now projects
 selected-task ownership, state, admission, dispatch, safe traces/replay, current
 hardware, inference distributions, model/configuration evidence, and bounded
-workload trends from accepted loopback contracts without changing backend authority.
+workload trends from accepted loopback contracts. Stage 23 adds confirmed,
+server-catalogued Chaos and Security Labs for propagation, containment, recovery,
+attack outcomes, and blocked actions while preserving local experiment isolation.
 
 ## Current Stage
 
-Stage 22 — Hardware & Performance Lab UI — COMPLETE, AWAITING APPROVAL.
+Stage 23 — Chaos & Security Lab UI — COMPLETE, AWAITING APPROVAL.
 
 ## Current Subsystem
 
 Local React/TypeScript/Vite operational workbench covering real runtime, agent,
 scheduler, trace/replay, source-labelled CPU/RAM/GPU/VRAM, TTFT/token-rate/queue
-distributions, model/profile/budget evidence, and bounded recent workload trends.
+distributions, model/profile/budget evidence, bounded recent workload trends,
+controlled fault propagation/recovery, and deterministic adversarial evidence.
 
 ## Last Completed Work
+
+- Activated `/chaos` and `/security` as real specialist routes backed by server-owned catalogs rather than duplicated browser scenario IDs.
+- Added `GET /v1/chaos` and `GET/POST /v1/security`; confirmed experiments accept only known IDs, use separate deterministic stub runtimes/unique databases, and leave the serving runtime unarmed.
+- Added maximum-three chaos selection, explicit isolation confirmation, measured reliability summaries, and per-scenario injection → expected → actual → containment/recovery projections.
+- Added selected fourteen-case security execution, atomic retained JSON evidence, defensive summaries, category filtering, attack/blocked-action tables, integrity/model-call evidence, and repeated non-certification scope.
+- Added 28 frontend tests with eight route-specific axe scans plus API catalog/confirmation/execution/isolation/retention coverage; React review split route query ownership and narrowed completion live announcements.
+- Retained `stage23-chaos-security-20260825T143324Z.json`: 3/3 expected chaos outcomes, 2/3 containment with the known persistence gap, 1/1 recovery, 14/14 security defenses, zero real model calls, and serving-runtime integrity `ok`.
+- Stage 23 real smoke measured 10.376 ms catalog retrieval, 4,725.132 ms chaos HTTP, 2,594.815 ms security HTTP, and 7,390.419 ms total.
+- Final Stage 23 validation passed 150 backend tests in 41.922 seconds, 28 frontend tests in 9.75 seconds, Python compile, the production build, and the 130,676-byte gzip JavaScript gate (51.0% of budget); CSS measured 8,333 gzip bytes.
+- Added Stage 23 report, ADR-0023, development/architecture/repository/risk updates, and frontend identity 0.23.0; Stage 24 remains unimplemented.
 
 - Activated `/hardware` and `/metrics` as two real entry points to one source-labelled Hardware & Performance Lab without adding chart, graph, router, motion, or browser-storage dependencies.
 - Added semantic CPU topology, RAM pressure, GPU utilization/temperature, and VRAM pressure projections with confidence/source labels and no semantic-zero fallback for missing meters.
@@ -221,11 +234,11 @@ distributions, model/profile/budget evidence, and bounded recent workload trends
 
 ## Currently Working On
 
-None. Stage 22 is complete and work is stopped before Stage 23 Chaos & Security Lab UI.
+None. Stage 23 is complete and work is stopped before Stage 24 Advanced Interaction & Motion Polish.
 
 ## Current Blockers
 
-- User approval is required before Stage 23 Chaos & Security Lab UI.
+- User approval is required before Stage 24 Advanced Interaction & Motion Polish.
 - No runtime/API blocker prevents the next single-user loopback frontend scope.
 - The API has no list-tasks endpoint; Stage 19 truthfully inspects only the selected known/created task.
 - Stage 20/21 visualize one selected task and do not claim a global task explorer.
@@ -234,6 +247,9 @@ None. Stage 22 is complete and work is stopped before Stage 23 Chaos & Security 
 - The selected trace API returns all steps; the UI bounds its DOM to 100 rows and verifies a 10,000-step fixture, but server-side pagination remains future work.
 - CPU utilization and continuous hardware history are not backend contracts; Stage 22 shows topology and bounded recent tasks instead.
 - Exact applied profile configuration appears only when selected-task result metadata reports it; stub tasks legitimately leave it unavailable.
+- Chaos/security execution is synchronous, has no idempotency key or campaign history API, and may occupy a local HTTP worker for several seconds.
+- The known terminal-result/output atomicity gap remains visible as an uncontained database-result fault; Stage 23 does not repair it.
+- Security PASS evidence is bounded deterministic regression evidence, not a penetration test, OS sandbox, certification, or proof of security.
 - Real-browser computed contrast, zoom/reflow, forced-colors, NVDA, and breakpoint validation remains future work.
 - A second real model artifact/backend is not installed; controlled route differences are therefore policy evidence, not a claim of compact-model inference.
 
@@ -255,7 +271,10 @@ None. Stage 22 is complete and work is stopped before Stage 23 Chaos & Security 
 - Require every mandatory category to pass for release-candidate status; never let a high aggregate test count substitute for real recovery, chaos, security, API, or model evidence.
 - Scope acceptance to the measured single-user loopback backend; remote multi-user deployment remains explicitly deferred.
 - Track acceptance thresholds before execution, embed them in the retained result, and require a full rerun when policy changes.
-- Stage 22 hardware/performance visualization was explicitly approved; Stage 23 chaos/security UI requires its own user approval gate.
+- Stage 23 chaos/security visualization was explicitly approved; Stage 24 interaction/motion polish requires its own user approval gate.
+- Keep experiment catalogs server-owned; browser selection may submit only reported known IDs.
+- Require explicit confirmation for chaos and security execution, use separate deterministic runtimes/databases, and never arm the serving runtime.
+- Label adversarial PASS as an expected defense holding, not certification, and retain the backend disclaimer beside results.
 - Keep one owner per live resource: hardware and scheduler poll independently while the metrics projection requests durable-only evidence with `live=false`.
 - Preserve performance evidence precedence: selected-task measurement, then sampled distribution, then a matching retained model benchmark labelled retained.
 - Never render an unavailable resource meter with a semantic zero and never attach one model's benchmark to a different selected model.
@@ -503,7 +522,7 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 ## Known Problems
 
-- Runtime, Agents, Scheduler, Traces, Hardware, and Metrics are real workbench routes; Models, Chaos, and Security specialist routes stay honest endpoint placeholders until their approved stages.
+- Runtime, Agents, Scheduler, Traces, Hardware, Metrics, Chaos, and Security are real workbench routes; Models, Tasks, and Settings retain honest endpoint placeholders until their approved scopes.
 - The backend exposes no bounded task-list endpoint; the UI cannot claim or render a complete task history.
 - A refreshed terminal task remains inspectable through durable state history and its safe trace, but its transient SSE rail is not reconstructed.
 - Aborting concurrent polling during Windows HMR/process teardown can print noisy development-server `ConnectionAbortedError` tracebacks; successful responses and shutdown remain unaffected.
@@ -512,7 +531,9 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 - Automated accessibility evidence is not WCAG conformance; jsdom did not compute color contrast and no NVDA/forced-color/400%-zoom/browser matrix was run.
 - The shell is dark-first; no light theme has been designed or validated.
 - Native routing intentionally handles shallow top-level routes plus validated `?task=` and optional `?step=` parameters; deeper nested resources may justify a maintained router.
-- No screenshot asset or browser visual-regression suite exists; Stage 22 validation covers compilation, DOM behavior, automated accessibility rules, large-fixture paging, hardware/performance null and provenance rules, real API smoke, and bundle size.
+- No screenshot asset or browser visual-regression suite exists; Stage 23 validation covers compilation, DOM behavior, eight automated route accessibility scans, bounded selections, propagation/recovery, attack/blocked-action evidence, real API smoke, and bundle size.
+- Confirmed chaos/security requests run synchronously; repeated submissions are distinct experiments and there is no idempotency key or campaign queue.
+- Security reports are latest-by-UTC filename; concurrent retained history has no indexed pagination contract.
 
 - Backend acceptance is scoped and overall maturity is `PARTIAL`; release-candidate status must not be presented as production or multi-user readiness.
 - The terminal-state/output atomicity gap remains the principal accepted reliability limitation and keeps persistence/recovery plus fault injection `PARTIAL`.
@@ -618,9 +639,21 @@ TTFT/token-rate samples rather than converting missing values to zero. See
 The Stage 22 build is 127,686 gzip JavaScript bytes (49.9% of the
 256,000-byte gate) and 7,365 gzip CSS bytes; 23 DOM tests took 7.95 seconds.
 
+Stage 23 adds a 10.376 ms catalog retrieval, a 4,725.132 ms confirmed three-fault
+HTTP run, a 2,594.815 ms confirmed fourteen-case security HTTP run, and a
+7,390.419 ms complete local smoke. Chaos produced 3/3 expected outcomes, 2/3
+containment with the known persistence gap, 1/1 successful crash recovery,
+1,048.260 ms P95 added latency, integrity `ok`, and zero real model calls.
+Security produced 14/14 expected defenses, zero failures/model calls, 2,355.228 ms
+suite duration, integrity `ok`, and an immediately matching retained result.
+See [the Stage 23 smoke result](benchmarks/results/stage23-chaos-security-20260825T143324Z.json).
+
+The Stage 23 build is 130,676 gzip JavaScript bytes (51.0% of the
+256,000-byte gate) and 8,333 gzip CSS bytes; 28 DOM tests took 9.75 seconds.
+
 ## Backend Acceptance Status
 
-PASS WITH TRACKED LIMITATIONS. All mandatory backend categories passed; release candidate true; overall maturity `PARTIAL`. Stage 22 does not modify backend behavior and consumes only the accepted loopback contract.
+PASS WITH TRACKED LIMITATIONS. All mandatory backend categories passed; release candidate true; overall maturity `PARTIAL`. Stage 23 adds only bounded loopback experiment catalog/execution operations around the existing Stage 13/14 deterministic harnesses; it does not change normal runtime authority.
 
 ## Frontend Research Status
 
@@ -628,12 +661,12 @@ COMPLETE. The 2026-08-25 research contains 28 references and its Systems
 Cartography recommendation is now encoded in the Stage 18 design system and
 local application shell plus the Stage 19 Runtime Command Center and Stage 20
 Agent & Scheduler Visualization, Stage 21 Trace Explorer & Replay Debugger, and
-Stage 22 Hardware & Performance Lab.
+Stage 22 Hardware & Performance Lab plus Stage 23 Chaos & Security Lab.
 
 ## Next Step
 
-Stage 23 — Chaos & Security Lab UI
+Stage 24 — Advanced Interaction & Motion Polish
 
 ## Later Backlog
 
-Stages 23–27 remain intentionally deferred and must be entered one at a time after explicit approval.
+Stages 24–27 remain intentionally deferred and must be entered one at a time after explicit approval.

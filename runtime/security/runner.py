@@ -29,22 +29,24 @@ from .models import SecurityCaseResult, SecurityReport
 from .policy import RuntimeSecurityGuard
 
 
-CASE_IDS = (
-    "prompt-injection",
-    "tool-escalation",
-    "path-traversal",
-    "absolute-path",
-    "context-flooding",
-    "malformed-structure",
-    "infinite-loop",
-    "network-exfiltration",
-    "secret-input",
-    "secret-output",
-    "shell-injection",
-    "unauthorized-subprocess",
-    "process-limit",
-    "resource-exhaustion",
+CASE_CATALOG = (
+    {"case_id": "prompt-injection", "category": "prompt injection", "expected": "untrusted instructions cannot grant authority"},
+    {"case_id": "tool-escalation", "category": "tool escalation", "expected": "missing exact grant is denied"},
+    {"case_id": "path-traversal", "category": "path allowlist", "expected": "workspace traversal is denied"},
+    {"case_id": "absolute-path", "category": "path allowlist", "expected": "absolute paths are denied"},
+    {"case_id": "context-flooding", "category": "context flooding", "expected": "oversized objective is rejected pre-inference"},
+    {"case_id": "malformed-structure", "category": "malformed structures", "expected": "excessive nesting is rejected"},
+    {"case_id": "infinite-loop", "category": "infinite loops", "expected": "bounded tool deadline cancels cooperative loop"},
+    {"case_id": "network-exfiltration", "category": "data exfiltration", "expected": "network access is default-denied"},
+    {"case_id": "secret-input", "category": "secret protection", "expected": "secret-like input never reaches inference"},
+    {"case_id": "secret-output", "category": "output validation", "expected": "secret-like output is rejected"},
+    {"case_id": "shell-injection", "category": "shell restrictions", "expected": "shell execution is denied"},
+    {"case_id": "unauthorized-subprocess", "category": "subprocess rules", "expected": "only exact executable is accepted"},
+    {"case_id": "process-limit", "category": "process limits", "expected": "concurrent process ceiling is enforced"},
+    {"case_id": "resource-exhaustion", "category": "resource exhaustion", "expected": "oversized tool output request is rejected"},
 )
+
+CASE_IDS = tuple(item["case_id"] for item in CASE_CATALOG)
 
 
 def _require(condition: bool, message: str) -> None:

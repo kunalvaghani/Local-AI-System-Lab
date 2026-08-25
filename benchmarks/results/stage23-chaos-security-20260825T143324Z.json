@@ -1,0 +1,54 @@
+{
+  "stage": 23,
+  "captured_at_utc": "2026-08-25T14:33:24.371Z",
+  "target": "http://127.0.0.1:4173",
+  "frontend": {
+    "chaos_route_http_status": 200,
+    "security_route_http_status": 200,
+    "api_proxy_verified": true
+  },
+  "catalogs": {
+    "retrieval_ms": 10.376,
+    "chaos_scenarios": 9,
+    "chaos_maximum_per_run": 3,
+    "chaos_armed_by_default": false,
+    "security_cases": 14,
+    "security_maximum_per_run": 14
+  },
+  "chaos": {
+    "http_ms": 4725.132,
+    "report_duration_ms": 4716.701999999999,
+    "run_id": "1094f1ac-292c-4b38-8094-be954925010b",
+    "scenarios": 3,
+    "injections": 3,
+    "expected_outcomes_met": 3,
+    "containment_rate_percent": 66.66666666666666,
+    "known_persistence_containment_gap_reproduced": true,
+    "recovery_attempts": 1,
+    "recovery_successes": 1,
+    "recovery_scenario": "agent-crash-recovery",
+    "recovery_succeeded": true,
+    "added_latency_p95_ms": 1048.2597900016117,
+    "database_integrity": "ok",
+    "real_llm_calls": 0,
+    "isolation": "separate stub runtime and unique SQLite database; serving runtime unchanged"
+  },
+  "security": {
+    "http_ms": 2594.815,
+    "result_id": "stage14-security-20260825T143324Z-bb0499a1157948a2b4c508e598bea92b",
+    "cases": 14,
+    "passed": 14,
+    "failed": 0,
+    "pass_rate_percent": 100,
+    "suite_duration_ms": 2355.2276,
+    "database_integrity": "ok",
+    "real_llm_calls": 0,
+    "retained_result_matches": true,
+    "scope": "new deterministic Stage 23-triggered adversarial evidence; not a production penetration test"
+  },
+  "serving_runtime": {
+    "status": "running",
+    "integrity": "ok"
+  },
+  "elapsed_ms": 7390.419
+}

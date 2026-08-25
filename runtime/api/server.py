@@ -145,8 +145,14 @@ class RuntimeApiHandler(BaseHTTPRequestHandler):
             elif method == "POST" and (match := _TRACE_REPLAY.fullmatch(path)):
                 self._require_empty_json_body()
                 self._json(HTTPStatus.OK, service.replay_trace(match.group(1)))
+            elif method == "GET" and path == "/v1/chaos":
+                self._json(HTTPStatus.OK, service.chaos_catalog())
             elif method == "POST" and path == "/v1/chaos":
                 self._json(HTTPStatus.OK, service.chaos(self._json_body(required=True)))
+            elif method == "GET" and path == "/v1/security":
+                self._json(HTTPStatus.OK, service.security_catalog())
+            elif method == "POST" and path == "/v1/security":
+                self._json(HTTPStatus.OK, service.run_security(self._json_body(required=True)))
             elif method == "GET" and path == "/v1/security/results":
                 self._json(HTTPStatus.OK, service.security_results())
             elif path in self._known_paths() or self._is_known_pattern(path):
@@ -163,7 +169,7 @@ class RuntimeApiHandler(BaseHTTPRequestHandler):
         return {
             "/v1", "/v1/health", "/v1/openapi.json", "/v1/tasks", "/v1/agents",
             "/v1/scheduler", "/v1/hardware", "/v1/models", "/v1/metrics",
-            "/v1/chaos", "/v1/security/results",
+            "/v1/chaos", "/v1/security", "/v1/security/results",
         }
 
     @staticmethod

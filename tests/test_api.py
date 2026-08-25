@@ -27,6 +27,7 @@ class ApiHarness:
             port=0,
             stream_poll_ms=5,
             stream_timeout_ms=5_000,
+            security_results_directory=directory,
         )
         self.service = RuntimeApiService(
             self.runtime,
@@ -122,6 +123,8 @@ class Stage15ApiTests(unittest.TestCase):
         status, openapi, _ = self.api.json("GET", "/v1/openapi.json")
         self.assertEqual(status, 200)
         self.assertEqual(openapi["openapi"], "3.1.0")
+        self.assertIn("get", openapi["paths"]["/v1/chaos"])
+        self.assertIn("post", openapi["paths"]["/v1/security"])
         status, payload, _ = self.api.json("GET", "/README.md")
         self.assertEqual(status, 404)
         self.assertEqual(payload["error"]["code"], "task_not_found")
@@ -198,7 +201,12 @@ class Stage15ApiTests(unittest.TestCase):
         self.assertEqual(status, 413)
         self.assertEqual(json.loads(body)["error"]["details"]["maximum_bytes"], 65_536)
 
-    def test_confirmed_chaos_is_isolated_and_security_evidence_is_retrievable(self) -> None:
+    def test_confirmed_chaos_and_security_experiments_are_catalogued_isolated_and_retrievable(self) -> None:
+        status, payload, _ = self.api.json("GET", "/v1/chaos")
+        self.assertEqual(status, 200)
+        self.assertFalse(payload["data"]["armed_by_default"])
+        self.assertEqual(payload["data"]["maximum_scenarios_per_run"], 3)
+        self.assertEqual(len(payload["data"]["scenarios"]), 9)
         status, payload, _ = self.api.json("POST", "/v1/chaos", {
             "confirm": False,
             "scenarios": ["model-timeout"],
@@ -212,8 +220,38 @@ class Stage15ApiTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertTrue(payload["data"]["report"]["scenarios"][0]["expected_outcome_met"])
         self.assertEqual(self.api.runtime.status.value, "running")
+
+        status, payload, _ = self.api.json("GET", "/v1/security")
+        self.assertEqual(status, 200)
+        self.assertEqual(payload["data"]["maximum_cases_per_run"], 14)
+        self.assertEqual(len(payload["data"]["cases"]), 14)
+        self.assertIn("not a production penetration test", payload["data"]["scope"])
+        status, payload, _ = self.api.json("POST", "/v1/security", {
+            "confirm": False,
+            "cases": ["prompt-injection"],
+        })
+        self.assertEqual(status, 400)
+        self.assertEqual(payload["error"]["code"], "api_request_invalid")
+        status, payload, _ = self.api.json("POST", "/v1/security", {
+            "confirm": True,
+            "cases": ["not-a-security-case"],
+        })
+        self.assertEqual(status, 400)
+        self.assertEqual(payload["error"]["details"]["case_ids"], ["not-a-security-case"])
+        status, payload, _ = self.api.json("POST", "/v1/security", {
+            "confirm": True,
+            "cases": ["prompt-injection", "tool-escalation"],
+        })
+        self.assertEqual(status, 200)
+        result_id = payload["data"]["result_id"]
+        self.assertEqual(payload["data"]["report"]["summary"]["passed"], 2)
+        self.assertEqual(payload["data"]["report"]["summary"]["failed"], 0)
+        self.assertEqual(payload["data"]["report"]["summary"]["real_llm_calls"], 0)
+        self.assertTrue((self.directory / f"{result_id}.json").is_file())
+        self.assertEqual(self.api.runtime.status.value, "running")
         status, payload, _ = self.api.json("GET", "/v1/security/results")
         self.assertEqual(status, 200)
+        self.assertEqual(payload["data"]["result_id"], result_id)
         self.assertEqual(payload["data"]["report"]["summary"]["failed"], 0)
 
 

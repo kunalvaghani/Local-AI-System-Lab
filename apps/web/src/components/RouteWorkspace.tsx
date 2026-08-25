@@ -1,5 +1,6 @@
 import type { RouteDefinition } from "../navigation/routes";
 import { DesignSystemView } from "./DesignSystemView";
+import { ChaosSecurityLab } from "./chaos/ChaosSecurityLab";
 import { PerformanceLab } from "./performance/PerformanceLab";
 import { RuntimeCommandCenter } from "./runtime/RuntimeCommandCenter";
 import { AgentVisualization } from "./scheduler/AgentVisualization";
@@ -33,6 +34,8 @@ function RouteWorkspace({ route }: RouteWorkspaceProps) {
         <TraceExplorer />
       ) : route.path === "/hardware" || route.path === "/metrics" ? (
         <PerformanceLab focus={route.path === "/hardware" ? "hardware" : "metrics"} />
+      ) : route.path === "/chaos" || route.path === "/security" ? (
+        <ChaosSecurityLab focus={route.path === "/chaos" ? "chaos" : "security"} />
       ) : route.path === "/design-system" ? (
         <DesignSystemView />
       ) : (

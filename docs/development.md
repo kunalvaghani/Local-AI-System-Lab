@@ -239,7 +239,7 @@ both deterministic and real-model API workflows, and fixed real-inference
 regression bounds. The command returns nonzero if a mandatory category fails and
 retains a compact hashed JSON result under `benchmarks/results/`.
 
-## Stage 22 local Runtime Workbench
+## Stage 23 local Runtime Workbench
 
 The browser shell is local-only and requires Node.js compatible with Vite 8.
 Install its locked dependencies once:
@@ -252,7 +252,7 @@ npm install
 Start the deterministic loopback API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage22-dev.db
+python -m runtime.api_cli --stub --database data/stage23-dev.db
 ```
 
 Start the loopback development server from `apps/web` in a second terminal:
@@ -262,7 +262,7 @@ npm run dev
 ```
 
 Open `http://127.0.0.1:4173/runtime`, `/agents`, `/scheduler`,
-`/traces?task=<task-id>`, `/hardware`, or `/metrics`. The development
+`/traces?task=<task-id>`, `/hardware`, `/metrics`, `/chaos`, or `/security`. The development
 server proxies only `/v1` to `http://127.0.0.1:8765`. A validated `?task=`
 selection is preserved between these routes so agent state, admission,
 scheduler placement, timing, trace steps, replay outcomes, and cancellation
@@ -276,16 +276,16 @@ checks, then compile and measure the shell:
 npm test
 npm run build
 npm run check:bundle
-npm run smoke:stage22
+npm run smoke:stage23
 ```
 
 The bundle script reads built JavaScript, compresses it with gzip, and fails
-above 250 KiB. The Stage 22 smoke assumes both local services are running,
-crosses the frontend proxy, measures source-labelled hardware, reads the model
-registry and scheduler, completes one deterministic task, and verifies it in
-the bounded 60-minute performance history. The metrics query uses `live=false`
-because dedicated hardware and scheduler owners already poll those resources;
-this avoids duplicate hardware probes. Timestamped JSON is written under
+above 250 KiB. The Stage 23 smoke assumes both local services are running,
+crosses the frontend proxy, verifies both experiment catalogs, runs three
+confirmed isolated faults including killed-worker recovery, executes all
+fourteen deterministic security cases, and verifies retained evidence plus the
+unchanged serving runtime. Both experiment mutations are synchronous and may
+take several seconds. Timestamped JSON is written under
 `benchmarks/results/`. `dist/`, `node_modules/`, coverage, and
 browser-test outputs stay ignored.
 

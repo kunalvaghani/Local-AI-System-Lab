@@ -2,6 +2,8 @@ import type {
   AgentsData,
   ApiEnvelope,
   ApiErrorPayload,
+  ChaosCatalogData,
+  ChaosRunData,
   CreateTaskInput,
   HardwareData,
   HealthData,
@@ -9,6 +11,8 @@ import type {
   ModelsData,
   ReplayReport,
   SchedulerData,
+  SecurityCatalogData,
+  SecurityResultsData,
   TaskRecord,
   TraceData,
 } from "./types";
@@ -83,6 +87,17 @@ const runtimeApi = {
     "/v1/metrics?window_minutes=60&task_limit=8&event_limit=24&live=false",
     { signal },
   ),
+  chaosCatalog: (signal?: AbortSignal) => requestData<ChaosCatalogData>("/v1/chaos", { signal }),
+  runChaos: (scenarios: string[]) => requestData<ChaosRunData>("/v1/chaos", {
+    method: "POST",
+    body: JSON.stringify({ confirm: true, scenarios }),
+  }),
+  securityCatalog: (signal?: AbortSignal) => requestData<SecurityCatalogData>("/v1/security", { signal }),
+  securityResults: (signal?: AbortSignal) => requestData<SecurityResultsData>("/v1/security/results", { signal }),
+  runSecurity: (cases: string[]) => requestData<SecurityResultsData>("/v1/security", {
+    method: "POST",
+    body: JSON.stringify({ confirm: true, cases }),
+  }),
   createTask: (input: CreateTaskInput) => requestData<TaskRecord>("/v1/tasks", {
     method: "POST",
     body: JSON.stringify(input),
