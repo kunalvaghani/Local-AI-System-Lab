@@ -1,4 +1,4 @@
-# Architecture Baseline through Stage 21
+# Architecture Baseline through Stage 22
 
 ## Status and scope
 
@@ -16,7 +16,9 @@ the runtime route to real loopback JSON and SSE. Stage 20 projects that same
 evidence into task-aware Agent and Scheduler views while leaving the backend and
 core runtime execution paths unchanged. Stage 21 projects the existing safe
 trace and bounded replay API into a searchable, step-addressable debugger; it
-also leaves backend behavior unchanged.
+also leaves backend behavior unchanged. Stage 22 projects the accepted hardware,
+metrics, model, scheduler, and selected-task contracts into one performance lab,
+again without changing runtime authority.
 
 ## Stage 19 frontend boundary
 
@@ -79,6 +81,29 @@ Deterministic reducers may match or diverge, nondeterministic/observational work
 is observed, and side-effecting tools are skipped rather than re-executed. The
 API exposes no cross-run comparison contract, so the interface says comparison
 is unavailable instead of deriving a false result.
+
+## Stage 22 hardware and performance boundary
+
+`/hardware` and `/metrics` share one read-only performance projection. Four
+independent query owners start concurrently: current hardware (five seconds),
+durable 60-minute metrics (five seconds), scheduler state (one second), and the
+model registry (60 seconds). The metrics request uses `live=false` because the
+same page already owns hardware and scheduler queries; this avoids duplicating
+the profiler's relatively expensive live probes.
+
+Current CPU evidence is topology/model/source/confidence, not utilization,
+because the profiler exposes no CPU percentage. RAM, GPU utilization,
+temperature, and VRAM are shown only when measured. A missing meter is rendered
+as unavailable rather than as semantic zero. Selected-task TTFT, token rate, and
+queue delay take precedence; otherwise a sampled 60-minute P50 is used. A model
+registry benchmark is used only when no selected model contradicts it and is
+labelled retained, not live.
+
+Historical trend bars compare at most the API's eight recent tasks. They are a
+bounded durable history, not a continuous hardware time series. Exact profile
+configuration appears only from selected-task result metadata. Registered model
+availability, workload budgets, distribution sample counts, sources, warnings,
+and null statistics remain visible evidence boundaries.
 
 ## Context and planned flow
 
@@ -368,13 +393,14 @@ API call yet.
 | Acceptance Manifest | Strict tracked Stage 16 policy | Test/chaos/security coverage plus real inference and API limits | Per-hardware/model release profiles when more targets exist |
 | Acceptance Runner | Reproducible subprocess orchestrator | Build/package, full and focused tests, scheduler, hardware, recovery, trace, observability, chaos, security, stub API, and real API evidence | CI matrix and clean-release automation |
 | Acceptance Classifier | Binary requirement checks plus four maturity states | Release-candidate decision without erasing known partial/deferred boundaries | Independent review and versioned release sign-off |
-| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, responsive workspace/evidence composition, shallow native-history routes, and real Runtime/Agent/Scheduler/Trace workbench | Hardware/performance specialization begins in Stage 22 |
+| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, responsive workspace/evidence composition, shallow native-history routes, and real Runtime/Agent/Scheduler/Trace/Hardware/Metrics workbench | Chaos/security specialization begins in Stage 23 |
 | Frontend Token System | Project-owned CSS custom properties | Typography, spacing, surfaces, semantic colors, focus, density, motion, and breakpoints | Light-theme expansion after real-view contrast evidence |
 | Frontend Status Language | Reusable glyph + label + tone component | Healthy, active, queued, warning, critical, blocked, partial, deferred, unavailable, stale, and unknown; Stage 19 maps connection/task states to real evidence | Specialist screens must preserve the same contract |
 | Frontend Server State | Typed fetch client plus TanStack Query | Parallel inspection polling, request IDs, aborts, mutations, reconciliation, and honest null handling | Browser never becomes a second runtime database |
 | Frontend Task Stream | Native EventSource adapter | Ordered task lifecycle, explicit cursor reconnect, 200-event bound, terminal close, and cache reconciliation | Multi-task stream ownership remains absent |
 | Frontend Trace Explorer | Typed safe-trace query, URL step selector, semantic ordered list, and CSS timing gaps | Search/filter, state/model/tool classification, hash-chain evidence, 100-row pages, live trace refresh, and honest redaction/latency boundaries | Cross-run comparison requires a backend contract |
 | Frontend Replay Debugger | Explicit replay mutation and per-step outcome projection | Integrity, reconstructed state, matched/diverged/observed/skipped counts, and reason expansion without side effects | Replay breakpoints or state override remain absent |
+| Frontend Performance Lab | Parallel hardware/metrics/model/scheduler/task queries plus semantic meters, tables, and bounded bars | Source-labelled CPU/RAM/GPU/VRAM, TTFT, throughput, queue delay, distributions, selected configuration, registry candidates, and recent trends | Continuous sampling and experiment comparison require new backend contracts |
 | Frontend Evidence Pane | Accessible resizable panel | Selected/source context and endpoint boundary | Live task/trace selection evidence in later stages |
 | Frontend Route Adapter | Native links plus History API store | Twelve top-level URL-addressable domains and back/forward behavior | Router dependency only if nested-route complexity justifies it |
 | Frontend Validation | Vitest/Testing Library/axe and gzip budget script | Navigation, no-fake-data, state, preference, automated accessibility, and 250 KiB shell-budget evidence | Real-browser/assistive-technology and large-fixture testing |
@@ -463,4 +489,5 @@ Detailed mechanisms belong to later stages. Current behavior and constraints are
 - Stage 18 design system and UI architecture — COMPLETE.
 - Stage 19 Runtime Command Center — COMPLETE.
 - Stage 20 Agent & Scheduler Visualization — COMPLETE.
-- Stage 21 Trace Explorer & Replay Debugger — COMPLETE; Stage 22 Hardware & Performance Lab UI remains approval-gated.
+- Stage 21 Trace Explorer & Replay Debugger — COMPLETE.
+- Stage 22 Hardware & Performance Lab UI — COMPLETE; Stage 23 Chaos & Security Lab UI remains approval-gated.

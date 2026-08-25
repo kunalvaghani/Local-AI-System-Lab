@@ -7,7 +7,7 @@ At the start of Stage 0, commit `67ef780` contained one tracked file:
 matched `origin/main`. There were no source directories, tests, configuration
 files, dependency manifests, architecture documents, or TODO/FIXME markers.
 
-## Structure after Stage 21
+## Structure after Stage 22
 
 ```text
 Local-AI-System-Lab/
@@ -245,9 +245,9 @@ Ignored `tools/` and `models/` directories contain the verified native binaries
 and GGUF file; they are reproducible artifacts, not source. No empty future
 directories are added merely to imply implementation.
 
-## Component inventory after Stage 21
+## Component inventory after Stage 22
 
-| Area | Prior evidence | State after Stage 19 | Evidence |
+| Area | Prior evidence | Current state | Evidence |
 | --- | --- | --- | --- |
 | Repository | Security result/report, ADR-0015, and 0.14.0 identity | Adds API result/report, ADR-0016, and 0.15.0 identity | README, Stage 15 result, ADR index |
 | Runtime | Complete guarded synchronous orchestration | Adds Stage 15 real/stub compositions and bounded asynchronous API ownership without coupling core protocols to HTTP | Factory and API tests |
@@ -269,6 +269,8 @@ directories are added merely to imply implementation.
 | Stage 20 validation | 7/7 runtime tests | 12/12 component tests with three axe route scans plus real proxy/API/SSE state-and-dispatch smoke | `App.test.tsx`, `stage20-smoke.mjs`, retained JSON |
 | Trace/replay projection | Stage 11 safe trace/replay backend and Stage 18 endpoint placeholder | Selected-task execution timeline, URL-addressable expansion, filters/search, timestamp-gap bars, redacted hashes, and explicit side-effect-free replay outcomes | `components/trace/`, Stage 21 report, ADR-0021 |
 | Stage 21 validation | 12/12 Stage 20 component tests | 18/18 component tests with four axe route scans, a 10,000-step/100-row DOM bound, and real proxy/API trace/replay smoke | `App.test.tsx`, `stage21-smoke.mjs`, retained JSON |
+| Hardware/performance projection | Runtime pulse and Stage 18 endpoint placeholders | Source-labelled capacity board, inference/scheduler signals, eight distributions, selected profile/budget, model candidates, and bounded recent-task trends on `/hardware` and `/metrics` | `components/performance/`, Stage 22 report, ADR-0022 |
+| Stage 22 validation | 18/18 Stage 21 component tests | 23/23 component tests with six axe route scans plus real hardware/model/scheduler/task/history smoke | `App.test.tsx`, `stage22-smoke.mjs`, retained JSON |
 
 ## Current and planned folder convention
 
@@ -277,7 +279,7 @@ the files listed above; later subdirectories are not implementation claims.
 
 ```text
 apps/             Approved local applications
-  web/            Stage 21 React/Vite Runtime, Agent, Scheduler, Trace, and Replay workbench
+  web/            Stage 22 React/Vite Runtime, Agent, Scheduler, Trace, Replay, Hardware, and Metrics workbench
 runtime/          Inspectable runtime implementation
   api/            Current loopback backend adapter and application service
   agents/         Agent identity and behavior contracts

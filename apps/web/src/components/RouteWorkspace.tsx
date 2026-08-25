@@ -1,5 +1,6 @@
 import type { RouteDefinition } from "../navigation/routes";
 import { DesignSystemView } from "./DesignSystemView";
+import { PerformanceLab } from "./performance/PerformanceLab";
 import { RuntimeCommandCenter } from "./runtime/RuntimeCommandCenter";
 import { AgentVisualization } from "./scheduler/AgentVisualization";
 import { SchedulerVisualization } from "./scheduler/SchedulerVisualization";
@@ -30,6 +31,8 @@ function RouteWorkspace({ route }: RouteWorkspaceProps) {
         <SchedulerVisualization />
       ) : route.path === "/traces" ? (
         <TraceExplorer />
+      ) : route.path === "/hardware" || route.path === "/metrics" ? (
+        <PerformanceLab focus={route.path === "/hardware" ? "hardware" : "metrics"} />
       ) : route.path === "/design-system" ? (
         <DesignSystemView />
       ) : (

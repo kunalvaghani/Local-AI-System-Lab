@@ -152,8 +152,27 @@ type Distribution = {
   unit: string;
 };
 
+type RecentTaskTelemetry = {
+  task_id: string;
+  run_id: string | null;
+  agent_id: string;
+  state: string | null;
+  created_at_utc: string;
+  updated_at_utc: string;
+  duration_ms: number;
+  model_id: string | null;
+  output_type: string | null;
+  activity: { model_calls: number; tool_calls: number; router_decisions: number; recovery_attempts: number; trace_steps: number };
+  scheduler: { queue_wait_ms: number | null; execution_ms: number | null };
+  inference_metrics: InferenceMetrics | null;
+  route_reason: string | null;
+  hardware: Record<string, unknown> | null;
+  failure: Record<string, unknown> | null;
+};
+
 type MetricsData = {
   generated_at_utc: string;
+  window: { started_at_utc: string; ended_at_utc: string; minutes: number };
   collection_ms: number;
   task_states: Record<string, number>;
   totals: {
@@ -177,7 +196,7 @@ type MetricsData = {
     recorded_at_utc: string;
     attributes: Record<string, unknown>;
   }>;
-  recent_tasks: Array<Record<string, unknown>>;
+  recent_tasks: RecentTaskTelemetry[];
   warnings: string[];
   sources: Record<string, string>;
 };
@@ -354,6 +373,7 @@ export type {
   ReplayOutcome,
   ReplayReport,
   ReplayStep,
+  RecentTaskTelemetry,
   SchedulerData,
   SchedulerRequest,
   StateHistoryItem,

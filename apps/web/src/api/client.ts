@@ -80,7 +80,7 @@ const runtimeApi = {
   hardware: (signal?: AbortSignal) => requestData<HardwareData>("/v1/hardware", { signal }),
   models: (signal?: AbortSignal) => requestData<ModelsData>("/v1/models", { signal }),
   metrics: (signal?: AbortSignal) => requestData<MetricsData>(
-    "/v1/metrics?window_minutes=60&task_limit=8&event_limit=24&live=true",
+    "/v1/metrics?window_minutes=60&task_limit=8&event_limit=24&live=false",
     { signal },
   ),
   createTask: (input: CreateTaskInput) => requestData<TaskRecord>("/v1/tasks", {

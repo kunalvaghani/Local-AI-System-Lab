@@ -18,7 +18,7 @@ function SystemBar({ density, onDensityChange }: SystemBarProps) {
         <span className="brand-mark" aria-hidden="true">LA</span>
         <span>
           <strong>Local AI</strong>
-          <small>Systems Lab / Stage 21</small>
+          <small>Systems Lab / Stage 22</small>
         </span>
       </div>
 

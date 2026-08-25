@@ -25,15 +25,14 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("Stage 21 trace explorer and replay debugger", () => {
-  it("renders real API evidence and keeps unavailable fields honest", async () => {
+describe("Stage 22 hardware and performance lab", () => {
+  it("renders real API evidence in the runtime overview", async () => {
     render(<App />);
 
     expect(screen.getByRole("heading", { level: 1, name: "Runtime" })).toBeInTheDocument();
     expect(await screen.findByText("API live")).toBeInTheDocument();
     expect(screen.getByText("Qwen 2.5 1.5B")).toBeInTheDocument();
     expect(screen.getByText("12 GiB")).toBeInTheDocument();
-    expect(screen.getAllByText("Unavailable").length).toBeGreaterThan(0);
     expect(within(screen.getByRole("navigation", { name: "Application areas" })).getAllByRole("link")).toHaveLength(routes.length);
   });
 
@@ -234,6 +233,49 @@ describe("Stage 21 trace explorer and replay debugger", () => {
     }
   });
 
+  it("visualizes measured CPU, RAM, GPU, and VRAM with source boundaries", async () => {
+    window.history.replaceState(null, "", "/hardware");
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "Hardware & performance lab" })).toBeInTheDocument();
+    expect(await screen.findByText("Test CPU")).toBeInTheDocument();
+    expect(await screen.findByText("Test GPU")).toBeInTheDocument();
+    expect(screen.getByLabelText("RAM used")).toHaveValue(37.5);
+    expect(screen.getByLabelText("VRAM used")).toHaveValue(25);
+    expect(screen.getByLabelText("GPU utilization")).toHaveValue(12);
+    expect(screen.getByText(/CPU percentage is not exposed/)).toBeInTheDocument();
+    expect(screen.getAllByText("test").length).toBeGreaterThan(0);
+  });
+
+  it("investigates TTFT, throughput, queue delay, and bounded distributions", async () => {
+    window.history.replaceState(null, "", `/metrics?task=${taskFixture.task_id}`);
+    render(<App />);
+
+    const signals = await screen.findByLabelText("Inference and scheduler signals");
+    expect(await within(signals).findByText("1,600 ms")).toBeInTheDocument();
+    expect(within(signals).getByText("99.8 tokens/s")).toBeInTheDocument();
+    expect(within(signals).getByText("0.2 ms")).toBeInTheDocument();
+    expect(within(signals).getByText("0 / 3")).toBeInTheDocument();
+
+    const missingVram = screen.getByRole("row", { name: /VRAM delta/ });
+    expect(within(missingVram).getByText("0")).toBeInTheDocument();
+    expect(within(missingVram).getAllByText("Unavailable")).toHaveLength(3);
+  });
+
+  it("shows model availability, selected workload budget, and recent task trends", async () => {
+    window.history.replaceState(null, "", `/hardware?task=${taskFixture.task_id}`);
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "Recent workload trend" })).toBeInTheDocument();
+    expect(await screen.findByText("task-history-new")).toBeInTheDocument();
+    expect(await screen.findByText("task-history-old")).toBeInTheDocument();
+    expect(screen.getByText("standard budget")).toBeInTheDocument();
+    expect(screen.getByText(/64 tokens · 30,000 ms/)).toBeInTheDocument();
+    expect(screen.getByText("Qwen 2.5 0.5B")).toBeInTheDocument();
+    expect(screen.getAllByText("Unavailable").length).toBeGreaterThan(0);
+    expect(screen.getByText(/continuous time series is not inferred|not a background hardware sampler/i)).toBeInTheDocument();
+  });
+
   it("exposes the reusable status and visualization contracts", async () => {
     window.history.replaceState(null, "", "/design-system");
     const user = userEvent.setup();
@@ -278,6 +320,8 @@ describe("Stage 21 trace explorer and replay debugger", () => {
     ["Agents", "/agents", "Agent state map"],
     ["Scheduler", "/scheduler", "Scheduler map"],
     ["Traces", "/traces", "Trace explorer"],
+    ["Hardware", "/hardware", "Hardware & performance lab"],
+    ["Metrics", "/metrics", "Hardware & performance lab"],
   ])("has no automated accessibility violations in the %s workspace", async (_label, path, heading) => {
     window.history.replaceState(null, "", `${path}?task=${taskFixture.task_id}`);
     const { container } = render(<App />);

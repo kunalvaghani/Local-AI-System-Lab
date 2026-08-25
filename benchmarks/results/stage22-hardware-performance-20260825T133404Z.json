@@ -1,0 +1,64 @@
+{
+  "stage": 22,
+  "captured_at_utc": "2026-08-25T13:34:04.087Z",
+  "target": "http://127.0.0.1:4173",
+  "frontend": {
+    "hardware_route_http_status": 200,
+    "metrics_route_http_status": 200,
+    "api_proxy_verified": true
+  },
+  "hardware": {
+    "captured_at_utc": "2026-08-25T13:34:03.313800+00:00",
+    "profile_ms": 789.314,
+    "cpu_model": "AMD Ryzen 7 5800H with Radeon Graphics",
+    "logical_processors": 16,
+    "physical_cores": null,
+    "cpu_source": "Windows registry + os.cpu_count",
+    "ram_total_mib": 32097.656,
+    "ram_used_mib": 14005.477,
+    "ram_source": "GlobalMemoryStatusEx",
+    "gpu_name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "gpu_utilization_percent": 0,
+    "vram_total_mib": 4096,
+    "vram_used_mib": 0,
+    "gpu_source": "nvidia-smi live query",
+    "warnings": [
+      "physical core count unavailable; logical count is not relabeled"
+    ]
+  },
+  "model": {
+    "selected_task_model_id": "stage-1-stub-model",
+    "available_registry_model_id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "retained_ttft_ms": 1655.1855,
+    "retained_tokens_per_second": 100.92,
+    "retained_profile_id": "performance"
+  },
+  "workload": {
+    "task_id": "5994715f-93c1-43d2-bde2-d7ffa54f9d32",
+    "status": "completed",
+    "durable_state": "completed",
+    "inference_total_ms": 0,
+    "ttft_ms": null,
+    "tokens_per_second": null,
+    "queue_wait_ms": 0,
+    "scheduler_execution_ms": 62.955999999758205
+  },
+  "history": {
+    "initial_tasks": 0,
+    "final_tasks": 1,
+    "recent_tasks": 1,
+    "selected_task_present": true,
+    "ttft_samples": 0,
+    "throughput_samples": 0,
+    "queue_wait_samples": 1,
+    "task_duration_samples": 1,
+    "window_minutes": 60,
+    "collection_ms": 7.058200000756187
+  },
+  "scheduler": {
+    "policy": "fifo",
+    "max_workers": 1
+  },
+  "evidence_retrieval_ms": 802.412,
+  "elapsed_ms": 1610.033
+}

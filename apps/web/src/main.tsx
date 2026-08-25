@@ -8,6 +8,7 @@ import "./styles/runtime.css";
 import "./styles/scheduler.css";
 import "./styles/agents.css";
 import "./styles/traces.css";
+import "./styles/performance.css";
 
 const root = document.getElementById("root");
 

@@ -28,6 +28,7 @@ performance, reproducibility, or stage boundaries.
 | [0019](0019-real-loopback-query-and-sse-client.md) | Accepted | Real loopback query ownership, URL task selection, and bounded SSE lifecycle client |
 | [0020](0020-task-scoped-agent-scheduler-projections.md) | Accepted | Task-scoped agent state and scheduler evidence projections with retained dispatch fallback |
 | [0021](0021-redacted-trace-projection-and-explicit-replay.md) | Accepted | Redacted task-trace projection with URL step inspection and explicit side-effect-free replay |
+| [0022](0022-source-labelled-performance-projection.md) | Accepted | Source-labelled hardware and performance projection without duplicate live probes or invented samples |
 
 ## Process
 

@@ -18,23 +18,26 @@ URL-addressable task evidence, ordered SSE lifecycle updates, and cancellation.
 Stage 20 adds task-aware Agent and Scheduler views for durable/live state,
 cross-component handoffs, admission, queue order, dispatch timing, and control.
 Stage 21 adds a redacted Trace Explorer and explicit, side-effect-free Replay
-Debugger for step-by-step inspection of a selected execution.
+Debugger for step-by-step inspection of a selected execution. Stage 22 adds a
+source-labelled Hardware & Performance Lab for current resource pressure,
+inference/scheduler distributions, model/configuration evidence, and bounded
+recent-workload trends.
 
 ## Current status
 
-- Last completed stage: Stage 21 — Trace Explorer & Replay Debugger
-- Next approval-gated stage: Stage 22 — Hardware & Performance Lab UI
+- Last completed stage: Stage 22 — Hardware & Performance Lab UI
+- Next approval-gated stage: Stage 23 — Chaos & Security Lab UI
 - Backend acceptance: RELEASE CANDIDATE; all required checks PASS, overall maturity PARTIAL
-- Frontend Runtime, Agent, Scheduler, Trace, and Replay views: COMPLETE
+- Frontend Runtime, Agent, Scheduler, Trace, Replay, Hardware, and Metrics views: COMPLETE
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
 
-## Run the Stage 21 Runtime Workbench
+## Run the Stage 22 Runtime Workbench
 
 Start the local-only deterministic API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage21-dev.db
+python -m runtime.api_cli --stub --database data/stage22-dev.db
 ```
 
 In a second terminal:
@@ -46,7 +49,7 @@ npm run dev
 ```
 
 Open `http://127.0.0.1:4173/runtime`, `/agents`, `/scheduler`, or
-`/traces?task=<task-id>`. The workbench reads real health,
+`/traces?task=<task-id>`, `/hardware`, or `/metrics`. The workbench reads real health,
 scheduler, hardware, model, agent, and metric evidence through the loopback
 proxy. It can launch one bounded task, retain its selected ID in the URL, follow
 ordered SSE lifecycle events, show truthful output/measurements, and request
@@ -58,16 +61,16 @@ Validate the frontend foundation:
 npm test
 npm run build
 npm run check:bundle
-npm run smoke:stage21
+npm run smoke:stage22
 ```
 
-The Stage 21 suite has eighteen component tests, including automated axe-core
-scans of Runtime, Agents, Scheduler, and Traces plus a 10,000-step/100-rendered-
-row bound. Its reproducible smoke crosses the Vite proxy, creates a real stub
-task, retrieves the redacted hash-chained trace, and verifies deterministic
-replay without repeating model generation or tool side effects. Read the
-[Stage 21 report](docs/stages/stage21-trace-explorer-replay-debugger.md) and
-[ADR-0021](docs/adr/0021-redacted-trace-projection-and-explicit-replay.md).
+The Stage 22 suite has twenty-three component tests, including automated axe-core
+scans of Runtime, Agents, Scheduler, Traces, Hardware, and Metrics. Its
+reproducible smoke crosses the Vite proxy, measures the actual local hardware,
+completes one stub workload, and verifies bounded durable performance evidence
+without inventing missing TTFT or token-throughput samples. Read the
+[Stage 22 report](docs/stages/stage22-hardware-performance-lab-ui.md) and
+[ADR-0022](docs/adr/0022-source-labelled-performance-projection.md).
 
 ## Review the Stage 17 frontend research
 
