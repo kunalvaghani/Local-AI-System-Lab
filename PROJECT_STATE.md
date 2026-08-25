@@ -7,22 +7,46 @@ Local AI Systems Lab — a fully local, inspectable AI runtime/platform for cons
 ## Current Milestone
 
 The complete local backend remains a Stage 16 release candidate for single-user
-loopback frontend work. Stage 17 fresh frontend research is complete and recommends
-a Systems Cartography direction with a lean accessible/virtualized stack; no
-production frontend implementation has started. Waiting at the Stage 17 approval gate.
+loopback frontend work. Stage 17 research, the Stage 18 Systems Cartography
+shell, and the Stage 19 real Runtime Command Center are complete. The browser
+now observes and controls the accepted loopback API without changing backend
+authority; specialist runtime screens remain approval-gated.
 
 ## Current Stage
 
-Stage 17 — Frontend Research Only — COMPLETE, AWAITING APPROVAL.
+Stage 19 — Runtime Command Center — COMPLETE, AWAITING APPROVAL.
 
 ## Current Subsystem
 
-Current frontend research covering Google and web-platform direction, developer
-and observability interaction patterns, maintained React implementation candidates,
-recency, performance, accessibility, dependency cost, rejected ideas, recommended
-stack, and three visual directions. No frontend subsystem exists yet.
+Local React/TypeScript/Vite Runtime Command Center covering real loopback query
+ownership, health/scheduler/hardware/model/agent/metric inspection, bounded task
+launch/inspection/cancellation, URL-selected tasks, ordered SSE lifecycle
+evidence, truthful missing measurements, accessibility checks, and retained
+proxy/API smoke evidence.
 
 ## Last Completed Work
+
+- Added a typed `/v1` envelope client and TanStack Query 5.102.3 ownership for health, agents, scheduler, hardware, models, metrics, selected-task polling, launch, cancellation, cache seeding, and invalidation.
+- Replaced the prototype connection state and `/runtime` placeholders with real local API evidence using resource-specific 1/3/5/60-second polling and abortable requests.
+- Added a bounded task composer for real agent/workload selection, 4,096-character objectives, and the backend's 30-second task limit.
+- Added validated `?task=<id>` URL selection so refreshable task evidence remains separate from browser persistence and server/query state.
+- Added a native EventSource adapter with explicit cursor reconnect, event ID/type deduplication, 200-event retention, 30-event ordered text presentation, terminal close, and cache reconciliation.
+- Added selected-task output, error, durable state, inference evidence, request-ID errors, and cooperative cancellation while preserving null/unavailable values and explicit zero real LLM calls.
+- Added seven passing component tests for live evidence fixtures, task launch, URL selection, ordered SSE rendering, cancellation, navigation, preference persistence, and automated axe rules.
+- Added a reproducible real Vite-proxy/API/SSE smoke runner and retained `stage19-runtime-command-center-20260825T121824Z.json`: route 200, task 202/completed, 15 lifecycle events, one task event, one end event, 632.633 ms stream, 967 ms total, zero real LLM calls.
+- Added the Stage 19 report, ADR-0019, development commands, architecture/repository updates, risks R-58–R-61, and frontend identity 0.19.0 without changing backend execution code.
+
+- Added `apps/web` as a local-only React 19.2/TypeScript/Vite 8 application with exact npm lockfile, strict build projects, `/v1` loopback development proxy, and no deployment configuration.
+- Encoded Systems Cartography typography, graphite/warm-neutral surfaces, quiet cool accent, four-pixel spacing rhythm, borders/depth, semantic states, 120/180 ms motion, reduced-motion, forced-color, density, and responsive tokens in project-owned CSS.
+- Added twelve URL-addressable domains grouped as Observe, Investigate, Test, and System; native links retain modifier-click, browser back/forward, deep-route, and `aria-current` behavior without a routing dependency.
+- Added the reusable system bar, domain rail, route workspace, evidence pane, status token, responsive resizable inspector, density selector, and interactive `/design-system` foundations/states/visualization route.
+- Defined eleven explicit operational/maturity states: healthy, active, queued, warning, critical, blocked, partial, deferred, unavailable, stale, and unknown.
+- Persisted only the versioned device-local density preference; runtime data, task state, and security evidence remain absent from browser storage.
+- Rendered real future endpoint contracts plus `Not requested` instead of simulated task, queue, model, hardware, trace, metric, chaos, or security values.
+- Separated URL, future REST cache, future SSE reducer, viewer, and device-preference ownership so Stage 19 can integrate real API payloads without rebuilding the shell.
+- Built the production client at 102,802 gzip JavaScript bytes versus the 256,000-byte limit; CSS was 3.48 KiB gzip and the deep local `/runtime` route returned HTTP 200.
+- Passed 5/5 component tests for every domain, URL navigation, status/visualization components, density persistence, no fake telemetry, and zero axe-core automated shell violations with jsdom contrast explicitly out of scope.
+- Added the frontend design-system/UI architecture, Stage 18 report, ADR-0018, bundle gate, development commands, repository map, risks R-55–R-57, and stage state without changing the runtime/API implementation.
 
 - Completed fresh 2026-08-25 frontend research with 28 official or canonical references across Google/Material, Chrome and web-platform capabilities, developer/observability interfaces, and maintained open-source React candidates.
 - Recommended **Systems Cartography**: a graphite/neutral, data-dense runtime workbench combining an operating-system inspector, profiler, trace debugger, and experiment laboratory without copying Material, a generic dashboard, or a chat interface.
@@ -167,28 +191,36 @@ stack, and three visual directions. No frontend subsystem exists yet.
 
 ## Currently Working On
 
-None. Stage 17 research is complete and work is stopped before Stage 18 design-system or UI architecture work.
+None. Stage 19 is complete and work is stopped before Stage 20 Scheduler & Task Graph.
 
 ## Current Blockers
 
-- User approval is required before Stage 18 Design System & UI Architecture.
-- Systems Cartography and the recommended stack remain research proposals until approved/refined in Stage 18.
-- No frontend implementation exists; no runtime/API blocker prevents the approved single-user loopback design scope.
+- User approval is required before Stage 20 Scheduler & Task Graph.
+- No runtime/API blocker prevents the next single-user loopback frontend scope.
+- The API has no list-tasks endpoint; Stage 19 truthfully inspects only the selected known/created task.
+- Refreshing a terminal task preserves its authoritative record but not the transient live SSE rail; durable state-history projection belongs to Stage 20.
+- Real-browser computed contrast, zoom/reflow, forced-colors, NVDA, breakpoint, and large-fixture performance validation remains future work.
 - A second real model artifact/backend is not installed; controlled route differences are therefore policy evidence, not a claim of compact-model inference.
 
 ## Important Decisions
 
 - Follow one stage at a time and stop for explicit approval after each stage.
-- Keep Stage 17 research-only: current sources may guide Stage 18, but research does not authorize packages, scaffolding, components, routes, or visual assets.
-- Recommend Systems Cartography as the primary direction: dense evidence-first inspection with restrained color/motion, text-equivalent visualizations, and adaptive list-detail/supporting panes.
+- Adopt Systems Cartography as the primary direction: dense evidence-first inspection with restrained color/motion, text-equivalent visualizations, and adaptive workspace/evidence panes.
+- Keep the web application local-only and client-rendered with React/TypeScript/Vite; preserve the literal loopback backend boundary.
+- Use project-owned CSS tokens, React Aria behavior, and one accessible resizable split instead of a visual framework or arbitrary docking system.
+- Keep shallow top-level routing on a narrow native-history adapter; adopt a maintained router only when parameterized/nested route behavior justifies its cost.
+- Persist only versioned device preferences; never mirror backend runtime evidence into localStorage.
+- Require the initial compressed JavaScript shell to stay at or below 250 KiB; record optional dependency deltas before keeping them.
 - Prefer a small accessible and virtualized client stack; make graph/chart/motion/editor/terminal dependencies separately measurable and lazy rather than default shell costs.
-- Keep URL state, REST/query cache state, SSE lifecycle state, and transient inspector selection state distinct in the future frontend architecture.
+- Keep URL state, REST/query cache state, SSE lifecycle state, and transient inspector selection state distinct; Stage 19 implements these owners independently.
+- Use TanStack Query for deduplicated browser server state and native EventSource for the single selected task; never persist runtime evidence in browser storage.
+- Bound the selected task stream to 200 retained/30 rendered lifecycle events and reconnect continuing timeouts only from the explicit cursor.
 - Treat every graph, timeline, and chart as a projection of the accepted API, never a second runtime source of truth.
 - Separate binary required-category acceptance from `DONE`/`PARTIAL`/`FAILED`/`DEFERRED` subsystem maturity.
 - Require every mandatory category to pass for release-candidate status; never let a high aggregate test count substitute for real recovery, chaos, security, API, or model evidence.
 - Scope acceptance to the measured single-user loopback backend; remote multi-user deployment remains explicitly deferred.
 - Track acceptance thresholds before execution, embed them in the retained result, and require a full rerun when policy changes.
-- Recommend frontend eligibility without authorizing it automatically; explicit user approval remains the stage gate.
+- Stage 19 frontend integration was explicitly approved; Stage 20 specialist visualization still requires its own user approval gate.
 - Use versioned loopback HTTP/1.1 with RFC 8259 JSON and SSE because current commands are request/response and execution updates are server-to-client only.
 - Keep API operations transport-independent; `AgentRuntime` and its protocols do not depend on a web framework.
 - Use the standard-library server only as a local development boundary and reject non-loopback binds; do not describe it as production-ready.
@@ -269,9 +301,26 @@ None. Stage 17 research is complete and work is stopped before Stage 18 design-s
 - Treat current profile values and workload order as measured policy baselines, never universal optima.
 - Keep adaptive profiles model-specific; Stage 9 routes models first and requires a real backend/profile/admission bundle before a second model becomes executable.
 
-See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](docs/adr/0002-typed-protocols-and-stdlib-skeleton.md), [ADR-0003](docs/adr/0003-pinned-llama-cpp-qwen-baseline.md), [ADR-0004](docs/adr/0004-registered-agent-runtime-and-lifecycle-events.md), [ADR-0005](docs/adr/0005-validated-execution-state-machine.md), [ADR-0006](docs/adr/0006-default-deny-bounded-tool-runtime.md), [ADR-0007](docs/adr/0007-bounded-aged-priority-scheduler.md), [ADR-0008](docs/adr/0008-conservative-pre-scheduler-memory-admission.md), [ADR-0009](docs/adr/0009-discrete-re-admitted-inference-profiles.md), [ADR-0010](docs/adr/0010-explainable-availability-gated-model-routing.md), [ADR-0011](docs/adr/0011-sqlite-checkpoints-and-pre-invocation-recovery.md), [ADR-0012](docs/adr/0012-hash-chained-traces-and-bounded-replay.md), [ADR-0013](docs/adr/0013-sqlite-windowed-observability-snapshots.md), [ADR-0014](docs/adr/0014-bounded-protocol-fault-injection.md), [ADR-0015](docs/adr/0015-deterministic-security-boundaries.md), [ADR-0016](docs/adr/0016-loopback-stdlib-http-json-sse-api.md), and [ADR-0017](docs/adr/0017-scoped-evidence-based-backend-acceptance.md).
+See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](docs/adr/0002-typed-protocols-and-stdlib-skeleton.md), [ADR-0003](docs/adr/0003-pinned-llama-cpp-qwen-baseline.md), [ADR-0004](docs/adr/0004-registered-agent-runtime-and-lifecycle-events.md), [ADR-0005](docs/adr/0005-validated-execution-state-machine.md), [ADR-0006](docs/adr/0006-default-deny-bounded-tool-runtime.md), [ADR-0007](docs/adr/0007-bounded-aged-priority-scheduler.md), [ADR-0008](docs/adr/0008-conservative-pre-scheduler-memory-admission.md), [ADR-0009](docs/adr/0009-discrete-re-admitted-inference-profiles.md), [ADR-0010](docs/adr/0010-explainable-availability-gated-model-routing.md), [ADR-0011](docs/adr/0011-sqlite-checkpoints-and-pre-invocation-recovery.md), [ADR-0012](docs/adr/0012-hash-chained-traces-and-bounded-replay.md), [ADR-0013](docs/adr/0013-sqlite-windowed-observability-snapshots.md), [ADR-0014](docs/adr/0014-bounded-protocol-fault-injection.md), [ADR-0015](docs/adr/0015-deterministic-security-boundaries.md), [ADR-0016](docs/adr/0016-loopback-stdlib-http-json-sse-api.md), [ADR-0017](docs/adr/0017-scoped-evidence-based-backend-acceptance.md), [ADR-0018](docs/adr/0018-systems-cartography-web-shell.md), and [ADR-0019](docs/adr/0019-real-loopback-query-and-sse-client.md).
 
 ## Tests Passing
+
+- `npm run build` in `apps/web` — strict TypeScript/Vite production build passed in 209 ms; one 389.17 kB raw/119.14 kB reported-gzip JavaScript asset and one 21.80 kB raw/4.66 kB gzip CSS asset.
+- `npm test` — 7/7 Stage 19 component tests passed in 4.48 seconds, including real-contract fixtures, task URL selection, lifecycle rendering, cancellation wiring, and the automated axe scan.
+- `npm run check:bundle` — PASS; exact initial JavaScript is 117,956 gzip bytes ≤256,000, a +15,154-byte (+14.7%) delta from Stage 18.
+- `npm run smoke:stage19` — PASS through real Vite proxy and stub API; `/runtime` 200, task 202/completed, 15 lifecycle + 1 task + 1 end event, 632.633 ms stream, 967 ms complete, zero real LLM calls.
+- `npm ls --depth=0` — exact dependency tree valid; TanStack Query 5.102.3 is the only Stage 19 production dependency addition.
+- `python -m unittest discover -s tests` — all 150 backend tests passed in 38.816 seconds after the final frontend changes.
+- `python -m compileall -q runtime tests benchmarks` — exit 0.
+- `git diff --check` — exit 0; line-ending notices only.
+
+- `npm run build` in `apps/web` — strict TypeScript and Vite 8 production build passed; one 336.41 KiB raw/103.85 KiB gzip JavaScript asset and one 13.75 KiB raw/3.48 KiB gzip CSS asset.
+- `npx vitest run src/App.test.tsx --reporter=verbose --no-file-parallelism` — 5/5 Stage 18 tests passed in 3.72 seconds.
+- Stage 18 axe-core scan — zero automated primary-shell violations; computed color contrast disabled because jsdom cannot measure rendered colors, so this is not certification.
+- `npm run check:bundle` — PASS; 102,802 compressed JavaScript bytes ≤256,000.
+- Local Vite deep-route request — `GET http://127.0.0.1:4173/runtime` returned HTTP 200.
+- npm audit after locked install — 136 packages audited, zero known vulnerabilities reported by npm at installation time.
+- `python -m unittest discover -s tests` — all 150 backend regression tests passed in 43.723 seconds after the frontend changes.
 
 - Stage 17 research validation — 28 consecutively numbered references, 38 HTTPS links, required stopping-point text, and all local Markdown links across six changed documents passed static checks.
 - Stage 17 frontend implementation boundary check — repository scan found no `apps/`, `frontend/`, `web/`, or `ui/` source, TSX/JSX, `package.json`, Vite config, or TypeScript config.
@@ -411,10 +460,15 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 ## Known Problems
 
-- Systems Cartography is a researched recommendation, not an approved or implemented design system.
-- The proposed frontend stack, 250 KiB compressed shell budget, 10,000-step fixture, and accessibility requirements have not been installed, prototyped, or measured.
-- Browser/library support statements come from current source documentation; the future application still requires a tracked target-browser matrix and tests on this workstation.
-- No frontend source, dependency manifest, route, component, stylesheet, screenshot asset, or production UI exists after Stage 17.
+- Stage 19 is a real Runtime Command Center, but the remaining specialist routes are still Stage 18 endpoint placeholders until their approved stages.
+- The backend exposes no bounded task-list endpoint; the UI cannot claim or render a complete task history.
+- A refreshed terminal task remains inspectable, but its transient SSE rail is not reconstructed; durable state-history projection is Stage 20 work.
+- Aborting concurrent polling during Windows HMR/process teardown can print noisy development-server `ConnectionAbortedError` tracebacks; successful responses and shutdown remain unaffected.
+- The 250 KiB compressed shell budget is measured and passing, but 10,000-step virtualization, INP, long tasks, heap growth, high-volume stream-update cost, and polling contention remain unmeasured.
+- Automated accessibility evidence is not WCAG conformance; jsdom did not compute color contrast and no NVDA/forced-color/400%-zoom/browser matrix was run.
+- The shell is dark-first; no light theme has been designed or validated.
+- Native routing intentionally handles shallow top-level routes plus one validated `?task=` parameter; trace/run navigation still requires a Stage 21 decision and tests.
+- No screenshot asset or browser visual-regression suite exists; Stage 18 validation covers compilation, DOM behavior, accessibility rules, and bundle size.
 
 - Backend acceptance is scoped and overall maturity is `PARTIAL`; release-candidate status must not be presented as production or multi-user readiness.
 - The terminal-state/output atomicity gap remains the principal accepted reliability limitation and keeps persistence/recovery plus fault injection `PARTIAL`.
@@ -496,23 +550,22 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 ## Performance Baseline
 
-The Stage 2 five-run cold baseline remains: median model load 1,128.28 ms; TTFT 1,686.85 ms; generation 115.81 tokens/second; total 2,572.26 ms; peak child-process RAM 1,339.02 MiB; VRAM delta 1,219 MiB. The final Stage 8 comparison observed performance/balanced/constrained/CPU-safe VRAM deltas of 1,189/909/527/0 MiB. Stage 12 real inference measured 2,927.102 ms total, 2,238.325 ms TTFT, 96.16 tokens/second, 1,343.703 MiB RAM, and 1,189 MiB VRAM. Stage 13 deterministic no-fault baselines were 614.179 ms inference and 562.478 ms tool; injected scenario added latency measured P50 -71.797 ms/P95 611.597 ms, and the actual killed-worker recovery took 1,648.444 ms. Stage 14's deterministic 14-case suite completed in 2,181.687 ms; it is control evidence, not an inference-performance benchmark. The guarded real Stage 14 run measured 3,370.565 ms inference, 2,760.402 ms TTFT, 105.39 tokens/second, 1,343.949 MiB RAM, and 1,189 MiB VRAM. Stage 15's external stub API measured task create 139.048 ms, SSE-to-terminal 583.177 ms, trace replay 47.929 ms, metrics retrieval 88.731 ms, live hardware retrieval 1,298.973 ms, and isolated model-timeout chaos 2,254.988 ms; these are one-run integration timings, not throughput claims. The real external API run measured 2,973.505 ms inference, 2,210.807 ms TTFT, 103.32 tok/s, 1,343.887 MiB RAM, and 1,189 MiB VRAM. Stage 16's retained gate run measured 2,375.729 ms real inference, 1,747.840 ms TTFT, 93.68 tok/s, 1,343.895 MiB RAM, 1,189 MiB VRAM, and 4,589.371 ms end-to-end HTTP/SSE streaming; TTFT was 3.616% above the Stage 2 median and all five configured regression limits passed. See [the Stage 2 report](docs/benchmarks/stage2-local-inference-baseline.md), [Stage 8 final comparison](benchmarks/results/stage8-profile-comparison-20260824T122355Z.json), [Stage 12 result](benchmarks/results/stage12-observability-20260824T163054Z.json), [Stage 13 result](benchmarks/results/stage13-chaos-20260824T193424Z.json), [Stage 14 result](benchmarks/results/stage14-security-20260824T203349Z.json), [Stage 15 stub result](benchmarks/results/stage15-api-20260824T205654Z.json), [Stage 15 real result](benchmarks/results/stage15-api-real-20260825T010429Z.json), and [Stage 16 acceptance result](benchmarks/results/stage16-backend-acceptance-20260825T011603Z.json).
+The Stage 2 five-run cold baseline remains: median model load 1,128.28 ms; TTFT 1,686.85 ms; generation 115.81 tokens/second; total 2,572.26 ms; peak child-process RAM 1,339.02 MiB; VRAM delta 1,219 MiB. The final Stage 8 comparison observed performance/balanced/constrained/CPU-safe VRAM deltas of 1,189/909/527/0 MiB. Stage 12 real inference measured 2,927.102 ms total, 2,238.325 ms TTFT, 96.16 tokens/second, 1,343.703 MiB RAM, and 1,189 MiB VRAM. Stage 13 deterministic no-fault baselines were 614.179 ms inference and 562.478 ms tool; injected scenario added latency measured P50 -71.797 ms/P95 611.597 ms, and the actual killed-worker recovery took 1,648.444 ms. Stage 14's deterministic 14-case suite completed in 2,181.687 ms; it is control evidence, not an inference-performance benchmark. The guarded real Stage 14 run measured 3,370.565 ms inference, 2,760.402 ms TTFT, 105.39 tokens/second, 1,343.949 MiB RAM, and 1,189 MiB VRAM. Stage 15's external stub API measured task create 139.048 ms, SSE-to-terminal 583.177 ms, trace replay 47.929 ms, metrics retrieval 88.731 ms, live hardware retrieval 1,298.973 ms, and isolated model-timeout chaos 2,254.988 ms; these are one-run integration timings, not throughput claims. The real external API run measured 2,973.505 ms inference, 2,210.807 ms TTFT, 103.32 tok/s, 1,343.887 MiB RAM, and 1,189 MiB VRAM. Stage 16's retained gate run measured 2,375.729 ms real inference, 1,747.840 ms TTFT, 93.68 tok/s, 1,343.895 MiB RAM, 1,189 MiB VRAM, and 4,589.371 ms end-to-end HTTP/SSE streaming; TTFT was 3.616% above the Stage 2 median and all five configured regression limits passed. Stage 18's shell build is 102,802 gzip JavaScript bytes and 3.48 KiB gzip CSS; the five DOM tests took 3.72 seconds. Stage 19 measures 117,956 gzip JavaScript bytes (+14.7%), 4.66 KiB gzip CSS, seven DOM tests in 4.48 seconds, and a 632.633 ms one-task stub SSE stream/967 ms complete smoke. These are build and one-run local integration measurements; no real-browser interaction timing is claimed. See [the Stage 2 report](docs/benchmarks/stage2-local-inference-baseline.md), [Stage 8 final comparison](benchmarks/results/stage8-profile-comparison-20260824T122355Z.json), [Stage 12 result](benchmarks/results/stage12-observability-20260824T163054Z.json), [Stage 13 result](benchmarks/results/stage13-chaos-20260824T193424Z.json), [Stage 14 result](benchmarks/results/stage14-security-20260824T203349Z.json), [Stage 15 stub result](benchmarks/results/stage15-api-20260824T205654Z.json), [Stage 15 real result](benchmarks/results/stage15-api-real-20260825T010429Z.json), [Stage 16 acceptance result](benchmarks/results/stage16-backend-acceptance-20260825T011603Z.json), and [Stage 19 smoke result](benchmarks/results/stage19-runtime-command-center-20260825T121824Z.json).
 
 ## Backend Acceptance Status
 
-PASS WITH TRACKED LIMITATIONS. All mandatory categories passed; release candidate true; overall maturity `PARTIAL`; Stage 17 research is complete and Stage 18 design authorization remains pending explicit user approval.
+PASS WITH TRACKED LIMITATIONS. All mandatory backend categories passed; release candidate true; overall maturity `PARTIAL`. Stage 19 does not modify backend behavior and consumes only the accepted loopback contract.
 
 ## Frontend Research Status
 
-COMPLETE. The 2026-08-25 research contains 28 references, three visual directions,
-a recommended stack, interaction/motion proposals, rejected ideas, and explicit
-performance/accessibility constraints. Systems Cartography is recommended but not
-yet an approved Stage 18 design system. No production UI code exists.
+COMPLETE. The 2026-08-25 research contains 28 references and its Systems
+Cartography recommendation is now encoded in the Stage 18 design system and
+local application shell plus the Stage 19 Runtime Command Center.
 
 ## Next Step
 
-Stage 18 — Design System & UI Architecture
+Stage 20 — Scheduler & Task Graph
 
 ## Later Backlog
 
-Stages 19–27 remain intentionally deferred and must be entered one at a time after explicit approval.
+Stages 20–27 remain intentionally deferred and must be entered one at a time after explicit approval.

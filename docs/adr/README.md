@@ -24,6 +24,8 @@ performance, reproducibility, or stage boundaries.
 | [0015](0015-deterministic-security-boundaries.md) | Accepted | Deterministic least-privilege security boundaries and repeatable adversarial evidence |
 | [0016](0016-loopback-stdlib-http-json-sse-api.md) | Accepted | Versioned loopback HTTP/JSON and SSE over a transport-independent runtime service |
 | [0017](0017-scoped-evidence-based-backend-acceptance.md) | Accepted | Binary required checks plus honest scoped subsystem maturity classifications |
+| [0018](0018-systems-cartography-web-shell.md) | Accepted | Systems Cartography local React shell with explicit state boundaries and bundle budget |
+| [0019](0019-real-loopback-query-and-sse-client.md) | Accepted | Real loopback query ownership, URL task selection, and bounded SSE lifecycle client |
 
 ## Process
 

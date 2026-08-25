@@ -7,7 +7,7 @@ At the start of Stage 0, commit `67ef780` contained one tracked file:
 matched `origin/main`. There were no source directories, tests, configuration
 files, dependency manifests, architecture documents, or TODO/FIXME markers.
 
-## Structure after Stage 17
+## Structure after Stage 19
 
 ```text
 Local-AI-System-Lab/
@@ -15,6 +15,27 @@ Local-AI-System-Lab/
 ├── README.md                          # Entry point, demo, and approval status
 ├── PROJECT_STATE.md                   # Repository source of truth
 ├── pyproject.toml                     # Python >=3.10 package metadata and CLIs
+├── apps/
+│   └── web/
+│       ├── package.json                # Local React/Vite scripts and bounded dependencies
+│       ├── package-lock.json           # Exact frontend dependency graph
+│       ├── index.html                  # Local application document and metadata
+│       ├── vite.config.ts              # Loopback dev server and /v1 proxy
+│       ├── vitest.config.ts            # jsdom/component test environment
+│       ├── tsconfig*.json               # Strict browser/build TypeScript projects
+│       ├── scripts/check-bundle.mjs    # 250 KiB compressed shell gate
+│       ├── scripts/stage19-smoke.mjs   # Real Vite-proxy/API/SSE evidence run
+│       └── src/
+│           ├── App.tsx                 # Thin application entry component
+│           ├── App.test.tsx            # Runtime/task/SSE/navigation/preference/axe tests
+│           ├── main.tsx                # React root and global styles
+│           ├── api/                     # Typed envelope client and real payload contracts
+│           ├── components/             # Shell plus runtime command/task/evidence surfaces
+│           ├── hooks/                   # Density, route-task, media, and SSE ownership
+│           ├── navigation/             # Route definitions and History adapter
+│           ├── query/                   # TanStack Query provider, keys, polling, mutations
+│           ├── styles/                 # Systems Cartography tokens and global CSS
+│           └── test/                   # DOM environment and transport fixtures
 ├── configs/
 │   ├── inference-baseline.json        # Pinned backend/model/runtime settings
 │   ├── admission-baseline.json        # Model metadata, estimator, reserves, calibration
@@ -50,12 +71,14 @@ Local-AI-System-Lab/
 │   ├── results/stage14-security-20260824T203349Z.json # Retained PASS/FAIL result
 │   ├── results/stage15-api-20260824T205654Z.json # Retained deterministic HTTP/SSE result
 │   ├── results/stage15-api-real-20260825T010429Z.json # Retained real Qwen API result
-│   └── results/stage16-backend-acceptance-20260825T011603Z.json # Retained gate result
+│   ├── results/stage16-backend-acceptance-20260825T011603Z.json # Retained gate result
+│   └── results/stage19-runtime-command-center-20260825T121824Z.json # Retained frontend/API smoke
 ├── docs/
 │   ├── architecture.md                # Implemented/deferred component boundaries
 │   ├── development.md                 # Reproducible run/test/check commands
 │   ├── environment.md                 # Measured workstation/tool baseline
 │   ├── frontend-research.md            # Stage 17 evidence and frontend recommendation
+│   ├── frontend-design-system.md       # Stage 18 executable language and UI architecture
 │   ├── repository-map.md              # This inventory
 │   ├── risks.md                       # Evidence-based risk register
 │   ├── backend-acceptance-report.md   # Human release-candidate decision
@@ -75,7 +98,9 @@ Local-AI-System-Lab/
 │   │   ├── stage13-fault-injection-chaos-framework.md
 │   │   ├── stage14-security-adversarial-testing.md
 │   │   ├── stage15-backend-api-full-runtime-integration.md
-│   │   └── stage16-backend-verification-acceptance-gate.md
+│   │   ├── stage16-backend-verification-acceptance-gate.md
+│   │   ├── stage18-design-system-ui-architecture.md
+│   │   └── stage19-runtime-command-center.md
 │   └── adr/
 │       ├── README.md                  # ADR process and index
 │       ├── 0001-stage-gated-modular-backend-first.md
@@ -95,6 +120,8 @@ Local-AI-System-Lab/
 │       ├── 0015-deterministic-security-boundaries.md
 │       ├── 0016-loopback-stdlib-http-json-sse-api.md
 │       ├── 0017-scoped-evidence-based-backend-acceptance.md
+│       ├── 0018-systems-cartography-web-shell.md
+│       ├── 0019-real-loopback-query-and-sse-client.md
 │       └── template.md
 ├── runtime/
 │   ├── __init__.py                    # Public runtime API through Stage 15
@@ -218,9 +245,9 @@ Ignored `tools/` and `models/` directories contain the verified native binaries
 and GGUF file; they are reproducible artifacts, not source. No empty future
 directories are added merely to imply implementation.
 
-## Component inventory after Stage 17 research
+## Component inventory after Stage 19
 
-| Area | Prior evidence | State after Stage 17 | Evidence |
+| Area | Prior evidence | State after Stage 19 | Evidence |
 | --- | --- | --- | --- |
 | Repository | Security result/report, ADR-0015, and 0.14.0 identity | Adds API result/report, ADR-0016, and 0.15.0 identity | README, Stage 15 result, ADR index |
 | Runtime | Complete guarded synchronous orchestration | Adds Stage 15 real/stub compositions and bounded asynchronous API ownership without coupling core protocols to HTTP | Factory and API tests |
@@ -228,12 +255,16 @@ directories are added merely to imply implementation.
 | Inspection | Separate CLIs and Python component calls | Safe HTTP views for agents, scheduler, hardware, models/budgets, metrics, and traces/replay | External API result |
 | Reliability/security | Explicit local CLIs | Confirmed isolated chaos and retained security-result endpoints; serving runtime remains unarmed | Chaos/security API test |
 | Data exposure | Local SQLite and CLI reports | System prompts, absolute model paths, raw trace payloads, run metadata, and failure details omitted at API boundary | Safe-view/trace tests |
-| API/frontend | Missing | Loopback HTTP/JSON + SSE and OpenAPI added; frontend remains prohibited | `runtime/api/`, Stage 15 report |
+| API boundary | Direct Python calls only before Stage 15 | Loopback HTTP/JSON + SSE and OpenAPI provide the accepted frontend contract | `runtime/api/`, Stage 15 report |
 | Tests/benchmarks | 138 tests plus security result | 147 tests plus retained 16-operation external API result | `tests/test_api.py`, Stage 15 result/report |
 | Decisions/risks | ADR-0015 and application-security caveats | ADR-0016 plus production-server, connection, restart, and retention limitations | `docs/adr/`, `docs/risks.md` |
 | Acceptance | Separate subsystem evidence only | One 14-command gate, 14/14 required PASS, scoped maturity matrix, and release recommendation | Acceptance JSON/report, ADR-0017 |
 | Release identity | 0.15.0 API-ready backend | 0.16.0 verified backend release candidate | `pyproject.toml`, acceptance result |
 | Frontend research | Backend accepted; no direction selected | 28-source current research, Systems Cartography recommendation, stack/performance/accessibility constraints, no UI implementation | `docs/frontend-research.md` |
+| Frontend shell | Stage 18 endpoint placeholders | Twelve URL-addressable domains plus real `/runtime` pulse, task launch/inspection/cancellation, and ordered lifecycle rail | `apps/web/src/`, Stage 19 report |
+| Design system | Proposed visual direction | Executable tokens, eleven status states, two density modes, motion/data-viz/a11y contracts, and interactive component route | `docs/frontend-design-system.md`, `/design-system` |
+| Frontend server state | No API fetch or stream | Typed Query ownership for six inspection resources, task mutations/polling, URL selection, and bounded native EventSource reconciliation | `api/`, `query/`, `useTaskEvents.ts` |
+| Frontend validation | 5/5 shell tests and 102,802-byte gzip shell | 7/7 runtime tests, axe scan, build/bundle gate, and retained real proxy/API/SSE smoke | `App.test.tsx`, `stage19-smoke.mjs`, retained JSON |
 
 ## Current and planned folder convention
 
@@ -241,7 +272,8 @@ The following remains a boundary guide. Existing folders are evidence of only
 the files listed above; later subdirectories are not implementation claims.
 
 ```text
-apps/             Reserved for approved production applications; still absent after Stage 17
+apps/             Approved local applications
+  web/            Stage 19 React/Vite Runtime Command Center; specialist routes remain staged
 runtime/          Inspectable runtime implementation
   api/            Current loopback backend adapter and application service
   agents/         Agent identity and behavior contracts

@@ -239,6 +239,50 @@ both deterministic and real-model API workflows, and fixed real-inference
 regression bounds. The command returns nonzero if a mandatory category fails and
 retains a compact hashed JSON result under `benchmarks/results/`.
 
+## Stage 19 local Runtime Command Center
+
+The browser shell is local-only and requires Node.js compatible with Vite 8.
+Install its locked dependencies once:
+
+```powershell
+cd apps/web
+npm install
+```
+
+Start the deterministic loopback API from the repository root:
+
+```powershell
+python -m runtime.api_cli --stub --database data/stage19-dev.db
+```
+
+Start the loopback development server from `apps/web` in a second terminal:
+
+```powershell
+npm run dev
+```
+
+Open `http://127.0.0.1:4173/runtime`. The development server proxies only `/v1`
+to `http://127.0.0.1:8765`. The Runtime Command Center queries real health,
+agents, scheduler, hardware, models, and metrics; it also creates, inspects,
+streams, and cancels tasks through that proxy.
+
+Run component, navigation, preference, no-fake-data, and automated accessibility
+checks, then compile and measure the shell:
+
+```powershell
+npm test
+npm run build
+npm run check:bundle
+npm run smoke:stage19
+```
+
+The bundle script reads built JavaScript, compresses it with gzip, and fails
+above 250 KiB. The Stage 19 smoke assumes both local services are running,
+crosses the frontend proxy, creates one deterministic task, verifies lifecycle/
+terminal SSE evidence, and writes timestamped JSON under `benchmarks/results/`.
+It reports zero real LLM calls by design. `dist/`, `node_modules/`, coverage, and
+browser-test outputs stay ignored.
+
 Validate Python syntax without executing application code:
 
 ```powershell
@@ -273,10 +317,10 @@ git diff
 
 ## Commands intentionally undefined
 
-SQLite schema migration is applied automatically on store open. There is no
-frontend command because production frontend work remains prohibited. Formatting,
-linting, type-checking, and coverage tools are not declared until their cost and
-configuration are selected in a later approved stage.
+SQLite schema migration is applied automatically on store open. Frontend
+type-checking is part of the build. A separate formatter, linter, browser E2E
+runner, and coverage threshold are not yet declared; they require scoped Stage
+20/25 acceptance decisions rather than default tooling expansion.
 
 ## Development discipline
 

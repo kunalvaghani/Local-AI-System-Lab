@@ -1,0 +1,50 @@
+{
+  "stage": 19,
+  "captured_at_utc": "2026-08-25T12:18:24.601Z",
+  "target": "http://127.0.0.1:4173",
+  "frontend": {
+    "runtime_route_http_status": 200,
+    "api_proxy_verified": true
+  },
+  "runtime": {
+    "health_status": "ok",
+    "runtime_status": "running",
+    "agent_count": 2,
+    "scheduler_policy": "fifo",
+    "available_models": 1,
+    "hardware_profile_ms": 143.692,
+    "metrics_collection_ms": 142.38720000003013
+  },
+  "task": {
+    "task_id": "94ab4b12-2f49-4a29-a8d2-05c5257fea3e",
+    "accepted_http_status": 202,
+    "final_status": "completed",
+    "durable_state": "completed",
+    "real_llm_calls": 0,
+    "inference_metrics": {
+      "baseline_vram_used_mib": null,
+      "generated_token_runs": null,
+      "generation_ms": null,
+      "internal_load_ms": null,
+      "model_load_ms": null,
+      "peak_process_ram_mib": null,
+      "peak_vram_used_mib": null,
+      "prompt_eval_ms": null,
+      "prompt_tokens": null,
+      "prompt_tokens_per_second": null,
+      "startup_to_ready_ms": null,
+      "tokens_per_second": null,
+      "total_ms": 0,
+      "ttft_ms": null,
+      "vram_delta_mib": null
+    }
+  },
+  "stream": {
+    "http_status": 200,
+    "lifecycle_events": 15,
+    "task_events": 1,
+    "end_events": 1,
+    "elapsed_ms": 632.633
+  },
+  "elapsed_ms": 967
+}

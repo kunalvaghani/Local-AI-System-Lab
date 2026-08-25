@@ -10,17 +10,57 @@ and Stage 14 adds deterministic security boundaries plus repeatable adversarial
 PASS/FAIL evidence. Stage 15 exposes the complete runtime through a documented,
 loopback-only HTTP/JSON and SSE backend API. Stage 16 verifies the entire backend
 through a reproducible acceptance gate with scoped maturity classifications.
-Stage 17 completes fresh frontend research and recommends a Systems Cartography
-direction without creating production UI code.
+Stage 17 completes fresh frontend research and Stage 18 turns its Systems
+Cartography direction into a measured, navigable local React application shell
+and reusable design system without fabricating backend telemetry. Stage 19 adds
+the real local Runtime Command Center: live inspection, bounded task launch,
+URL-addressable task evidence, ordered SSE lifecycle updates, and cancellation.
 
 ## Current status
 
-- Last completed stage: Stage 17 — Frontend Research Only
-- Next approval-gated stage: Stage 18 — Design System & UI Architecture
+- Last completed stage: Stage 19 — Runtime Command Center
+- Next approval-gated stage: Stage 20 — Scheduler & Task Graph
 - Backend acceptance: RELEASE CANDIDATE; all required checks PASS, overall maturity PARTIAL
-- Frontend research: COMPLETE; production frontend implementation has not started
+- Frontend Runtime Command Center: COMPLETE; specialist screens remain staged
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
+
+## Run the Stage 19 Runtime Command Center
+
+Start the local-only deterministic API from the repository root:
+
+```powershell
+python -m runtime.api_cli --stub --database data/stage19-dev.db
+```
+
+In a second terminal:
+
+```powershell
+cd apps/web
+npm install
+npm run dev
+```
+
+Open `http://127.0.0.1:4173/runtime`. The command center reads real health,
+scheduler, hardware, model, agent, and metric evidence through the loopback
+proxy. It can launch one bounded task, retain its selected ID in the URL, follow
+ordered SSE lifecycle events, show truthful output/measurements, and request
+cooperative cancellation. It does not fabricate a task history the API lacks.
+
+Validate the frontend foundation:
+
+```powershell
+npm test
+npm run build
+npm run check:bundle
+npm run smoke:stage19
+```
+
+The Stage 19 suite has seven component tests including an automated axe-core
+scan. Its reproducible smoke crosses the Vite proxy, creates a real stub task,
+reads 15 ordered lifecycle events, and retains JSON evidence. Read the
+[Stage 19 report](docs/stages/stage19-runtime-command-center.md) and
+[ADR-0019](docs/adr/0019-real-loopback-query-and-sse-client.md).
 
 ## Review the Stage 17 frontend research
 
@@ -31,8 +71,8 @@ candidates. It recommends a custom Systems Cartography direction, a lean
 accessible/virtualized stack, explicit performance and accessibility constraints,
 and a list of rejected or deferred ideas.
 
-Stage 17 adds no frontend dependencies, routes, components, stylesheets, or
-production UI. Stage 18 remains approval-gated.
+The research is retained as the decision evidence behind the Stage 18 shell and
+Stage 19 Runtime Command Center.
 
 ## Run the Stage 16 backend acceptance gate
 
@@ -348,6 +388,8 @@ python -m unittest discover -s tests -v
 
 - [Repository map](docs/repository-map.md)
 - [Architecture baseline](docs/architecture.md)
+- [Frontend research](docs/frontend-research.md)
+- [Frontend design system and UI architecture](docs/frontend-design-system.md)
 - [Environment report](docs/environment.md)
 - [Development commands](docs/development.md)
 - [Risk register](docs/risks.md)

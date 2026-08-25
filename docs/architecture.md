@@ -1,4 +1,4 @@
-# Architecture Baseline through Stage 17
+# Architecture Baseline through Stage 19
 
 ## Status and scope
 
@@ -7,30 +7,40 @@ loopback API composition and all earlier security, chaos, observability, tracing
 recovery, routing, admission, scheduling, and inference boundaries through one
 versioned acceptance manifest and retained release-candidate result.
 
-Stage 17 also adds no execution path. It researches the future frontend against
-the accepted API and recommends a Systems Cartography direction: a client-rendered,
-URL-addressable, accessible, virtualized inspection workbench. This is a research
-recommendation, not implemented or approved Stage 18 architecture. No frontend
-package, route, component, stylesheet, or build configuration exists yet.
+Stage 17 adds no execution path. It researches the future frontend against the
+accepted API and recommends a Systems Cartography direction. Stage 18 implements
+that direction as a local client-rendered React shell with a design token system,
+twelve URL-addressable domains, accessible primitives, a responsive resizable
+workspace/evidence relationship, and explicit no-data states. Stage 19 connects
+the runtime route to real loopback JSON and SSE while leaving the backend and
+core runtime execution paths unchanged.
 
-## Stage 17 researched frontend boundary
+## Stage 19 frontend boundary
 
-The recommended future boundary is deliberately outside the runtime package:
+The implemented shell and approved future integration boundary remain outside
+the runtime package:
 
 ```text
-future local browser client
-  -> typed HTTP query/cache layer
-  -> owned EventSource lifecycle adapter
+local React browser shell (implemented Stage 18)
+  -> typed TanStack Query HTTP owner (implemented Stage 19)
+  -> bounded task-scoped EventSource adapter (implemented Stage 19)
   -> versioned loopback /v1 API
   -> existing Stage 15 transport-independent service
   -> accepted Stage 1–14 runtime components
 ```
 
-Research recommends separate URL state, server/query state, SSE lifecycle state,
-and ephemeral inspector selection state. A graph, chart, timeline, or resizable
-pane must remain a presentation of the real API contract rather than a second
-source of runtime truth. Stage 18 must approve and specify this boundary before
-implementation.
+URL state, server/query state, SSE lifecycle state, ephemeral
+viewer selection, and versioned device preference have separate owners. The
+browser persists density only; the selected task is URL state and runtime data
+remains server-owned. A graph, chart, timeline, or resizable pane
+must remain a presentation of the real API contract rather than a second source
+of runtime truth.
+
+The Runtime Command Center starts six independent inspection queries in parallel.
+Health, scheduler, hardware, metrics, agents, and models use resource-specific
+polling cadences. Task mutations seed/invalidate query evidence. The selected
+task stream is deduplicated, capped at 200 events, reconnects a continuing timed-
+out stream with `after=<cursor>`, and closes after terminal evidence.
 
 ## Context and planned flow
 
@@ -276,7 +286,8 @@ Stage 14 applies deterministic security boundaries before and after execution:
 
 There is still no real second-model backend. Stage 15 adds a documented
 loopback-only HTTP/JSON and SSE API over the complete single-host runtime; it is
-not a public internet service.
+not a public internet service. Stage 18 adds a local browser shell but makes no
+API call yet.
 
 ## Current component responsibilities
 
@@ -319,6 +330,14 @@ not a public internet service.
 | Acceptance Manifest | Strict tracked Stage 16 policy | Test/chaos/security coverage plus real inference and API limits | Per-hardware/model release profiles when more targets exist |
 | Acceptance Runner | Reproducible subprocess orchestrator | Build/package, full and focused tests, scheduler, hardware, recovery, trace, observability, chaos, security, stub API, and real API evidence | CI matrix and clean-release automation |
 | Acceptance Classifier | Binary requirement checks plus four maturity states | Release-candidate decision without erasing known partial/deferred boundaries | Independent review and versioned release sign-off |
+| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, responsive workspace/evidence composition, shallow native-history routes, and real `/runtime` command center | Specialist runtime screens begin in Stage 20 |
+| Frontend Token System | Project-owned CSS custom properties | Typography, spacing, surfaces, semantic colors, focus, density, motion, and breakpoints | Light-theme expansion after real-view contrast evidence |
+| Frontend Status Language | Reusable glyph + label + tone component | Healthy, active, queued, warning, critical, blocked, partial, deferred, unavailable, stale, and unknown; Stage 19 maps connection/task states to real evidence | Specialist screens must preserve the same contract |
+| Frontend Server State | Typed fetch client plus TanStack Query | Parallel inspection polling, request IDs, aborts, mutations, reconciliation, and honest null handling | Browser never becomes a second runtime database |
+| Frontend Task Stream | Native EventSource adapter | Ordered task lifecycle, explicit cursor reconnect, 200-event bound, terminal close, and cache reconciliation | Rich graph/trace projections remain Stages 20–21 |
+| Frontend Evidence Pane | Accessible resizable panel | Selected/source context and endpoint boundary | Live task/trace selection evidence in later stages |
+| Frontend Route Adapter | Native links plus History API store | Twelve top-level URL-addressable domains and back/forward behavior | Router dependency only if nested-route complexity justifies it |
+| Frontend Validation | Vitest/Testing Library/axe and gzip budget script | Navigation, no-fake-data, state, preference, automated accessibility, and 250 KiB shell-budget evidence | Real-browser/assistive-technology and large-fixture testing |
 
 Runtime interfaces contain only methods exercised by the Stage 16-verified backend.
 Later stages should extend them based on executable requirements rather than
@@ -345,6 +364,12 @@ anticipating every future feature now.
   complete gate run rather than editing a retained result.
 - Release-candidate status requires every mandatory category to pass; subsystem
   maturity remains independently `DONE`, `PARTIAL`, `FAILED`, or `DEFERRED`.
+- Frontend runtime values come only from the loopback API or measured browser
+  events; unavailable and stale are data states, never coerced to zero.
+- URL, server query, stream reducer, viewer, and device-preference state remain
+  independent; only versioned preferences may use browser storage.
+- Graph, chart, terminal, editor, and motion packages require a real approved
+  route plus measured bundle and interaction evidence before adoption.
 
 ## Failure and concurrency baseline
 
@@ -394,4 +419,6 @@ Detailed mechanisms belong to later stages. Current behavior and constraints are
 - Stage 14 implements deterministic security boundaries and adversarial testing — COMPLETE.
 - Stage 15 implements backend API and full runtime integration — COMPLETE.
 - Stage 16 performs backend verification and the acceptance gate — COMPLETE; release candidate with tracked limitations.
-- Stage 17 frontend research only — COMPLETE; Stage 18 design-system/UI architecture remains approval-gated and production frontend implementation has not started.
+- Stage 17 frontend research only — COMPLETE.
+- Stage 18 design system and UI architecture — COMPLETE.
+- Stage 19 Runtime Command Center — COMPLETE; Stage 20 Scheduler & Task Graph remains approval-gated.
