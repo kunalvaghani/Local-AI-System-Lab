@@ -5,6 +5,7 @@
 html {
   background: var(--color-canvas);
   font-family: var(--font-ui);
+  view-transition-name: none;
 }
 
 body {
@@ -249,6 +250,7 @@ a {
   border-color: var(--color-line-strong);
   background: var(--color-accent-soft);
   color: var(--color-text);
+  view-transition-name: active-route;
 }
 
 .nav-group a[aria-current="page"] > span {
@@ -268,6 +270,7 @@ a {
   gap: var(--space-5);
   padding-bottom: var(--space-5);
   border-bottom: var(--border-subtle);
+  view-transition-name: route-heading;
 }
 
 .route-heading h1 {
@@ -377,6 +380,44 @@ a {
   padding: var(--space-5);
   border-left: var(--border-subtle);
   background: var(--color-surface-1);
+  view-transition-name: evidence-context;
+}
+
+.context-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.context-facts {
+  display: grid;
+  gap: 1px;
+  margin: var(--space-5) 0 0;
+  border: var(--border-subtle);
+  background: var(--color-line-subtle);
+}
+
+.context-facts > div {
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-2);
+}
+
+.context-facts dt {
+  color: var(--color-text-faint);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+}
+
+.context-facts dd {
+  overflow: hidden;
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-data);
+  font-size: 0.6875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .pane-note {
@@ -630,6 +671,84 @@ a {
   color: var(--color-accent);
   font-family: var(--font-data);
   font-size: 0.625rem;
+}
+
+.context-disclosure {
+  margin-top: var(--space-4);
+  border-top: var(--border-subtle);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.context-disclosure summary {
+  padding: var(--space-3) 0;
+  color: var(--color-text);
+  cursor: pointer;
+  font-weight: 550;
+}
+
+.context-disclosure ul {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  padding-left: var(--space-5);
+  line-height: 1.5;
+}
+
+.context-disclosure kbd {
+  color: var(--color-accent);
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+}
+
+.context-disclosure button {
+  min-height: var(--control-height);
+  margin-bottom: var(--space-3);
+  padding: 0 var(--space-3);
+  border: var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.context-disclosure button:hover {
+  border-color: var(--color-line-strong);
+  color: var(--color-text);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(route-heading),
+  ::view-transition-old(evidence-context) {
+    animation: route-context-out var(--duration-fast) var(--ease-standard) both;
+  }
+
+  ::view-transition-new(route-heading),
+  ::view-transition-new(evidence-context) {
+    animation: route-context-in var(--duration-standard) var(--ease-standard) both;
+  }
+
+  ::view-transition-old(active-route),
+  ::view-transition-new(active-route) {
+    animation-duration: var(--duration-standard);
+    animation-timing-function: var(--ease-standard);
+  }
+
+  .status-token {
+    animation: status-arrive var(--duration-fast) var(--ease-standard) both;
+  }
+}
+
+@keyframes route-context-out {
+  to { opacity: 0; transform: translateY(-0.25rem); }
+}
+
+@keyframes route-context-in {
+  from { opacity: 0; transform: translateY(0.375rem); }
+}
+
+@keyframes status-arrive {
+  from { opacity: 0; transform: translateY(0.125rem); }
 }
 
 @media (max-width: 68.75rem) {

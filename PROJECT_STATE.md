@@ -16,10 +16,13 @@ hardware, inference distributions, model/configuration evidence, and bounded
 workload trends from accepted loopback contracts. Stage 23 adds confirmed,
 server-catalogued Chaos and Security Labs for propagation, containment, recovery,
 attack outcomes, and blocked actions while preserving local experiment isolation.
+Stage 24 adds keyboard-first command navigation, native progressive route
+transitions, contextual route/task/source evidence, and a resettable inspector
+split without adding an animation, docking, virtualizer, canvas, or WebGL dependency.
 
 ## Current Stage
 
-Stage 23 — Chaos & Security Lab UI — COMPLETE, AWAITING APPROVAL.
+Stage 24 — Advanced Interaction & Motion Polish — COMPLETE, AWAITING APPROVAL.
 
 ## Current Subsystem
 
@@ -27,8 +30,20 @@ Local React/TypeScript/Vite operational workbench covering real runtime, agent,
 scheduler, trace/replay, source-labelled CPU/RAM/GPU/VRAM, TTFT/token-rate/queue
 distributions, model/profile/budget evidence, bounded recent workload trends,
 controlled fault propagation/recovery, and deterministic adversarial evidence.
+The shell now adds keyboard-first route navigation and restrained native motion
+for orientation while retaining immediate and reduced-motion fallbacks.
 
 ## Last Completed Work
+
+- Added a React Aria command palette for all twelve routes with `Ctrl/Cmd+K` and `/` invocation, filtering, focus management, keyboard action, editable-control protection, and selected-task URL retention.
+- Added stable-browser `document.startViewTransition` progressive enhancement around the owned History API commit, naming only the route heading, active rail item, and contextual evidence pane.
+- Added explicit reduced-motion bypass and existing tokenized 120/180 ms CSS entry/press/status feedback; no looping or ambient motion was introduced.
+- Upgraded the evidence pane with domain/route/task/source facts, progressive shortcut/resize disclosure, and an explicit reset for the existing responsive inspector split.
+- Evaluated and rejected/deferred spring physics, animated numbers, arbitrary docking, another virtualizer, canvas/WebGL, cmdk, and a motion runtime because no measured route justifies them.
+- Added six focused Stage 24 tests plus all existing regressions: 34/34 passed, including open-palette axe, View Transition, reduced-motion, context, and editable-control cases.
+- Retained `stage24-interaction-motion-20260826T155934Z.json`: six route 200s, 24.46 ms median route retrieval, 26.329 ms health retrieval, runtime running, integrity `ok`, and 58.705 ms total smoke.
+- Final Stage 24 production build passed at 149,836 gzip JavaScript bytes (58.5% of the 256,000-byte gate) and 9.36 KiB gzip CSS; the JavaScript delta is 19,160 bytes/14.7% from Stage 23.
+- Added Stage 24 report, ADR-0024, development/architecture/repository/risk updates, and frontend identity 0.24.0; Stage 25 remains unimplemented.
 
 - Activated `/chaos` and `/security` as real specialist routes backed by server-owned catalogs rather than duplicated browser scenario IDs.
 - Added `GET /v1/chaos` and `GET/POST /v1/security`; confirmed experiments accept only known IDs, use separate deterministic stub runtimes/unique databases, and leave the serving runtime unarmed.
@@ -234,11 +249,11 @@ controlled fault propagation/recovery, and deterministic adversarial evidence.
 
 ## Currently Working On
 
-None. Stage 23 is complete and work is stopped before Stage 24 Advanced Interaction & Motion Polish.
+None. Stage 24 is complete and work is stopped before Stage 25 Responsive, Accessibility & Performance Pass.
 
 ## Current Blockers
 
-- User approval is required before Stage 24 Advanced Interaction & Motion Polish.
+- User approval is required before Stage 25 Responsive, Accessibility & Performance Pass.
 - No runtime/API blocker prevents the next single-user loopback frontend scope.
 - The API has no list-tasks endpoint; Stage 19 truthfully inspects only the selected known/created task.
 - Stage 20/21 visualize one selected task and do not claim a global task explorer.
@@ -251,6 +266,7 @@ None. Stage 23 is complete and work is stopped before Stage 24 Advanced Interact
 - The known terminal-result/output atomicity gap remains visible as an uncontained database-result fault; Stage 23 does not repair it.
 - Security PASS evidence is bounded deterministic regression evidence, not a penetration test, OS sandbox, certification, or proof of security.
 - Real-browser computed contrast, zoom/reflow, forced-colors, NVDA, and breakpoint validation remains future work.
+- Real-browser View Transition paint cost, INP, long tasks, and interaction timing remain unmeasured; Stage 24 component evidence is jsdom-based.
 - A second real model artifact/backend is not installed; controlled route differences are therefore policy evidence, not a claim of compact-model inference.
 
 ## Important Decisions
@@ -271,7 +287,11 @@ None. Stage 23 is complete and work is stopped before Stage 24 Advanced Interact
 - Require every mandatory category to pass for release-candidate status; never let a high aggregate test count substitute for real recovery, chaos, security, API, or model evidence.
 - Scope acceptance to the measured single-user loopback backend; remote multi-user deployment remains explicitly deferred.
 - Track acceptance thresholds before execution, embed them in the retained result, and require a full rerun when policy changes.
-- Stage 23 chaos/security visualization was explicitly approved; Stage 24 interaction/motion polish requires its own user approval gate.
+- Stage 24 interaction/motion polish was explicitly approved; Stage 25 responsive/accessibility/performance validation requires its own user approval gate.
+- Use native View Transitions only as progressive enhancement around shallow route commits, bypass them for reduced motion, and animate only bounded orientation surfaces.
+- Use the installed React Aria primitives for the twelve-item command palette; do not add cmdk or another overlapping interaction library.
+- Keep the existing responsive two-pane workspace and reset control; arbitrary docking is not justified.
+- Do not add spring physics, animated numbers, another virtualizer, canvas/WebGL, or an animation runtime without measured route evidence.
 - Keep experiment catalogs server-owned; browser selection may submit only reported known IDs.
 - Require explicit confirmation for chaos and security execution, use separate deterministic runtimes/databases, and never arm the serving runtime.
 - Label adversarial PASS as an expected defense holding, not certification, and retain the backend disclaimer beside results.
@@ -651,6 +671,16 @@ See [the Stage 23 smoke result](benchmarks/results/stage23-chaos-security-202608
 The Stage 23 build is 130,676 gzip JavaScript bytes (51.0% of the
 256,000-byte gate) and 8,333 gzip CSS bytes; 28 DOM tests took 9.75 seconds.
 
+Stage 24 adds a 58.705 ms complete local smoke with six HTTP 200 workbench
+routes, 22.357–48.888 ms route retrieval, 24.46 ms median route retrieval, and
+26.329 ms health retrieval while the runtime remained running with integrity
+`ok`. See [the Stage 24 smoke result](benchmarks/results/stage24-interaction-motion-20260826T155934Z.json).
+
+The Stage 24 build is 149,836 gzip JavaScript bytes (58.5% of the
+256,000-byte gate) and 9.36 KiB gzip CSS; 34 DOM tests passed with 12.26 seconds
+of test time. The 19,160-byte/14.7% JavaScript increase activates the existing
+React Aria overlay/list behavior for command navigation.
+
 ## Backend Acceptance Status
 
 PASS WITH TRACKED LIMITATIONS. All mandatory backend categories passed; release candidate true; overall maturity `PARTIAL`. Stage 23 adds only bounded loopback experiment catalog/execution operations around the existing Stage 13/14 deterministic harnesses; it does not change normal runtime authority.
@@ -662,11 +692,12 @@ Cartography recommendation is now encoded in the Stage 18 design system and
 local application shell plus the Stage 19 Runtime Command Center and Stage 20
 Agent & Scheduler Visualization, Stage 21 Trace Explorer & Replay Debugger, and
 Stage 22 Hardware & Performance Lab plus Stage 23 Chaos & Security Lab.
+Stage 24 implements its native interaction recommendation without adding a motion runtime.
 
 ## Next Step
 
-Stage 24 — Advanced Interaction & Motion Polish
+Stage 25 — Responsive, Accessibility & Performance Pass
 
 ## Later Backlog
 
-Stages 24–27 remain intentionally deferred and must be entered one at a time after explicit approval.
+Stages 25–27 remain intentionally deferred and must be entered one at a time after explicit approval.

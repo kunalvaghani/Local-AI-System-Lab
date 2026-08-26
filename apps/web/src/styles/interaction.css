@@ -1,0 +1,277 @@
+.command-trigger {
+  display: inline-flex;
+  min-height: var(--control-height);
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-2) 0 var(--space-3);
+  border: var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.command-trigger:hover,
+.command-trigger[data-hovered] {
+  border-color: var(--color-line-strong);
+  color: var(--color-text);
+}
+
+.command-trigger:active,
+.command-trigger[data-pressed],
+.command-result[data-pressed],
+.command-close[data-pressed] {
+  transform: translateY(1px);
+}
+
+.command-trigger kbd,
+.command-footer kbd {
+  padding: 0.125rem 0.375rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas);
+  color: var(--color-text-faint);
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+  box-shadow: inset 0 -1px 0 rgb(255 255 255 / 0.08);
+}
+
+.command-overlay {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  display: grid;
+  align-items: start;
+  justify-items: center;
+  padding: min(14vh, 8rem) var(--space-4) var(--space-4);
+  background: rgb(5 6 5 / 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.command-modal {
+  width: min(42rem, 100%);
+  max-height: min(42rem, calc(100vh - 8rem));
+  overflow: hidden;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-1);
+  box-shadow: 0 2rem 6rem rgb(0 0 0 / 0.48);
+}
+
+.command-dialog {
+  outline: none;
+}
+
+.command-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-5) var(--space-3);
+}
+
+.command-heading h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 550;
+  letter-spacing: -0.025em;
+}
+
+.command-close {
+  padding: 0.25rem 0.5rem;
+  border: var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas);
+  color: var(--color-text-faint);
+  cursor: pointer;
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+}
+
+.command-search {
+  display: block;
+  padding: 0 var(--space-5) var(--space-4);
+}
+
+.command-search > label {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--color-text-faint);
+  font-size: 0.6875rem;
+}
+
+.command-search > div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 3rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-canvas);
+}
+
+.command-search input {
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 0.875rem;
+}
+
+.command-search button {
+  border: 0;
+  background: transparent;
+  color: var(--color-accent);
+  cursor: pointer;
+  font-size: 0.6875rem;
+}
+
+.command-results {
+  max-height: min(24rem, 48vh);
+  overflow: auto;
+  padding: 0 var(--space-3) var(--space-3);
+  outline: none;
+}
+
+.command-result {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 3.75rem;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  outline: none;
+}
+
+.command-result[data-focused],
+.command-result[data-hovered] {
+  border-color: var(--color-line-strong);
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+}
+
+.command-result strong,
+.command-result small {
+  display: block;
+}
+
+.command-result strong {
+  font-size: 0.8125rem;
+}
+
+.command-result small {
+  margin-top: 0.2rem;
+  overflow: hidden;
+  color: var(--color-text-faint);
+  font-size: 0.6875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.command-code {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--color-accent);
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+}
+
+.command-meta {
+  color: var(--color-text-faint);
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+}
+
+.command-empty {
+  margin: 0 var(--space-5) var(--space-5);
+  padding: var(--space-5);
+  border: var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.command-footer {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-5);
+  border-top: var(--border-subtle);
+  color: var(--color-text-faint);
+  font-size: 0.625rem;
+}
+
+.command-footer span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .command-overlay[data-entering] {
+    animation: command-overlay-in var(--duration-fast) var(--ease-standard) both;
+  }
+
+  .command-overlay[data-exiting] {
+    animation: command-overlay-out var(--duration-fast) var(--ease-standard) both;
+  }
+
+  .command-modal[data-entering] {
+    animation: command-modal-in var(--duration-standard) var(--ease-standard) both;
+  }
+
+  .command-modal[data-exiting] {
+    animation: command-modal-out var(--duration-fast) var(--ease-standard) both;
+  }
+}
+
+@keyframes command-overlay-in {
+  from { opacity: 0; }
+}
+
+@keyframes command-overlay-out {
+  to { opacity: 0; }
+}
+
+@keyframes command-modal-in {
+  from { opacity: 0; transform: translateY(-0.5rem) scale(0.985); }
+}
+
+@keyframes command-modal-out {
+  to { opacity: 0; transform: translateY(-0.25rem) scale(0.99); }
+}
+
+@media (max-width: 45rem) {
+  .command-trigger span {
+    display: none;
+  }
+
+  .command-trigger kbd {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .command-overlay {
+    padding-top: var(--space-4);
+  }
+
+  .command-modal {
+    max-height: calc(100vh - 2rem);
+  }
+
+  .command-result small,
+  .command-meta {
+    display: none;
+  }
+}

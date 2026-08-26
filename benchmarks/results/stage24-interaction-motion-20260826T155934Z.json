@@ -1,0 +1,31 @@
+{
+  "stage": 24,
+  "captured_at_utc": "2026-08-26T15:59:34.561Z",
+  "target": "http://127.0.0.1:4173",
+  "frontend": {
+    "route_statuses": {
+      "/runtime": 200,
+      "/agents": 200,
+      "/traces": 200,
+      "/hardware": 200,
+      "/chaos": 200,
+      "/security": 200
+    },
+    "route_retrieval_ms": {
+      "minimum": 22.357,
+      "median": 24.46,
+      "maximum": 48.888
+    },
+    "command_palette_module_status": 200,
+    "interaction_styles_status": 200,
+    "command_palette_contract_present": true,
+    "native_view_transition_contract_present": true
+  },
+  "backend": {
+    "health_status": 200,
+    "runtime_status": "running",
+    "integrity": "ok",
+    "health_retrieval_ms": 26.329
+  },
+  "elapsed_ms": 58.705
+}

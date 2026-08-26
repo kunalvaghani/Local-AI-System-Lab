@@ -25,22 +25,25 @@ recent-workload trends.
 Stage 23 adds interactive Chaos and Security Labs for confirmed isolated fault
 experiments, failure propagation, recovery, deterministic adversarial execution,
 attack outcomes, and blocked-action evidence without claiming certification.
+Stage 24 adds keyboard-first command navigation, native progressive route
+transitions, contextual route/task/source evidence, one-shot feedback, and a
+resettable inspector split without adding an animation runtime.
 
 ## Current status
 
-- Last completed stage: Stage 23 — Chaos & Security Lab UI
-- Next approval-gated stage: Stage 24 — Advanced Interaction & Motion Polish
+- Last completed stage: Stage 24 — Advanced Interaction & Motion Polish
+- Next approval-gated stage: Stage 25 — Responsive, Accessibility & Performance Pass
 - Backend acceptance: RELEASE CANDIDATE; all required checks PASS, overall maturity PARTIAL
 - Frontend Runtime, Agent, Scheduler, Trace, Replay, Hardware, Metrics, Chaos, and Security views: COMPLETE
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
 
-## Run the Stage 23 Runtime Workbench
+## Run the Stage 24 Runtime Workbench
 
 Start the local-only deterministic API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage23-dev.db
+python -m runtime.api_cli --stub --database data/stage24-dev.db
 ```
 
 In a second terminal:
@@ -64,16 +67,15 @@ Validate the frontend foundation:
 npm test
 npm run build
 npm run check:bundle
-npm run smoke:stage23
+npm run smoke:stage24
 ```
 
-The Stage 23 suite has twenty-eight component tests, including automated axe-core
-scans of Runtime, Agents, Scheduler, Traces, Hardware, Metrics, Chaos, and
-Security. Its reproducible smoke crosses the Vite proxy, runs three confirmed
-isolated faults plus all fourteen deterministic security cases, and verifies
-propagation, containment, recovery, retained evidence, serving-runtime integrity,
-and zero real model calls. Read the [Stage 23 report](docs/stages/stage23-chaos-security-lab-ui.md)
-and [ADR-0023](docs/adr/0023-server-catalogued-confirmed-experiment-ui.md).
+The Stage 24 suite has thirty-four component tests, including command-palette,
+keyboard, native-transition, reduced-motion, contextual-panel, and open-palette
+axe coverage plus every prior specialist-route check. Its smoke verifies six
+workbench routes, the served interaction modules, the loopback health boundary,
+and unchanged persistence integrity. Read the [Stage 24 report](docs/stages/stage24-advanced-interaction-motion-polish.md)
+and [ADR-0024](docs/adr/0024-native-progressive-interaction-layer.md).
 
 ## Review the Stage 17 frontend research
 

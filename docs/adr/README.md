@@ -30,6 +30,7 @@ performance, reproducibility, or stage boundaries.
 | [0021](0021-redacted-trace-projection-and-explicit-replay.md) | Accepted | Redacted task-trace projection with URL step inspection and explicit side-effect-free replay |
 | [0022](0022-source-labelled-performance-projection.md) | Accepted | Source-labelled hardware and performance projection without duplicate live probes or invented samples |
 | [0023](0023-server-catalogued-confirmed-experiment-ui.md) | Accepted | Server-owned experiment catalogs with explicit confirmation, isolation, and non-certifying visual evidence |
+| [0024](0024-native-progressive-interaction-layer.md) | Accepted | Keyboard-first command navigation and bounded native route transitions with immediate fallbacks |
 
 ## Process
 

@@ -417,7 +417,7 @@ API call yet.
 | Acceptance Manifest | Strict tracked Stage 16 policy | Test/chaos/security coverage plus real inference and API limits | Per-hardware/model release profiles when more targets exist |
 | Acceptance Runner | Reproducible subprocess orchestrator | Build/package, full and focused tests, scheduler, hardware, recovery, trace, observability, chaos, security, stub API, and real API evidence | CI matrix and clean-release automation |
 | Acceptance Classifier | Binary requirement checks plus four maturity states | Release-candidate decision without erasing known partial/deferred boundaries | Independent review and versioned release sign-off |
-| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, responsive workspace/evidence composition, shallow native-history routes, and real Runtime/Agent/Scheduler/Trace/Hardware/Metrics/Chaos/Security workbench | Stage 24 may polish interaction/motion only after approval |
+| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, responsive workspace/evidence composition, shallow native-history routes, and real Runtime/Agent/Scheduler/Trace/Hardware/Metrics/Chaos/Security workbench | Stage 25 must validate real-browser responsive/accessibility/performance behavior |
 | Frontend Token System | Project-owned CSS custom properties | Typography, spacing, surfaces, semantic colors, focus, density, motion, and breakpoints | Light-theme expansion after real-view contrast evidence |
 | Frontend Status Language | Reusable glyph + label + tone component | Healthy, active, queued, warning, critical, blocked, partial, deferred, unavailable, stale, and unknown; Stage 19 maps connection/task states to real evidence | Specialist screens must preserve the same contract |
 | Frontend Server State | Typed fetch client plus TanStack Query | Parallel inspection polling, request IDs, aborts, mutations, reconciliation, and honest null handling | Browser never becomes a second runtime database |
@@ -425,9 +425,10 @@ API call yet.
 | Frontend Trace Explorer | Typed safe-trace query, URL step selector, semantic ordered list, and CSS timing gaps | Search/filter, state/model/tool classification, hash-chain evidence, 100-row pages, live trace refresh, and honest redaction/latency boundaries | Cross-run comparison requires a backend contract |
 | Frontend Replay Debugger | Explicit replay mutation and per-step outcome projection | Integrity, reconstructed state, matched/diverged/observed/skipped counts, and reason expansion without side effects | Replay breakpoints or state override remain absent |
 | Frontend Performance Lab | Parallel hardware/metrics/model/scheduler/task queries plus semantic meters, tables, and bounded bars | Source-labelled CPU/RAM/GPU/VRAM, TTFT, throughput, queue delay, distributions, selected configuration, registry candidates, and recent trends | Continuous sampling and experiment comparison require new backend contracts |
-| Frontend Evidence Pane | Accessible resizable panel | Selected/source context and endpoint boundary | Live task/trace selection evidence in later stages |
-| Frontend Route Adapter | Native links plus History API store | Twelve top-level URL-addressable domains and back/forward behavior | Router dependency only if nested-route complexity justifies it |
-| Frontend Validation | Vitest/Testing Library/axe and gzip budget script | Navigation, no-fake-data, state, preference, automated accessibility, and 250 KiB shell-budget evidence | Real-browser/assistive-technology and large-fixture testing |
+| Frontend Evidence Pane | Accessible resizable panel | Domain/route/task/source context, progressive interaction guidance, and split reset | More viewer selection context only when a route owns it |
+| Frontend Route Adapter | Native links plus History API store | Twelve top-level URL-addressable domains, back/forward behavior, and bounded native View Transition enhancement | Router dependency only if nested-route complexity justifies it |
+| Frontend Command Palette | Existing React Aria modal/search/ListBox behavior | Global filtered route access, focus management, keyboard action, and selected-task retention | Commands beyond navigation require explicit authority/state ownership |
+| Frontend Validation | Vitest/Testing Library/axe and gzip budget script | Navigation, command/motion fallbacks, no-fake-data, state, preference, automated accessibility, and 250 KiB shell-budget evidence | Real-browser/assistive-technology and performance testing remains Stage 25 |
 
 Runtime interfaces contain only methods exercised by the Stage 16-verified backend.
 Later stages should extend them based on executable requirements rather than
@@ -515,4 +516,5 @@ Detailed mechanisms belong to later stages. Current behavior and constraints are
 - Stage 20 Agent & Scheduler Visualization — COMPLETE.
 - Stage 21 Trace Explorer & Replay Debugger — COMPLETE.
 - Stage 22 Hardware & Performance Lab UI — COMPLETE.
-- Stage 23 Chaos & Security Lab UI — COMPLETE; Stage 24 Advanced Interaction & Motion Polish remains approval-gated.
+- Stage 23 Chaos & Security Lab UI — COMPLETE.
+- Stage 24 Advanced Interaction & Motion Polish — COMPLETE; Stage 25 Responsive, Accessibility & Performance Pass remains approval-gated.

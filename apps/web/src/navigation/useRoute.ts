@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import { flushSync } from "react-dom";
 
 import { taskAwareHref } from "../hooks/useSelectedTaskId";
 import { routeByPath, routes } from "./routes";
@@ -6,6 +7,10 @@ import { routeByPath, routes } from "./routes";
 function readLocation() {
   return `${window.location.pathname}${window.location.search}`;
 }
+
+type ViewTransitionDocument = Document & {
+  startViewTransition?: (update: () => void) => unknown;
+};
 
 function subscribeToPath(onChange: () => void) {
   window.addEventListener("popstate", onChange);
@@ -25,8 +30,24 @@ function navigate(event: React.MouseEvent<HTMLAnchorElement>, path: string) {
   }
 
   event.preventDefault();
-  window.history.pushState(null, "", path);
-  window.dispatchEvent(new PopStateEvent("popstate"));
+  navigateTo(path);
+}
+
+function navigateTo(path: string) {
+  if (path === readLocation()) return;
+
+  const commit = () => {
+    window.history.pushState(null, "", path);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  };
+  const transitionDocument = document as ViewTransitionDocument;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (transitionDocument.startViewTransition && !reducedMotion) {
+    transitionDocument.startViewTransition(() => flushSync(commit));
+  } else {
+    commit();
+  }
 }
 
 function useRoute() {
@@ -37,6 +58,7 @@ function useRoute() {
     activePath,
     activeRoute: routeByPath.get(activePath) ?? routes[0],
     navigate,
+    navigateTo,
     routeHref: taskAwareHref,
   };
 }

@@ -72,7 +72,12 @@ Local-AI-System-Lab/
 │   ├── results/stage15-api-20260824T205654Z.json # Retained deterministic HTTP/SSE result
 │   ├── results/stage15-api-real-20260825T010429Z.json # Retained real Qwen API result
 │   ├── results/stage16-backend-acceptance-20260825T011603Z.json # Retained gate result
-│   └── results/stage19-runtime-command-center-20260825T121824Z.json # Retained frontend/API smoke
+│   ├── results/stage19-runtime-command-center-20260825T121824Z.json # Retained frontend/API smoke
+│   ├── results/stage20-agent-scheduler-20260825T124614Z.json # Retained state/scheduler smoke
+│   ├── results/stage21-trace-replay-20260825T130714Z.json # Retained trace/replay smoke
+│   ├── results/stage22-hardware-performance-20260825T133404Z.json # Retained performance smoke
+│   ├── results/stage23-chaos-security-20260825T143324Z.json # Retained experiment UI smoke
+│   └── results/stage24-interaction-motion-20260826T155934Z.json # Retained interaction contract smoke
 ├── docs/
 │   ├── architecture.md                # Implemented/deferred component boundaries
 │   ├── development.md                 # Reproducible run/test/check commands
@@ -100,7 +105,12 @@ Local-AI-System-Lab/
 │   │   ├── stage15-backend-api-full-runtime-integration.md
 │   │   ├── stage16-backend-verification-acceptance-gate.md
 │   │   ├── stage18-design-system-ui-architecture.md
-│   │   └── stage19-runtime-command-center.md
+│   │   ├── stage19-runtime-command-center.md
+│   │   ├── stage20-agent-scheduler-visualization.md
+│   │   ├── stage21-trace-explorer-replay-debugger.md
+│   │   ├── stage22-hardware-performance-lab-ui.md
+│   │   ├── stage23-chaos-security-lab-ui.md
+│   │   └── stage24-advanced-interaction-motion-polish.md
 │   └── adr/
 │       ├── README.md                  # ADR process and index
 │       ├── 0001-stage-gated-modular-backend-first.md
@@ -122,6 +132,11 @@ Local-AI-System-Lab/
 │       ├── 0017-scoped-evidence-based-backend-acceptance.md
 │       ├── 0018-systems-cartography-web-shell.md
 │       ├── 0019-real-loopback-query-and-sse-client.md
+│       ├── 0020-task-scoped-agent-scheduler-projections.md
+│       ├── 0021-redacted-trace-projection-and-explicit-replay.md
+│       ├── 0022-source-labelled-performance-projection.md
+│       ├── 0023-server-catalogued-confirmed-experiment-ui.md
+│       ├── 0024-native-progressive-interaction-layer.md
 │       └── template.md
 ├── runtime/
 │   ├── __init__.py                    # Public runtime API through Stage 15
@@ -245,7 +260,7 @@ Ignored `tools/` and `models/` directories contain the verified native binaries
 and GGUF file; they are reproducible artifacts, not source. No empty future
 directories are added merely to imply implementation.
 
-## Component inventory after Stage 23
+## Component inventory after Stage 24
 
 | Area | Prior evidence | Current state | Evidence |
 | --- | --- | --- | --- |
@@ -275,6 +290,8 @@ directories are added merely to imply implementation.
 | Chaos projection | Stage 18 endpoint placeholder | Maximum-three selection, isolation confirmation, reliability envelope, expected/actual propagation, containment, trace/latency, and recovery evidence | `components/chaos/`, `/chaos`, Stage 23 report |
 | Security projection | Stage 18 endpoint placeholder | Selected deterministic execution, retained/new report ownership, summary/disclaimer, category-filtered attack/blocked-action evidence | `components/chaos/`, `/security`, Stage 23 report |
 | Stage 23 validation | 23/23 Stage 22 component tests | 28/28 component tests with eight axe route scans plus three-fault/all-fourteen-case real proxy smoke | `App.test.tsx`, `stage23-smoke.mjs`, retained JSON |
+| Interaction layer | Stage 23 native rail, shallow History adapter, and resizable split | React Aria command palette, bounded native View Transitions, reduced-motion fallback, contextual route/task/source facts, progressive guidance, and pane reset | `components/interaction/`, `interaction.css`, ADR-0024 |
+| Stage 24 validation | 28/28 Stage 23 component tests and 130,676-byte gzip JS | 34/34 tests including command/motion/open-palette axe, six-route smoke, and 149,836-byte gzip JS gate | `App.test.tsx`, `stage24-smoke.mjs`, retained JSON |
 
 ## Current and planned folder convention
 
@@ -283,7 +300,7 @@ the files listed above; later subdirectories are not implementation claims.
 
 ```text
 apps/             Approved local applications
-  web/            Stage 23 React/Vite Runtime, Agent, Scheduler, Trace, Replay, Hardware, Metrics, Chaos, and Security workbench
+  web/            Stage 24 React/Vite workbench with command navigation and native progressive motion
 runtime/          Inspectable runtime implementation
   api/            Current loopback backend adapter and application service
   agents/         Agent identity and behavior contracts

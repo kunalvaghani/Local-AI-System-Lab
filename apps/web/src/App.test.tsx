@@ -20,12 +20,14 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
+  Reflect.deleteProperty(document, "startViewTransition");
   delete document.documentElement.dataset.density;
   queryClient.clear();
+  vi.restoreAllMocks();
   vi.unstubAllGlobals();
 });
 
-describe("Stage 23 chaos and security lab", () => {
+describe("Stage 24 interaction and motion polish", () => {
   it("renders real API evidence in the runtime overview", async () => {
     render(<App />);
 
@@ -52,7 +54,7 @@ describe("Stage 23 chaos and security lab", () => {
 
     await waitFor(() => expect(fetch).toHaveBeenCalledWith("/v1/tasks", expect.objectContaining({ method: "POST" })));
     await waitFor(() => expect(window.location.search).toBe(`?task=${taskFixture.task_id}`));
-    expect(await screen.findByText(taskFixture.task_id)).toBeInTheDocument();
+    expect((await screen.findAllByText(taskFixture.task_id)).length).toBeGreaterThan(0);
     expect(screen.getByText("executing")).toBeInTheDocument();
   });
 
@@ -94,6 +96,96 @@ describe("Stage 23 chaos and security lab", () => {
     expect(window.location.pathname).toBe("/security");
     expect(screen.getByRole("heading", { level: 1, name: "Security" })).toBeInTheDocument();
     expect(screen.getAllByText("/v1/security/results").length).toBeGreaterThan(0);
+  });
+
+  it("opens the command palette from the keyboard, filters routes, and navigates", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.keyboard("{Control>}k{/Control}");
+    const palette = await screen.findByRole("dialog", { name: "Navigate the Local AI Systems Lab" });
+    await user.type(within(palette).getByRole("searchbox", { name: "Search workspaces" }), "security");
+    const securityOption = within(palette).getByRole("option", { name: /Security/ });
+    securityOption.focus();
+    await user.keyboard("{Enter}");
+
+    expect(window.location.pathname).toBe("/security");
+    expect(screen.getByRole("heading", { level: 1, name: "Security" })).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByRole("dialog", { name: "Navigate the Local AI Systems Lab" })).not.toBeInTheDocument());
+  });
+
+  it("keeps slash available inside editable controls instead of opening navigation", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await screen.findByRole("option", { name: "Technical Explainer" });
+    const objective = screen.getByRole("textbox", { name: /Objective/ });
+    await waitFor(() => expect(objective).toBeEnabled());
+    fireEvent.keyDown(objective, { key: "/" });
+
+    expect(screen.queryByRole("dialog", { name: "Navigate the Local AI Systems Lab" })).not.toBeInTheDocument();
+  });
+
+  it("progressively enhances route changes with the native View Transition API", async () => {
+    const startViewTransition = vi.fn((update: () => void) => {
+      update();
+      return {};
+    });
+    Object.defineProperty(document, "startViewTransition", { configurable: true, value: startViewTransition });
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole("link", { name: /Hardware/ }));
+
+    expect(startViewTransition).toHaveBeenCalledOnce();
+    expect(window.location.pathname).toBe("/hardware");
+  });
+
+  it("uses an immediate route update when reduced motion is requested", async () => {
+    const startViewTransition = vi.fn((update: () => void) => update());
+    Object.defineProperty(document, "startViewTransition", { configurable: true, value: startViewTransition });
+    vi.spyOn(window, "matchMedia").mockImplementation((query) => ({
+      matches: query === "(prefers-reduced-motion: reduce)",
+      media: query,
+      onchange: null,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      dispatchEvent: () => false,
+    }));
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole("link", { name: /Hardware/ }));
+
+    expect(startViewTransition).not.toHaveBeenCalled();
+    expect(window.location.pathname).toBe("/hardware");
+  });
+
+  it("exposes contextual route evidence and progressive interaction guidance", async () => {
+    window.history.replaceState(null, "", `/runtime?task=${taskFixture.task_id}`);
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(screen.getByText("Route").parentElement).toHaveTextContent("/runtime");
+    expect(screen.getByText("Task scoped")).toBeInTheDocument();
+    await user.click(screen.getByText("Interaction map"));
+    expect(screen.getByRole("button", { name: "Reset pane split" })).toBeInTheDocument();
+  });
+
+  it("has no automated accessibility violations while the command palette is open", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    await user.click(screen.getByRole("button", { name: /Navigate/ }));
+    await screen.findByRole("dialog", { name: "Navigate the Local AI Systems Lab" });
+    let results: axe.AxeResults | undefined;
+
+    await act(async () => {
+      results = await axe.run(container, { rules: { "color-contrast": { enabled: false } } });
+    });
+
+    expect(results?.violations ?? []).toEqual([]);
   });
 
   it("preserves selected task context while navigating agent and scheduler views", async () => {

@@ -1,3 +1,4 @@
+import { Button } from "react-aria-components/Button";
 import { ToggleButton, ToggleButtonGroup } from "react-aria-components/ToggleButtonGroup";
 
 import type { Density } from "../hooks/useDensity";
@@ -6,10 +7,11 @@ import { StatusToken } from "./StatusToken";
 
 type SystemBarProps = {
   density: Density;
+  onCommandPaletteOpen: () => void;
   onDensityChange: (density: Density) => void;
 };
 
-function SystemBar({ density, onDensityChange }: SystemBarProps) {
+function SystemBar({ density, onCommandPaletteOpen, onDensityChange }: SystemBarProps) {
   const health = useHealthQuery();
 
   return (
@@ -18,11 +20,20 @@ function SystemBar({ density, onDensityChange }: SystemBarProps) {
         <span className="brand-mark" aria-hidden="true">LA</span>
         <span>
           <strong>Local AI</strong>
-          <small>Systems Lab / Stage 23</small>
+          <small>Systems Lab / Stage 24</small>
         </span>
       </div>
 
       <div className="system-controls">
+        <Button
+          aria-keyshortcuts="Control+K Meta+K /"
+          className="command-trigger"
+          onPress={onCommandPaletteOpen}
+        >
+          <span>Navigate</span>
+          <kbd>Ctrl K</kbd>
+        </Button>
+
         <ToggleButtonGroup
           aria-label="Interface density"
           className="density-control"

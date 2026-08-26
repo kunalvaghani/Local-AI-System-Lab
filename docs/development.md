@@ -239,7 +239,7 @@ both deterministic and real-model API workflows, and fixed real-inference
 regression bounds. The command returns nonzero if a mandatory category fails and
 retains a compact hashed JSON result under `benchmarks/results/`.
 
-## Stage 23 local Runtime Workbench
+## Stage 24 local Runtime Workbench
 
 The browser shell is local-only and requires Node.js compatible with Vite 8.
 Install its locked dependencies once:
@@ -252,7 +252,7 @@ npm install
 Start the deterministic loopback API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage23-dev.db
+python -m runtime.api_cli --stub --database data/stage24-dev.db
 ```
 
 Start the loopback development server from `apps/web` in a second terminal:
@@ -276,16 +276,16 @@ checks, then compile and measure the shell:
 npm test
 npm run build
 npm run check:bundle
-npm run smoke:stage23
+npm run smoke:stage24
 ```
 
 The bundle script reads built JavaScript, compresses it with gzip, and fails
-above 250 KiB. The Stage 23 smoke assumes both local services are running,
-crosses the frontend proxy, verifies both experiment catalogs, runs three
-confirmed isolated faults including killed-worker recovery, executes all
-fourteen deterministic security cases, and verifies retained evidence plus the
-unchanged serving runtime. Both experiment mutations are synchronous and may
-take several seconds. Timestamped JSON is written under
+above 250 KiB. The Stage 24 smoke assumes both local services are running,
+requests six representative workbench routes plus the served command/motion
+modules, crosses the frontend proxy for health, and verifies the unchanged
+running runtime and persistence integrity. The component suite owns keyboard,
+focus, command action, native transition, reduced-motion, context, and automated
+accessibility evidence. Timestamped JSON is written under
 `benchmarks/results/`. `dist/`, `node_modules/`, coverage, and
 browser-test outputs stay ignored.
 
