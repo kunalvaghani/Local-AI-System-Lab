@@ -239,7 +239,7 @@ both deterministic and real-model API workflows, and fixed real-inference
 regression bounds. The command returns nonzero if a mandatory category fails and
 retains a compact hashed JSON result under `benchmarks/results/`.
 
-## Stage 24 local Runtime Workbench
+## Stage 25 local Runtime Workbench
 
 The browser shell is local-only and requires Node.js compatible with Vite 8.
 Install its locked dependencies once:
@@ -252,7 +252,7 @@ npm install
 Start the deterministic loopback API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage24-dev.db
+python -m runtime.api_cli --stub --database data/stage25-dev.db
 ```
 
 Start the loopback development server from `apps/web` in a second terminal:
@@ -276,16 +276,19 @@ checks, then compile and measure the shell:
 npm test
 npm run build
 npm run check:bundle
-npm run smoke:stage24
+npm run smoke:stage25
 ```
 
 The bundle script reads built JavaScript, compresses it with gzip, and fails
-above 250 KiB. The Stage 24 smoke assumes both local services are running,
-requests six representative workbench routes plus the served command/motion
-modules, crosses the frontend proxy for health, and verifies the unchanged
+above 250 KiB. The Stage 25 smoke assumes both local services are running,
+requests all twelve workbench routes, calculates tracked dark-theme contrast
+pairs from source tokens, checks reflow/reduced-motion and stream-batching/bound
+contracts, crosses the frontend proxy for health, and verifies the unchanged
 running runtime and persistence integrity. The component suite owns keyboard,
-focus, command action, native transition, reduced-motion, context, and automated
-accessibility evidence. Timestamped JSON is written under
+focus return, skip navigation, reduced motion, slow responses, 500-event stream
+bursts, 10,000-step trace bounds, and automated accessibility evidence. The
+retained Stage 25 report adds a five-viewport Chromium matrix and accessibility-
+tree inspection. Timestamped JSON is written under
 `benchmarks/results/`. `dist/`, `node_modules/`, coverage, and
 browser-test outputs stay ignored.
 
@@ -326,7 +329,9 @@ git diff
 SQLite schema migration is applied automatically on store open. Frontend
 type-checking is part of the build. A separate formatter, linter, browser E2E
 runner, and coverage threshold are not yet declared; they require scoped Stage
-20/25 acceptance decisions rather than default tooling expansion.
+ 26 acceptance decisions rather than default tooling expansion. Stage 25 used
+ the available in-app Chromium harness for its real-browser matrix without
+ adding a project runtime dependency.
 
 ## Development discipline
 

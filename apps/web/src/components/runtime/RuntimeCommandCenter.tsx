@@ -67,7 +67,11 @@ function RuntimeCommandCenter() {
   )];
 
   return (
-    <section className="runtime-command-center" aria-labelledby="runtime-command-title">
+    <section
+      className="runtime-command-center"
+      aria-busy={health.isPending || agents.isPending || scheduler.isPending || hardware.isPending || models.isPending || metrics.isPending}
+      aria-labelledby="runtime-command-title"
+    >
       <div className="runtime-section-heading">
         <div>
           <p className="eyebrow">Live loopback evidence</p>
@@ -163,6 +167,7 @@ function RuntimeCommandCenter() {
           onSubmit={(input) => createTask.mutate(input, {
             onSuccess: (task) => selectTask(task.task_id),
           })}
+          submitting={createTask.isPending}
         />
         {taskId === null ? (
           <article className="task-inspector task-inspector-empty">

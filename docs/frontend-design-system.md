@@ -266,15 +266,18 @@ not from prototype-shaped fixture objects.
 - Streaming updates may announce only important state changes and terminal
   outcomes; they never move focus or flood a live region.
 - Graphs/charts require synchronized list/table alternatives.
-- Reduced motion, forced colors, 400% zoom, keyboard-only operation, and NVDA
-  with Chrome/Firefox remain manual browser acceptance work for Stage 25.
+- Stage 25 verifies reduced-motion behavior, keyboard focus/resize/navigation,
+  calculated contrast, five Chromium viewport sizes, and one accessibility-tree
+  snapshot. Forced colors, 400% zoom, and human NVDA/JAWS/VoiceOver review
+  across Chrome/Firefox remain manual release acceptance rather than conformance claims.
 
 ## Performance contract
 
 - Initial compressed JavaScript budget: 250 KiB.
 - Stage 18 actual: 102,802 bytes gzip across one JavaScript asset.
 - Specialized graph/chart/trace modules must be route-lazy.
-- Future 10,000-step fixtures require virtualization and bounded overscan.
+- The 10,000-step fixture renders at most 100 semantic rows per page; introduce
+  virtualization only if measured use outgrows that bounded interaction.
 - Raw SSE order is preserved while React visual commits may be frame-coalesced.
 - Terminal/error evidence bypasses low-priority visual batching.
 - Browser INP, long tasks, heap growth, and trace-open cost require real-browser

@@ -28,22 +28,26 @@ attack outcomes, and blocked-action evidence without claiming certification.
 Stage 24 adds keyboard-first command navigation, native progressive route
 transitions, contextual route/task/source evidence, one-shot feedback, and a
 resettable inspector split without adding an animation runtime.
+Stage 25 completes the responsive, accessibility, and performance hardening
+pass with container-aware reflow, explicit focus/status semantics, passing
+computed token contrast, bounded long-trace rendering, frame-batched SSE bursts,
+and truthful slow-backend states.
 
 ## Current status
 
-- Last completed stage: Stage 24 — Advanced Interaction & Motion Polish
-- Next approval-gated stage: Stage 25 — Responsive, Accessibility & Performance Pass
+- Last completed stage: Stage 25 — Responsive, Accessibility & Performance Pass
+- Next approval-gated stage: Stage 26 — End-to-End Product Verification
 - Backend acceptance: RELEASE CANDIDATE; all required checks PASS, overall maturity PARTIAL
 - Frontend Runtime, Agent, Scheduler, Trace, Replay, Hardware, Metrics, Chaos, and Security views: COMPLETE
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
 
-## Run the Stage 24 Runtime Workbench
+## Run the Stage 25 Runtime Workbench
 
 Start the local-only deterministic API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage24-dev.db
+python -m runtime.api_cli --stub --database data/stage25-dev.db
 ```
 
 In a second terminal:
@@ -67,15 +71,16 @@ Validate the frontend foundation:
 npm test
 npm run build
 npm run check:bundle
-npm run smoke:stage24
+npm run smoke:stage25
 ```
 
-The Stage 24 suite has thirty-four component tests, including command-palette,
-keyboard, native-transition, reduced-motion, contextual-panel, and open-palette
-axe coverage plus every prior specialist-route check. Its smoke verifies six
-workbench routes, the served interaction modules, the loopback health boundary,
-and unchanged persistence integrity. Read the [Stage 24 report](docs/stages/stage24-advanced-interaction-motion-polish.md)
-and [ADR-0024](docs/adr/0024-native-progressive-interaction-layer.md).
+The Stage 25 suite has thirty-eight component tests, including focus return,
+skip navigation, reduced motion, a 10,000-step trace, a 500-event stream burst,
+slow-backend states, and every prior specialist-route/axe check. Its smoke
+verifies all twelve routes, calculated token contrast, responsive/reduced-motion
+contracts, stream batching/bounds, the compressed bundle, loopback health, and
+persistence integrity. Read the [Stage 25 report](docs/stages/stage25-responsive-accessibility-performance-pass.md)
+and [ADR-0025](docs/adr/0025-container-aware-accessible-bounded-rendering.md).
 
 ## Review the Stage 17 frontend research
 

@@ -10,7 +10,7 @@ html {
 
 body {
   margin: 0;
-  min-width: 20rem;
+  min-width: 0;
   min-height: 100vh;
   background:
     linear-gradient(90deg, rgb(255 255 255 / 0.018) 1px, transparent 1px) 0 0 / 4rem 4rem,
@@ -777,6 +777,8 @@ a {
     padding: var(--space-3);
     border-right: 0;
     border-bottom: var(--border-subtle);
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline proximity;
   }
 
   .inspector-frame {
@@ -800,6 +802,7 @@ a {
   }
 
   .nav-group a {
+    scroll-snap-align: start;
     white-space: nowrap;
   }
 

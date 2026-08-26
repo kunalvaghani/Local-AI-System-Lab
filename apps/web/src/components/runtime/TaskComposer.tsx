@@ -7,6 +7,7 @@ type TaskComposerProps = {
   disabled: boolean;
   error: string | null;
   onSubmit: (input: CreateTaskInput) => void;
+  submitting: boolean;
 };
 
 const workloadDetails: Record<Workload, string> = {
@@ -15,7 +16,7 @@ const workloadDetails: Record<Workload, string> = {
   background: "Yield to active work",
 };
 
-function TaskComposer({ agents, disabled, error, onSubmit }: TaskComposerProps) {
+function TaskComposer({ agents, disabled, error, onSubmit, submitting }: TaskComposerProps) {
   const [agentId, setAgentId] = useState("");
   const [objective, setObjective] = useState("");
   const [workload, setWorkload] = useState<Workload>("interactive");
@@ -69,7 +70,7 @@ function TaskComposer({ agents, disabled, error, onSubmit }: TaskComposerProps) 
         {error ? <p className="form-error" role="alert">{error}</p> : null}
         <div className="form-actions">
           <span>30 s execution limit</span>
-          <button type="submit" disabled={!canSubmit}>{disabled ? "Submitting…" : "Launch task"}</button>
+          <button type="submit" disabled={!canSubmit}>{submitting ? "Submitting…" : "Launch task"}</button>
         </div>
       </form>
     </article>

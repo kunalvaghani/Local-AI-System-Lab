@@ -7,7 +7,7 @@ At the start of Stage 0, commit `67ef780` contained one tracked file:
 matched `origin/main`. There were no source directories, tests, configuration
 files, dependency manifests, architecture documents, or TODO/FIXME markers.
 
-## Structure after Stage 23
+## Structure after Stage 25
 
 ```text
 Local-AI-System-Lab/
@@ -25,6 +25,7 @@ Local-AI-System-Lab/
 │       ├── tsconfig*.json               # Strict browser/build TypeScript projects
 │       ├── scripts/check-bundle.mjs    # 250 KiB compressed shell gate
 │       ├── scripts/stage19-smoke.mjs   # Real Vite-proxy/API/SSE evidence run
+│       ├── scripts/stage25-smoke.mjs   # Routes/contrast/reflow/stream/bundle smoke
 │       └── src/
 │           ├── App.tsx                 # Thin application entry component
 │           ├── App.test.tsx            # Runtime/task/SSE/navigation/preference/axe tests
@@ -77,7 +78,8 @@ Local-AI-System-Lab/
 │   ├── results/stage21-trace-replay-20260825T130714Z.json # Retained trace/replay smoke
 │   ├── results/stage22-hardware-performance-20260825T133404Z.json # Retained performance smoke
 │   ├── results/stage23-chaos-security-20260825T143324Z.json # Retained experiment UI smoke
-│   └── results/stage24-interaction-motion-20260826T155934Z.json # Retained interaction contract smoke
+│   ├── results/stage24-interaction-motion-20260826T155934Z.json # Retained interaction contract smoke
+│   └── results/stage25-responsive-accessibility-performance-20260826T182119Z.json # Retained hardening smoke
 ├── docs/
 │   ├── architecture.md                # Implemented/deferred component boundaries
 │   ├── development.md                 # Reproducible run/test/check commands
@@ -110,7 +112,8 @@ Local-AI-System-Lab/
 │   │   ├── stage21-trace-explorer-replay-debugger.md
 │   │   ├── stage22-hardware-performance-lab-ui.md
 │   │   ├── stage23-chaos-security-lab-ui.md
-│   │   └── stage24-advanced-interaction-motion-polish.md
+│   │   ├── stage24-advanced-interaction-motion-polish.md
+│   │   └── stage25-responsive-accessibility-performance-pass.md
 │   └── adr/
 │       ├── README.md                  # ADR process and index
 │       ├── 0001-stage-gated-modular-backend-first.md
@@ -137,6 +140,7 @@ Local-AI-System-Lab/
 │       ├── 0022-source-labelled-performance-projection.md
 │       ├── 0023-server-catalogued-confirmed-experiment-ui.md
 │       ├── 0024-native-progressive-interaction-layer.md
+│       ├── 0025-container-aware-accessible-bounded-rendering.md
 │       └── template.md
 ├── runtime/
 │   ├── __init__.py                    # Public runtime API through Stage 15
@@ -260,7 +264,7 @@ Ignored `tools/` and `models/` directories contain the verified native binaries
 and GGUF file; they are reproducible artifacts, not source. No empty future
 directories are added merely to imply implementation.
 
-## Component inventory after Stage 24
+## Component inventory after Stage 25
 
 | Area | Prior evidence | Current state | Evidence |
 | --- | --- | --- | --- |
@@ -292,6 +296,8 @@ directories are added merely to imply implementation.
 | Stage 23 validation | 23/23 Stage 22 component tests | 28/28 component tests with eight axe route scans plus three-fault/all-fourteen-case real proxy smoke | `App.test.tsx`, `stage23-smoke.mjs`, retained JSON |
 | Interaction layer | Stage 23 native rail, shallow History adapter, and resizable split | React Aria command palette, bounded native View Transitions, reduced-motion fallback, contextual route/task/source facts, progressive guidance, and pane reset | `components/interaction/`, `interaction.css`, ADR-0024 |
 | Stage 24 validation | 28/28 Stage 23 component tests and 130,676-byte gzip JS | 34/34 tests including command/motion/open-palette axe, six-route smoke, and 149,836-byte gzip JS gate | `App.test.tsx`, `stage24-smoke.mjs`, retained JSON |
+| Responsive/accessibility/performance hardening | Stage 24 viewport/media rules, jsdom accessibility, 200/30 stream and 100-row trace bounds | Five-size browser reflow, explicit focus/status/busy semantics, passing contrast tokens, container reflow, accurate slow-loading language, and frame-batched SSE | App shell/runtime/event hook/styles, ADR-0025 |
+| Stage 25 validation | 34/34 Stage 24 tests and six-route smoke | 38/38 tests, 500-event/10,000-step/slow-response stress, twelve-route contrast/contract smoke, browser accessibility snapshot, and 150,118-byte gzip JS gate | `App.test.tsx`, `stage25-smoke.mjs`, retained JSON |
 
 ## Current and planned folder convention
 
@@ -300,7 +306,7 @@ the files listed above; later subdirectories are not implementation claims.
 
 ```text
 apps/             Approved local applications
-  web/            Stage 24 React/Vite workbench with command navigation and native progressive motion
+  web/            Stage 25 React/Vite workbench with responsive/a11y/performance hardening
 runtime/          Inspectable runtime implementation
   api/            Current loopback backend adapter and application service
   agents/         Agent identity and behavior contracts

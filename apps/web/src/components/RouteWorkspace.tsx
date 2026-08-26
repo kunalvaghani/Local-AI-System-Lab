@@ -1,4 +1,5 @@
 import type { RouteDefinition } from "../navigation/routes";
+import type { Ref } from "react";
 import { DesignSystemView } from "./DesignSystemView";
 import { ChaosSecurityLab } from "./chaos/ChaosSecurityLab";
 import { PerformanceLab } from "./performance/PerformanceLab";
@@ -9,12 +10,13 @@ import { StatusToken } from "./StatusToken";
 import { TraceExplorer } from "./trace/TraceExplorer";
 
 type RouteWorkspaceProps = {
+  ref?: Ref<HTMLElement>;
   route: RouteDefinition;
 };
 
-function RouteWorkspace({ route }: RouteWorkspaceProps) {
+function RouteWorkspace({ ref, route }: RouteWorkspaceProps) {
   return (
-    <main className="workspace" id="main-workspace" tabIndex={-1}>
+    <main className="workspace" id="main-workspace" ref={ref} tabIndex={-1}>
       <div className="route-heading">
         <div>
           <p className="eyebrow">{route.group} / {route.shortLabel}</p>

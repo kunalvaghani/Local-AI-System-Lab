@@ -19,10 +19,15 @@ attack outcomes, and blocked actions while preserving local experiment isolation
 Stage 24 adds keyboard-first command navigation, native progressive route
 transitions, contextual route/task/source evidence, and a resettable inspector
 split without adding an animation, docking, virtualizer, canvas, or WebGL dependency.
+Stage 25 hardens that workbench with container-aware responsive reflow, explicit
+focus and live/busy semantics, passing calculated dark-theme contrast, bounded
+long-trace rendering, once-per-frame lifecycle batching, and honest slow-backend
+states. Five real-browser viewport sizes and the browser accessibility tree were
+inspected without adding a new frontend dependency.
 
 ## Current Stage
 
-Stage 24 — Advanced Interaction & Motion Polish — COMPLETE, AWAITING APPROVAL.
+Stage 25 — Responsive, Accessibility & Performance Pass — COMPLETE, AWAITING APPROVAL.
 
 ## Current Subsystem
 
@@ -31,9 +36,22 @@ scheduler, trace/replay, source-labelled CPU/RAM/GPU/VRAM, TTFT/token-rate/queue
 distributions, model/profile/budget evidence, bounded recent workload trends,
 controlled fault propagation/recovery, and deterministic adversarial evidence.
 The shell now adds keyboard-first route navigation and restrained native motion
-for orientation while retaining immediate and reduced-motion fallbacks.
+for orientation while retaining immediate and reduced-motion fallbacks. Stage 25
+adds container-width reflow, explicit focus/status/busy boundaries, contrast-
+verified tokens, and bounded main-thread work for trace and stream pressure.
 
 ## Last Completed Work
+
+- Verified the local workbench at 1440×900, 1024×768, 768×1024, 390×844, and 320×568; page client/scroll widths matched after layout settling, with only the intentional mobile route rail scrolling horizontally.
+- Replaced viewport-only Runtime task-grid behavior with inline-size container reflow and removed the fixed body minimum width that caused 320 px page overflow.
+- Added a stable `Navigate workspaces` accessible name, explicit focus return after command dismissal, explicit skip-to-main focus, one polite atomic API status, and `aria-busy` across the parallel Runtime loading boundary.
+- Corrected slow-initial-load task copy so a disabled button remains `Launch task` rather than falsely reporting `Submitting…` before a mutation begins.
+- Raised the faint-text token to `#7b8476`; calculated contrast now measures 4.99:1 on canvas and 4.81:1 on the primary panel, with all nine tracked text/focus pairs passing.
+- Batched lifecycle SSE presentation once per animation frame while preserving immediate task/end reconciliation, event deduplication, 200-event retention, and 30-row rendering.
+- Added four focused Stage 25 tests plus all existing regressions: 38/38 passed, including skip/focus, command focus return, slow backend, 500-event/one-frame/200-retained streaming, 10,000-step/100-row traces, reduced motion, and route axe scans.
+- Retained `stage25-responsive-accessibility-performance-20260826T182119Z.json`: twelve route 200s, 37.401 ms median route retrieval, 34.123 ms health retrieval, nine passing contrast pairs, runtime running, integrity `ok`, and 87.819 ms complete smoke.
+- Final Stage 25 production build passed at 150,118 gzip JavaScript bytes (58.6% of the 256,000-byte gate) and 9.43 KiB gzip CSS; no dependency was added.
+- Added Stage 25 report, ADR-0025, development/architecture/repository/risk updates, and frontend identity 0.25.0; Stage 26 remains unimplemented.
 
 - Added a React Aria command palette for all twelve routes with `Ctrl/Cmd+K` and `/` invocation, filtering, focus management, keyboard action, editable-control protection, and selected-task URL retention.
 - Added stable-browser `document.startViewTransition` progressive enhancement around the owned History API commit, naming only the route heading, active rail item, and contextual evidence pane.
@@ -249,11 +267,11 @@ for orientation while retaining immediate and reduced-motion fallbacks.
 
 ## Currently Working On
 
-None. Stage 24 is complete and work is stopped before Stage 25 Responsive, Accessibility & Performance Pass.
+None. Stage 25 is complete and work is stopped before Stage 26 End-to-End Product Verification.
 
 ## Current Blockers
 
-- User approval is required before Stage 25 Responsive, Accessibility & Performance Pass.
+- User approval is required before Stage 26 End-to-End Product Verification.
 - No runtime/API blocker prevents the next single-user loopback frontend scope.
 - The API has no list-tasks endpoint; Stage 19 truthfully inspects only the selected known/created task.
 - Stage 20/21 visualize one selected task and do not claim a global task explorer.
@@ -265,8 +283,8 @@ None. Stage 24 is complete and work is stopped before Stage 25 Responsive, Acces
 - Chaos/security execution is synchronous, has no idempotency key or campaign history API, and may occupy a local HTTP worker for several seconds.
 - The known terminal-result/output atomicity gap remains visible as an uncontained database-result fault; Stage 23 does not repair it.
 - Security PASS evidence is bounded deterministic regression evidence, not a penetration test, OS sandbox, certification, or proof of security.
-- Real-browser computed contrast, zoom/reflow, forced-colors, NVDA, and breakpoint validation remains future work.
-- Real-browser View Transition paint cost, INP, long tasks, and interaction timing remain unmeasured; Stage 24 component evidence is jsdom-based.
+- Stage 25 validates computed token contrast, five viewport sizes, browser accessibility-tree semantics, focus return, and keyboard splitter operation; manual multi-screen-reader, forced-colors, and broad zoom/browser coverage remains future work.
+- Real-browser View Transition paint cost, INP, long tasks, and field interaction timing remain unmeasured; Stage 25 retains the immediate/reduced-motion fallback and does not make field-performance claims.
 - A second real model artifact/backend is not installed; controlled route differences are therefore policy evidence, not a claim of compact-model inference.
 
 ## Important Decisions
@@ -287,7 +305,13 @@ None. Stage 24 is complete and work is stopped before Stage 25 Responsive, Acces
 - Require every mandatory category to pass for release-candidate status; never let a high aggregate test count substitute for real recovery, chaos, security, API, or model evidence.
 - Scope acceptance to the measured single-user loopback backend; remote multi-user deployment remains explicitly deferred.
 - Track acceptance thresholds before execution, embed them in the retained result, and require a full rerun when policy changes.
-- Stage 24 interaction/motion polish was explicitly approved; Stage 25 responsive/accessibility/performance validation requires its own user approval gate.
+- Stage 25 responsive/accessibility/performance hardening was explicitly approved; Stage 26 end-to-end product verification requires its own user approval gate.
+- Use component inline-size rather than viewport width when a resizable pane owns the actual layout constraint.
+- Reject page-level horizontal overflow at 320 px; keep the grouped mobile route rail as one intentional, contained horizontal scroller.
+- Give persistent controls stable accessible names independent of collapsed visible labels, restore command focus explicitly, and announce only coarse connection status rather than flooding lifecycle events.
+- Batch high-frequency lifecycle presentation once per animation frame, but flush task snapshots and stream-end events immediately and preserve the 200-event/30-row bounds.
+- Keep the existing 100-row trace paging instead of adding a virtualizer while the 10,000-step fixture remains bounded.
+- Do not claim WCAG conformance or field Core Web Vitals from axe, calculated token pairs, one Chromium accessibility snapshot, or one-run local route timings.
 - Use native View Transitions only as progressive enhancement around shallow route commits, bypass them for reduced motion, and animate only bounded orientation surfaces.
 - Use the installed React Aria primitives for the twelve-item command palette; do not add cmdk or another overlapping interaction library.
 - Keep the existing responsive two-pane workspace and reset control; arbitrary docking is not justified.
@@ -681,6 +705,20 @@ The Stage 24 build is 149,836 gzip JavaScript bytes (58.5% of the
 of test time. The 19,160-byte/14.7% JavaScript increase activates the existing
 React Aria overlay/list behavior for command navigation.
 
+Stage 25 adds an 87.819 ms complete local smoke with all twelve HTTP 200
+workbench routes, 30.933–56.046 ms route retrieval, 37.401 ms median route
+retrieval, and 34.123 ms health retrieval while runtime remained `running` and
+integrity `ok`. Nine calculated token pairs pass their 4.5:1 text or 3:1 focus
+threshold; the minimum tracked text ratio is 4.81:1. See [the Stage 25 smoke
+result](benchmarks/results/stage25-responsive-accessibility-performance-20260826T182119Z.json).
+
+The Stage 25 build is 150,118 gzip JavaScript bytes (58.6% of the
+256,000-byte gate) and 9.43 KiB gzip CSS; 38 DOM tests passed with 12.73 seconds
+of test time. A 500-event fixture commits one animation frame, retains 200
+events, and renders 30 lifecycle rows; the existing 10,000-step fixture renders
+100 rows per page. The Vite development route/health timings are one-run local
+samples, not field interaction or Core Web Vitals evidence.
+
 ## Backend Acceptance Status
 
 PASS WITH TRACKED LIMITATIONS. All mandatory backend categories passed; release candidate true; overall maturity `PARTIAL`. Stage 23 adds only bounded loopback experiment catalog/execution operations around the existing Stage 13/14 deterministic harnesses; it does not change normal runtime authority.
@@ -693,11 +731,12 @@ local application shell plus the Stage 19 Runtime Command Center and Stage 20
 Agent & Scheduler Visualization, Stage 21 Trace Explorer & Replay Debugger, and
 Stage 22 Hardware & Performance Lab plus Stage 23 Chaos & Security Lab.
 Stage 24 implements its native interaction recommendation without adding a motion runtime.
+Stage 25 verifies and hardens that recommendation without adding a dependency.
 
 ## Next Step
 
-Stage 25 — Responsive, Accessibility & Performance Pass
+Stage 26 — End-to-End Product Verification
 
 ## Later Backlog
 
-Stages 25–27 remain intentionally deferred and must be entered one at a time after explicit approval.
+Stages 26–27 remain intentionally deferred and must be entered one at a time after explicit approval.

@@ -1,0 +1,110 @@
+{
+  "stage": 25,
+  "captured_at_utc": "2026-08-26T18:21:19.133Z",
+  "target": "http://127.0.0.1:4173",
+  "frontend": {
+    "route_statuses": {
+      "/runtime": 200,
+      "/tasks": 200,
+      "/agents": 200,
+      "/scheduler": 200,
+      "/models": 200,
+      "/hardware": 200,
+      "/traces": 200,
+      "/metrics": 200,
+      "/chaos": 200,
+      "/security": 200,
+      "/design-system": 200,
+      "/settings": 200
+    },
+    "route_retrieval_ms": {
+      "minimum": 30.933,
+      "median": 37.401,
+      "maximum": 56.046
+    },
+    "javascript_files": 1,
+    "javascript_gzip_bytes": 150118,
+    "javascript_budget_bytes": 256000
+  },
+  "accessibility": {
+    "contrast_pairs": [
+      {
+        "name": "primary-on-canvas",
+        "foreground": "#f1f2ea",
+        "background": "#0c0e0c",
+        "minimum": 4.5,
+        "ratio": 17.19
+      },
+      {
+        "name": "muted-on-canvas",
+        "foreground": "#9da596",
+        "background": "#0c0e0c",
+        "minimum": 4.5,
+        "ratio": 7.62
+      },
+      {
+        "name": "faint-on-canvas",
+        "foreground": "#7b8476",
+        "background": "#0c0e0c",
+        "minimum": 4.5,
+        "ratio": 4.99
+      },
+      {
+        "name": "faint-on-panel",
+        "foreground": "#7b8476",
+        "background": "#111310",
+        "minimum": 4.5,
+        "ratio": 4.81
+      },
+      {
+        "name": "accent-on-soft",
+        "foreground": "#8db4ff",
+        "background": "#1d2e4b",
+        "minimum": 4.5,
+        "ratio": 6.54
+      },
+      {
+        "name": "positive-on-panel",
+        "foreground": "#77c99a",
+        "background": "#111310",
+        "minimum": 4.5,
+        "ratio": 9.43
+      },
+      {
+        "name": "warning-on-panel",
+        "foreground": "#e2b86b",
+        "background": "#111310",
+        "minimum": 4.5,
+        "ratio": 10.05
+      },
+      {
+        "name": "critical-on-panel",
+        "foreground": "#f08378",
+        "background": "#111310",
+        "minimum": 4.5,
+        "ratio": 7.31
+      },
+      {
+        "name": "focus-on-canvas",
+        "foreground": "#b9d0ff",
+        "background": "#0c0e0c",
+        "minimum": 3,
+        "ratio": 12.48
+      }
+    ],
+    "reduced_motion_contract_present": true,
+    "minimum_width_floor_removed": true,
+    "container_reflow_contract_present": true
+  },
+  "performance": {
+    "stream_frame_batching_present": true,
+    "stream_retention_bound_present": true
+  },
+  "backend": {
+    "health_status": 200,
+    "runtime_status": "running",
+    "integrity": "ok",
+    "health_retrieval_ms": 34.123
+  },
+  "elapsed_ms": 87.819
+}

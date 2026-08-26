@@ -40,17 +40,42 @@ function useTaskEvents(taskId: string | null, terminal: boolean) {
 
     let source: EventSource | null = null;
     let reconnectTimer: number | null = null;
+    let renderFrame: number | null = null;
     let disposed = false;
     let cursor = 0;
+    let pendingEvents: LifecycleEvent[] = [];
 
-    const append = (event: LifecycleEvent) => {
-      cursor = Math.max(cursor, Number.parseInt(event.id, 10) || cursor);
+    const mergeEvents = (incoming: LifecycleEvent[]) => {
       setEvents((current) => {
-        if (current.some((item) => item.id === event.id && item.event === event.event)) {
-          return current;
+        const seen = new Set(current.map((item) => `${item.event}:${item.id}`));
+        const merged = [...current];
+        for (const event of incoming) {
+          const key = `${event.event}:${event.id}`;
+          if (!seen.has(key)) {
+            merged.push(event);
+            seen.add(key);
+          }
         }
-        return [...current, event].slice(-200);
+        return merged.slice(-200);
       });
+    };
+
+    const flushPendingEvents = () => {
+      renderFrame = null;
+      const batch = pendingEvents;
+      pendingEvents = [];
+      if (batch.length > 0) mergeEvents(batch);
+    };
+
+    const append = (event: LifecycleEvent, immediate = false) => {
+      cursor = Math.max(cursor, Number.parseInt(event.id, 10) || cursor);
+      pendingEvents.push(event);
+      if (immediate) {
+        if (renderFrame !== null) window.cancelAnimationFrame(renderFrame);
+        flushPendingEvents();
+      } else if (renderFrame === null) {
+        renderFrame = window.requestAnimationFrame(flushPendingEvents);
+      }
     };
 
     const connect = () => {
@@ -70,7 +95,7 @@ function useTaskEvents(taskId: string | null, terminal: boolean) {
         const data = parseObject(message.data);
         if (!data) return;
         const task = data as TaskRecord;
-        append({ id: message.lastEventId, event: "task", data: task });
+        append({ id: message.lastEventId, event: "task", data: task }, true);
         queryClient.setQueryData(queryKeys.task(taskId), task);
       });
 
@@ -79,7 +104,7 @@ function useTaskEvents(taskId: string | null, terminal: boolean) {
         const data = parseObject(message.data);
         if (!data) return;
         const end = data as StreamEndData;
-        append({ id: message.lastEventId, event: "end", data: end });
+        append({ id: message.lastEventId, event: "end", data: end }, true);
         source?.close();
         if (end.task_continues && !disposed) {
           reconnectTimer = window.setTimeout(connect, 250);
@@ -101,6 +126,8 @@ function useTaskEvents(taskId: string | null, terminal: boolean) {
       disposed = true;
       source?.close();
       if (reconnectTimer !== null) window.clearTimeout(reconnectTimer);
+      if (renderFrame !== null) window.cancelAnimationFrame(renderFrame);
+      pendingEvents = [];
     };
   }, [queryClient, taskId, terminal]);
 

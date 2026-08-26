@@ -1,5 +1,5 @@
 import { Group, Panel, Separator, useGroupRef } from "react-resizable-panels";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { useDensity } from "../hooks/useDensity";
 import { useMediaQuery } from "../hooks/useMediaQuery";
@@ -18,15 +18,36 @@ function AppShell() {
   const { density, setDensity } = useDensity();
   const stackedInspector = useMediaQuery("(max-width: 68.75rem)");
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const commandTriggerRef = useRef<HTMLButtonElement>(null);
+  const workspaceRef = useRef<HTMLElement>(null);
   const inspectorRef = useGroupRef();
   const defaultLayout = stackedInspector ? STACKED_LAYOUT : WIDE_LAYOUT;
 
+  function setCommandPaletteState(nextOpen: boolean) {
+    setCommandPaletteOpen(nextOpen);
+    if (!nextOpen) {
+      window.setTimeout(() => commandTriggerRef.current?.focus({ preventScroll: true }), 0);
+    }
+  }
+
   return (
     <div className="app-shell">
-      <a className="skip-link" href="#main-workspace">Skip to workspace</a>
+      <a
+        className="skip-link"
+        href="#main-workspace"
+        onClick={(event) => {
+          event.preventDefault();
+          window.setTimeout(() => {
+            workspaceRef.current?.focus();
+          }, 0);
+        }}
+      >
+        Skip to workspace
+      </a>
       <SystemBar
+        commandTriggerRef={commandTriggerRef}
         density={density}
-        onCommandPaletteOpen={() => setCommandPaletteOpen(true)}
+        onCommandPaletteOpen={() => setCommandPaletteState(true)}
         onDensityChange={setDensity}
       />
       <DomainRail activePath={activePath} onNavigate={navigate} routeHref={routeHref} />
@@ -35,7 +56,7 @@ function AppShell() {
         activePath={activePath}
         isOpen={commandPaletteOpen}
         onNavigate={navigateTo}
-        onOpenChange={setCommandPaletteOpen}
+        onOpenChange={setCommandPaletteState}
         routeHref={routeHref}
       />
 
@@ -48,7 +69,7 @@ function AppShell() {
         resizeTargetMinimumSize={{ coarse: 36, fine: 16 }}
       >
         <Panel id="workspace" minSize="55%">
-          <RouteWorkspace route={activeRoute} />
+          <RouteWorkspace ref={workspaceRef} route={activeRoute} />
         </Panel>
         <Separator className="pane-separator" id="workspace-evidence-separator">
           <span aria-hidden="true" />

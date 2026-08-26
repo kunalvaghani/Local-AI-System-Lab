@@ -27,7 +27,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("Stage 24 interaction and motion polish", () => {
+describe("Stage 25 responsive, accessibility, and performance pass", () => {
   it("renders real API evidence in the runtime overview", async () => {
     render(<App />);
 
@@ -112,6 +112,31 @@ describe("Stage 24 interaction and motion polish", () => {
     expect(window.location.pathname).toBe("/security");
     expect(screen.getByRole("heading", { level: 1, name: "Security" })).toBeInTheDocument();
     await waitFor(() => expect(screen.queryByRole("dialog", { name: "Navigate the Local AI Systems Lab" })).not.toBeInTheDocument());
+  });
+
+  it("preserves a descriptive command name and returns focus after dismissal", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const trigger = screen.getByRole("button", { name: "Navigate workspaces" });
+    await user.click(trigger);
+    expect(await screen.findByRole("searchbox", { name: "Search workspaces" })).toHaveFocus();
+    await user.keyboard("{Escape}");
+
+    await waitFor(() => expect(screen.queryByRole("dialog", { name: "Navigate the Local AI Systems Lab" })).not.toBeInTheDocument());
+    expect(trigger).toHaveFocus();
+  });
+
+  it("keeps the skip link first and moves keyboard focus into the workspace", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.tab();
+    const skip = screen.getByRole("link", { name: "Skip to workspace" });
+    expect(skip).toHaveFocus();
+    await user.keyboard("{Enter}");
+
+    await waitFor(() => expect(screen.getByRole("main")).toHaveFocus());
   });
 
   it("keeps slash available inside editable controls instead of opening navigation", async () => {
@@ -323,6 +348,57 @@ describe("Stage 24 interaction and motion polish", () => {
     } finally {
       traceFixture.steps = originalSteps;
     }
+  });
+
+  it("coalesces streaming bursts into one paint and retains only 200 events", async () => {
+    window.history.replaceState(null, "", `/runtime?task=${taskFixture.task_id}`);
+    const frameCallbacks: FrameRequestCallback[] = [];
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+      frameCallbacks.push(callback);
+      return frameCallbacks.length;
+    });
+    render(<App />);
+
+    await waitFor(() => expect(EventSourceFixture.instances.length).toBeGreaterThan(0));
+    const source = EventSourceFixture.instances.at(-1)!;
+    act(() => source.open());
+    const framesBeforeBurst = frameCallbacks.length;
+    act(() => {
+      for (let index = 1; index <= 500; index += 1) {
+        source.emit("lifecycle", String(index), {
+          name: `task.stream.${index}`,
+          recorded_at_utc: new Date(Date.parse("2026-08-25T12:00:00.000Z") + index).toISOString(),
+          agent_id: "technical-explainer",
+          task_id: taskFixture.task_id,
+          state: "executing",
+          data: {},
+        });
+      }
+    });
+
+    expect(frameCallbacks).toHaveLength(framesBeforeBurst + 1);
+    act(() => frameCallbacks.at(-1)!(16));
+    expect(await screen.findByText("task.stream.500")).toBeInTheDocument();
+    expect(screen.getByText(/Showing the latest 30 of 200 lifecycle events/)).toBeInTheDocument();
+  });
+
+  it("keeps explicit pending UI and disabled actions during a slow backend response", async () => {
+    let release!: () => void;
+    const responseGate = new Promise<void>((resolve) => { release = resolve; });
+    vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      await responseGate;
+      return runtimeFetch(input, init);
+    }));
+    render(<App />);
+
+    expect(screen.getAllByText("Connecting").length).toBeGreaterThan(0);
+    expect(screen.getByText("Loading agent evidence…")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Launch task" })).toBeDisabled();
+    expect(screen.getByLabelText("Runtime pulse")).toHaveAttribute("aria-busy", "true");
+
+    release();
+    expect(await screen.findByText("API live")).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByLabelText("Runtime pulse")).toHaveAttribute("aria-busy", "false"));
   });
 
   it("visualizes measured CPU, RAM, GPU, and VRAM with source boundaries", async () => {
