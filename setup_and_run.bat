@@ -3,8 +3,12 @@ setlocal EnableExtensions
 
 set "LAB_ROOT=%~dp0"
 set "BACKEND_URL=http://127.0.0.1:8765/v1/health"
+set "BACKEND_CONTRACT_URL=http://127.0.0.1:8765/v1/tools"
 set "FRONTEND_URL=http://127.0.0.1:4173/runtime"
+set "FRONTEND_RELEASE_URL=http://127.0.0.1:4173/local-ai-release.json"
 set "OLLAMA_URL=http://127.0.0.1:11434/api/version"
+set "EXPECTED_FRONTEND_STAGE=27"
+set "EXPECTED_FRONTEND_VERSION=0.27.0"
 set "RUN_MODE=real"
 set "WITH_OLLAMA=0"
 set "OPEN_BROWSER=1"
@@ -39,10 +43,11 @@ cd /d "%LAB_ROOT%" || (
 )
 
 echo ============================================================
-echo  Local AI Systems Lab - setup and launcher
+echo  Local AI Systems Lab - Stage 27 setup and launcher
 echo ============================================================
 echo  Repository: %LAB_ROOT%
 echo  Backend mode: %RUN_MODE%
+echo  Frontend release: Stage %EXPECTED_FRONTEND_STAGE% / %EXPECTED_FRONTEND_VERSION%
 echo.
 
 call :require_command powershell.exe "Windows PowerShell"
@@ -88,6 +93,7 @@ echo ============================================================
 echo  Website: %FRONTEND_URL%
 echo  Backend health: %BACKEND_URL%
 echo  Backend mode: %RUN_MODE%
+echo  Frontend release: Stage %EXPECTED_FRONTEND_STAGE% / %EXPECTED_FRONTEND_VERSION%
 echo  Ollama: %OLLAMA_STATE%
 echo.
 echo The project API uses its pinned llama.cpp runtime in real mode.
@@ -136,22 +142,37 @@ if not exist "%MODEL_FILE%" (
 exit /b 0
 
 :setup_frontend
-if "%FORCE_INSTALL%"=="0" if exist "%LAB_ROOT%apps\web\node_modules\.bin\vite.cmd" (
-    echo [SETUP] Frontend dependencies are already installed.
+if "%FORCE_INSTALL%"=="1" goto install_frontend
+if not exist "%LAB_ROOT%apps\web\node_modules\.bin\vite.cmd" goto install_frontend
+pushd "%LAB_ROOT%apps\web" || exit /b 1
+call npm.cmd ls --depth=0 >nul 2>&1
+set "NPM_TREE_EXIT=%ERRORLEVEL%"
+popd
+if "%NPM_TREE_EXIT%"=="0" (
+    echo [SETUP] Exact frontend dependency tree is already installed.
     exit /b 0
 )
+echo [SETUP] Frontend dependency tree is missing or inconsistent; a clean install is required.
 
-echo [SETUP] Installing locked frontend dependencies...
+:install_frontend
+call :port_open 4173
+if not errorlevel 1 (
+    echo [ERROR] A frontend is running on port 4173, so npm ci cannot safely replace its native dependencies.
+    echo         Stop that frontend yourself, then rerun this launcher with --install.
+    exit /b 1
+)
+
+echo [SETUP] Installing the exact locked frontend dependencies...
 pushd "%LAB_ROOT%apps\web" || (
     echo [ERROR] Could not enter apps\web.
     exit /b 1
 )
-call npm.cmd install
+call npm.cmd ci
 set "NPM_EXIT=%ERRORLEVEL%"
 popd
 if not "%NPM_EXIT%"=="0" (
-    echo [ERROR] npm install failed with exit code %NPM_EXIT%.
-    exit /b %NPM_EXIT%
+    echo [ERROR] npm ci failed with exit code %NPM_EXIT%.
+    exit /b 1
 )
 exit /b 0
 
@@ -200,6 +221,8 @@ call :url_ready "%BACKEND_URL%"
 if not errorlevel 1 (
     call :check_backend_mode
     if errorlevel 1 exit /b 1
+    call :check_backend_contract
+    if errorlevel 1 exit /b 1
     echo [BACKEND] Reusing the healthy matching API on 127.0.0.1:8765.
     exit /b 0
 )
@@ -213,9 +236,9 @@ if not errorlevel 1 (
 
 echo [BACKEND] Starting first and waiting for health...
 if /I "%RUN_MODE%"=="stub" (
-    start "Local AI - Backend (stub)" /min /D "%LAB_ROOT%" cmd.exe /d /k python -m runtime.api_cli --stub --database data/stage25-dev.db
+    start "Local AI - Backend (Stage 27 stub)" /min /D "%LAB_ROOT%" cmd.exe /d /k python -m runtime.api_cli --stub --database data/stage27-dev.db
 ) else (
-    start "Local AI - Backend (real llama.cpp)" /min /D "%LAB_ROOT%" cmd.exe /d /k python -m runtime.api_cli
+    start "Local AI - Backend (Stage 27 real llama.cpp)" /min /D "%LAB_ROOT%" cmd.exe /d /k python -m runtime.api_cli
 )
 
 call :wait_for_url "%BACKEND_URL%" 120
@@ -226,6 +249,8 @@ if errorlevel 1 (
 )
 call :check_backend_mode
 if errorlevel 1 exit /b 1
+call :check_backend_contract
+if errorlevel 1 exit /b 1
 echo [BACKEND] Ready.
 exit /b 0
 
@@ -233,10 +258,16 @@ exit /b 0
 powershell.exe -NoProfile -Command "$ErrorActionPreference='Stop'; try { $r=Invoke-RestMethod -Uri '%BACKEND_URL%' -TimeoutSec 3; if ($r.data.runtime_name -eq '%EXPECTED_RUNTIME%') { exit 0 }; Write-Host ('[ERROR] Port 8765 is already serving ' + $r.data.runtime_name + ', but this run requested %EXPECTED_RUNTIME%.'); Write-Host '        Stop that backend yourself or rerun with the matching --stub mode.'; exit 2 } catch { exit 1 }"
 exit /b %ERRORLEVEL%
 
+:check_backend_contract
+powershell.exe -NoProfile -Command "$ErrorActionPreference='Stop'; try { $r=Invoke-RestMethod -Uri '%BACKEND_CONTRACT_URL%' -TimeoutSec 3; if ($r.data.tools.Count -gt 0 -and $r.data.execution.endpoint -eq '/v1/tools/execute') { exit 0 }; Write-Host '[ERROR] The API is healthy but does not expose the Stage 27 product tool contract.'; Write-Host '        Stop that backend yourself, then rerun this launcher.'; exit 2 } catch { Write-Host '[ERROR] The API is healthy but the Stage 27 product contract check failed.'; Write-Host '        The launcher will not terminate that process. Stop it yourself, then rerun.'; exit 1 }"
+exit /b %ERRORLEVEL%
+
 :start_frontend
 call :url_ready "%FRONTEND_URL%"
 if not errorlevel 1 (
-    echo [FRONTEND] Reusing the healthy website on 127.0.0.1:4173.
+    call :check_frontend_release
+    if errorlevel 1 exit /b 1
+    echo [FRONTEND] Reusing the matching Stage 27 website on 127.0.0.1:4173.
     exit /b 0
 )
 
@@ -255,8 +286,14 @@ if errorlevel 1 (
     echo         Inspect the "Local AI - Frontend" window for details.
     exit /b 1
 )
+call :check_frontend_release
+if errorlevel 1 exit /b 1
 echo [FRONTEND] Ready.
 exit /b 0
+
+:check_frontend_release
+powershell.exe -NoProfile -Command "$ErrorActionPreference='Stop'; try { $r=Invoke-RestMethod -Uri '%FRONTEND_RELEASE_URL%' -TimeoutSec 3; if ([int]$r.stage -eq %EXPECTED_FRONTEND_STAGE% -and [string]$r.version -eq '%EXPECTED_FRONTEND_VERSION%') { exit 0 }; Write-Host ('[ERROR] Port 4173 is serving frontend Stage ' + $r.stage + ' / ' + $r.version + ', but this launcher requires Stage %EXPECTED_FRONTEND_STAGE% / %EXPECTED_FRONTEND_VERSION%.'); Write-Host '        Stop that frontend yourself, then rerun this launcher.'; exit 2 } catch { Write-Host '[ERROR] Port 4173 is serving a website without the Stage 27 release marker.'; Write-Host '        The launcher will not terminate that process. Stop it yourself, then rerun.'; exit 1 }"
+exit /b %ERRORLEVEL%
 
 :require_command
 where %~1 >nul 2>&1
@@ -283,8 +320,10 @@ echo Usage: setup_and_run.bat [options]
 echo.
 echo Default behavior:
 echo   - verifies or installs the pinned llama.cpp and Qwen GGUF runtime
-echo   - installs frontend packages only when node_modules is missing
-echo   - starts the backend and waits for health before starting the frontend
+echo   - installs exact package-lock frontend dependencies when node_modules is missing
+echo   - starts optional Ollama, then the backend, and waits for the API contract
+echo   - starts the frontend only after the backend is healthy and compatible
+echo   - rejects stale or unrelated services without terminating them
 echo   - opens http://127.0.0.1:4173/runtime
 echo.
 echo Options:
@@ -292,6 +331,6 @@ echo   --stub          Use the deterministic backend without loading the real mo
 echo   --with-ollama   Also start Ollama; optional and separate from this backend
 echo   --no-browser    Do not open the website automatically
 echo   --skip-setup    Skip artifact and npm dependency setup
-echo   --install       Run npm install even when node_modules already exists
+echo   --install       Run a clean npm ci even when node_modules already exists
 echo   --help, -h      Show this help
 exit /b 0

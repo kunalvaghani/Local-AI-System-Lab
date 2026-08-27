@@ -19,10 +19,16 @@ From the repository root:
 .\setup_and_run.bat --stub
 ```
 
-The launcher checks Python/Node/npm, installs missing frontend dependencies,
-starts the loopback backend first, waits for `/v1/health`, then starts Vite. It
-reuses only matching healthy services and never terminates an unknown process
+The launcher checks Python/Node/npm, installs exact `package-lock.json`
+dependencies with `npm ci`, starts optional Ollama when requested, then starts
+the loopback backend first. It waits for `/v1/health`, verifies the Stage 27 tool
+contract, and only then starts Vite. It reuses a frontend only when its tracked
+Stage 27/0.27.0 release marker matches and never terminates an unknown process
 that owns a required port.
+
+When forcing a clean dependency reinstall with `--install`, stop the frontend
+first. The launcher refuses while port 4173 is active so Windows cannot leave a
+partially replaced `node_modules` tree by locking Vite/Rolldown native binaries.
 
 Open `http://127.0.0.1:4173/runtime`. Stub mode proves deterministic product
 integration and reports zero real LLM calls; it is not real-inference evidence.
@@ -55,7 +61,7 @@ Terminal two:
 
 ```powershell
 cd apps/web
-npm install
+npm ci
 npm run dev
 ```
 

@@ -250,10 +250,16 @@ From the repository root, run:
 ```
 
 The launcher verifies Python/Node/npm, prepares missing pinned llama.cpp and
-Qwen GGUF artifacts through `scripts/setup_stage2.ps1`, installs frontend
-packages only when needed, starts the loopback backend, waits for `/v1/health`,
-then starts Vite and opens `/runtime`. Existing healthy services are reused, and
-the launcher refuses to kill an unknown or mode-mismatched port owner.
+Qwen GGUF artifacts through `scripts/setup_stage2.ps1`, installs exact lockfile
+dependencies with `npm ci` when needed, starts the loopback backend, waits for
+`/v1/health`, verifies the Stage 27 `/v1/tools` contract, then starts Vite and
+opens `/runtime`. Existing services are reused only when the requested backend
+mode/contract and the frontend Stage 27/0.27.0 release marker match. The launcher
+refuses to kill an unknown, stale, or mode-mismatched port owner.
+An existing dependency tree is reused only after `npm ls --depth=0` succeeds.
+`--install` refuses to run while port 4173 is active because Windows can keep
+Vite/Rolldown native dependencies locked; stop that frontend before requesting
+the clean `npm ci` reinstall.
 
 The real local model is the default. Development and optional-service examples:
 
@@ -273,7 +279,7 @@ Install its locked dependencies once:
 
 ```powershell
 cd apps/web
-npm install
+npm ci
 ```
 
 Start the deterministic loopback API from the repository root:

@@ -118,19 +118,24 @@ The default uses the project's real pinned llama.cpp/Qwen backend. Use
 `--with-ollama` to start Ollama as an optional separate service. Ollama is not a
 replacement for the measured llama.cpp backend. Run `setup_and_run.bat --help`
 for setup, browser, and dependency options. Healthy matching services are
-reused; occupied or mismatched ports are reported and never terminated.
+reused only after the backend tool contract and Stage 27 frontend release marker
+match. Occupied, stale, or mismatched ports are reported and never terminated.
+Missing frontend packages are installed exactly from `package-lock.json` with
+`npm ci`.
+Stop the frontend before forcing a reinstall with `--install`; the launcher
+refuses to replace Windows-locked native dependencies while port 4173 is active.
 
 Start the local-only deterministic API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage26-dev.db
+python -m runtime.api_cli --stub --database data/stage27-dev.db
 ```
 
 In a second terminal:
 
 ```powershell
 cd apps/web
-npm install
+npm ci
 npm run dev
 ```
 
