@@ -1,4 +1,4 @@
-import type { ChaosCatalogData, ChaosRunData, ReplayReport, SecurityCatalogData, SecurityResultsData, TaskRecord, TraceData } from "../api/types";
+import type { ChaosCatalogData, ChaosRunData, ReplayReport, SecurityCatalogData, SecurityResultsData, TaskRecord, ToolCatalogData, ToolExecutionResult, TraceData } from "../api/types";
 
 const taskFixture: TaskRecord = {
   task_id: "task-stage20-test",
@@ -52,6 +52,35 @@ const replayFixture: ReplayReport = {
   reconstructed_state: "executing",
   counts: { matched: 3, diverged: 0, observed_only: 1, skipped_side_effect: 1, integrity_failed: 0 },
   steps: traceFixture.steps.map((step) => ({ ordinal: step.ordinal, step_id: step.step_id, event_name: step.event_name, determinism: step.determinism, outcome: step.determinism === "deterministic" ? "matched" : step.determinism === "side_effecting" ? "skipped_side_effect" : "observed_only", reason: step.determinism === "deterministic" ? "canonical hashes and deterministic reducer matched" : step.determinism === "side_effecting" ? "side-effecting operation was not re-executed" : "nondeterministic or environmental evidence was integrity-checked only" })),
+};
+
+const toolCatalogFixture: ToolCatalogData = {
+  tools: [
+    {
+      name: "project_context_read",
+      description: "Read a UTF-8 text file contained by the project root.",
+      arguments: [
+        { name: "relative_path", type: "string", description: "Project-relative path.", required: true, default: null },
+        { name: "max_characters", type: "integer", description: "Maximum returned characters.", required: false, default: 4000 },
+      ],
+      permission: { permissions: ["filesystem.read"], read_only: true, path_restricted: true, allowed_roots: ["workspace"] },
+      timeout_ms: 1000,
+      authorized_agent_ids: ["technical-explainer"],
+    },
+  ],
+  execution: { endpoint: "/v1/tools/execute", mode: "synchronous bounded operation", policy: "exact agent grant, default deny, read-only registered tools" },
+};
+
+const toolExecutionFixture: ToolExecutionResult = {
+  request_id: "tool-request-stage26-test",
+  task_id: "tool-task-stage26-test",
+  agent_id: "technical-explainer",
+  tool_name: "project_context_read",
+  success: true,
+  data: { relative_path: "PROJECT_STATE.md", content: "# Current Project State", characters_returned: 23, truncated: false },
+  duration_ms: 1.25,
+  final_state: "completed",
+  state_history: [],
 };
 
 const chaosCatalogFixture: ChaosCatalogData = {
@@ -197,6 +226,7 @@ const fixtures: Record<string, unknown> = {
     notes: ["Compact candidate is unavailable and not benchmarked."],
     compute_budgets: { standard: { max_generated_tokens: 64, max_inference_calls: 1, max_ram_mib: 2200, max_vram_mib: 1536, total_time_ms: 30000 } },
   },
+  "/v1/tools": toolCatalogFixture,
   "/v1/metrics": {
     generated_at_utc: "2026-08-25T12:00:00+00:00",
     window: { started_at_utc: "2026-08-25T11:00:00+00:00", ended_at_utc: "2026-08-25T12:00:00+00:00", minutes: 60 },
@@ -236,6 +266,7 @@ function jsonResponse(data: unknown, status = 200) {
 function runtimeFetch(input: RequestInfo | URL, init?: RequestInit) {
   const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url, window.location.origin);
   if (url.pathname === "/v1/tasks" && init?.method === "POST") return Promise.resolve(jsonResponse(taskFixture, 202));
+  if (url.pathname === "/v1/tools/execute" && init?.method === "POST") return Promise.resolve(jsonResponse(toolExecutionFixture));
   if (url.pathname === "/v1/chaos" && init?.method === "POST") return Promise.resolve(jsonResponse(chaosRunFixture));
   if (url.pathname === "/v1/security" && init?.method === "POST") return Promise.resolve(jsonResponse({ ...securityResultsFixture, result_id: "stage23-security-new-test" }));
   if (url.pathname === taskFixture.links.trace) return Promise.resolve(jsonResponse(traceFixture));

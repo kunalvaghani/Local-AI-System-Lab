@@ -417,7 +417,9 @@ API call yet.
 | Acceptance Manifest | Strict tracked Stage 16 policy | Test/chaos/security coverage plus real inference and API limits | Per-hardware/model release profiles when more targets exist |
 | Acceptance Runner | Reproducible subprocess orchestrator | Build/package, full and focused tests, scheduler, hardware, recovery, trace, observability, chaos, security, stub API, and real API evidence | CI matrix and clean-release automation |
 | Acceptance Classifier | Binary requirement checks plus four maturity states | Release-candidate decision without erasing known partial/deferred boundaries | Independent review and versioned release sign-off |
-| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, container-aware responsive workspace/evidence composition, shallow native-history routes, and real Runtime/Agent/Scheduler/Trace/Hardware/Metrics/Chaos/Security workbench | Stage 26 must verify the full product loop and failure paths |
+| Web Application Shell | React/TypeScript/Vite local client | System bar, grouped domain navigation, container-aware responsive workspace/evidence composition, shallow native-history routes, and verified Runtime/Agent/Scheduler/Trace/Hardware/Metrics/Chaos/Security workbench | Product packaging remains Stage 27 scope |
+| Tool API and Probe | Runtime registry/policy plus loopback HTTP and typed React query/mutation | Server-owned catalog, exact agent grants, bounded read-only execution, durable task identity, safe result projection, telemetry, and redacted trace/replay | Write/network/process tools remain denied; a broader discriminated task-result contract is future work |
+| Product Acceptance Runner | Python orchestrator plus pinned dev-only Agent Browser | Stage 16 real-model gate, frontend regressions/build/bundle, isolated random-port API/preview/browser flow, five failure statuses, outage/recovery, accessibility, and restart durability | Remote/multi-user serving and human accessibility certification remain outside scope |
 | Frontend Token System | Project-owned CSS custom properties | Typography, spacing, surfaces, semantic colors, focus, density, motion, breakpoints, and measured passing dark-theme contrast pairs | Light-theme expansion only with its own contrast evidence |
 | Frontend Status Language | Reusable glyph + label + tone component | Healthy, active, queued, warning, critical, blocked, partial, deferred, unavailable, stale, and unknown; Stage 19 maps connection/task states to real evidence | Specialist screens must preserve the same contract |
 | Frontend Server State | Typed fetch client plus TanStack Query | Parallel inspection polling, request IDs, aborts, mutations, reconciliation, and honest null handling | Browser never becomes a second runtime database |
@@ -428,7 +430,7 @@ API call yet.
 | Frontend Evidence Pane | Accessible resizable panel | Domain/route/task/source context, progressive interaction guidance, and split reset | More viewer selection context only when a route owns it |
 | Frontend Route Adapter | Native links plus History API store | Twelve top-level URL-addressable domains, back/forward behavior, and bounded native View Transition enhancement | Router dependency only if nested-route complexity justifies it |
 | Frontend Command Palette | Existing React Aria modal/search/ListBox behavior | Global filtered route access, focus management, keyboard action, and selected-task retention | Commands beyond navigation require explicit authority/state ownership |
-| Frontend Validation | Vitest/Testing Library/axe, real-browser matrix/accessibility snapshot, and Stage 25 smoke/bundle gate | Navigation, focus, command/motion fallbacks, five viewport sizes, contrast, slow responses, 500-event/10,000-step stress bounds, automated accessibility, and 250 KiB shell evidence | Manual multi-screen-reader certification and field performance remain outside current claims |
+| Frontend Validation | Vitest/Testing Library/axe, retained Stage 25 matrix, pinned browser product runner, and build/bundle gate | 39 tests, eight-route full story, visible disconnect/recovery, restart rendering, zero automated A/AA violations, and 250 KiB shell evidence | Manual multi-screen-reader certification and field performance remain outside current claims |
 
 Runtime interfaces contain only methods exercised by the Stage 16-verified backend.
 Later stages should extend them based on executable requirements rather than
@@ -522,4 +524,5 @@ Detailed mechanisms belong to later stages. Current behavior and constraints are
 - Stage 22 Hardware & Performance Lab UI — COMPLETE.
 - Stage 23 Chaos & Security Lab UI — COMPLETE.
 - Stage 24 Advanced Interaction & Motion Polish — COMPLETE.
-- Stage 25 Responsive, Accessibility & Performance Pass — COMPLETE; Stage 26 End-to-End Product Verification remains approval-gated.
+- Stage 25 Responsive, Accessibility & Performance Pass — COMPLETE.
+- Stage 26 End-to-End Product Verification — COMPLETE; release candidate for the measured single-user loopback scope with tracked limitations. Stage 27 remains approval-gated.

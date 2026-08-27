@@ -125,6 +125,7 @@ class Stage15ApiTests(unittest.TestCase):
         self.assertEqual(openapi["openapi"], "3.1.0")
         self.assertIn("get", openapi["paths"]["/v1/chaos"])
         self.assertIn("post", openapi["paths"]["/v1/security"])
+        self.assertIn("post", openapi["paths"]["/v1/tools/execute"])
         status, payload, _ = self.api.json("GET", "/README.md")
         self.assertEqual(status, 404)
         self.assertEqual(payload["error"]["code"], "task_not_found")
@@ -168,6 +169,46 @@ class Stage15ApiTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertTrue(replay["data"]["integrity_valid"])
 
+    def test_catalogued_tool_executes_through_api_and_denies_cross_agent_grant(self) -> None:
+        status, catalog, _ = self.api.json("GET", "/v1/tools")
+        self.assertEqual(status, 200)
+        self.assertEqual({item["name"] for item in catalog["data"]["tools"]}, {
+            "project_context_read", "risk_register_read",
+        })
+        project_tool = next(
+            item for item in catalog["data"]["tools"] if item["name"] == "project_context_read"
+        )
+        self.assertEqual(project_tool["authorized_agent_ids"], ["technical-explainer"])
+        self.assertTrue(project_tool["permission"]["read_only"])
+        self.assertTrue(project_tool["permission"]["path_restricted"])
+
+        status, executed, _ = self.api.json("POST", "/v1/tools/execute", {
+            "agent_id": "technical-explainer",
+            "tool_name": "project_context_read",
+            "arguments": {"relative_path": "README.md", "max_characters": 120},
+        })
+        self.assertEqual(status, 200)
+        result = executed["data"]
+        self.assertTrue(result["success"])
+        self.assertEqual(result["final_state"], "completed")
+        self.assertEqual(result["data"]["relative_path"], "README.md")
+        self.assertLessEqual(result["data"]["characters_returned"], 120)
+
+        status, inspected, _ = self.api.json("GET", f"/v1/tasks/{result['task_id']}")
+        self.assertEqual(status, 200)
+        self.assertEqual(inspected["data"]["result"]["output_type"], "tool")
+        status, trace, _ = self.api.json("GET", f"/v1/tasks/{result['task_id']}/trace")
+        self.assertEqual(status, 200)
+        self.assertTrue(any(step["event_name"] == "tool.output.persisted" for step in trace["data"]["steps"]))
+
+        status, denied, _ = self.api.json("POST", "/v1/tools/execute", {
+            "agent_id": "risk-analyst",
+            "tool_name": "project_context_read",
+            "arguments": {"relative_path": "README.md"},
+        })
+        self.assertEqual(status, 403)
+        self.assertEqual(denied["error"]["code"], "tool_permission_denied")
+
     def test_completed_task_remains_inspectable_after_api_restart(self) -> None:
         task_id = self._terminal(self._create()["task_id"])["task_id"]
         self.api.close()
@@ -177,6 +218,10 @@ class Stage15ApiTests(unittest.TestCase):
         self.assertEqual(inspected["data"]["status"], "completed")
         self.assertEqual(inspected["data"]["durable_state"], "completed")
         self.assertEqual(inspected["data"]["result"]["output_type"], "inference")
+        self.assertIn("STUB (no LLM inference):", inspected["data"]["result"]["output"])
+        self.assertEqual(inspected["data"]["result"]["final_state"], "completed")
+        self.assertIsInstance(inspected["data"]["result"]["metadata"], dict)
+        self.assertGreater(len(inspected["data"]["result"]["state_history"]), 0)
 
     def test_transport_and_security_validation_fail_closed(self) -> None:
         status, _, body = self.api.request(

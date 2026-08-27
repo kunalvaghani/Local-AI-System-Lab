@@ -7,7 +7,7 @@ At the start of Stage 0, commit `67ef780` contained one tracked file:
 matched `origin/main`. There were no source directories, tests, configuration
 files, dependency manifests, architecture documents, or TODO/FIXME markers.
 
-## Structure after Stage 25
+## Structure after Stage 26
 
 ```text
 Local-AI-System-Lab/
@@ -21,18 +21,19 @@ Local-AI-System-Lab/
 │       ├── package.json                # Local React/Vite scripts and bounded dependencies
 │       ├── package-lock.json           # Exact frontend dependency graph
 │       ├── index.html                  # Local application document and metadata
-│       ├── vite.config.ts              # Loopback dev server and /v1 proxy
+│       ├── vite.config.ts              # Validated loopback dev/preview server and /v1 proxy
 │       ├── vitest.config.ts            # jsdom/component test environment
 │       ├── tsconfig*.json               # Strict browser/build TypeScript projects
 │       ├── scripts/check-bundle.mjs    # 250 KiB compressed shell gate
 │       ├── scripts/stage19-smoke.mjs   # Real Vite-proxy/API/SSE evidence run
 │       ├── scripts/stage25-smoke.mjs   # Routes/contrast/reflow/stream/bundle smoke
+│       ├── scripts/stage26-browser.mjs # Isolated full-story and restart browser verification
 │       └── src/
 │           ├── App.tsx                 # Thin application entry component
 │           ├── App.test.tsx            # Runtime/task/SSE/navigation/preference/axe tests
 │           ├── main.tsx                # React root and global styles
 │           ├── api/                     # Typed envelope client and real payload contracts
-│           ├── components/             # Shell plus runtime command/task/evidence surfaces
+│           ├── components/             # Shell plus runtime/task/tool/evidence surfaces
 │           ├── hooks/                   # Density, route-task, media, and SSE ownership
 │           ├── navigation/             # Route definitions and History adapter
 │           ├── query/                   # TanStack Query provider, keys, polling, mutations
@@ -48,7 +49,8 @@ Local-AI-System-Lab/
 │   ├── chaos.json                     # Disabled-by-default bounded fault scenarios
 │   ├── security.json                  # Strict local security ceilings and allowlists
 │   ├── api.json                       # Loopback bind and API/task/stream/chaos bounds
-│   └── acceptance.json                # Stage 16 scope, evidence counts, regression limits
+│   ├── acceptance.json                # Stage 16 scope, evidence counts, regression limits
+│   └── product-acceptance.json        # Stage 26 route/failure/browser/tool/bundle policy
 ├── benchmarks/
 │   ├── __init__.py
 │   ├── run_stage2_baseline.py         # Reproducible benchmark runner
@@ -265,7 +267,7 @@ Ignored `tools/` and `models/` directories contain the verified native binaries
 and GGUF file; they are reproducible artifacts, not source. No empty future
 directories are added merely to imply implementation.
 
-## Component inventory after Stage 25
+## Component inventory after Stage 26
 
 | Area | Prior evidence | Current state | Evidence |
 | --- | --- | --- | --- |
@@ -299,6 +301,10 @@ directories are added merely to imply implementation.
 | Stage 24 validation | 28/28 Stage 23 component tests and 130,676-byte gzip JS | 34/34 tests including command/motion/open-palette axe, six-route smoke, and 149,836-byte gzip JS gate | `App.test.tsx`, `stage24-smoke.mjs`, retained JSON |
 | Responsive/accessibility/performance hardening | Stage 24 viewport/media rules, jsdom accessibility, 200/30 stream and 100-row trace bounds | Five-size browser reflow, explicit focus/status/busy semantics, passing contrast tokens, container reflow, accurate slow-loading language, and frame-batched SSE | App shell/runtime/event hook/styles, ADR-0025 |
 | Stage 25 validation | 34/34 Stage 24 tests and six-route smoke | 38/38 tests, 500-event/10,000-step/slow-response stress, twelve-route contrast/contract smoke, browser accessibility snapshot, and 150,118-byte gzip JS gate | `App.test.tsx`, `stage25-smoke.mjs`, retained JSON |
+| Safe tool API/UI | Python/CLI-only exact-grant tool runtime | Server-owned `GET /v1/tools`, bounded `POST /v1/tools/execute`, and Runtime Safe Tool Probe with durable task/trace evidence | `runtime/api/`, `ToolProbe.tsx`, API/component tests |
+| Durable frontend recovery | Completed tasks inspectable through the API with a persistence-specific envelope | Persisted inference results normalize to the live task-result shape with reconstructed state history, so URL-selected tasks render after API restart | `runtime/api/manager.py`, restart API/browser tests |
+| Stage 26 product acceptance | Independent backend/frontend gates and manual browser evidence | One isolated gate combines 154 backend tests, real model, 39 frontend tests, build/bundle, eight browser routes, five failures, tool trace/replay, outage/recovery, and restart durability | `run_stage26_product_acceptance.py`, `stage26-browser.mjs`, retained JSON, ADR-0026 |
+| Release identity | Stage 25 frontend 0.25.0 | Stage 26 frontend 0.26.0; product release candidate for single-user loopback scope, overall maturity `PARTIAL` | `apps/web/package.json`, Stage 26 report |
 
 ## Current and planned folder convention
 
@@ -307,7 +313,7 @@ the files listed above; later subdirectories are not implementation claims.
 
 ```text
 apps/             Approved local applications
-  web/            Stage 25 React/Vite workbench with responsive/a11y/performance hardening
+  web/            Stage 26 verified React/Vite workbench with safe tool probe and browser acceptance
 runtime/          Inspectable runtime implementation
   api/            Current loopback backend adapter and application service
   agents/         Agent identity and behavior contracts

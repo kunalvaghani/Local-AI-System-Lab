@@ -133,6 +133,32 @@ class ApiTaskManager:
                 TaskState.CONTEXT_OVERFLOW,
                 TaskState.RESOURCE_BLOCKED,
             } else "durable")
+            durable_output = persistence.load_task_output(task_id)
+            result: dict[str, Any] | None = durable_output
+            if durable_output is not None and durable_output["output_type"] == "inference":
+                stored = durable_output["output"]
+                result = {
+                    "output_type": "inference",
+                    "task_id": stored.get("task_id", task.task_id),
+                    "agent_id": stored.get("agent_id", task.agent_id),
+                    "objective": stored.get("objective", task.objective),
+                    "output": stored.get("output"),
+                    "model_id": stored.get("model_id"),
+                    "backend_name": stored.get("backend_name"),
+                    "final_state": stored.get("final_state", state.value),
+                    "metadata": dict(stored.get("metadata", {})),
+                    "inference_metrics": stored.get("metrics"),
+                    "state_history": [
+                        {
+                            "sequence": item.sequence,
+                            "from_state": item.from_state.value if item.from_state else None,
+                            "to_state": item.to_state.value,
+                            "reason": item.reason,
+                            "recorded_at_utc": item.recorded_at.isoformat(),
+                        }
+                        for item in self.runtime.state_history(task_id)
+                    ],
+                }
             return {
                 "task_id": task.task_id,
                 "agent_id": task.agent_id,
@@ -144,7 +170,7 @@ class ApiTaskManager:
                 "accepted_at_utc": task.created_at.isoformat(),
                 "started_at_utc": None,
                 "finished_at_utc": None,
-                "result": persistence.load_task_output(task_id),
+                "result": result,
                 "error": None,
                 "links": {
                     "self": f"/v1/tasks/{task_id}",

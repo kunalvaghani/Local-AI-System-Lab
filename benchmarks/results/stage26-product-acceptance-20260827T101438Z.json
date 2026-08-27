@@ -1,0 +1,370 @@
+{
+  "commands": [
+    {
+      "command": "C:\\Users\\kunal\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -m benchmarks.run_stage16_acceptance --output \"D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\data\\stage26-omh5iiov\\stage16.json\"",
+      "duration_ms": 91410.47410000011,
+      "exit_code": 0,
+      "name": "backend_acceptance",
+      "output_sha256": "635c4280120e9ac52dd75df9a11d52cc64fe8ab2dbb85c59319bef6c11708efd",
+      "passed": true
+    },
+    {
+      "command": "\"C:\\Program Files\\nodejs\\npm.cmd\" test",
+      "duration_ms": 35391.65950000006,
+      "exit_code": 0,
+      "name": "frontend_tests",
+      "output_sha256": "d9352cf5c0561837523b9ec6bc0ce715a2326df27f99c087676fa47566142d13",
+      "passed": true
+    },
+    {
+      "command": "\"C:\\Program Files\\nodejs\\npm.cmd\" run build",
+      "duration_ms": 5929.2560000003505,
+      "exit_code": 0,
+      "name": "frontend_build",
+      "output_sha256": "f8e77b9ca76081c976db74f1c5c2dacee1f08ec39729a0d7cf790eae9392b935",
+      "passed": true
+    },
+    {
+      "command": "\"C:\\Program Files\\nodejs\\npm.cmd\" run check:bundle",
+      "duration_ms": 1565.4947000002721,
+      "exit_code": 0,
+      "name": "bundle_gate",
+      "output_sha256": "f67a104bce0d37fdc2b79f706f151613f61b0fe190806e6802f7d8a61f25f42e",
+      "passed": true
+    }
+  ],
+  "environment": {
+    "git_head": "32f5184206e8af9c7c98caf14c3ce81b09d30ae0",
+    "node": "v24.14.0",
+    "python": "3.10.6 (tags/v3.10.6:9c7b4bd, Aug  1 2022, 21:53:49) [MSC v.1932 64 bit (AMD64)]"
+  },
+  "evaluation": {
+    "gate_recommendation": "ACCEPT_FOR_SINGLE_USER_LOOPBACK_PORTFOLIO_RELEASE_WITH_TRACKED_LIMITATIONS",
+    "overall_classification": "PARTIAL",
+    "release_candidate": true,
+    "required_categories": {
+      "backend_release_candidate": {
+        "status": "PASS"
+      },
+      "browser_success_flow": {
+        "status": "PASS"
+      },
+      "failure_paths": {
+        "status": "PASS"
+      },
+      "frontend_regressions_and_build": {
+        "status": "PASS"
+      },
+      "inference_scheduler_router_model": {
+        "status": "PASS"
+      },
+      "restart_durability": {
+        "status": "PASS"
+      },
+      "tool_policy_persistence_trace": {
+        "status": "PASS"
+      }
+    },
+    "subsystems": {
+      "complete_local_product_flow": {
+        "classification": "DONE",
+        "evidence": [
+          "browser",
+          "product_flow",
+          "failure_paths"
+        ],
+        "rationale": "Browser, proxy, API, runtime, model, scheduler/router, tool, persistence, trace, telemetry, and visible failure boundaries are exercised together."
+      },
+      "frontend_quality": {
+        "classification": "DONE",
+        "evidence": [
+          "frontend_gate",
+          "browser"
+        ],
+        "rationale": "Component/accessibility regressions, production build, bundle ceiling, real browser routes, and disconnected/recovered states pass."
+      },
+      "remote_multi_user_deployment": {
+        "classification": "DEFERRED",
+        "evidence": [],
+        "rationale": "Authentication, TLS, remote exposure, multi-user ownership, and production HTTP serving remain outside the approved local scope."
+      },
+      "restart_and_recovery": {
+        "classification": "PARTIAL",
+        "evidence": [
+          "restart",
+          "backend_gate"
+        ],
+        "rationale": "Completed inference/tool evidence survives API restart, while the previously measured narrow terminal-state/output atomicity gap remains open."
+      },
+      "security_and_chaos": {
+        "classification": "PARTIAL",
+        "evidence": [
+          "backend_gate",
+          "failure_paths"
+        ],
+        "rationale": "Bounded adversarial and fault suites pass their tracked scope; they are not certification, OS isolation, or physical fault-tolerance proof."
+      }
+    }
+  },
+  "evidence": {
+    "backend_gate": {
+      "classification": "PARTIAL",
+      "real_inference_metrics": {
+        "baseline_vram_used_mib": 0.0,
+        "generated_token_runs": 25,
+        "generation_ms": 241.61,
+        "internal_load_ms": 89.85,
+        "model_load_ms": 1017.0160000000001,
+        "peak_process_ram_mib": 1343.6796875,
+        "peak_vram_used_mib": 1189.0,
+        "prompt_eval_ms": 89.3,
+        "prompt_tokens": 133,
+        "prompt_tokens_per_second": 1489.45,
+        "startup_to_ready_ms": 1711.2123999995674,
+        "tokens_per_second": 103.47,
+        "total_ms": 2408.658899999864,
+        "ttft_ms": 1801.340799999707,
+        "vram_delta_mib": 1189.0
+      },
+      "real_llm_calls": 1,
+      "release_candidate": true,
+      "required_categories": {
+        "api_deterministic": {
+          "status": "PASS"
+        },
+        "api_real_model": {
+          "status": "PASS"
+        },
+        "benchmark_regression": {
+          "status": "PASS"
+        },
+        "build_and_package": {
+          "status": "PASS"
+        },
+        "edge_cases_cancellation_timeouts": {
+          "status": "PASS"
+        },
+        "fault_injection": {
+          "status": "PASS"
+        },
+        "malformed_model_output": {
+          "status": "PASS"
+        },
+        "observability": {
+          "status": "PASS"
+        },
+        "persistence_restart_recovery": {
+          "status": "PASS"
+        },
+        "resource_pressure": {
+          "status": "PASS"
+        },
+        "scheduler_behavior": {
+          "status": "PASS"
+        },
+        "security": {
+          "status": "PASS"
+        },
+        "trace_and_replay": {
+          "status": "PASS"
+        },
+        "unit_and_integration_tests": {
+          "status": "PASS"
+        }
+      },
+      "tests": 154
+    },
+    "browser": {
+      "accessibility_violations": 0,
+      "captured_at_utc": "2026-08-27T10:13:41.834Z",
+      "console_output": "",
+      "content_characters": 2173,
+      "elapsed_ms": 65656.979,
+      "error_overlay_count": 0,
+      "inference_task_id": "3ac93e3d-159e-4b0b-9303-4e2fb1c40946",
+      "offline_state_verified": true,
+      "page_errors": "",
+      "recovery_task_verified": false,
+      "routes_verified": [
+        "/runtime",
+        "/agents",
+        "/scheduler",
+        "/hardware",
+        "/metrics",
+        "/traces",
+        "/chaos",
+        "/security"
+      ],
+      "screenshot": "D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\apps\\web\\test-results\\stage26-product-flow.png",
+      "screenshot_sha256": "226ce7c8f1cb0ef61279d8523203ef5d36927d3c639f56cba1ef783e4d8eac51",
+      "session": "stage26-967b62ab55",
+      "stage": 26,
+      "target": "http://127.0.0.1:53206",
+      "tool_task_id": "ce27ed68-9565-4742-8042-98f58260f851",
+      "vitals": {
+        "data": {
+          "cls": {
+            "entries": [
+              {
+                "startTime": 64.4,
+                "value": 0.0048
+              },
+              {
+                "startTime": 82.7,
+                "value": 0
+              },
+              {
+                "startTime": 95.2,
+                "value": 0.0035
+              },
+              {
+                "startTime": 844.3,
+                "value": 0.0007
+              }
+            ],
+            "score": 0.01
+          },
+          "fcp": 76,
+          "hydratedComponents": [],
+          "hydration": null,
+          "inp": null,
+          "lcp": {
+            "element": "p",
+            "size": 15563,
+            "startTime": 76,
+            "url": null
+          },
+          "lifecycle": {
+            "effectiveLaunch": {
+              "browserLaunched": true,
+              "engine": "chrome",
+              "launchHash": 12798390076057946000
+            },
+            "launched": false,
+            "relaunchedBrowser": false,
+            "restartedBackground": false,
+            "restoreStatus": "not_configured",
+            "reused": true,
+            "saveStatus": "not_attempted"
+          },
+          "phases": [],
+          "ttfb": 2.5,
+          "url": "http://127.0.0.1:53206/runtime"
+        },
+        "error": null,
+        "success": true
+      }
+    },
+    "browser_restart": {
+      "accessibility_violations": 0,
+      "captured_at_utc": "2026-08-27T10:14:36.938Z",
+      "console_output": "",
+      "content_characters": 2175,
+      "elapsed_ms": 52650.59,
+      "error_overlay_count": 0,
+      "inference_task_id": "3ac93e3d-159e-4b0b-9303-4e2fb1c40946",
+      "offline_state_verified": false,
+      "page_errors": "",
+      "recovery_task_verified": true,
+      "routes_verified": [
+        "/runtime"
+      ],
+      "screenshot": "D:\\Kunals GitHub Repo\\Local-AI-System-Lab\\apps\\web\\test-results\\stage26-restart-recovery.png",
+      "screenshot_sha256": "a222de4e320bc807e626d3885189696245b4b6e24c10419de833a7934acfb604",
+      "session": "stage26-77bee7ad7b",
+      "stage": 26,
+      "target": "http://127.0.0.1:53206",
+      "tool_task_id": null,
+      "vitals": {
+        "data": {
+          "cls": {
+            "entries": [
+              {
+                "startTime": 82.1,
+                "value": 0.0048
+              },
+              {
+                "startTime": 103.1,
+                "value": 0.0035
+              },
+              {
+                "startTime": 108.3,
+                "value": 0
+              },
+              {
+                "startTime": 786.2,
+                "value": 0.0007
+              }
+            ],
+            "score": 0.01
+          },
+          "fcp": 96,
+          "hydratedComponents": [],
+          "hydration": null,
+          "inp": null,
+          "lcp": {
+            "element": "p",
+            "size": 15563,
+            "startTime": 96,
+            "url": null
+          },
+          "lifecycle": {
+            "effectiveLaunch": {
+              "browserLaunched": true,
+              "engine": "chrome",
+              "launchHash": 12798390076057946000
+            },
+            "launched": false,
+            "relaunchedBrowser": false,
+            "restartedBackground": false,
+            "restoreStatus": "not_configured",
+            "reused": true,
+            "saveStatus": "not_attempted"
+          },
+          "phases": [],
+          "ttfb": 2.7,
+          "url": "http://127.0.0.1:53206/runtime"
+        },
+        "error": null,
+        "success": true
+      }
+    },
+    "failure_paths": {
+      "denied_tool": 403,
+      "invalid_task": 400,
+      "missing_task": 404,
+      "terminal_cancel": 409,
+      "unconfirmed_chaos": 400
+    },
+    "frontend_gate": {
+      "build_passed": true,
+      "bundle_gzip_bytes": 150997,
+      "tests": 39
+    },
+    "product_flow": {
+      "inference_completed": true,
+      "inference_trace_steps": 16,
+      "model_reported": true,
+      "route_reported": true,
+      "scheduler_reported": true,
+      "telemetry_tasks": 2,
+      "tool_completed": true,
+      "tool_duration_ms": 2.531499999349762,
+      "tool_telemetry_reported": true,
+      "tool_trace_reported": true,
+      "tool_trace_steps": 16
+    },
+    "restart": {
+      "browser_recovery_verified": true,
+      "inference_output_type": "inference",
+      "integrity": "ok",
+      "tool_output_type": "tool"
+    }
+  },
+  "finished_at_utc": "2026-08-27T10:14:37.960932+00:00",
+  "release_scope": "single-user loopback local product on the measured RTX 3050 workstation",
+  "run_id": "5027b14e-e40f-48e5-8bb2-c1bb9dc0c245",
+  "schema_version": 1,
+  "stage": 26,
+  "started_at_utc": "2026-08-27T10:10:18.760618+00:00"
+}

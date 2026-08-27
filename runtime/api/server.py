@@ -20,6 +20,7 @@ from ..errors import (
     LabError,
     PolicyDeniedError,
     TaskNotFoundError,
+    ToolNotFoundError,
     ValidationError,
 )
 from ..models import LifecycleEvent
@@ -138,6 +139,10 @@ class RuntimeApiHandler(BaseHTTPRequestHandler):
                 self._json(HTTPStatus.OK, service.hardware())
             elif method == "GET" and path == "/v1/models":
                 self._json(HTTPStatus.OK, service.models())
+            elif method == "GET" and path == "/v1/tools":
+                self._json(HTTPStatus.OK, service.tools())
+            elif method == "POST" and path == "/v1/tools/execute":
+                self._json(HTTPStatus.OK, service.execute_tool(self._json_body(required=True)))
             elif method == "GET" and path == "/v1/metrics":
                 self._json(HTTPStatus.OK, service.metrics(query))
             elif method == "GET" and (match := _TRACE.fullmatch(path)):
@@ -169,6 +174,7 @@ class RuntimeApiHandler(BaseHTTPRequestHandler):
         return {
             "/v1", "/v1/health", "/v1/openapi.json", "/v1/tasks", "/v1/agents",
             "/v1/scheduler", "/v1/hardware", "/v1/models", "/v1/metrics",
+            "/v1/tools", "/v1/tools/execute",
             "/v1/chaos", "/v1/security", "/v1/security/results",
         }
 
@@ -305,7 +311,7 @@ class RuntimeApiHandler(BaseHTTPRequestHandler):
                 "message": "an unexpected API boundary failure occurred",
                 "details": {"cause_type": type(error).__name__},
             }
-        if isinstance(error, (TaskNotFoundError, AgentNotFoundError)):
+        if isinstance(error, (TaskNotFoundError, AgentNotFoundError, ToolNotFoundError)):
             status = HTTPStatus.NOT_FOUND
         elif isinstance(error, ApiConflictError):
             status = HTTPStatus.CONFLICT

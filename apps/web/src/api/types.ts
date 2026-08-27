@@ -270,6 +270,51 @@ type CreateTaskInput = {
   timeout_ms: number;
 };
 
+type ToolArgument = {
+  name: string;
+  type: "string" | "integer" | "boolean";
+  description: string;
+  required: boolean;
+  default: string | number | boolean | null;
+};
+
+type ToolSummary = {
+  name: string;
+  description: string;
+  arguments: ToolArgument[];
+  permission: {
+    permissions: string[];
+    read_only: boolean;
+    path_restricted: boolean;
+    allowed_roots: string[];
+  };
+  timeout_ms: number;
+  authorized_agent_ids: string[];
+};
+
+type ToolCatalogData = {
+  tools: ToolSummary[];
+  execution: { endpoint: string; mode: string; policy: string };
+};
+
+type ExecuteToolInput = {
+  agent_id: string;
+  tool_name: string;
+  arguments: Record<string, string | number | boolean>;
+};
+
+type ToolExecutionResult = {
+  request_id: string;
+  task_id: string;
+  agent_id: string;
+  tool_name: string;
+  success: boolean;
+  data: Record<string, unknown>;
+  duration_ms: number;
+  final_state: string | null;
+  state_history: StateHistoryItem[];
+};
+
 type LifecycleEvent = {
   id: string;
   event: "lifecycle" | "task" | "end";
@@ -479,6 +524,7 @@ export type {
   ChaosScenario,
   ChaosScenarioResult,
   CreateTaskInput,
+  ExecuteToolInput,
   Distribution,
   DeterminismClass,
   HardwareData,
@@ -505,6 +551,8 @@ export type {
   TaskResult,
   TaskStatus,
   TraceData,
+  ToolCatalogData,
+  ToolExecutionResult,
   TraceRun,
   TraceStep,
   StreamEndData,

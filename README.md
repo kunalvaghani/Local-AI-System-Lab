@@ -31,18 +31,22 @@ resettable inspector split without adding an animation runtime.
 Stage 25 completes the responsive, accessibility, and performance hardening
 pass with container-aware reflow, explicit focus/status semantics, passing
 computed token contrast, bounded long-trace rendering, frame-batched SSE bursts,
-and truthful slow-backend states.
+and truthful slow-backend states. Stage 26 verifies the complete product through
+one retained release-candidate gate spanning the real local model, built browser
+client, safe tool execution, failure behavior, persistence, telemetry,
+trace/replay, accessibility automation, API disconnect/reconnect, and restart
+recovery.
 
 ## Current status
 
-- Last completed stage: Stage 25 — Responsive, Accessibility & Performance Pass
-- Next approval-gated stage: Stage 26 — End-to-End Product Verification
-- Backend acceptance: RELEASE CANDIDATE; all required checks PASS, overall maturity PARTIAL
-- Frontend Runtime, Agent, Scheduler, Trace, Replay, Hardware, Metrics, Chaos, and Security views: COMPLETE
+- Last completed stage: Stage 26 — End-to-End Product Verification
+- Next approval-gated stage: Stage 27 — Product Demonstration & Portfolio Packaging
+- Product acceptance: RELEASE CANDIDATE for single-user loopback use; all required checks PASS, overall maturity PARTIAL
+- Frontend Runtime, Agent, Scheduler, Trace, Replay, Hardware, Metrics, Chaos, Security, and Safe Tool Probe flows: COMPLETE
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
 
-## Run the Stage 25 Runtime Workbench
+## Run the Stage 26 Runtime Workbench
 
 On Windows, the root launcher performs setup, starts the backend first, waits
 for its health check, then starts the frontend and opens the Runtime page:
@@ -61,7 +65,7 @@ reused; occupied or mismatched ports are reported and never terminated.
 Start the local-only deterministic API from the repository root:
 
 ```powershell
-python -m runtime.api_cli --stub --database data/stage25-dev.db
+python -m runtime.api_cli --stub --database data/stage26-dev.db
 ```
 
 In a second terminal:
@@ -95,6 +99,19 @@ verifies all twelve routes, calculated token contrast, responsive/reduced-motion
 contracts, stream batching/bounds, the compressed bundle, loopback health, and
 persistence integrity. Read the [Stage 25 report](docs/stages/stage25-responsive-accessibility-performance-pass.md)
 and [ADR-0025](docs/adr/0025-container-aware-accessible-bounded-rendering.md).
+
+Run the complete Stage 26 product gate from the repository root:
+
+```powershell
+python -m benchmarks.run_stage26_product_acceptance
+```
+
+The retained Stage 26 run passed 154 backend tests, 39 frontend tests, one real
+Qwen/llama.cpp inference, eight browser routes, exact safe-tool policy and
+trace/replay, five fail-closed HTTP cases, an injected visible API outage and
+recovery, zero automated WCAG A/AA violations, the production build/bundle gate,
+and completed-task rendering after API restart. Read the [Stage 26 report](docs/stages/stage26-end-to-end-product-verification.md)
+and [ADR-0026](docs/adr/0026-isolated-full-story-product-acceptance.md).
 
 ## Review the Stage 17 frontend research
 

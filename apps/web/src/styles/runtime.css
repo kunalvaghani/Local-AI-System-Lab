@@ -124,6 +124,7 @@
 
 .task-composer,
 .task-inspector,
+.tool-probe,
 .execution-rail {
   min-width: 0;
   padding: var(--space-4);
@@ -136,6 +137,114 @@
   display: grid;
   gap: var(--space-4);
   margin-top: var(--space-4);
+}
+
+.tool-probe {
+  margin-top: var(--space-4);
+}
+
+.tool-probe > .evidence-note {
+  max-width: 58rem;
+  margin: var(--space-3) 0 0;
+  line-height: 1.55;
+}
+
+.tool-probe form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.tool-probe form > label {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.tool-probe form > label > span {
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.tool-probe select,
+.tool-probe input {
+  min-width: 0;
+  height: var(--control-height);
+  box-sizing: border-box;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-sm);
+  outline: none;
+  background: var(--color-canvas);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.tool-probe select:focus-visible,
+.tool-probe input:focus-visible,
+.tool-probe button:focus-visible,
+.tool-result a:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.tool-probe .form-actions {
+  grid-column: 1 / -1;
+}
+
+.tool-result {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--border-subtle);
+}
+
+.tool-result > div,
+.tool-result dl > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.tool-result code,
+.tool-result dt,
+.tool-result dd,
+.tool-result a {
+  color: var(--color-text-faint);
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+}
+
+.tool-result dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--space-4);
+  margin: var(--space-3) 0;
+}
+
+.tool-result dl > div {
+  padding: var(--space-2) 0;
+  border-top: var(--border-subtle);
+}
+
+.tool-result dd {
+  margin: 0;
+  color: var(--color-text);
+  text-align: right;
+}
+
+.tool-result pre {
+  max-height: 15rem;
+  margin: 0;
+  overflow: auto;
+  padding: var(--space-3);
+  border: var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas);
+  color: var(--color-text-muted);
+  font: 0.6875rem/1.55 var(--font-data);
+  white-space: pre-wrap;
 }
 
 .task-composer form > label,
@@ -499,7 +608,9 @@
 
 
   .workload-options,
-  .task-evidence-grid {
+  .task-evidence-grid,
+  .tool-probe form,
+  .tool-result dl {
     grid-template-columns: 1fr;
   }
 }

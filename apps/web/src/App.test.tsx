@@ -27,7 +27,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("Stage 25 responsive, accessibility, and performance pass", () => {
+describe("Stage 26 end-to-end product verification", () => {
   it("renders real API evidence in the runtime overview", async () => {
     render(<App />);
 
@@ -42,13 +42,14 @@ describe("Stage 25 responsive, accessibility, and performance pass", () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await screen.findByRole("option", { name: "Technical Explainer" });
-    const objective = screen.getByRole("textbox", { name: /Objective/ });
+    const composer = (await screen.findByRole("heading", { name: "Launch a bounded task" })).closest("article")!;
+    await within(composer).findByRole("option", { name: "Technical Explainer" });
+    const objective = within(composer).getByRole("textbox", { name: /Objective/ });
     await waitFor(() => expect(objective).toBeEnabled());
     fireEvent.change(objective, { target: { value: "Explain the bounded local runtime." } });
     expect(objective).toHaveValue("Explain the bounded local runtime.");
-    expect(screen.getByRole("combobox", { name: "Agent" })).toHaveValue("technical-explainer");
-    const launchButton = screen.getByRole("button", { name: "Launch task" });
+    expect(within(composer).getByRole("combobox", { name: "Agent" })).toHaveValue("technical-explainer");
+    const launchButton = within(composer).getByRole("button", { name: "Launch task" });
     await waitFor(() => expect(launchButton).toBeEnabled());
     await user.click(launchButton);
 
@@ -56,6 +57,23 @@ describe("Stage 25 responsive, accessibility, and performance pass", () => {
     await waitFor(() => expect(window.location.search).toBe(`?task=${taskFixture.task_id}`));
     expect((await screen.findAllByText(taskFixture.task_id)).length).toBeGreaterThan(0);
     expect(screen.getByText("executing")).toBeInTheDocument();
+  });
+
+  it("runs a server-catalogued read-only tool through the product boundary", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const probe = await screen.findByRole("article", { name: "Safe tool probe" });
+    await waitFor(() => expect(within(probe).getByRole("combobox", { name: "Authorized agent" })).toHaveValue("technical-explainer"));
+    expect(within(probe).getByRole("combobox", { name: "Registered tool" })).toHaveValue("project_context_read");
+    expect(within(probe).getByRole("textbox", { name: "Project-relative text path" })).toHaveValue("PROJECT_STATE.md");
+
+    await user.click(within(probe).getByRole("button", { name: "Run bounded tool" }));
+
+    await waitFor(() => expect(fetch).toHaveBeenCalledWith("/v1/tools/execute", expect.objectContaining({ method: "POST" })));
+    expect(await within(probe).findByText("tool-task-stage26-test")).toBeInTheDocument();
+    expect(within(probe).getByText("# Current Project State")).toBeInTheDocument();
+    expect(within(probe).getByRole("link", { name: "Inspect persisted trace" })).toHaveAttribute("href", "/traces?task=tool-task-stage26-test");
   });
 
   it("follows ordered lifecycle evidence and sends cancellation to the API", async () => {
@@ -143,8 +161,9 @@ describe("Stage 25 responsive, accessibility, and performance pass", () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await screen.findByRole("option", { name: "Technical Explainer" });
-    const objective = screen.getByRole("textbox", { name: /Objective/ });
+    const composer = (await screen.findByRole("heading", { name: "Launch a bounded task" })).closest("article")!;
+    await within(composer).findByRole("option", { name: "Technical Explainer" });
+    const objective = within(composer).getByRole("textbox", { name: /Objective/ });
     await waitFor(() => expect(objective).toBeEnabled());
     fireEvent.keyDown(objective, { key: "/" });
 

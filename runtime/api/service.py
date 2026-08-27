@@ -66,6 +66,8 @@ class RuntimeApiService:
                 "scheduler": "/v1/scheduler",
                 "hardware": "/v1/hardware",
                 "models": "/v1/models",
+                "tools": "/v1/tools",
+                "tool_execute": "/v1/tools/execute",
                 "metrics": "/v1/metrics",
                 "trace": "/v1/traces/{run_id}",
                 "chaos": "/v1/chaos",
@@ -144,6 +146,66 @@ class RuntimeApiService:
         if traces is None:
             raise ConfigurationError("trace store is not configured")
         return TraceReplayEngine(traces).replay(run_id).as_dict()
+
+    def tools(self) -> dict[str, Any]:
+        registry = self.runtime.components.tool_registry
+        if registry is None:
+            raise ConfigurationError("tool registry is not configured")
+        grants = {
+            agent.agent_id: {capability.name for capability in agent.tool_capabilities}
+            for agent in self.runtime.available_agents()
+        }
+        return {
+            "tools": [
+                {
+                    "name": definition.name,
+                    "description": definition.description,
+                    "arguments": [
+                        {
+                            "name": argument.name,
+                            "type": argument.argument_type.value,
+                            "description": argument.description,
+                            "required": argument.required,
+                            "default": argument.default,
+                        }
+                        for argument in definition.arguments
+                    ],
+                    "permission": {
+                        "permissions": sorted(definition.permission.permissions),
+                        "read_only": definition.permission.read_only,
+                        "path_restricted": definition.permission.path_restricted,
+                        "allowed_roots": list(definition.permission.allowed_roots),
+                    },
+                    "timeout_ms": definition.timeout_ms,
+                    "authorized_agent_ids": sorted(
+                        agent_id for agent_id, names in grants.items() if definition.name in names
+                    ),
+                }
+                for definition in registry.snapshot()
+            ],
+            "execution": {
+                "endpoint": "/v1/tools/execute",
+                "mode": "synchronous bounded operation",
+                "policy": "exact agent grant, default deny, read-only registered tools",
+            },
+        }
+
+    def execute_tool(self, payload: dict[str, Any]) -> dict[str, Any]:
+        self._exact_fields(payload, {"agent_id", "tool_name", "arguments"}, required={"agent_id", "tool_name"})
+        agent_id = payload["agent_id"]
+        tool_name = payload["tool_name"]
+        arguments = payload.get("arguments", {})
+        if not isinstance(agent_id, str) or not agent_id.strip():
+            raise ApiRequestError("agent_id must be a non-empty string")
+        if not isinstance(tool_name, str) or not tool_name.strip():
+            raise ApiRequestError("tool_name must be a non-empty string")
+        if not isinstance(arguments, dict):
+            raise ApiRequestError("arguments must be a JSON object")
+        return self.runtime.run_tool(
+            agent_id=agent_id,
+            tool_name=tool_name,
+            arguments=arguments,
+        ).as_dict()
 
     @staticmethod
     def _safe_trace(run: Any, steps: Any) -> dict[str, Any]:

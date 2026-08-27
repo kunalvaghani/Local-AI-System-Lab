@@ -8,6 +8,7 @@ const queryKeys = {
   scheduler: ["runtime", "scheduler"] as const,
   hardware: ["runtime", "hardware"] as const,
   models: ["runtime", "models"] as const,
+  tools: ["runtime", "tools"] as const,
   metrics: ["runtime", "metrics"] as const,
   task: (taskId: string) => ["runtime", "task", taskId] as const,
   taskTrace: (taskId: string) => ["runtime", "task", taskId, "trace"] as const,
@@ -49,6 +50,14 @@ function useModelsQuery() {
   return useQuery({
     queryKey: queryKeys.models,
     queryFn: ({ signal }) => runtimeApi.models(signal),
+    refetchInterval: 60_000,
+  });
+}
+
+function useToolsQuery() {
+  return useQuery({
+    queryKey: queryKeys.tools,
+    queryFn: ({ signal }) => runtimeApi.tools(signal),
     refetchInterval: 60_000,
   });
 }
@@ -113,11 +122,22 @@ function useCancelTaskMutation() {
   });
 }
 
+function useExecuteToolMutation() {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: runtimeApi.executeTool,
+    onSuccess: () => {
+      void client.invalidateQueries({ queryKey: queryKeys.metrics });
+    },
+  });
+}
+
 export {
   queryKeys,
   useAgentsQuery,
   useCancelTaskMutation,
   useCreateTaskMutation,
+  useExecuteToolMutation,
   useHardwareQuery,
   useHealthQuery,
   useMetricsQuery,
@@ -126,4 +146,5 @@ export {
   useSchedulerQuery,
   useTaskQuery,
   useTaskTraceQuery,
+  useToolsQuery,
 };

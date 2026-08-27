@@ -29,6 +29,8 @@ def openapi_document() -> dict[str, Any]:
             "/v1/scheduler": {"get": {"summary": "Inspect scheduler state", "responses": {"200": json_response}}},
             "/v1/hardware": {"get": {"summary": "Inspect measured hardware", "responses": {"200": json_response}}},
             "/v1/models": {"get": {"summary": "Inspect model registry and budgets", "responses": {"200": json_response}}},
+            "/v1/tools": {"get": {"summary": "Inspect registered bounded tools and exact agent grants", "responses": {"200": json_response}}},
+            "/v1/tools/execute": {"post": {"summary": "Execute one agent-authorized bounded tool operation", "responses": {"200": json_response}}},
             "/v1/metrics": {"get": {"summary": "Retrieve unified metrics", "responses": {"200": json_response}}},
             "/v1/traces/{run_id}": {"get": {"summary": "Inspect a redacted trace", "responses": {"200": json_response}}},
             "/v1/traces/{run_id}/replay": {"post": {"summary": "Replay deterministic trace reducers", "responses": {"200": json_response}}},

@@ -11,12 +11,14 @@ import {
   useModelsQuery,
   useSchedulerQuery,
   useTaskQuery,
+  useToolsQuery,
 } from "../../query/runtimeQueries";
 import { StatusToken } from "../StatusToken";
 import { EvidenceValue } from "./EvidenceValue";
 import { ExecutionRail } from "./ExecutionRail";
 import { TaskComposer } from "./TaskComposer";
 import { TaskInspector } from "./TaskInspector";
+import { ToolProbe } from "./ToolProbe";
 
 function percent(used: number | null | undefined, total: number | null | undefined) {
   return used == null || total == null || total <= 0 ? null : (used / total) * 100;
@@ -50,6 +52,7 @@ function RuntimeCommandCenter() {
   const hardware = useHardwareQuery();
   const models = useModelsQuery();
   const metrics = useMetricsQuery();
+  const tools = useToolsQuery();
   const { taskId, selectTask } = useSelectedTaskId();
   const selectedTask = useTaskQuery(taskId);
   const createTask = useCreateTaskMutation();
@@ -61,7 +64,7 @@ function RuntimeCommandCenter() {
   const ramPercent = percent(hardware.data?.ram.used_mib, hardware.data?.ram.total_mib);
   const vramPercent = percent(hardware.data?.gpu?.used_vram_mib, hardware.data?.gpu?.total_vram_mib);
   const errors = [...new Set(
-    [health.error, agents.error, scheduler.error, hardware.error, models.error, metrics.error]
+    [health.error, agents.error, scheduler.error, hardware.error, models.error, metrics.error, tools.error]
       .map(queryError)
       .filter((error): error is string => error !== null),
   )];
@@ -69,7 +72,7 @@ function RuntimeCommandCenter() {
   return (
     <section
       className="runtime-command-center"
-      aria-busy={health.isPending || agents.isPending || scheduler.isPending || hardware.isPending || models.isPending || metrics.isPending}
+      aria-busy={health.isPending || agents.isPending || scheduler.isPending || hardware.isPending || models.isPending || metrics.isPending || tools.isPending}
       aria-labelledby="runtime-command-title"
     >
       <div className="runtime-section-heading">
@@ -189,6 +192,12 @@ function RuntimeCommandCenter() {
           />
         )}
       </div>
+
+      <ToolProbe
+        agents={agents.data?.agents ?? []}
+        catalog={tools.data}
+        disabled={agents.isPending || agents.isError || tools.isPending || tools.isError}
+      />
 
       <ExecutionRail events={taskEvents.events} streamState={taskEvents.state} />
     </section>

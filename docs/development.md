@@ -319,6 +319,34 @@ tree inspection. Timestamped JSON is written under
 `benchmarks/results/`. `dist/`, `node_modules/`, coverage, and
 browser-test outputs stay ignored.
 
+## Stage 26 product acceptance
+
+Run the complete release-candidate story from the repository root with the
+project's established Python 3.10 runtime:
+
+```powershell
+python -m benchmarks.run_stage26_product_acceptance
+```
+
+The command runs the full Stage 16 gate (including one real Qwen/llama.cpp API
+inference), all frontend tests, the production build, the compressed bundle
+gate, and an isolated deterministic browser flow. It allocates random loopback
+API/preview ports, a unique temporary SQLite database, and a unique Agent Browser
+session. It owns and stops only the processes it creates.
+
+For Stage 26 script development only, skip inherited regressions while retaining
+the browser, policy, failure, and restart checks:
+
+```powershell
+python -m benchmarks.run_stage26_product_acceptance --skip-regressions --output data/stage26-quick.json
+```
+
+This shortcut is not release evidence. A retained release candidate must omit
+`--skip-regressions` and is written under `benchmarks/results/`. The browser
+driver is pinned as an exact development dependency and can be run by the
+acceptance orchestrator through `npm run verify:stage26:browser`; its required
+target/session environment is supplied by the orchestrator.
+
 Validate Python syntax without executing application code:
 
 ```powershell
@@ -354,11 +382,10 @@ git diff
 ## Commands intentionally undefined
 
 SQLite schema migration is applied automatically on store open. Frontend
-type-checking is part of the build. A separate formatter, linter, browser E2E
-runner, and coverage threshold are not yet declared; they require scoped Stage
- 26 acceptance decisions rather than default tooling expansion. Stage 25 used
- the available in-app Chromium harness for its real-browser matrix without
- adding a project runtime dependency.
+type-checking is part of the build. Stage 26 now declares a purpose-built browser
+product-verification runner; a separate formatter, linter, visual-regression
+suite, and coverage threshold remain undefined because no approved requirement
+justifies them.
 
 ## Development discipline
 

@@ -6,41 +6,38 @@ Local AI Systems Lab — a fully local, inspectable AI runtime/platform for cons
 
 ## Current Milestone
 
-The complete local backend remains a Stage 16 release candidate for single-user
-loopback frontend work. Stage 17 research, the Stage 18 Systems Cartography
-shell, Stage 19 real Runtime Command Center, and Stage 20 Agent & Scheduler
-Visualization are complete. Stage 21 adds the Trace Explorer & Replay Debugger.
-Stage 22 adds the Hardware & Performance Lab. The browser now projects
-selected-task ownership, state, admission, dispatch, safe traces/replay, current
-hardware, inference distributions, model/configuration evidence, and bounded
-workload trends from accepted loopback contracts. Stage 23 adds confirmed,
-server-catalogued Chaos and Security Labs for propagation, containment, recovery,
-attack outcomes, and blocked actions while preserving local experiment isolation.
-Stage 24 adds keyboard-first command navigation, native progressive route
-transitions, contextual route/task/source evidence, and a resettable inspector
-split without adding an animation, docking, virtualizer, canvas, or WebGL dependency.
-Stage 25 hardens that workbench with container-aware responsive reflow, explicit
-focus and live/busy semantics, passing calculated dark-theme contrast, bounded
-long-trace rendering, once-per-frame lifecycle batching, and honest slow-backend
-states. Five real-browser viewport sizes and the browser accessibility tree were
-inspected without adding a new frontend dependency.
+The complete local product is a Stage 26 release candidate for the measured
+single-user loopback portfolio scope. Stages 17–25 deliver the Systems Cartography
+workbench, real Runtime/Agent/Scheduler/Trace/Replay/Hardware/Metrics/Chaos/
+Security views, interaction polish, responsive reflow, accessibility semantics,
+and bounded rendering. Stage 26 adds the server-catalogued Safe Tool Probe and
+one retained acceptance gate across the real local model, built browser client,
+API, runtime, scheduler/router/model, tool policy, SQLite, telemetry, trace/replay,
+visible failure/recovery, and post-restart rendering. All mandatory categories
+pass while overall maturity remains honestly `PARTIAL` and remote multi-user
+deployment remains `DEFERRED`.
 
 ## Current Stage
 
-Stage 25 — Responsive, Accessibility & Performance Pass — COMPLETE, AWAITING APPROVAL.
+Stage 26 — End-to-End Product Verification — COMPLETE, AWAITING APPROVAL.
 
 ## Current Subsystem
 
-Local React/TypeScript/Vite operational workbench covering real runtime, agent,
-scheduler, trace/replay, source-labelled CPU/RAM/GPU/VRAM, TTFT/token-rate/queue
-distributions, model/profile/budget evidence, bounded recent workload trends,
-controlled fault propagation/recovery, and deterministic adversarial evidence.
-The shell now adds keyboard-first route navigation and restrained native motion
-for orientation while retaining immediate and reduced-motion fallbacks. Stage 25
-adds container-width reflow, explicit focus/status/busy boundaries, contrast-
-verified tokens, and bounded main-thread work for trace and stream pressure.
+Verified local React/TypeScript/Vite workbench and loopback backend covering real
+runtime, agent, scheduler, trace/replay, source-labelled hardware/performance,
+controlled chaos/security, and a server-catalogued exact-grant read-only tool
+probe. Stage 26 owns isolated ports/data/processes, combines real-model and full
+regression gates, verifies eight browser routes plus five failure statuses, and
+normalizes completed inference evidence for rendering after API restart.
 
 ## Last Completed Work
+
+- Added strict Stage 26 product acceptance policy and a retained orchestrator that combines the complete Stage 16 real-model gate, frontend tests/build/bundle, isolated random-port API/preview/Chromium flow, exact failures, accessibility automation, and API-restart recovery.
+- Added server-owned `GET /v1/tools` and bounded `POST /v1/tools/execute` plus a Runtime Safe Tool Probe that preserves exact agent grants, read-only/path restrictions, typed arguments, persistence, telemetry, and redacted trace/replay.
+- Normalized persisted inference task results to the live API shape and reconstructed state history so a URL-selected completed task renders after process restart.
+- Verified eight real routes, visible API disconnect/reconnect, inference and tool traces/replay, and exact 400/403/400/409/404 failure responses with zero browser page/console errors or automated A/AA violations.
+- Retained `stage26-product-acceptance-20260827T101438Z.json`: 154 backend tests, 39 frontend tests, all Stage 16/26 required categories PASS, one real model call, 150,997-byte gzip JavaScript, SQLite integrity `ok`, and release candidate true/overall `PARTIAL`.
+- Added Stage 26 report, ADR-0026, development/architecture/repository/risk updates, and frontend identity 0.26.0; Stage 27 remains unimplemented.
 
 - Added a root `setup_and_run.bat` operational launcher that verifies the local prerequisites, prepares missing pinned llama.cpp/Qwen and frontend dependencies, waits for the backend before starting Vite, reuses matching healthy services, refuses to terminate unknown port owners, and keeps Ollama explicit and separate through `--with-ollama`; this is a Stage 25 usability improvement and does not enter Stage 26.
 - Verified the local workbench at 1440×900, 1024×768, 768×1024, 390×844, and 320×568; page client/scroll widths matched after layout settling, with only the intentional mobile route rail scrolling horizontally.
@@ -268,11 +265,11 @@ verified tokens, and bounded main-thread work for trace and stream pressure.
 
 ## Currently Working On
 
-None. Stage 25 is complete and work is stopped before Stage 26 End-to-End Product Verification.
+None. Stage 26 is complete and work is stopped before Stage 27 Product Demonstration & Portfolio Packaging.
 
 ## Current Blockers
 
-- User approval is required before Stage 26 End-to-End Product Verification.
+- User approval is required before Stage 27 Product Demonstration & Portfolio Packaging.
 - No runtime/API blocker prevents the next single-user loopback frontend scope.
 - The API has no list-tasks endpoint; Stage 19 truthfully inspects only the selected known/created task.
 - Stage 20/21 visualize one selected task and do not claim a global task explorer.
@@ -287,6 +284,7 @@ None. Stage 25 is complete and work is stopped before Stage 26 End-to-End Produc
 - Stage 25 validates computed token contrast, five viewport sizes, browser accessibility-tree semantics, focus return, and keyboard splitter operation; manual multi-screen-reader, forced-colors, and broad zoom/browser coverage remains future work.
 - Real-browser View Transition paint cost, INP, long tasks, and field interaction timing remain unmeasured; Stage 25 retains the immediate/reduced-motion fallback and does not make field-performance claims.
 - A second real model artifact/backend is not installed; controlled route differences are therefore policy evidence, not a claim of compact-model inference.
+- Python 3.11 on Windows can retain the deliberately faulted SQLite handle through temporary-directory cleanup; the complete verified gate uses the established Python 3.10 runtime.
 
 ## Important Decisions
 
@@ -306,7 +304,11 @@ None. Stage 25 is complete and work is stopped before Stage 26 End-to-End Produc
 - Require every mandatory category to pass for release-candidate status; never let a high aggregate test count substitute for real recovery, chaos, security, API, or model evidence.
 - Scope acceptance to the measured single-user loopback backend; remote multi-user deployment remains explicitly deferred.
 - Track acceptance thresholds before execution, embed them in the retained result, and require a full rerun when policy changes.
-- Stage 25 responsive/accessibility/performance hardening was explicitly approved; Stage 26 end-to-end product verification requires its own user approval gate.
+- Stage 26 end-to-end product verification was explicitly approved; Stage 27 product demonstration/portfolio packaging requires its own user approval gate.
+- Keep product acceptance isolated on random loopback ports, a unique temporary database, and an owned browser session; never terminate or mutate an unknown development stack.
+- Keep tool discovery server-owned and execution exact-grant/read-only/path-restricted; the browser never grants authority.
+- Require the real-model Stage 16 sub-gate and deterministic browser sub-gate together; neither substitutes for the other.
+- Normalize persisted inference results to the live API contract for restart rendering while retaining the explicit durable envelope for tool-only tasks until a discriminated result union is approved.
 - Use component inline-size rather than viewport width when a resizable pane owns the actual layout constraint.
 - Reject page-level horizontal overflow at 320 px; keep the grouped mobile route rail as one intentional, contained horizontal scroller.
 - Give persistent controls stable accessible names independent of collapsed visible labels, restore command focus explicitly, and announce only coarse connection status rather than flooding lifecycle events.
@@ -411,6 +413,14 @@ None. Stage 25 is complete and work is stopped before Stage 26 End-to-End Produc
 See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](docs/adr/0002-typed-protocols-and-stdlib-skeleton.md), [ADR-0003](docs/adr/0003-pinned-llama-cpp-qwen-baseline.md), [ADR-0004](docs/adr/0004-registered-agent-runtime-and-lifecycle-events.md), [ADR-0005](docs/adr/0005-validated-execution-state-machine.md), [ADR-0006](docs/adr/0006-default-deny-bounded-tool-runtime.md), [ADR-0007](docs/adr/0007-bounded-aged-priority-scheduler.md), [ADR-0008](docs/adr/0008-conservative-pre-scheduler-memory-admission.md), [ADR-0009](docs/adr/0009-discrete-re-admitted-inference-profiles.md), [ADR-0010](docs/adr/0010-explainable-availability-gated-model-routing.md), [ADR-0011](docs/adr/0011-sqlite-checkpoints-and-pre-invocation-recovery.md), [ADR-0012](docs/adr/0012-hash-chained-traces-and-bounded-replay.md), [ADR-0013](docs/adr/0013-sqlite-windowed-observability-snapshots.md), [ADR-0014](docs/adr/0014-bounded-protocol-fault-injection.md), [ADR-0015](docs/adr/0015-deterministic-security-boundaries.md), [ADR-0016](docs/adr/0016-loopback-stdlib-http-json-sse-api.md), [ADR-0017](docs/adr/0017-scoped-evidence-based-backend-acceptance.md), [ADR-0018](docs/adr/0018-systems-cartography-web-shell.md), and [ADR-0019](docs/adr/0019-real-loopback-query-and-sse-client.md).
 
 ## Tests Passing
+
+- `python -m benchmarks.run_stage26_product_acceptance` — exit 0; release candidate true, all seven Stage 26 and all fourteen inherited Stage 16 required categories PASS, overall maturity `PARTIAL`.
+- Stage 26 backend gate — 154/154 tests, complete control/fault/recovery/trace/observability/chaos/security/API coverage, and one real Qwen/llama.cpp inference passed in 91,410.474 ms.
+- Stage 26 frontend gate — 39/39 component/axe tests, production TypeScript/Vite build, and 150,997/256,000 gzip JavaScript gate passed.
+- Stage 26 browser gate — eight real routes, inference/tool completion, 16-step traces, side-effect-free replay, visible API outage/recovery, zero page/console errors, zero automated WCAG A/AA violations, and restart rendering passed.
+- Stage 26 failure gate — invalid task 400, denied cross-agent tool 403, unconfirmed chaos 400, terminal cancellation 409, and missing task 404 matched exactly.
+- Focused API/product-policy regression — 5/5 tests passed for tool catalog/execution/denial, durable inference normalization/history, strict acceptance config, full-pass classification, and required-failure rejection.
+- Python 3.11 diagnostic — runtime scenarios execute, but the injected SQLite database-failure test hits a Windows temporary-file cleanup handle; this interpreter is not the Stage 26 verified runtime.
 
 - `npm run build` in `apps/web` — strict TypeScript/Vite production build passed in 209 ms; one 389.17 kB raw/119.14 kB reported-gzip JavaScript asset and one 21.80 kB raw/4.66 kB gzip CSS asset.
 - `npm test` — 7/7 Stage 19 component tests passed in 4.48 seconds, including real-contract fixtures, task URL selection, lifecycle rendering, cancellation wiring, and the automated axe scan.
@@ -567,6 +577,11 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 ## Known Problems
 
+- Stage 26 acceptance is scoped to a single-user loopback portfolio release; the standard-library API and Vite preview are not a production serving stack.
+- Completed inference results are normalized after restart, while persisted tool-only tasks retain a distinct durable output envelope; a generic task explorer needs a versioned discriminated result union.
+- Agent Browser is an exact development-only dependency for product verification; it is absent from the production bundle and does not replace human accessibility or visual review.
+- The Stage 26 browser uses a deterministic stub for repeatability; the mandatory inherited gate separately proves one real local-model call, not semantic output quality.
+- Python 3.11 on Windows exposes an open-handle cleanup incompatibility in the deliberately injected SQLite failure path; Python 3.10 is the verified project runtime.
 - Runtime, Agents, Scheduler, Traces, Hardware, Metrics, Chaos, and Security are real workbench routes; Models, Tasks, and Settings retain honest endpoint placeholders until their approved scopes.
 - The backend exposes no bounded task-list endpoint; the UI cannot claim or render a complete task history.
 - A refreshed terminal task remains inspectable through durable state history and its safe trace, but its transient SSE rail is not reconstructed.
@@ -720,9 +735,22 @@ events, and renders 30 lifecycle rows; the existing 10,000-step fixture renders
 100 rows per page. The Vite development route/health timings are one-run local
 samples, not field interaction or Core Web Vitals evidence.
 
+Stage 26 retains one complete release-candidate gate. Backend acceptance took
+91,410.474 ms and measured one real inference at 1,801.341 ms TTFT, 103.47
+tokens/second, 2,408.659 ms total, 1,343.680 MiB peak process RAM, and 1,189 MiB
+VRAM delta. Frontend tests took 35,391.660 ms, the build 5,929.256 ms, and the
+bundle check 1,565.495 ms. The browser product journey took 65,656.979 ms,
+rendered eight routes, and measured 2.5 ms TTFB, 76 ms FCP/LCP, and CLS 0.01;
+INP was unavailable. The read-only tool completed in 2.531 ms. JavaScript is
+150,997 gzip bytes (59.0% of the 256,000-byte gate). These are one-run local lab
+measurements, not field performance. See [the Stage 26 acceptance result](benchmarks/results/stage26-product-acceptance-20260827T101438Z.json).
+
 ## Backend Acceptance Status
 
-PASS WITH TRACKED LIMITATIONS. All mandatory backend categories passed; release candidate true; overall maturity `PARTIAL`. Stage 23 adds only bounded loopback experiment catalog/execution operations around the existing Stage 13/14 deterministic harnesses; it does not change normal runtime authority.
+PASS WITH TRACKED LIMITATIONS. All mandatory backend and product categories pass;
+release candidate true; overall maturity `PARTIAL`. Stage 26 adds only bounded,
+server-catalogued read-only tool execution and isolated verification; it does not
+broaden normal runtime authority or remote exposure.
 
 ## Frontend Research Status
 
@@ -733,11 +761,13 @@ Agent & Scheduler Visualization, Stage 21 Trace Explorer & Replay Debugger, and
 Stage 22 Hardware & Performance Lab plus Stage 23 Chaos & Security Lab.
 Stage 24 implements its native interaction recommendation without adding a motion runtime.
 Stage 25 verifies and hardens that recommendation without adding a dependency.
+Stage 26 verifies the complete implemented product and adds only an exact
+development-time browser driver plus the server-catalogued Safe Tool Probe.
 
 ## Next Step
 
-Stage 26 — End-to-End Product Verification
+Stage 27 — Product Demonstration & Portfolio Packaging
 
 ## Later Backlog
 
-Stages 26–27 remain intentionally deferred and must be entered one at a time after explicit approval.
+Stage 27 remains intentionally deferred and requires explicit approval.

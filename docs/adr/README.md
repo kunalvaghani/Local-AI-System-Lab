@@ -32,6 +32,7 @@ performance, reproducibility, or stage boundaries.
 | [0023](0023-server-catalogued-confirmed-experiment-ui.md) | Accepted | Server-owned experiment catalogs with explicit confirmation, isolation, and non-certifying visual evidence |
 | [0024](0024-native-progressive-interaction-layer.md) | Accepted | Keyboard-first command navigation and bounded native route transitions with immediate fallbacks |
 | [0025](0025-container-aware-accessible-bounded-rendering.md) | Accepted | Container-aware reflow, explicit accessible focus/status, passing contrast, and frame-batched bounded streams |
+| [0026](0026-isolated-full-story-product-acceptance.md) | Accepted | Isolated full-story acceptance across real-model, browser, tool, failure, and restart boundaries |
 
 ## Process
 

@@ -22,7 +22,7 @@ function SystemBar({ commandTriggerRef, density, onCommandPaletteOpen, onDensity
         <span className="brand-mark" aria-hidden="true">LA</span>
         <span>
           <strong>Local AI</strong>
-          <small>Systems Lab / Stage 25</small>
+          <small>Systems Lab / Stage 26</small>
         </span>
       </div>
 
