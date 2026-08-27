@@ -7,7 +7,7 @@ At the start of Stage 0, commit `67ef780` contained one tracked file:
 matched `origin/main`. There were no source directories, tests, configuration
 files, dependency manifests, architecture documents, or TODO/FIXME markers.
 
-## Structure after Stage 26
+## Structure after Stage 27
 
 ```text
 Local-AI-System-Lab/
@@ -267,7 +267,7 @@ Ignored `tools/` and `models/` directories contain the verified native binaries
 and GGUF file; they are reproducible artifacts, not source. No empty future
 directories are added merely to imply implementation.
 
-## Component inventory after Stage 26
+## Component inventory after Stage 27
 
 | Area | Prior evidence | Current state | Evidence |
 | --- | --- | --- | --- |
@@ -304,7 +304,8 @@ directories are added merely to imply implementation.
 | Safe tool API/UI | Python/CLI-only exact-grant tool runtime | Server-owned `GET /v1/tools`, bounded `POST /v1/tools/execute`, and Runtime Safe Tool Probe with durable task/trace evidence | `runtime/api/`, `ToolProbe.tsx`, API/component tests |
 | Durable frontend recovery | Completed tasks inspectable through the API with a persistence-specific envelope | Persisted inference results normalize to the live task-result shape with reconstructed state history, so URL-selected tasks render after API restart | `runtime/api/manager.py`, restart API/browser tests |
 | Stage 26 product acceptance | Independent backend/frontend gates and manual browser evidence | One isolated gate combines 154 backend tests, real model, 39 frontend tests, build/bundle, eight browser routes, five failures, tool trace/replay, outage/recovery, and restart durability | `run_stage26_product_acceptance.py`, `stage26-browser.mjs`, retained JSON, ADR-0026 |
-| Release identity | Stage 25 frontend 0.25.0 | Stage 26 frontend 0.26.0; product release candidate for single-user loopback scope, overall maturity `PARTIAL` | `apps/web/package.json`, Stage 26 report |
+| Release identity | Stage 26 frontend 0.26.0 | Stage 27 frontend 0.27.0; portfolio/interview release of the accepted single-user loopback product, overall maturity still `PARTIAL` | `apps/web/package.json`, Stage 27 report |
+| Stage 27 portfolio release | Stage evidence spread across chronological reports | Recruiter-first documentation, five real workbench screenshots, a five-minute demo, systems/security/frontend rationale, failed experiments, interview Q&A, and executable evidence/link/image validation | `docs/portfolio/`, `docs/assets/portfolio/`, `configs/portfolio-release.json`, `validate_portfolio_release.py`, ADR-0027 |
 
 ## Current and planned folder convention
 
@@ -313,7 +314,7 @@ the files listed above; later subdirectories are not implementation claims.
 
 ```text
 apps/             Approved local applications
-  web/            Stage 26 verified React/Vite workbench with safe tool probe and browser acceptance
+  web/            Stage 27 portfolio-released React/Vite workbench with reproducible browser capture
 runtime/          Inspectable runtime implementation
   api/            Current loopback backend adapter and application service
   agents/         Agent identity and behavior contracts

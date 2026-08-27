@@ -6,38 +6,42 @@ Local AI Systems Lab — a fully local, inspectable AI runtime/platform for cons
 
 ## Current Milestone
 
-The complete local product is a Stage 26 release candidate for the measured
-single-user loopback portfolio scope. Stages 17–25 deliver the Systems Cartography
-workbench, real Runtime/Agent/Scheduler/Trace/Replay/Hardware/Metrics/Chaos/
-Security views, interaction polish, responsive reflow, accessibility semantics,
-and bounded rendering. Stage 26 adds the server-catalogued Safe Tool Probe and
-one retained acceptance gate across the real local model, built browser client,
-API, runtime, scheduler/router/model, tool policy, SQLite, telemetry, trace/replay,
-visible failure/recovery, and post-restart rendering. All mandatory categories
-pass while overall maturity remains honestly `PARTIAL` and remote multi-user
-deployment remains `DEFERRED`.
+The complete local product is a Stage 27 portfolio and interview release for the
+measured single-user loopback scope. Stages 17–25 deliver the Systems Cartography
+workbench; Stage 26 retains one complete acceptance gate across the real local
+model, built browser client, API, runtime, scheduler/router/model, safe tools,
+SQLite, telemetry, trace/replay, failure/recovery, and restart rendering. Stage
+27 adds recruiter-first documentation, five reproducible product screenshots, a
+five-minute demonstration, design/benchmark/security/limitations/interview
+guides, and executable verification of links, images, and retained claims. All
+mandatory product categories pass while overall maturity remains honestly
+`PARTIAL` and remote multi-user deployment remains `DEFERRED`.
 
 ## Current Stage
 
-Stage 26 — End-to-End Product Verification — COMPLETE, AWAITING APPROVAL.
+Stage 27 — Portfolio & Interview Release — COMPLETE, AWAITING APPROVAL.
 
 ## Current Subsystem
 
-Verified local React/TypeScript/Vite workbench and loopback backend covering real
-runtime, agent, scheduler, trace/replay, source-labelled hardware/performance,
-controlled chaos/security, and a server-catalogued exact-grant read-only tool
-probe. Stage 26 owns isolated ports/data/processes, combines real-model and full
-regression gates, verifies eight browser routes plus five failure statuses, and
-normalizes completed inference evidence for rendering after API restart.
+Evidence-indexed portfolio release around the verified React/TypeScript/Vite
+workbench and loopback backend. Stage 27 organizes setup, demo, benchmarks,
+scheduler/routing/persistence, security/chaos, frontend rationale, failed
+experiments, limitations, and interview Q&A; real browser captures and a strict
+validator keep the presentation tied to the accepted product and retained JSON.
 
 ## Last Completed Work
 
+- Reframed the root README for recruiters and interviewers with architecture, five-minute demo, measured evidence, documentation paths, screenshots, and explicit limitations.
+- Added focused portfolio guides for setup/reproducibility, demo workflow, benchmark methodology/results, systems design, security/chaos, frontend rationale, failed experiments, and interview Q&A.
+- Captured five 1440×900 screenshots from the running workbench after following one deterministic task through Runtime, Scheduler, Trace/Replay, Hardware, and Security; capture now fails on a visible Runtime API error.
+- Added a strict Stage 27 manifest and standard-library validator for required documents/headings, all declared local Markdown links, PNG signature/dimensions, exact retained-evidence assertions, and SHA-256 artifact inventory.
+- Added Stage 27 validator tests, ADR-0027, final architecture/development/repository/risk updates, and frontend identity 0.27.0; the planned 27-stage roadmap is complete.
 - Added strict Stage 26 product acceptance policy and a retained orchestrator that combines the complete Stage 16 real-model gate, frontend tests/build/bundle, isolated random-port API/preview/Chromium flow, exact failures, accessibility automation, and API-restart recovery.
 - Added server-owned `GET /v1/tools` and bounded `POST /v1/tools/execute` plus a Runtime Safe Tool Probe that preserves exact agent grants, read-only/path restrictions, typed arguments, persistence, telemetry, and redacted trace/replay.
 - Normalized persisted inference task results to the live API shape and reconstructed state history so a URL-selected completed task renders after process restart.
 - Verified eight real routes, visible API disconnect/reconnect, inference and tool traces/replay, and exact 400/403/400/409/404 failure responses with zero browser page/console errors or automated A/AA violations.
 - Retained `stage26-product-acceptance-20260827T101438Z.json`: 154 backend tests, 39 frontend tests, all Stage 16/26 required categories PASS, one real model call, 150,997-byte gzip JavaScript, SQLite integrity `ok`, and release candidate true/overall `PARTIAL`.
-- Added Stage 26 report, ADR-0026, development/architecture/repository/risk updates, and frontend identity 0.26.0; Stage 27 remains unimplemented.
+- Added Stage 26 report, ADR-0026, development/architecture/repository/risk updates, and frontend identity 0.26.0; Stage 27 was the next approval-gated boundary.
 
 - Added a root `setup_and_run.bat` operational launcher that verifies the local prerequisites, prepares missing pinned llama.cpp/Qwen and frontend dependencies, waits for the backend before starting Vite, reuses matching healthy services, refuses to terminate unknown port owners, and keeps Ollama explicit and separate through `--with-ollama`; this is a Stage 25 usability improvement and does not enter Stage 26.
 - Verified the local workbench at 1440×900, 1024×768, 768×1024, 390×844, and 320×568; page client/scroll widths matched after layout settling, with only the intentional mobile route rail scrolling horizontally.
@@ -265,11 +269,11 @@ normalizes completed inference evidence for rendering after API restart.
 
 ## Currently Working On
 
-None. Stage 26 is complete and work is stopped before Stage 27 Product Demonstration & Portfolio Packaging.
+None. Stage 27 is complete; the planned 27-stage roadmap is finished.
 
 ## Current Blockers
 
-- User approval is required before Stage 27 Product Demonstration & Portfolio Packaging.
+- No implementation blocker remains inside the approved 27-stage roadmap.
 - No runtime/API blocker prevents the next single-user loopback frontend scope.
 - The API has no list-tasks endpoint; Stage 19 truthfully inspects only the selected known/created task.
 - Stage 20/21 visualize one selected task and do not claim a global task explorer.
@@ -304,7 +308,9 @@ None. Stage 26 is complete and work is stopped before Stage 27 Product Demonstra
 - Require every mandatory category to pass for release-candidate status; never let a high aggregate test count substitute for real recovery, chaos, security, API, or model evidence.
 - Scope acceptance to the measured single-user loopback backend; remote multi-user deployment remains explicitly deferred.
 - Track acceptance thresholds before execution, embed them in the retained result, and require a full rerun when policy changes.
-- Stage 26 end-to-end product verification was explicitly approved; Stage 27 product demonstration/portfolio packaging requires its own user approval gate.
+- Stage 27 publishes only evidence already accepted by the Stage 26 product gate; documentation and screenshots do not broaden runtime authority or product maturity.
+- Treat portfolio claims as release inputs: exact retained JSON assertions, local links, image dimensions, and artifact hashes must pass the Stage 27 validator.
+- Keep deterministic product screenshots distinct from the separate real-model acceptance measurement and preserve hardware/scope caveats beside copied numbers.
 - Keep product acceptance isolated on random loopback ports, a unique temporary database, and an owned browser session; never terminate or mutate an unknown development stack.
 - Keep tool discovery server-owned and execution exact-grant/read-only/path-restricted; the browser never grants authority.
 - Require the real-model Stage 16 sub-gate and deterministic browser sub-gate together; neither substitutes for the other.
@@ -414,6 +420,11 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 ## Tests Passing
 
+- `python -m unittest tests.test_portfolio_release -v` — 3/3 validator policy tests passed for complete release, broken local link, and strict unknown-field rejection.
+- `npm run build` in `apps/web` — Stage 27 strict TypeScript/Vite production build passed; 517.58 kB minified JavaScript and 60.25 kB/9.64 kB gzip CSS were emitted with the existing single-chunk warning.
+- `npm run check:bundle` — PASS at 150,999/256,000 compressed JavaScript bytes.
+- `npm run capture:portfolio` — five 1440×900 real workbench screenshots captured from an isolated loopback stub stack with no visible Runtime API error.
+- `python scripts/validate_portfolio_release.py` — 176/176 checks passed across 15 documents, 141 local links, five PNG screenshots, and four retained JSON evidence files.
 - `python -m benchmarks.run_stage26_product_acceptance` — exit 0; release candidate true, all seven Stage 26 and all fourteen inherited Stage 16 required categories PASS, overall maturity `PARTIAL`.
 - Stage 26 backend gate — 154/154 tests, complete control/fault/recovery/trace/observability/chaos/security/API coverage, and one real Qwen/llama.cpp inference passed in 91,410.474 ms.
 - Stage 26 frontend gate — 39/39 component/axe tests, production TypeScript/Vite build, and 150,997/256,000 gzip JavaScript gate passed.
@@ -763,11 +774,17 @@ Stage 24 implements its native interaction recommendation without adding a motio
 Stage 25 verifies and hardens that recommendation without adding a dependency.
 Stage 26 verifies the complete implemented product and adds only an exact
 development-time browser driver plus the server-catalogued Safe Tool Probe.
+Stage 27 packages that evidence for review and adds an executable documentation,
+link, screenshot, and retained-claim release gate without changing runtime authority.
 
 ## Next Step
 
-Stage 27 — Product Demonstration & Portfolio Packaging
+None — the planned 27-stage roadmap is complete.
 
 ## Later Backlog
 
-Stage 27 remains intentionally deferred and requires explicit approval.
+Future work requires a newly approved scope. The tracked backlog includes a
+versioned inference/tool result union, bounded task-history and trace-pagination
+contracts, human accessibility review, Python 3.11 SQLite fault-cleanup support,
+multi-host performance distributions, and any separately designed remote serving
+or stronger process/OS isolation.

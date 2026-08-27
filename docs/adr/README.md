@@ -33,6 +33,7 @@ performance, reproducibility, or stage boundaries.
 | [0024](0024-native-progressive-interaction-layer.md) | Accepted | Keyboard-first command navigation and bounded native route transitions with immediate fallbacks |
 | [0025](0025-container-aware-accessible-bounded-rendering.md) | Accepted | Container-aware reflow, explicit accessible focus/status, passing contrast, and frame-batched bounded streams |
 | [0026](0026-isolated-full-story-product-acceptance.md) | Accepted | Isolated full-story acceptance across real-model, browser, tool, failure, and restart boundaries |
+| [0027](0027-evidence-indexed-portfolio-release.md) | Accepted | Recruiter-first documentation, real-product screenshots, and executable claim/link/artifact verification |
 
 ## Process
 

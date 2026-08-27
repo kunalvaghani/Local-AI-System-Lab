@@ -1,4 +1,4 @@
-# Architecture Baseline through Stage 23
+# Final Architecture — Stage 27 Portfolio Release
 
 ## Status and scope
 
@@ -525,4 +525,33 @@ Detailed mechanisms belong to later stages. Current behavior and constraints are
 - Stage 23 Chaos & Security Lab UI — COMPLETE.
 - Stage 24 Advanced Interaction & Motion Polish — COMPLETE.
 - Stage 25 Responsive, Accessibility & Performance Pass — COMPLETE.
-- Stage 26 End-to-End Product Verification — COMPLETE; release candidate for the measured single-user loopback scope with tracked limitations. Stage 27 remains approval-gated.
+- Stage 26 End-to-End Product Verification — COMPLETE; release candidate for the measured single-user loopback scope with tracked limitations.
+- Stage 27 Portfolio & Interview Release — COMPLETE; recruiter-first documentation, reproducible screenshots/demo, and evidence-indexed release validation are present. The planned 27-stage roadmap is complete.
+
+## Stage 27 release-evidence layer
+
+Stage 27 does not add runtime authority. It adds a documentation and verification
+layer around the accepted product:
+
+```text
+README / portfolio guides / interview guide
+                    │
+                    ▼
+        portfolio-release.json
+          ├─ required documents/headings
+          ├─ PNG dimensions and paths
+          └─ exact retained-evidence assertions
+                    │
+                    ▼
+       validate_portfolio_release.py
+          ├─ local Markdown-link resolution
+          ├─ PNG signature/IHDR validation
+          ├─ retained JSON value checks
+          └─ SHA-256 artifact inventory
+```
+
+The screenshot driver uses the pinned local browser against a loopback stack,
+launches one deterministic task, follows its task identity across Runtime,
+Scheduler, Trace/Replay, Hardware, and Security surfaces, and refuses to capture
+the Runtime page when a visible API error exists. Real-model performance remains
+owned by the independent retained Stage 26 acceptance evidence.

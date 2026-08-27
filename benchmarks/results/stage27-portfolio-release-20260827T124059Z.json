@@ -1,0 +1,1033 @@
+{
+  "artifacts": [
+    {
+      "bytes": 103289,
+      "path": "PROJECT_STATE.md",
+      "sha256": "4606393d6a064156c5802e484f2131f6f304ecdacce2b6be93c75e385e3d432f"
+    },
+    {
+      "bytes": 20387,
+      "path": "README.md",
+      "sha256": "ea1438126ea39581fdd36934f74878cbb31bd592df40c6ca021c81b7d6ea41a0"
+    },
+    {
+      "bytes": 18521,
+      "path": "benchmarks/results/stage13-chaos-20260824T193424Z.json",
+      "sha256": "67343d6939ec52d12d597b93b2258a5b1e10d1c789a7de5576e544bff708da0f"
+    },
+    {
+      "bytes": 6141,
+      "path": "benchmarks/results/stage14-security-20260824T203349Z.json",
+      "sha256": "a57732da27c99aedd08852e5c184a04cb07317ab1aa973eee4bbbb8918e17569"
+    },
+    {
+      "bytes": 9866,
+      "path": "benchmarks/results/stage2-baseline-20260823T180550Z.json",
+      "sha256": "d5869134f833edc08df451b77045590e5533af89d98f77711cf772bcaa75e8a4"
+    },
+    {
+      "bytes": 11746,
+      "path": "benchmarks/results/stage26-product-acceptance-20260827T101438Z.json",
+      "sha256": "c8fafbde021cbd8619e27955098c25242bbbcfb68de1fddd045e585931c4917f"
+    },
+    {
+      "bytes": 3646,
+      "path": "docs/adr/0027-evidence-indexed-portfolio-release.md",
+      "sha256": "ae836a861a0ca39e61cc2f951f5228fc7d87f12b73bfdef814d85c853f350efc"
+    },
+    {
+      "bytes": 38755,
+      "path": "docs/architecture.md",
+      "sha256": "afe7edad695f07b4d60d7db2752a70ebd14e6eab3db29ef4edf367b422568b7d"
+    },
+    {
+      "bytes": 35316,
+      "height": 900,
+      "path": "docs/assets/portfolio/chaos-security-lab.png",
+      "sha256": "0de5a3a25602bb44081a8b02d99795dfc276131f796b4e74f9b81bfcd74358b0",
+      "width": 1440
+    },
+    {
+      "bytes": 43076,
+      "height": 900,
+      "path": "docs/assets/portfolio/hardware-performance-lab.png",
+      "sha256": "cb43fa926230bd97e1c4074450d40bf960a06be6fc32ea5dc29e570265e6f352",
+      "width": 1440
+    },
+    {
+      "bytes": 34746,
+      "height": 900,
+      "path": "docs/assets/portfolio/runtime-command-center.png",
+      "sha256": "8f28b85e7ed443d78250c9fccdc6f9e23fd3110dad6aa032db21f66ff0868d29",
+      "width": 1440
+    },
+    {
+      "bytes": 38763,
+      "height": 900,
+      "path": "docs/assets/portfolio/scheduler-execution.png",
+      "sha256": "df0537b1d40e5ed67987516714d34682432d78bc1cb7de296fb4580739878403",
+      "width": 1440
+    },
+    {
+      "bytes": 45137,
+      "height": 900,
+      "path": "docs/assets/portfolio/trace-replay-debugger.png",
+      "sha256": "f7527459f583415616c9b4b015c63149f7444ff91e04d3acbc148e0db0feea66",
+      "width": 1440
+    },
+    {
+      "bytes": 3102,
+      "path": "docs/portfolio/README.md",
+      "sha256": "c18440bf5a84a722b70fa81e46e9851c451263028a8cbd17b2a3fd3a907bd259"
+    },
+    {
+      "bytes": 4034,
+      "path": "docs/portfolio/benchmark-methodology-and-results.md",
+      "sha256": "bf01896a0cb10be269cc3fff0628e2aea95d9db20e61404a1d8993ce3a02a97c"
+    },
+    {
+      "bytes": 3742,
+      "path": "docs/portfolio/demo-workflow.md",
+      "sha256": "77cc14a6ff9f430b80d2ad614f41858b4b3bf18894b6cc5e077ff8923fdab9ab"
+    },
+    {
+      "bytes": 4154,
+      "path": "docs/portfolio/failed-experiments.md",
+      "sha256": "284092bab841e327ea0419c08e528352968f5aa4471626d977a587af05d90450"
+    },
+    {
+      "bytes": 3063,
+      "path": "docs/portfolio/frontend-design-rationale.md",
+      "sha256": "aa323eadc9b275437acc335f151ee0ce23444bf2441da6806fe686412dd21756"
+    },
+    {
+      "bytes": 4639,
+      "path": "docs/portfolio/interview-guide.md",
+      "sha256": "a1036ba7af57ce6f3f9495e5bcd7963d037df79b55742be13d3ede9b79d24259"
+    },
+    {
+      "bytes": 3559,
+      "path": "docs/portfolio/security-and-chaos.md",
+      "sha256": "03579401ebf91b5ef9208e1a675d882a9d0696a46b771956317acdc217a674bb"
+    },
+    {
+      "bytes": 3403,
+      "path": "docs/portfolio/setup-and-reproducibility.md",
+      "sha256": "ae8c55034181bb50539bf7f0d0c2a4ca568c74525d6a3ae7d65b62cde2459c6c"
+    },
+    {
+      "bytes": 4154,
+      "path": "docs/portfolio/systems-design.md",
+      "sha256": "ac928083024ba56fc53667a0b7b771d0999eab2d06f8a940cfed1f8175e00a69"
+    },
+    {
+      "bytes": 31153,
+      "path": "docs/risks.md",
+      "sha256": "69a7c6b96bc05bd05928c8445b5df35dea376d9a31d8751497cb81472b89e31a"
+    },
+    {
+      "bytes": 9379,
+      "path": "docs/stages/stage27-portfolio-and-interview-release.md",
+      "sha256": "02ccfa24de545dc30c2c19963657964328bbba206341439658b49535dee98bfd"
+    }
+  ],
+  "captured_at_utc": "2026-08-27T12:40:59.208462+00:00",
+  "checks": [
+    {
+      "detail": "present",
+      "name": "document:README.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/portfolio/README.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/portfolio/setup-and-reproducibility.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/portfolio/demo-workflow.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/portfolio/benchmark-methodology-and-results.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/portfolio/systems-design.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/portfolio/security-and-chaos.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/portfolio/frontend-design-rationale.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/portfolio/failed-experiments.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/portfolio/interview-guide.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/architecture.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/risks.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/adr/0027-evidence-indexed-portfolio-release.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:docs/stages/stage27-portfolio-and-interview-release.md",
+      "passed": true
+    },
+    {
+      "detail": "present",
+      "name": "document:PROJECT_STATE.md",
+      "passed": true
+    },
+    {
+      "detail": "heading present",
+      "name": "readme:## What This Demonstrates",
+      "passed": true
+    },
+    {
+      "detail": "heading present",
+      "name": "readme:## Architecture at a Glance",
+      "passed": true
+    },
+    {
+      "detail": "heading present",
+      "name": "readme:## Five-Minute Demo",
+      "passed": true
+    },
+    {
+      "detail": "heading present",
+      "name": "readme:## Measured Evidence",
+      "passed": true
+    },
+    {
+      "detail": "heading present",
+      "name": "readme:## Portfolio Documentation",
+      "passed": true
+    },
+    {
+      "detail": "heading present",
+      "name": "readme:## Known Limits",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/assets/portfolio/runtime-command-center.png",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/architecture.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/systems-design.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/demo-workflow.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/benchmark-methodology-and-results.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:benchmarks/results/stage26-product-acceptance-20260827T101438Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/README.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/setup-and-reproducibility.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/demo-workflow.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/benchmark-methodology-and-results.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/systems-design.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/security-and-chaos.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/frontend-design-rationale.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/failed-experiments.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/portfolio/interview-guide.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage27-portfolio-and-interview-release.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/adr/README.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/risks.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:PROJECT_STATE.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:PROJECT_STATE.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage27-portfolio-and-interview-release.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/adr/0027-evidence-indexed-portfolio-release.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage25-responsive-accessibility-performance-pass.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/adr/0025-container-aware-accessible-bounded-rendering.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage26-end-to-end-product-verification.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/adr/0026-isolated-full-story-product-acceptance.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/frontend-research.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/backend-acceptance-report.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage16-backend-verification-acceptance-gate.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage15-backend-api-full-runtime-integration.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage14-security-adversarial-testing.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage13-fault-injection-chaos-framework.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage12-observability-metrics-backend.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage11-execution-trace-deterministic-replay.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage10-persistence-checkpoints-recovery.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage9-model-registry-router-budgets.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage8-adaptive-inference-controller.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage7-hardware-profiler-admission.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage6-request-scheduler.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage5-tool-runtime-permissions.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/stages/stage4-explicit-state-machine.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:configs/inference-baseline.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/repository-map.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/architecture.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/frontend-research.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/frontend-design-system.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/environment.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/development.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/risks.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/benchmarks/stage2-local-inference-baseline.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:README.md:docs/adr/README.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:../../README.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:../assets/portfolio/runtime-command-center.png",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:benchmark-methodology-and-results.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:demo-workflow.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:systems-design.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:security-and-chaos.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:failed-experiments.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:interview-guide.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:../../benchmarks/results/stage26-product-acceptance-20260827T101438Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:setup-and-reproducibility.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:demo-workflow.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:benchmark-methodology-and-results.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:../architecture.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:../risks.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:../../PROJECT_STATE.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:setup-and-reproducibility.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:demo-workflow.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:benchmark-methodology-and-results.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:systems-design.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:security-and-chaos.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:frontend-design-rationale.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:failed-experiments.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/README.md:interview-guide.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/setup-and-reproducibility.md:../environment.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/setup-and-reproducibility.md:../../configs/portfolio-release.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/demo-workflow.md:../../benchmarks/results/stage8-profile-comparison-20260824T122355Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/demo-workflow.md:../../benchmarks/results/stage26-product-acceptance-20260827T101438Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/demo-workflow.md:../assets/portfolio/runtime-command-center.png",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/demo-workflow.md:../assets/portfolio/scheduler-execution.png",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/demo-workflow.md:../assets/portfolio/trace-replay-debugger.png",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/demo-workflow.md:../assets/portfolio/hardware-performance-lab.png",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/demo-workflow.md:../assets/portfolio/chaos-security-lab.png",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/benchmark-methodology-and-results.md:../../benchmarks/results/stage2-baseline-20260823T180550Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/benchmark-methodology-and-results.md:../../benchmarks/results/stage8-profile-comparison-20260824T122355Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/benchmark-methodology-and-results.md:../../benchmarks/results/stage13-chaos-20260824T193424Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/benchmark-methodology-and-results.md:../../benchmarks/results/stage14-security-20260824T203349Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/benchmark-methodology-and-results.md:../../benchmarks/results/stage26-product-acceptance-20260827T101438Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/systems-design.md:../stages/stage6-request-scheduler.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/systems-design.md:../stages/stage9-model-registry-router-budgets.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/systems-design.md:../stages/stage10-persistence-checkpoints-recovery.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/systems-design.md:../stages/stage13-fault-injection-chaos-framework.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/security-and-chaos.md:../../benchmarks/results/stage14-security-20260824T203349Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/security-and-chaos.md:../../benchmarks/results/stage13-chaos-20260824T193424Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/frontend-design-rationale.md:../frontend-research.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/frontend-design-rationale.md:../frontend-design-system.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/failed-experiments.md:../../benchmarks/results/stage8-profile-comparison-20260824T122355Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/failed-experiments.md:../../benchmarks/results/stage13-chaos-20260824T193424Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/failed-experiments.md:../../PROJECT_STATE.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/failed-experiments.md:../risks.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/interview-guide.md:../architecture.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/interview-guide.md:../../benchmarks/results/stage26-product-acceptance-20260827T101438Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/interview-guide.md:benchmark-methodology-and-results.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/interview-guide.md:failed-experiments.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/interview-guide.md:../risks.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:docs/portfolio/interview-guide.md:../adr/README.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0001-stage-gated-modular-backend-first.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0002-typed-protocols-and-stdlib-skeleton.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0003-pinned-llama-cpp-qwen-baseline.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0004-registered-agent-runtime-and-lifecycle-events.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0005-validated-execution-state-machine.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0006-default-deny-bounded-tool-runtime.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0007-bounded-aged-priority-scheduler.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0008-conservative-pre-scheduler-memory-admission.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0009-discrete-re-admitted-inference-profiles.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0010-explainable-availability-gated-model-routing.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0011-sqlite-checkpoints-and-pre-invocation-recovery.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0012-hash-chained-traces-and-bounded-replay.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0013-sqlite-windowed-observability-snapshots.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0014-bounded-protocol-fault-injection.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0015-deterministic-security-boundaries.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0016-loopback-stdlib-http-json-sse-api.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0017-scoped-evidence-based-backend-acceptance.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0018-systems-cartography-web-shell.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/adr/0019-real-loopback-query-and-sse-client.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:docs/benchmarks/stage2-local-inference-baseline.md",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage8-profile-comparison-20260824T122355Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage12-observability-20260824T163054Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage13-chaos-20260824T193424Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage14-security-20260824T203349Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage15-api-20260824T205654Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage15-api-real-20260825T010429Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage16-backend-acceptance-20260825T011603Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage19-runtime-command-center-20260825T121824Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage20-agent-scheduler-20260825T124614Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage21-trace-replay-20260825T130714Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage22-hardware-performance-20260825T133404Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage23-chaos-security-20260825T143324Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage24-interaction-motion-20260826T155934Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage25-responsive-accessibility-performance-20260826T182119Z.json",
+      "passed": true
+    },
+    {
+      "detail": "resolved",
+      "name": "link:PROJECT_STATE.md:benchmarks/results/stage26-product-acceptance-20260827T101438Z.json",
+      "passed": true
+    },
+    {
+      "detail": "1440x900",
+      "name": "screenshot:docs/assets/portfolio/runtime-command-center.png",
+      "passed": true
+    },
+    {
+      "detail": "1440x900",
+      "name": "screenshot:docs/assets/portfolio/scheduler-execution.png",
+      "passed": true
+    },
+    {
+      "detail": "1440x900",
+      "name": "screenshot:docs/assets/portfolio/trace-replay-debugger.png",
+      "passed": true
+    },
+    {
+      "detail": "1440x900",
+      "name": "screenshot:docs/assets/portfolio/hardware-performance-lab.png",
+      "passed": true
+    },
+    {
+      "detail": "1440x900",
+      "name": "screenshot:docs/assets/portfolio/chaos-security-lab.png",
+      "passed": true
+    },
+    {
+      "detail": "expected=26, actual=26",
+      "name": "evidence:benchmarks/results/stage26-product-acceptance-20260827T101438Z.json:stage",
+      "passed": true
+    },
+    {
+      "detail": "expected=True, actual=True",
+      "name": "evidence:benchmarks/results/stage26-product-acceptance-20260827T101438Z.json:evaluation.release_candidate",
+      "passed": true
+    },
+    {
+      "detail": "expected='PARTIAL', actual='PARTIAL'",
+      "name": "evidence:benchmarks/results/stage26-product-acceptance-20260827T101438Z.json:evaluation.overall_classification",
+      "passed": true
+    },
+    {
+      "detail": "expected=154, actual=154",
+      "name": "evidence:benchmarks/results/stage26-product-acceptance-20260827T101438Z.json:evidence.backend_gate.tests",
+      "passed": true
+    },
+    {
+      "detail": "expected=39, actual=39",
+      "name": "evidence:benchmarks/results/stage26-product-acceptance-20260827T101438Z.json:evidence.frontend_gate.tests",
+      "passed": true
+    },
+    {
+      "detail": "expected='ok', actual='ok'",
+      "name": "evidence:benchmarks/results/stage26-product-acceptance-20260827T101438Z.json:evidence.restart.integrity",
+      "passed": true
+    },
+    {
+      "detail": "expected=1, actual=1",
+      "name": "evidence:benchmarks/results/stage2-baseline-20260823T180550Z.json:schema_version",
+      "passed": true
+    },
+    {
+      "detail": "expected=13, actual=13",
+      "name": "evidence:benchmarks/results/stage13-chaos-20260824T193424Z.json:stage",
+      "passed": true
+    },
+    {
+      "detail": "expected=14, actual=14",
+      "name": "evidence:benchmarks/results/stage14-security-20260824T203349Z.json:stage",
+      "passed": true
+    }
+  ],
+  "release_label": "0.27.0-portfolio",
+  "release_ready": true,
+  "release_scope": "Recruiter and technical-interview release for the verified single-user loopback local product",
+  "run_id": "7aa4befe-2f96-4d4a-973d-52e06158949f",
+  "schema_version": 1,
+  "stage": 27,
+  "summary": {
+    "checks": 176,
+    "documents": 15,
+    "evidence_files": 4,
+    "failed": 0,
+    "local_links_checked": 141,
+    "passed": 176,
+    "screenshots": 5,
+    "validation_ms": 110.171
+  }
+}

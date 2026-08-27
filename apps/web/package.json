@@ -1,7 +1,7 @@
 {
   "name": "@local-ai-systems-lab/web",
   "private": true,
-  "version": "0.26.0",
+  "version": "0.27.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
@@ -17,6 +17,7 @@
     "smoke:stage24": "node scripts/stage24-smoke.mjs",
     "smoke:stage25": "node scripts/stage25-smoke.mjs",
     "verify:stage26:browser": "node scripts/stage26-browser.mjs",
+    "capture:portfolio": "node scripts/stage27-portfolio-capture.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {

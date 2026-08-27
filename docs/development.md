@@ -401,3 +401,31 @@ Performance work follows:
 ```text
 BASELINE -> PROFILE -> HYPOTHESIS -> CHANGE -> BENCHMARK -> KEEP/REVERT
 ```
+
+## Stage 27 portfolio release
+
+Validate the recruiter/interviewer release from the repository root:
+
+```powershell
+python scripts\validate_portfolio_release.py
+```
+
+The command validates the strict manifest, required README headings, every local
+Markdown link in the declared documents, screenshot PNG headers/dimensions, and
+exact claims against retained JSON evidence. It writes a timestamped result to
+`benchmarks/results/stage27-portfolio-release-*.json` and exits nonzero when the
+release is incomplete or a claim has drifted.
+
+Rebuild the five product screenshots while a matching backend and frontend are
+running:
+
+```powershell
+cd apps\web
+npm run capture:portfolio
+```
+
+Set `PORTFOLIO_WEB_BASE` when the owned workbench is not on port 4173. The driver
+uses the project-pinned browser, creates one deterministic task, follows its ID
+through the workbench, and fails if the Runtime capture boundary displays an API
+error. Screenshots prove the browser integration story; real-model proof remains
+the separate retained Stage 26 acceptance result.

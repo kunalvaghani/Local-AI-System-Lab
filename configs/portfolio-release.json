@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "stage": 27,
+  "release_label": "0.27.0-portfolio",
+  "release_scope": "Recruiter and technical-interview release for the verified single-user loopback local product",
+  "required_documents": [
+    "README.md",
+    "docs/portfolio/README.md",
+    "docs/portfolio/setup-and-reproducibility.md",
+    "docs/portfolio/demo-workflow.md",
+    "docs/portfolio/benchmark-methodology-and-results.md",
+    "docs/portfolio/systems-design.md",
+    "docs/portfolio/security-and-chaos.md",
+    "docs/portfolio/frontend-design-rationale.md",
+    "docs/portfolio/failed-experiments.md",
+    "docs/portfolio/interview-guide.md",
+    "docs/architecture.md",
+    "docs/risks.md",
+    "docs/adr/0027-evidence-indexed-portfolio-release.md",
+    "docs/stages/stage27-portfolio-and-interview-release.md",
+    "PROJECT_STATE.md"
+  ],
+  "required_screenshots": [
+    {"path": "docs/assets/portfolio/runtime-command-center.png", "minimum_width": 1200, "minimum_height": 700},
+    {"path": "docs/assets/portfolio/scheduler-execution.png", "minimum_width": 1200, "minimum_height": 700},
+    {"path": "docs/assets/portfolio/trace-replay-debugger.png", "minimum_width": 1200, "minimum_height": 700},
+    {"path": "docs/assets/portfolio/hardware-performance-lab.png", "minimum_width": 1200, "minimum_height": 700},
+    {"path": "docs/assets/portfolio/chaos-security-lab.png", "minimum_width": 1200, "minimum_height": 700}
+  ],
+  "required_evidence": [
+    {
+      "path": "benchmarks/results/stage26-product-acceptance-20260827T101438Z.json",
+      "assertions": {
+        "stage": 26,
+        "evaluation.release_candidate": true,
+        "evaluation.overall_classification": "PARTIAL",
+        "evidence.backend_gate.tests": 154,
+        "evidence.frontend_gate.tests": 39,
+        "evidence.restart.integrity": "ok"
+      }
+    },
+    {
+      "path": "benchmarks/results/stage2-baseline-20260823T180550Z.json",
+      "assertions": {"schema_version": 1}
+    },
+    {
+      "path": "benchmarks/results/stage13-chaos-20260824T193424Z.json",
+      "assertions": {"stage": 13}
+    },
+    {
+      "path": "benchmarks/results/stage14-security-20260824T203349Z.json",
+      "assertions": {"stage": 14}
+    }
+  ],
+  "required_readme_sections": [
+    "## What This Demonstrates",
+    "## Architecture at a Glance",
+    "## Five-Minute Demo",
+    "## Measured Evidence",
+    "## Portfolio Documentation",
+    "## Known Limits"
+  ]
+}

@@ -1,52 +1,110 @@
 # Local AI Systems Lab
 
-A stage-gated portfolio project for building an inspectable local AI runtime on
-constrained consumer hardware. Specialized agents now have an inspectable,
-transition-validated runtime, bounded scheduling, memory admission, adaptive profiles,
-explainable model routing, task-scoped compute budgets, durable recovery, and
-hash-chained execution traces with bounded replay. Stage 12 adds unified live
-and recent runtime telemetry, Stage 13 adds explicitly armed fault experiments,
-and Stage 14 adds deterministic security boundaries plus repeatable adversarial
-PASS/FAIL evidence. Stage 15 exposes the complete runtime through a documented,
-loopback-only HTTP/JSON and SSE backend API. Stage 16 verifies the entire backend
-through a reproducible acceptance gate with scoped maturity classifications.
-Stage 17 completes fresh frontend research and Stage 18 turns its Systems
-Cartography direction into a measured, navigable local React application shell
-and reusable design system without fabricating backend telemetry. Stage 19 adds
-the real local Runtime Command Center: live inspection, bounded task launch,
-URL-addressable task evidence, ordered SSE lifecycle updates, and cancellation.
-Stage 20 adds task-aware Agent and Scheduler views for durable/live state,
-cross-component handoffs, admission, queue order, dispatch timing, and control.
-Stage 21 adds a redacted Trace Explorer and explicit, side-effect-free Replay
-Debugger for step-by-step inspection of a selected execution. Stage 22 adds a
-source-labelled Hardware & Performance Lab for current resource pressure,
-inference/scheduler distributions, model/configuration evidence, and bounded
-recent-workload trends.
-Stage 23 adds interactive Chaos and Security Labs for confirmed isolated fault
-experiments, failure propagation, recovery, deterministic adversarial execution,
-attack outcomes, and blocked-action evidence without claiming certification.
-Stage 24 adds keyboard-first command navigation, native progressive route
-transitions, contextual route/task/source evidence, one-shot feedback, and a
-resettable inspector split without adding an animation runtime.
-Stage 25 completes the responsive, accessibility, and performance hardening
-pass with container-aware reflow, explicit focus/status semantics, passing
-computed token contrast, bounded long-trace rendering, frame-batched SSE bursts,
-and truthful slow-backend states. Stage 26 verifies the complete product through
-one retained release-candidate gate spanning the real local model, built browser
-client, safe tool execution, failure behavior, persistence, telemetry,
-trace/replay, accessibility automation, API disconnect/reconnect, and restart
-recovery.
+A fully local, inspectable AI runtime and engineering workbench built for an RTX
+3050 laptop GPU with 4 GB VRAM. It demonstrates the mechanics usually hidden by
+agent frameworks: explicit states, bounded scheduling, memory admission,
+adaptive llama.cpp profiles, explainable model routing, exact-grant tools,
+SQLite recovery, hash-chained traces, deterministic replay, chaos/security
+experiments, observability, and a real React operations interface.
+
+![Runtime Command Center](docs/assets/portfolio/runtime-command-center.png)
+
+## What This Demonstrates
+
+- A custom Python runtime executes specialized agents through validated state
+  transitions rather than direct model calls.
+- A bounded FIFO/priority scheduler exposes queue order, cancellation, deadlines,
+  aging, and worker metrics.
+- Hardware-aware admission and adaptive profiles make 4 GB VRAM constraints an
+  inspectable policy decision.
+- A model registry/router explains availability, selection, rejection, and
+  compute budgets.
+- Exact-grant read-only tools, deterministic security controls, and controlled
+  chaos experiments demonstrate both allowed and denied behavior.
+- SQLite persistence, checkpoints, killed-worker recovery, hash-chained traces,
+  and side-effect-free replay make execution debuggable.
+- A Systems Cartography React workbench projects real loopback API evidence
+  without inventing telemetry or becoming a chat clone.
+
+## Architecture at a Glance
+
+```text
+React workbench
+  -> loopback HTTP/JSON + task-scoped SSE
+  -> transport-independent runtime service
+  -> agent + state machine
+  -> admission -> scheduler -> router/profile -> llama.cpp
+  -> exact-grant tools
+  -> SQLite persistence + metrics + hash-chained trace/replay
+```
+
+The flagship is a Python-first modular monolith. Core protocols do not depend on
+React, HTTP, SQLite, or llama.cpp details; adapters remain replaceable and
+interview-visible. See the full [architecture](docs/architecture.md) and
+[systems design](docs/portfolio/systems-design.md).
+
+## Five-Minute Demo
+
+```powershell
+.\setup_and_run.bat --stub
+```
+
+Open `http://127.0.0.1:4173/runtime`, launch a task, follow it through Scheduler,
+inspect/replay its Trace, investigate Hardware/Metrics, run the Safe Tool Probe,
+then open Chaos and Security. Stub mode is deterministic product evidence; the
+retained release gate separately proves one real Qwen/llama.cpp inference. Use
+the exact [demo workflow](docs/portfolio/demo-workflow.md).
+
+## Measured Evidence
+
+| Release measurement | Result |
+| --- | ---: |
+| Backend tests | 154 passed |
+| Frontend tests | 39 passed |
+| Real local inference | 1,801.341 ms TTFT; 103.47 tokens/s |
+| Peak process RAM / VRAM delta | 1,343.680 MiB / 1,189 MiB |
+| Safe tool execution | 2.531 ms |
+| Browser product flow | 8 routes; 65,656.979 ms |
+| Frontend bundle | 150,997 / 256,000 gzip bytes |
+| Release gate | All required categories PASS; `release_candidate=true` |
+
+Overall maturity remains `PARTIAL`. Read the [methodology and results](docs/portfolio/benchmark-methodology-and-results.md)
+and inspect the retained [Stage 26 evidence](benchmarks/results/stage26-product-acceptance-20260827T101438Z.json).
+
+## Portfolio Documentation
+
+- [Portfolio release map](docs/portfolio/README.md)
+- [Setup and reproducibility](docs/portfolio/setup-and-reproducibility.md)
+- [Demo workflow and screenshots](docs/portfolio/demo-workflow.md)
+- [Benchmark methodology and results](docs/portfolio/benchmark-methodology-and-results.md)
+- [Scheduler, routing, persistence, and recovery design](docs/portfolio/systems-design.md)
+- [Security model and chaos testing](docs/portfolio/security-and-chaos.md)
+- [Frontend design rationale](docs/portfolio/frontend-design-rationale.md)
+- [Failed experiments](docs/portfolio/failed-experiments.md)
+- [Interview questions and answers](docs/portfolio/interview-guide.md)
+- [Stage 27 completion report](docs/stages/stage27-portfolio-and-interview-release.md)
+- [ADRs](docs/adr/README.md), [risk register](docs/risks.md), and [project state](PROJECT_STATE.md)
+
+## Known Limits
+
+- Single-user loopback release only; no authentication, TLS, remote deployment,
+  or multi-user ownership.
+- One installed real model backend; semantic accuracy/evaluation is incomplete.
+- A reproduced terminal-state/output transaction gap keeps recovery `PARTIAL`.
+- Application controls are not an OS sandbox or security certification.
+- Automated accessibility evidence is not human screen-reader conformance.
+- Python 3.10 is verified; a Windows SQLite fault-cleanup issue remains on 3.11.
 
 ## Current status
 
-- Last completed stage: Stage 26 — End-to-End Product Verification
-- Next approval-gated stage: Stage 27 — Product Demonstration & Portfolio Packaging
+- Last completed stage: Stage 27 — Portfolio & Interview Release
+- Next approval-gated stage: None — planned roadmap complete
 - Product acceptance: RELEASE CANDIDATE for single-user loopback use; all required checks PASS, overall maturity PARTIAL
 - Frontend Runtime, Agent, Scheduler, Trace, Replay, Hardware, Metrics, Chaos, Security, and Safe Tool Probe flows: COMPLETE
 
 See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
 
-## Run the Stage 26 Runtime Workbench
+## Run the Portfolio Release
 
 On Windows, the root launcher performs setup, starts the backend first, waits
 for its health check, then starts the frontend and opens the Runtime page:
@@ -82,6 +140,17 @@ scheduler, hardware, model, agent, and metric evidence through the loopback
 proxy. It can launch one bounded task, retain its selected ID in the URL, follow
 ordered SSE lifecycle events, show truthful output/measurements, and request
 cooperative cancellation. It does not fabricate a task history the API lacks.
+
+Validate the portfolio documents, local links, screenshot dimensions, and exact
+retained evidence claims:
+
+```powershell
+python scripts\validate_portfolio_release.py
+```
+
+The command writes a timestamped machine-readable Stage 27 result under
+`benchmarks/results/`. See the [Stage 27 report](docs/stages/stage27-portfolio-and-interview-release.md)
+and [ADR-0027](docs/adr/0027-evidence-indexed-portfolio-release.md).
 
 Validate the frontend foundation:
 
