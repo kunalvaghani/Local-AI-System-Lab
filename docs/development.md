@@ -241,6 +241,33 @@ retains a compact hashed JSON result under `benchmarks/results/`.
 
 ## Stage 25 local Runtime Workbench
 
+### One-command Windows setup and launch
+
+From the repository root, run:
+
+```powershell
+.\setup_and_run.bat
+```
+
+The launcher verifies Python/Node/npm, prepares missing pinned llama.cpp and
+Qwen GGUF artifacts through `scripts/setup_stage2.ps1`, installs frontend
+packages only when needed, starts the loopback backend, waits for `/v1/health`,
+then starts Vite and opens `/runtime`. Existing healthy services are reused, and
+the launcher refuses to kill an unknown or mode-mismatched port owner.
+
+The real local model is the default. Development and optional-service examples:
+
+```powershell
+.\setup_and_run.bat --stub
+.\setup_and_run.bat --with-ollama
+.\setup_and_run.bat --stub --no-browser --skip-setup
+```
+
+`--with-ollama` starts Ollama only when explicitly requested. Ollama remains a
+separate convenience service; the Runtime API continues to use the pinned
+llama.cpp executable and Qwen GGUF so its measured path is unchanged. Use
+`setup_and_run.bat --help` for every option.
+
 The browser shell is local-only and requires Node.js compatible with Vite 8.
 Install its locked dependencies once:
 

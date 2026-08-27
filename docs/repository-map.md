@@ -14,6 +14,7 @@ Local-AI-System-Lab/
 ├── .gitignore
 ├── README.md                          # Entry point, demo, and approval status
 ├── PROJECT_STATE.md                   # Repository source of truth
+├── setup_and_run.bat                 # Windows setup plus backend-first local launcher
 ├── pyproject.toml                     # Python >=3.10 package metadata and CLIs
 ├── apps/
 │   └── web/

@@ -42,6 +42,7 @@ verified tokens, and bounded main-thread work for trace and stream pressure.
 
 ## Last Completed Work
 
+- Added a root `setup_and_run.bat` operational launcher that verifies the local prerequisites, prepares missing pinned llama.cpp/Qwen and frontend dependencies, waits for the backend before starting Vite, reuses matching healthy services, refuses to terminate unknown port owners, and keeps Ollama explicit and separate through `--with-ollama`; this is a Stage 25 usability improvement and does not enter Stage 26.
 - Verified the local workbench at 1440×900, 1024×768, 768×1024, 390×844, and 320×568; page client/scroll widths matched after layout settling, with only the intentional mobile route rail scrolling horizontally.
 - Replaced viewport-only Runtime task-grid behavior with inline-size container reflow and removed the fixed body minimum width that caused 320 px page overflow.
 - Added a stable `Navigate workspaces` accessible name, explicit focus return after command dismissal, explicit skip-to-main focus, one polite atomic API status, and `aria-busy` across the parallel Runtime loading boundary.

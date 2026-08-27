@@ -44,6 +44,20 @@ See [PROJECT_STATE.md](PROJECT_STATE.md) for the source-of-truth status.
 
 ## Run the Stage 25 Runtime Workbench
 
+On Windows, the root launcher performs setup, starts the backend first, waits
+for its health check, then starts the frontend and opens the Runtime page:
+
+```powershell
+.\setup_and_run.bat
+```
+
+The default uses the project's real pinned llama.cpp/Qwen backend. Use
+`.\setup_and_run.bat --stub` for the deterministic development backend, or add
+`--with-ollama` to start Ollama as an optional separate service. Ollama is not a
+replacement for the measured llama.cpp backend. Run `setup_and_run.bat --help`
+for setup, browser, and dependency options. Healthy matching services are
+reused; occupied or mismatched ports are reported and never terminated.
+
 Start the local-only deterministic API from the repository root:
 
 ```powershell
