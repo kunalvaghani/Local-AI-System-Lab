@@ -23,11 +23,12 @@ The launcher checks Python/Node/npm, installs exact `package-lock.json`
 dependencies with `npm ci`, starts optional Ollama when requested, then starts
 the loopback backend first. It waits for `/v1/health`, verifies the Stage 27 tool
 contract, and only then starts Vite. It reuses a frontend only when its tracked
-Stage 27/0.27.0 release marker matches and never terminates an unknown process
-that owns a required port.
+Stage 27/0.27.0 release marker matches. A stale Local AI service is restarted
+only after its HTTP identity and Python/Node listener are verified; an unknown
+process that owns a required port is never terminated.
 
-When forcing a clean dependency reinstall with `--install`, stop the frontend
-first. The launcher refuses while port 4173 is active so Windows cannot leave a
+When forcing a clean dependency reinstall with `--install`, the launcher stops a
+signature-verified Local AI frontend before `npm ci` so Windows cannot leave a
 partially replaced `node_modules` tree by locking Vite/Rolldown native binaries.
 
 Open `http://127.0.0.1:4173/runtime`. Stub mode proves deterministic product

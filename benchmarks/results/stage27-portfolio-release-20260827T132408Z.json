@@ -1,14 +1,14 @@
 {
   "artifacts": [
     {
-      "bytes": 104894,
+      "bytes": 105291,
       "path": "PROJECT_STATE.md",
-      "sha256": "e2fb6c44078342d9e31e0045d52c68e15854ee6ea96b2bb8825d7d354d51343c"
+      "sha256": "cdf58b9c42a4d0713e88dcb3f4750bca7d677d0b075ee653c87086ee66f1cfae"
     },
     {
-      "bytes": 20715,
+      "bytes": 20803,
       "path": "README.md",
-      "sha256": "5f670c729d5d3f8a552c65f0aa0eca8430b8674e8e16722126c54f70c0ffb541"
+      "sha256": "979fcf00c2d9b846616caa2a635ca2d1190333bcdd7d40e6df5e0d715366c549"
     },
     {
       "bytes": 18521,
@@ -111,9 +111,9 @@
       "sha256": "03579401ebf91b5ef9208e1a675d882a9d0696a46b771956317acdc217a674bb"
     },
     {
-      "bytes": 3795,
+      "bytes": 3903,
       "path": "docs/portfolio/setup-and-reproducibility.md",
-      "sha256": "557e16970dadb773376b052d89f2939729fea35ccd5d5fdcea51790ee48c9f7a"
+      "sha256": "f638b1cfdeb1c732276bc53339240ee77b4e44f0a154b3fbe8176cf5e1daef3b"
     },
     {
       "bytes": 4154,
@@ -121,9 +121,9 @@
       "sha256": "ac928083024ba56fc53667a0b7b771d0999eab2d06f8a940cfed1f8175e00a69"
     },
     {
-      "bytes": 31945,
+      "bytes": 31895,
       "path": "docs/risks.md",
-      "sha256": "9d10b5ade44a8d723052fd5e0b37809dcfef1c584a7d9ac42331bad2f224e0c5"
+      "sha256": "eccdaf6cd42cc72a436250faa08e3cb6f6bd9b58a9e155b42750fa34ac0ddbe3"
     },
     {
       "bytes": 9379,
@@ -131,7 +131,7 @@
       "sha256": "02ccfa24de545dc30c2c19963657964328bbba206341439658b49535dee98bfd"
     }
   ],
-  "captured_at_utc": "2026-08-27T12:55:35.443458+00:00",
+  "captured_at_utc": "2026-08-27T13:24:08.268251+00:00",
   "checks": [
     {
       "detail": "present",
@@ -1017,7 +1017,7 @@
   "release_label": "0.27.0-portfolio",
   "release_ready": true,
   "release_scope": "Recruiter and technical-interview release for the verified single-user loopback local product",
-  "run_id": "dc1c89cb-6da9-4acb-b4f7-0cea69f84ffe",
+  "run_id": "d14cbed4-0871-4b2e-b048-1354f9a1c931",
   "schema_version": 1,
   "stage": 27,
   "summary": {
@@ -1028,6 +1028,6 @@
     "local_links_checked": 141,
     "passed": 176,
     "screenshots": 5,
-    "validation_ms": 122.938
+    "validation_ms": 124.257
   }
 }

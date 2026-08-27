@@ -96,7 +96,11 @@ echo  Backend mode: %RUN_MODE%
 echo  Frontend release: Stage %EXPECTED_FRONTEND_STAGE% / %EXPECTED_FRONTEND_VERSION%
 echo  Ollama: %OLLAMA_STATE%
 echo.
-echo The project API uses its pinned llama.cpp runtime in real mode.
+if /I "%RUN_MODE%"=="stub" (
+    echo The project API is using the deterministic stub backend.
+) else (
+    echo The project API is using its pinned llama.cpp runtime.
+)
 echo Ollama is optional and is not substituted for the measured backend.
 echo Close service windows that this launcher opened when you want to stop them.
 
@@ -157,9 +161,9 @@ echo [SETUP] Frontend dependency tree is missing or inconsistent; a clean instal
 :install_frontend
 call :port_open 4173
 if not errorlevel 1 (
-    echo [ERROR] A frontend is running on port 4173, so npm ci cannot safely replace its native dependencies.
-    echo         Stop that frontend yourself, then rerun this launcher with --install.
-    exit /b 1
+    echo [SETUP] A frontend is active; checking whether it is this Local AI project before reinstalling...
+    call :stop_known_frontend
+    if errorlevel 1 exit /b 1
 )
 
 echo [SETUP] Installing the exact locked frontend dependencies...
@@ -219,14 +223,21 @@ if /I "%RUN_MODE%"=="stub" (
 
 call :url_ready "%BACKEND_URL%"
 if not errorlevel 1 (
-    call :check_backend_mode
-    if errorlevel 1 exit /b 1
-    call :check_backend_contract
-    if errorlevel 1 exit /b 1
+    call :backend_mode_matches
+    if errorlevel 1 goto restart_known_backend
+    call :backend_contract_matches
+    if errorlevel 1 goto restart_known_backend
     echo [BACKEND] Reusing the healthy matching API on 127.0.0.1:8765.
     exit /b 0
 )
+goto backend_start_required
 
+:restart_known_backend
+echo [BACKEND] A stale or mode-mismatched Local AI API was detected; replacing it automatically...
+call :stop_known_backend
+if errorlevel 1 exit /b 1
+
+:backend_start_required
 call :port_open 8765
 if not errorlevel 1 (
     echo [ERROR] Port 8765 is occupied, but the Local AI API health check failed.
@@ -258,19 +269,34 @@ exit /b 0
 powershell.exe -NoProfile -Command "$ErrorActionPreference='Stop'; try { $r=Invoke-RestMethod -Uri '%BACKEND_URL%' -TimeoutSec 3; if ($r.data.runtime_name -eq '%EXPECTED_RUNTIME%') { exit 0 }; Write-Host ('[ERROR] Port 8765 is already serving ' + $r.data.runtime_name + ', but this run requested %EXPECTED_RUNTIME%.'); Write-Host '        Stop that backend yourself or rerun with the matching --stub mode.'; exit 2 } catch { exit 1 }"
 exit /b %ERRORLEVEL%
 
+:backend_mode_matches
+powershell.exe -NoProfile -Command "try { $r=Invoke-RestMethod -Uri '%BACKEND_URL%' -TimeoutSec 3; if ($r.data.runtime_name -eq '%EXPECTED_RUNTIME%') { exit 0 } } catch {}; exit 1" >nul 2>&1
+exit /b %ERRORLEVEL%
+
 :check_backend_contract
 powershell.exe -NoProfile -Command "$ErrorActionPreference='Stop'; try { $r=Invoke-RestMethod -Uri '%BACKEND_CONTRACT_URL%' -TimeoutSec 3; if ($r.data.tools.Count -gt 0 -and $r.data.execution.endpoint -eq '/v1/tools/execute') { exit 0 }; Write-Host '[ERROR] The API is healthy but does not expose the Stage 27 product tool contract.'; Write-Host '        Stop that backend yourself, then rerun this launcher.'; exit 2 } catch { Write-Host '[ERROR] The API is healthy but the Stage 27 product contract check failed.'; Write-Host '        The launcher will not terminate that process. Stop it yourself, then rerun.'; exit 1 }"
+exit /b %ERRORLEVEL%
+
+:backend_contract_matches
+powershell.exe -NoProfile -Command "try { $r=Invoke-RestMethod -Uri '%BACKEND_CONTRACT_URL%' -TimeoutSec 3; if ($r.data.tools.Count -gt 0 -and $r.data.execution.endpoint -eq '/v1/tools/execute') { exit 0 } } catch {}; exit 1" >nul 2>&1
 exit /b %ERRORLEVEL%
 
 :start_frontend
 call :url_ready "%FRONTEND_URL%"
 if not errorlevel 1 (
-    call :check_frontend_release
-    if errorlevel 1 exit /b 1
+    call :frontend_release_matches
+    if errorlevel 1 goto restart_known_frontend
     echo [FRONTEND] Reusing the matching Stage 27 website on 127.0.0.1:4173.
     exit /b 0
 )
+goto frontend_start_required
 
+:restart_known_frontend
+echo [FRONTEND] A stale Local AI website was detected; replacing it automatically...
+call :stop_known_frontend
+if errorlevel 1 exit /b 1
+
+:frontend_start_required
 call :port_open 4173
 if not errorlevel 1 (
     echo [ERROR] Port 4173 is occupied, but the Runtime page is not healthy.
@@ -293,6 +319,18 @@ exit /b 0
 
 :check_frontend_release
 powershell.exe -NoProfile -Command "$ErrorActionPreference='Stop'; try { $r=Invoke-RestMethod -Uri '%FRONTEND_RELEASE_URL%' -TimeoutSec 3; if ([int]$r.stage -eq %EXPECTED_FRONTEND_STAGE% -and [string]$r.version -eq '%EXPECTED_FRONTEND_VERSION%') { exit 0 }; Write-Host ('[ERROR] Port 4173 is serving frontend Stage ' + $r.stage + ' / ' + $r.version + ', but this launcher requires Stage %EXPECTED_FRONTEND_STAGE% / %EXPECTED_FRONTEND_VERSION%.'); Write-Host '        Stop that frontend yourself, then rerun this launcher.'; exit 2 } catch { Write-Host '[ERROR] Port 4173 is serving a website without the Stage 27 release marker.'; Write-Host '        The launcher will not terminate that process. Stop it yourself, then rerun.'; exit 1 }"
+exit /b %ERRORLEVEL%
+
+:frontend_release_matches
+powershell.exe -NoProfile -Command "try { $r=Invoke-RestMethod -Uri '%FRONTEND_RELEASE_URL%' -TimeoutSec 3; if ([int]$r.stage -eq %EXPECTED_FRONTEND_STAGE% -and [string]$r.version -eq '%EXPECTED_FRONTEND_VERSION%') { exit 0 } } catch {}; exit 1" >nul 2>&1
+exit /b %ERRORLEVEL%
+
+:stop_known_backend
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%LAB_ROOT%scripts\local_stack_process.ps1" -Action StopKnownBackend
+exit /b %ERRORLEVEL%
+
+:stop_known_frontend
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%LAB_ROOT%scripts\local_stack_process.ps1" -Action StopKnownFrontend
 exit /b %ERRORLEVEL%
 
 :require_command
@@ -323,7 +361,8 @@ echo   - verifies or installs the pinned llama.cpp and Qwen GGUF runtime
 echo   - installs exact package-lock frontend dependencies when node_modules is missing
 echo   - starts optional Ollama, then the backend, and waits for the API contract
 echo   - starts the frontend only after the backend is healthy and compatible
-echo   - rejects stale or unrelated services without terminating them
+echo   - automatically replaces recognized stale Local AI backend/frontend services
+echo   - rejects unrelated port owners without terminating them
 echo   - opens http://127.0.0.1:4173/runtime
 echo.
 echo Options:

@@ -28,17 +28,27 @@ class SetupLauncherTests(unittest.TestCase):
         self.assertLess(backend, frontend)
         self.assertIn("[BACKEND] Starting first and waiting for health", launcher)
 
-    def test_launcher_rejects_stale_backend_and_frontend_contracts(self) -> None:
+    def test_launcher_restarts_stale_project_contracts_and_protects_unknown_processes(self) -> None:
         launcher = (ROOT / "setup_and_run.bat").read_text(encoding="utf-8")
         self.assertIn("call :check_backend_contract", launcher)
         self.assertIn("call :check_frontend_release", launcher)
+        self.assertIn("call :backend_contract_matches", launcher)
+        self.assertIn("call :frontend_release_matches", launcher)
+        self.assertIn("call :stop_known_backend", launcher)
+        self.assertIn("call :stop_known_frontend", launcher)
+        self.assertIn("replacing it automatically", launcher)
         self.assertIn("/v1/tools", launcher)
         self.assertIn("/local-ai-release.json", launcher)
         self.assertIn("data/stage27-dev.db", launcher)
         self.assertIn("call npm.cmd ci", launcher)
         self.assertIn("call npm.cmd ls --depth=0", launcher)
-        self.assertIn("npm ci cannot safely replace its native dependencies", launcher)
         self.assertIn("exit /b 1", launcher)
+
+        helper = (ROOT / "scripts/local_stack_process.ps1").read_text(encoding="utf-8")
+        self.assertIn('StartsWith("local-ai-systems-lab-stage-15"', helper)
+        self.assertIn("<title>Local AI Systems Lab</title>", helper)
+        self.assertIn("ExpectedProcessNames", helper)
+        self.assertIn("Refusing automatic process replacement", helper)
 
 
 if __name__ == "__main__":

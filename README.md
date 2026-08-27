@@ -119,11 +119,13 @@ The default uses the project's real pinned llama.cpp/Qwen backend. Use
 replacement for the measured llama.cpp backend. Run `setup_and_run.bat --help`
 for setup, browser, and dependency options. Healthy matching services are
 reused only after the backend tool contract and Stage 27 frontend release marker
-match. Occupied, stale, or mismatched ports are reported and never terminated.
+match. Unrecognized occupied ports are reported and never terminated.
 Missing frontend packages are installed exactly from `package-lock.json` with
 `npm ci`.
-Stop the frontend before forcing a reinstall with `--install`; the launcher
-refuses to replace Windows-locked native dependencies while port 4173 is active.
+Recognized stale Local AI backend/frontend processes are restarted automatically;
+unrelated port owners are never terminated. With `--install`, a recognized Local
+AI frontend is stopped before `npm ci` so Windows-native dependencies are not
+left locked.
 
 Start the local-only deterministic API from the repository root:
 

@@ -31,7 +31,7 @@ validator keep the presentation tied to the accepted product and retained JSON.
 
 ## Last Completed Work
 
-- Updated `setup_and_run.bat` for the final Stage 27 product: exact `npm ci` setup, `stage27-dev.db`, backend health plus tool-contract validation, a tracked frontend release marker, backend-first startup, optional Ollama ordering, and fail-safe rejection of stale/unrelated services without process termination.
+- Updated `setup_and_run.bat` for the final Stage 27 product: exact dependency validation/`npm ci`, `stage27-dev.db`, backend health plus tool-contract validation, a tracked frontend release marker, backend-first startup, optional Ollama ordering, automatic replacement of signature-verified stale Local AI services, and fail-safe rejection of unrelated port owners.
 - Added launcher contract tests tying the Stage 27/0.27.0 marker to package identity and preserving optional Ollama → backend → frontend startup order.
 - Reframed the root README for recruiters and interviewers with architecture, five-minute demo, measured evidence, documentation paths, screenshots, and explicit limitations.
 - Added focused portfolio guides for setup/reproducibility, demo workflow, benchmark methodology/results, systems design, security/chaos, frontend rationale, failed experiments, and interview Q&A.
@@ -422,10 +422,11 @@ See [ADR-0001](docs/adr/0001-stage-gated-modular-backend-first.md), [ADR-0002](d
 
 ## Tests Passing
 
-- Updated launcher regression — 160/160 Python tests passed in 39.810 seconds, including three Stage 27 release-marker/start-order/stale-contract tests.
+- Updated launcher regression — 160/160 Python tests passed in 38.099 seconds, including three Stage 27 release-marker/start-order/stale-contract tests.
 - `setup_and_run.bat --help` — exit 0 with exact locked setup, optional Ollama, backend-contract, frontend-release, and safe port-ownership behavior documented.
-- `setup_and_run.bat --stub --skip-setup --no-browser` against the currently open older backend — expected exit 1 at the new contract boundary; the launcher did not terminate or replace the unknown service.
-- `setup_and_run.bat --stub --install --no-browser` with an active frontend — expected exit 1 before `npm ci`; this guard was added after reproducing Windows `EPERM` on the locked Rolldown DLL. The interrupted dependency tree was repaired, `npm ls --depth=0` passed, and frontend tests/build passed again.
+- Initial stale-service diagnostic reproduced the older backend contract failure without terminating it; the final launcher now auto-replaces that service only after verifying the Local AI runtime identity and Python listener.
+- A forced install reproduced Windows `EPERM` on the Vite/Rolldown DLL. The final launcher verifies the Local AI HTML signature and Node listener before stopping that frontend for `npm ci`; unrelated port owners remain protected. The interrupted dependency tree was repaired and `npm ls --depth=0` passed.
+- Final real launcher run — detected the stale Local AI Python backend on PID 26304, verified its runtime identity, stopped only that listener, started the current Stage 27 stub backend, detected and started the missing frontend, and reached ready state; an immediate second run reused both compatible services and exited 0.
 - Isolated current backend contract probe — two catalogued tools and `/v1/tools/execute` matched; the same predicate used by the launcher passed.
 - Stage 27 production build copied `dist/local-ai-release.json`; frontend tests remained 39/39 and the compressed bundle remained 150,999/256,000 bytes.
 - `python -m unittest tests.test_portfolio_release -v` — 3/3 validator policy tests passed for complete release, broken local link, and strict unknown-field rejection.
